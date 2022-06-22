@@ -16,6 +16,15 @@ const Main = (props) => {
         </div>
         <div className="taskBarCover">
             <div className="taskBar">
+                <div className="box1"/>
+                <div className="box2"/>
+                <div className="box3">
+                    <div className="icon"/>
+                    <div className="dateInfo">
+                        <div className="time">오후 10:31</div>
+                        <div className="date">2022-06-22</div>
+                    </div>
+                </div>
             </div>
         </div>
     </MainBlock>
@@ -60,6 +69,37 @@ const MainBlock = styled.div`
         gap: 5px;
     }
 
+    .taskBar {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 140px 1fr 120px;
+    }
+
+    .taskBar .box1 { 
+        background-color:red;
+    }
+
+    .taskBar .box2 {  
+        background-color:green;
+    }
+
+    .taskBar .box3 { 
+        display: grid;
+        grid-template-columns: 3fr 7fr;
+    }
+    .taskBar .box3 .icon{
+    } 
+    .dateInfo {
+        padding: 3px;
+        font-size: 13px;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    
+
     .iconBox {
         width: 100px;
         height: 100px;
@@ -81,6 +121,12 @@ const MainBlock = styled.div`
     .iconBox .iconImg {
         width: 100%;
         height: 100%;
+    }
+
+    .iconBox .name {
+        color: white;
+        font-size: 14px;
+        text-shadow: 2px 2px 3px black;
     }
 `;
 
