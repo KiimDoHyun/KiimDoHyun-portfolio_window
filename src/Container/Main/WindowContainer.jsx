@@ -6,7 +6,122 @@ const WindowContainer = (props) => {
     const windowRef = useRef(null);
     const [iconBoxArr] = useState([
         {
-            key: 0,
+            img: img,
+            name: "Battle.net",
+        },
+        {
+            img: img,
+            name: "Battle.net",
+        },
+        {
+            img: img,
+            name: "Battle.net",
+        },
+        {
+            img: img,
+            name: "Battle.net",
+        },
+        {
+            img: img,
+            name: "Battle.net",
+        },
+        {
+            img: img,
+            name: "Battle.net",
+        },
+        {
+            img: img,
+            name: "Battle.net",
+        },
+        {
+            img: img,
+            name: "Battle.net",
+        },
+        {
+            img: img,
+            name: "Battle.net",
+        },
+        {
+            img: img,
+            name: "Battle.net",
+        },
+        {
+            img: img,
+            name: "Battle.net",
+        },
+        {
+            img: img,
+            name: "Battle.net",
+        },
+        {
+            img: img,
+            name: "Battle.net",
+        },
+        {
+            img: img,
+            name: "Battle.net",
+        },
+        {
+            img: img,
+            name: "Battle.net",
+        },
+        {
+            img: img,
+            name: "Battle.net",
+        },
+        {
+            img: img,
+            name: "Battle.net",
+        },
+        {
+            img: img,
+            name: "Battle.net",
+        },
+        {
+            img: img,
+            name: "Battle.net",
+        },
+        {
+            img: img,
+            name: "Battle.net",
+        },
+        {
+            img: img,
+            name: "Battle.net",
+        },
+        {
+            img: img,
+            name: "Battle.net",
+        },
+        {
+            img: img,
+            name: "Battle.net",
+        },
+        {
+            img: img,
+            name: "Battle.net",
+        },
+        {
+            img: img,
+            name: "Battle.net",
+        },
+        {
+            img: img,
+            name: "Battle.net",
+        },
+        {
+            img: img,
+            name: "Battle.net",
+        },
+        {
+            img: img,
+            name: "Battle.net",
+        },
+        {
+            img: img,
+            name: "Battle.net",
+        },
+        {
             img: img,
             name: "Battle.net",
         },

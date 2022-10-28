@@ -18,25 +18,25 @@ const Main = (props) => {
 };
 
 const MainBlock = styled.div`
-    width: 100vw;
-    height: 100vh;
-    position: relative;
-    display: grid;
-    grid-template-rows: 9fr 0.5fr;
+    // width: 100vw;
+    // height: 100vh;
+    // position: relative;
+    // display: grid;
+    // grid-template-rows: 9fr 0.5fr;
 
-    background-image: url(${wallpaper});
-    background-size: cover;
-    background-repeat: no-repeat;
+    // background-image: url(${wallpaper});
+    // background-size: cover;
+    // background-repeat: no-repeat;
 
-    .windowCover {
-        position: relative;
-        padding: 10px;
-    }
+    // .windowCover {
+    //     position: relative;
+    //     padding: 10px;
+    // }
 
-    .taskBarCover {
-        position: relative;
-        background-color: #211e3bdb;
-    }
+    // .taskBarCover {
+    //     position: relative;
+    //     background-color: #211e3bdb;
+    // }
 `;
 
 export default Main;

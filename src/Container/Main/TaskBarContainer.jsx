@@ -6,11 +6,3 @@ const TaskBarContainer = () => {
 };
 
 export default TaskBarContainer;
-
-/*
-고객
-계좌
-은행
-?
-
-*/
