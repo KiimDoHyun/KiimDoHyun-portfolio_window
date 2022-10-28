@@ -2,9 +2,13 @@ import React from "react";
 import defaultImg from "../logo.svg";
 import styled from "styled-components";
 
-const IconBox = ({ img, name }) => {
+const IconBox = ({ item, onClick, onDoubleClick }) => {
+    const { name, img } = item;
     return (
-        <IconBoxBlock>
+        <IconBoxBlock
+            onClick={() => onClick(item)}
+            onDoubleClick={onDoubleClick}
+        >
             <img
                 className="iconImg"
                 src={img ? img : defaultImg}
@@ -31,6 +35,10 @@ const IconBoxBlock = styled.div`
     :hover {
         background-color: #bbbbbb47;
         border: 2px solid #ffffff2e;
+    }
+
+    :active {
+        backgrond-color: red;
     }
 
     .iconImg {
