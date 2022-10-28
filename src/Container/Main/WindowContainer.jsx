@@ -1,8 +1,12 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import Window from "../../Component/Main/Window";
 import img from "../../logo.svg";
-import { useRecoilState } from "recoil";
-import { rc_program_programList } from "../../store/program";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import {
+    rc_program_activeProgram,
+    rc_program_programList,
+    rc_program_zIndexCnt,
+} from "../../store/program";
 
 const WindowContainer = (props) => {
     const windowRef = useRef(null);
@@ -28,34 +32,26 @@ const WindowContainer = (props) => {
         },
     ]);
 
-    useEffect(() => {
-        console.log("윈도우 컨테이너 렌더링 발생");
-    });
-
-    useEffect(() => {
-        console.log("windowRef :", windowRef);
-    }, [windowRef]);
-
     const [programList, setProgramList] = useRecoilState(
         rc_program_programList
     );
 
+    const setActiveProgram = useSetRecoilState(rc_program_activeProgram);
+    const setZIndexCnt = useSetRecoilState(rc_program_zIndexCnt);
+
     //
     const onClickIcon = useCallback((item) => {
         setActiveIton(item.key);
-        console.log("아이템 클릭", item);
     }, []);
 
     const onDoubleClickIcon = useCallback(
         (item) => {
             setActiveIton(null);
-            console.log("아이템 더블 클릭", item);
             import("./Program/FolderContainer").then((obj) => {
                 const Component = obj.default;
-                setProgramList([
-                    ...programList,
-                    { Component, key: new Date() },
-                ]);
+                setProgramList([...programList, { Component, key: item.key }]);
+                setActiveProgram(item.key);
+                setZIndexCnt((prev) => prev + 1);
             });
         },
         [programList, setProgramList]
@@ -73,12 +69,7 @@ const WindowContainer = (props) => {
             {programList.map((item, idx) => {
                 const Component = item.Component;
 
-                return (
-                    <Component
-                        key={`${idx}${item.key}`}
-                        componentID={item.key}
-                    />
-                );
+                return <Component key={`${item.key}`} componentID={item.key} />;
             })}
         </>
     );

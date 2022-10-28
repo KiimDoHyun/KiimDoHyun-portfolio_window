@@ -1,16 +1,29 @@
-import React, { useCallback, useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import FolderComponent from "../../../Component/Program/FolderComponent";
-import { rc_program_programList } from "../../../store/program";
-import { useSetRecoilState } from "recoil";
+import {
+    rc_program_activeProgram,
+    rc_program_programList,
+    rc_program_zIndexCnt,
+} from "../../../store/program";
+import { useSetRecoilState, useRecoilState } from "recoil";
 import { useState } from "react";
+import { useMemo } from "react";
 
 const FolderContainer = ({ componentID }) => {
     const setProgramList = useSetRecoilState(rc_program_programList);
+    const [zIndexCnt, setZIndexCnt] = useRecoilState(rc_program_zIndexCnt);
+    const [activeProgram, setActiveProgram] = useRecoilState(
+        rc_program_activeProgram
+    );
     const [isMovable, setIsMovable] = useState(false);
     const [isClose, setIsClose] = useState(false);
 
     const prevPos = useRef();
     const boxRef = useRef();
+
+    const onClick = useCallback(() => {
+        setActiveProgram(componentID);
+    }, []);
 
     const onClickClose = useCallback(() => {
         setIsClose(true);
@@ -55,7 +68,15 @@ const FolderContainer = ({ componentID }) => {
         setIsMovable(false);
     }, []);
 
+    useEffect(() => {
+        if (activeProgram === componentID) {
+            boxRef.current.style.zIndex = zIndexCnt + 1;
+            setZIndexCnt((prev) => prev + 1);
+        }
+    }, [activeProgram, componentID, setZIndexCnt]);
+
     const propDatas = {
+        onClick,
         onClickClose,
         onMouseDown,
         onMouseMove,

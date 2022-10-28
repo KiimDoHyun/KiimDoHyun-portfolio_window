@@ -5,6 +5,15 @@ import { rc_statusBar_active } from "../../store/statusBar";
 
 const TaskBarContainer = () => {
     const setActiveStatusBar = useSetRecoilState(rc_statusBar_active);
+    const [active, setActive] = useState(false);
+
+    const onMouseEnter = useCallback(() => {
+        setActive(true);
+    }, []);
+
+    const onMouseLeave = useCallback(() => {
+        setActive(false);
+    }, []);
 
     const onClickStartIcon = useCallback(() => {
         setActiveStatusBar((prevState) => !prevState);
@@ -12,6 +21,9 @@ const TaskBarContainer = () => {
 
     const propDatas = {
         onClickStartIcon,
+        onMouseEnter,
+        onMouseLeave,
+        active,
     };
 
     return <TaskBar {...propDatas} />;

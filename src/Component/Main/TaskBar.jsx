@@ -1,9 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import StatusBar from "../TaskBar/StatusBar";
 
 const TaskBar = (props) => {
-    const { activeStatusBar, onClickStartIcon } = props;
+    const { onClickStartIcon, onMouseEnter, onMouseLeave, active } = props;
     return (
         <>
             <TaskBarBlock>
@@ -11,7 +10,20 @@ const TaskBar = (props) => {
                     className="box1 taskHoverEffect"
                     onClick={onClickStartIcon}
                 />
-                <div className="box2" />
+                <div className="box2">
+                    <div
+                        className={
+                            active
+                                ? "shortCutIcon activeShortCutIcon"
+                                : "shortCutIcon"
+                        }
+                        onMouseLeave={onMouseLeave}
+                        onMouseEnter={onMouseEnter}
+                    >
+                        <div className="shortCut_Test" />
+                        <div className="shortCut_BottomLine" />
+                    </div>
+                </div>
                 <div className="box3">
                     <div className="arrowUpIcon taskHoverEffect"></div>
                     <div className="icon" />
@@ -32,6 +44,39 @@ const TaskBarBlock = styled.div`
     grid-template-columns: 50px auto 280px;
     height: 100%;
     position: relative;
+
+    .shortCutIcon {
+        transition: 0.2s;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 10px;
+
+        height: 100%;
+        width: 50px;
+    }
+
+    .activeShortCutIcon {
+        background-color: #dfdfdf12;
+    }
+
+    .activeShortCutIcon .shortCut_BottomLine {
+        width: 100%;
+    }
+
+    .shortCut_Test {
+        width: 25px;
+        height: 25px;
+        background-color: yellow;
+    }
+
+    .shortCut_BottomLine {
+        transition: 0.2s;
+        width: 80%;
+        height: 3px;
+        background-color: #aac5ff;
+    }
 
     .box3 {
         display: grid;
