@@ -7,7 +7,7 @@ const IconBox = ({ item, onClick, onDoubleClick }) => {
     return (
         <IconBoxBlock
             onClick={() => onClick(item)}
-            onDoubleClick={onDoubleClick}
+            onDoubleClick={() => onDoubleClick(item)}
         >
             <img
                 className="iconImg"
