@@ -7,14 +7,19 @@ import { useState } from "react";
 const FolderContainer = ({ componentID }) => {
     const setProgramList = useSetRecoilState(rc_program_programList);
     const [isMovable, setIsMovable] = useState(false);
+    const [isClose, setIsClose] = useState(false);
 
     const prevPos = useRef();
     const boxRef = useRef();
 
     const onClickClose = useCallback(() => {
-        setProgramList((prev) =>
-            prev.filter((item) => item.key !== componentID)
-        );
+        setIsClose(true);
+
+        setTimeout(() => {
+            setProgramList((prev) =>
+                prev.filter((item) => item.key !== componentID)
+            );
+        }, [300]);
     }, [setProgramList]);
 
     const onMouseDown = useCallback((e) => {
@@ -57,6 +62,7 @@ const FolderContainer = ({ componentID }) => {
         onMouseUp,
 
         boxRef,
+        isClose,
     };
     return <FolderComponent {...propDatas} />;
 };
