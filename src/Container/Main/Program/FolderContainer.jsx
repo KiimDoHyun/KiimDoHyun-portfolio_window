@@ -67,4 +67,4 @@ const FolderContainer = ({ componentID }) => {
     return <FolderComponent {...propDatas} />;
 };
 
-export default FolderContainer;
+export default React.memo(FolderContainer);

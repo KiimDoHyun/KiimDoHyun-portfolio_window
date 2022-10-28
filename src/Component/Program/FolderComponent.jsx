@@ -41,7 +41,6 @@ const FolderComponentBlock = styled.div`
     width: 500px;
     height: 500px;
     background-color: white;
-    transition: 0.25s;
 
     .headerArea {
         width: 100%;
@@ -51,6 +50,7 @@ const FolderComponentBlock = styled.div`
 
     animation: ${open} 0.25s 0s;
 
-    ${(props) => props.isClose && `opacity: 0; transform: scale(0.9)`}
+    ${(props) =>
+        props.isClose && `transition: 0.25s; opacity: 0; transform: scale(0.9)`}
 `;
 export default FolderComponent;
