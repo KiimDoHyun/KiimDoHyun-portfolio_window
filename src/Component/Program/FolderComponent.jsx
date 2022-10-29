@@ -48,6 +48,11 @@ const FolderComponent = ({
                 </div>
             </div>
             <div className="hi">{title}</div>
+
+            <div className="modiSize top_left"></div>
+            <div className="modiSize top_right"></div>
+            <div className="modiSize bottom_left"></div>
+            <div className="modiSize bottom_right"></div>
         </FolderComponentBlock>
     );
 };
@@ -74,6 +79,39 @@ const FolderComponentBlock = styled.div`
     background-color: white;
 
     z-index: ${(props) => props.zIndexCnt};
+
+    .modiSize {
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        cursor: pointer;
+
+        background-color: red;
+    }
+
+    .top_left {
+        top: 0;
+        left: 0;
+        cursor: nw-resize;
+    }
+
+    .top_right {
+        top: 0;
+        right: 0;
+        cursor: ne-resize;
+    }
+
+    .bottom_left {
+        bottom: 0;
+        left: 0;
+        cursor: ne-resize;
+    }
+
+    .bottom_right {
+        bottom: 0;
+        right: 0;
+        cursor: nw-resize;
+    }
 
     .headerArea {
         width: 100%;

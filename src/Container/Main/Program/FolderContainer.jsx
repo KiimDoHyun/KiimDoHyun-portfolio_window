@@ -46,6 +46,8 @@ const FolderContainer = ({ item }) => {
         boxRef.current.style.left = "80px";
         boxRef.current.style.top = "60vh";
         boxRef.current.style.scale = "0.6";
+        boxRef.current.style.width = "500px";
+        boxRef.current.style.height = "500px";
 
         setProgramList((prev) =>
             prev.map((prevItem) =>
@@ -153,6 +155,8 @@ const FolderContainer = ({ item }) => {
             boxRef.current.style.opacity = "1";
             boxRef.current.style.left = "calc(50vw - 250px)";
             boxRef.current.style.top = "calc(50vh - 250px)";
+            boxRef.current.style.width = "500px";
+            boxRef.current.style.height = "500px";
             boxRef.current.style.scale = "1";
         }
     }, [status]);
