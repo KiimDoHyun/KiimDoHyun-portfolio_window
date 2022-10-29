@@ -13,22 +13,16 @@ const WindowContainer = (props) => {
     const [activeIcon, setActiveIton] = useState(null);
     const [iconBoxArr] = useState([
         {
-            key: "battle_1",
+            key: "프로젝트",
             img: img,
-            name: "Battle.net",
+            name: "프로젝트",
             type: "FOLDER",
         },
         {
-            key: "battle_2",
+            key: "기술스택",
             img: img,
-            name: "Battle.net",
-            type: "PROGRAM",
-        },
-        {
-            key: "battle_3",
-            img: img,
-            name: "Battle.net",
-            type: "PROGRAM",
+            name: "기술스택",
+            type: "FOLDER",
         },
     ]);
 
@@ -39,11 +33,12 @@ const WindowContainer = (props) => {
     const setActiveProgram = useSetRecoilState(rc_program_activeProgram);
     const setZIndexCnt = useSetRecoilState(rc_program_zIndexCnt);
 
-    //
+    // 아이콘 클릭
     const onClickIcon = useCallback((item) => {
         setActiveIton(item.key);
     }, []);
 
+    // 아이콘 더블클릭
     const onDoubleClickIcon = useCallback(
         (item) => {
             setActiveIton(null);
@@ -66,7 +61,7 @@ const WindowContainer = (props) => {
     return (
         <>
             <Window {...propDatas} />
-            {programList.map((item, idx) => {
+            {programList.map((item) => {
                 const Component = item.Component;
 
                 return <Component key={`${item.key}`} componentID={item.key} />;

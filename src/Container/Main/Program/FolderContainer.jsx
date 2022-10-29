@@ -16,16 +16,32 @@ const FolderContainer = ({ componentID }) => {
     );
     const [isMovable, setIsMovable] = useState(false);
     const [isClose, setIsClose] = useState(false);
+    const [isMaxSize, setIsMaxSize] = useState(false);
 
     const prevPos = useRef();
     const boxRef = useRef();
 
+    // 현재 창 클릭
     const onClick = useCallback(() => {
         setActiveProgram(componentID);
     }, []);
 
+    // 최대화
+    const onClickMax = useCallback(() => {
+        setIsMaxSize(true);
+        // 좌우 크기를 100vw로
+        // 상하를 100vh 로 하면 안되고 하단 바 크기만큼 빼서 조정.
+    }, []);
+
+    // 기본 크기
+    const onClickNormalSize = useCallback(() => {
+        setIsMaxSize(false);
+    }, []);
+
+    // 닫기
     const onClickClose = useCallback(() => {
         setIsClose(true);
+        boxRef.current.style.transition = "0.25s";
 
         setTimeout(() => {
             setProgramList((prev) =>
@@ -46,6 +62,14 @@ const FolderContainer = ({ componentID }) => {
         (e) => {
             if (!isMovable) return;
 
+            console.log("e.clientX: ", e.clientX);
+            console.log("e.clientY: ", e.clientY);
+
+            if (e.clientX > 0) {
+            }
+            if (e.clientX > 0) {
+            }
+
             // 이전 좌표와 현재 좌표 차이값
             const posX = prevPos.current.X - e.clientX;
             const posY = prevPos.current.Y - e.clientY;
@@ -57,6 +81,11 @@ const FolderContainer = ({ componentID }) => {
             };
 
             // left, top으로 이동
+
+            // 조건1 0 이하로 움직이지 못한다.
+            if (boxRef.current.offsetLeft - posX > 0) {
+            }
+            boxRef.current.style.transition = "0s";
             boxRef.current.style.left = boxRef.current.offsetLeft - posX + "px";
             boxRef.current.style.top = boxRef.current.offsetTop - posY + "px";
         },
@@ -82,14 +111,40 @@ const FolderContainer = ({ componentID }) => {
         };
     }, [onMouseMove]);
 
+    useEffect(() => {
+        if (isMaxSize) {
+            boxRef.current.style.transition =
+                "all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s";
+            boxRef.current.style.width = "100vw";
+            boxRef.current.style.height = "calc(100vh - 50px)";
+
+            boxRef.current.style.left = "0";
+            boxRef.current.style.top = "0";
+        } else {
+            boxRef.current.style.transition =
+                "all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s";
+            boxRef.current.style.width = "500px";
+            boxRef.current.style.height = "500px";
+
+            boxRef.current.style.left = "calc(50vw - 250px)";
+            boxRef.current.style.top = "calc(50vh - 250px)";
+        }
+        //
+
+        // return () => (boxRef.current.style.transition = "0s");
+    }, [isMaxSize]);
+
     const propDatas = {
         onClick,
         onClickClose,
+        onClickMax,
+        onClickNormalSize,
         onMouseDown,
         onMouseUp,
 
         boxRef,
         isClose,
+        isMaxSize,
     };
     return <FolderComponent {...propDatas} />;
 };

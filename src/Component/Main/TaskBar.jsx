@@ -11,6 +11,20 @@ const TaskBar = (props) => {
                     onClick={onClickStartIcon}
                 />
                 <div className="box2">
+                    {/* 프로젝트 */}
+                    <div
+                        className={
+                            active
+                                ? "shortCutIcon activeShortCutIcon"
+                                : "shortCutIcon"
+                        }
+                        onMouseLeave={onMouseLeave}
+                        onMouseEnter={onMouseEnter}
+                    >
+                        <div className="shortCut_Test" />
+                        <div className="shortCut_BottomLine" />
+                    </div>
+                    {/* 기술스택 */}
                     <div
                         className={
                             active
@@ -55,6 +69,10 @@ const TaskBarBlock = styled.div`
 
         height: 100%;
         width: 50px;
+    }
+
+    .box2 {
+        display: flex;
     }
 
     .activeShortCutIcon {

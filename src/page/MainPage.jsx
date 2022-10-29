@@ -24,7 +24,7 @@ const MainPageBlock = styled.div`
     height: 100vh;
     position: relative;
     display: grid;
-    grid-template-rows: 9fr 0.5fr;
+    grid-template-rows: 1fr 50px;
     background-image: url(${wallpaper});
     background-size: cover;
     background-repeat: no-repeat;

@@ -4,17 +4,21 @@ import styled, { keyframes } from "styled-components";
 const FolderComponent = ({
     onClick,
     onClickClose,
+    onClickMax,
+    onClickNormalSize,
     onMouseDown,
     onMouseUp,
 
     boxRef,
     isClose,
+    isMaxSize,
 }) => {
     return (
         <FolderComponentBlock
             ref={boxRef}
             isClose={isClose}
             onMouseDown={onClick}
+            isMaxSize={isMaxSize}
         >
             <div
                 className="headerArea"
@@ -26,9 +30,15 @@ const FolderComponent = ({
                     <div className="min" onClick={onClickClose}>
                         <div />
                     </div>
-                    <div className="max" onClick={onClickClose}>
-                        <div />
-                    </div>
+                    {isMaxSize ? (
+                        <div className="normalSize" onClick={onClickNormalSize}>
+                            <div />
+                        </div>
+                    ) : (
+                        <div className="max" onClick={onClickMax}>
+                            <div />
+                        </div>
+                    )}
                     <div className="close" onClick={onClickClose}>
                         <div />
                         <div />
@@ -51,12 +61,14 @@ to {
 `;
 
 const FolderComponentBlock = styled.div`
-    box-shadow: 0px 0px 20px 3px #00000061;
-    position: absolute;
     left: calc(50% - 250px);
     top: calc(50% - 250px);
-    width: 500px;
     height: 500px;
+    width: 500px;
+
+    box-shadow: 0px 0px 20px 3px #00000061;
+    position: absolute;
+
     background-color: white;
 
     z-index: ${(props) => props.zIndexCnt};
@@ -121,6 +133,7 @@ const FolderComponentBlock = styled.div`
     }
 
     .buttonArea .min:hover,
+    .buttonArea .normalSize:hover,
     .buttonArea .max:hover {
         background-color: #ddddddb3;
     }
@@ -131,7 +144,6 @@ const FolderComponentBlock = styled.div`
 
     animation: ${open} 0.25s 0s;
 
-    ${(props) =>
-        props.isClose && `transition: 0.25s; opacity: 0; transform: scale(0.9)`}
+    ${(props) => props.isClose && ` opacity: 0; transform: scale(0.9)`}
 `;
 export default FolderComponent;
