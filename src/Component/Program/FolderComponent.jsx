@@ -6,12 +6,14 @@ const FolderComponent = ({
     onClickClose,
     onClickMax,
     onClickNormalSize,
+    onClickMin,
     onMouseDown,
     onMouseUp,
 
     boxRef,
     isClose,
     isMaxSize,
+    title,
 }) => {
     return (
         <FolderComponentBlock
@@ -27,7 +29,7 @@ const FolderComponent = ({
             >
                 <div className="infoArea"></div>
                 <div className="buttonArea">
-                    <div className="min" onClick={onClickClose}>
+                    <div className="min" onClick={onClickMin}>
                         <div />
                     </div>
                     {isMaxSize ? (
@@ -45,7 +47,7 @@ const FolderComponent = ({
                     </div>
                 </div>
             </div>
-            <div className="hi">FolderComponent</div>
+            <div className="hi">{title}</div>
         </FolderComponentBlock>
     );
 };

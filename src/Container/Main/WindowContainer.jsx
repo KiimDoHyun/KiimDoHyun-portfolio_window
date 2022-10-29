@@ -42,12 +42,41 @@ const WindowContainer = (props) => {
     const onDoubleClickIcon = useCallback(
         (item) => {
             setActiveIton(null);
-            import("./Program/FolderContainer").then((obj) => {
-                const Component = obj.default;
-                setProgramList([...programList, { Component, key: item.key }]);
+            // 만약 이미 열었던 거라면 (지금 열려있는지, 최소화 상태인지)
+            let target = programList.find(
+                (listItem) => listItem.key === item.key
+            );
+            if (target) {
+                // 열려있는데 최소화 상태라면
+                if (target.status === "min") {
+                    setProgramList((prev) =>
+                        prev.map((prevItem) =>
+                            prevItem.key === target.key
+                                ? { ...prevItem, status: "active" }
+                                : { ...prevItem }
+                        )
+                    );
+                    // 다시 크기를 키우고 맨앞으로 이동시킨다.
+                }
+                // 열려 있는 상태라면
+                else if (target.status === "min") {
+                    // 맨앞으로 이동시킨다.
+                }
                 setActiveProgram(item.key);
                 setZIndexCnt((prev) => prev + 1);
-            });
+            }
+            // 처음 여는거라면
+            else {
+                import("./Program/FolderContainer").then((obj) => {
+                    const Component = obj.default;
+                    setProgramList([
+                        ...programList,
+                        { Component, key: item.key, status: "active" },
+                    ]);
+                    setActiveProgram(item.key);
+                    setZIndexCnt((prev) => prev + 1);
+                });
+            }
         },
         [programList, setProgramList]
     );
@@ -64,7 +93,7 @@ const WindowContainer = (props) => {
             {programList.map((item) => {
                 const Component = item.Component;
 
-                return <Component key={`${item.key}`} componentID={item.key} />;
+                return <Component key={`${item.key}`} item={item} />;
             })}
         </>
     );

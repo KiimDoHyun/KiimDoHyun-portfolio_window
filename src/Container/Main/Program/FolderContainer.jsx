@@ -8,7 +8,8 @@ import {
 import { useSetRecoilState, useRecoilState } from "recoil";
 import { useState } from "react";
 
-const FolderContainer = ({ componentID }) => {
+const FolderContainer = ({ item }) => {
+    const { key, status } = item;
     const setProgramList = useSetRecoilState(rc_program_programList);
     const [zIndexCnt, setZIndexCnt] = useRecoilState(rc_program_zIndexCnt);
     const [activeProgram, setActiveProgram] = useRecoilState(
@@ -23,7 +24,7 @@ const FolderContainer = ({ componentID }) => {
 
     // 현재 창 클릭
     const onClick = useCallback(() => {
-        setActiveProgram(componentID);
+        setActiveProgram(key);
     }, []);
 
     // 최대화
@@ -38,18 +39,36 @@ const FolderContainer = ({ componentID }) => {
         setIsMaxSize(false);
     }, []);
 
+    // 최소화
+    const onClickMin = useCallback(() => {
+        boxRef.current.style.transition = "0.25s";
+        boxRef.current.style.opacity = "0";
+        boxRef.current.style.left = "80px";
+        boxRef.current.style.top = "60vh";
+        boxRef.current.style.scale = "0.6";
+
+        setProgramList((prev) =>
+            prev.map((prevItem) =>
+                prevItem.key === key
+                    ? { ...prevItem, status: "min" }
+                    : { ...prevItem }
+            )
+        );
+        // 최소화
+    }, []);
+
     // 닫기
     const onClickClose = useCallback(() => {
         setIsClose(true);
         boxRef.current.style.transition = "0.25s";
+        boxRef.current.style.opacity = "0";
 
         setTimeout(() => {
-            setProgramList((prev) =>
-                prev.filter((item) => item.key !== componentID)
-            );
+            setProgramList((prev) => prev.filter((item) => item.key !== key));
         }, [300]);
     }, [setProgramList]);
 
+    // 이동 활성화
     const onMouseDown = useCallback((e) => {
         setIsMovable(true);
         prevPos.current = {
@@ -58,17 +77,10 @@ const FolderContainer = ({ componentID }) => {
         };
     }, []);
 
+    // 이동
     const onMouseMove = useCallback(
         (e) => {
             if (!isMovable) return;
-
-            console.log("e.clientX: ", e.clientX);
-            console.log("e.clientY: ", e.clientY);
-
-            if (e.clientX > 0) {
-            }
-            if (e.clientX > 0) {
-            }
 
             // 이전 좌표와 현재 좌표 차이값
             const posX = prevPos.current.X - e.clientX;
@@ -92,17 +104,20 @@ const FolderContainer = ({ componentID }) => {
         [isMovable]
     );
 
+    // 이동 종료
     const onMouseUp = useCallback(() => {
         setIsMovable(false);
     }, []);
 
+    // 현재 창 맨 앞으로
     useEffect(() => {
-        if (activeProgram === componentID) {
+        if (activeProgram === key) {
             boxRef.current.style.zIndex = zIndexCnt + 1;
             setZIndexCnt((prev) => prev + 1);
         }
-    }, [activeProgram, componentID, setZIndexCnt]);
+    }, [activeProgram, key, setZIndexCnt]);
 
+    // 이동 활성화
     useEffect(() => {
         document.addEventListener("mousemove", onMouseMove);
 
@@ -111,6 +126,7 @@ const FolderContainer = ({ componentID }) => {
         };
     }, [onMouseMove]);
 
+    // 최대화, 기본 크기 토글
     useEffect(() => {
         if (isMaxSize) {
             boxRef.current.style.transition =
@@ -129,22 +145,31 @@ const FolderContainer = ({ componentID }) => {
             boxRef.current.style.left = "calc(50vw - 250px)";
             boxRef.current.style.top = "calc(50vh - 250px)";
         }
-        //
-
-        // return () => (boxRef.current.style.transition = "0s");
     }, [isMaxSize]);
+
+    useEffect(() => {
+        if (status === "active") {
+            boxRef.current.style.transition = "0.25s";
+            boxRef.current.style.opacity = "1";
+            boxRef.current.style.left = "calc(50vw - 250px)";
+            boxRef.current.style.top = "calc(50vh - 250px)";
+            boxRef.current.style.scale = "1";
+        }
+    }, [status]);
 
     const propDatas = {
         onClick,
         onClickClose,
         onClickMax,
         onClickNormalSize,
+        onClickMin,
         onMouseDown,
         onMouseUp,
 
         boxRef,
         isClose,
         isMaxSize,
+        title: key,
     };
     return <FolderComponent {...propDatas} />;
 };

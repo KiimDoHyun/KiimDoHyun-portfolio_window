@@ -2,7 +2,16 @@ import React from "react";
 import styled from "styled-components";
 
 const TaskBar = (props) => {
-    const { onClickStartIcon, onMouseEnter, onMouseLeave, active } = props;
+    const {
+        onClickStartIcon,
+        onMouseEnter,
+        onMouseLeave,
+        onClickTaskIcon,
+        activeItem,
+
+        programList,
+        activeProgram,
+    } = props;
     return (
         <>
             <TaskBarBlock>
@@ -12,31 +21,26 @@ const TaskBar = (props) => {
                 />
                 <div className="box2">
                     {/* 프로젝트 */}
-                    <div
-                        className={
-                            active
-                                ? "shortCutIcon activeShortCutIcon"
-                                : "shortCutIcon"
-                        }
-                        onMouseLeave={onMouseLeave}
-                        onMouseEnter={onMouseEnter}
-                    >
-                        <div className="shortCut_Test" />
-                        <div className="shortCut_BottomLine" />
-                    </div>
-                    {/* 기술스택 */}
-                    <div
-                        className={
-                            active
-                                ? "shortCutIcon activeShortCutIcon"
-                                : "shortCutIcon"
-                        }
-                        onMouseLeave={onMouseLeave}
-                        onMouseEnter={onMouseEnter}
-                    >
-                        <div className="shortCut_Test" />
-                        <div className="shortCut_BottomLine" />
-                    </div>
+                    {programList.map((item, idx) => {
+                        return (
+                            <div
+                                key={idx}
+                                className={
+                                    activeItem === item.key
+                                        ? "shortCutIcon taskHoverEffect"
+                                        : "shortCutIcon"
+                                }
+                                // className="shortCutIcon"
+                                title={item.key}
+                                onMouseEnter={() => onMouseEnter(item)}
+                                onMouseLeave={() => onMouseLeave(item)}
+                                onClick={() => onClickTaskIcon(item)}
+                            >
+                                <div className="shortCut_Test" />
+                                <div className="shortCut_BottomLine" />
+                            </div>
+                        );
+                    })}
                 </div>
                 <div className="box3">
                     <div className="arrowUpIcon taskHoverEffect"></div>
