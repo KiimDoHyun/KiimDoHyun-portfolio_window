@@ -47,7 +47,13 @@ const FolderComponent = ({
                     </div>
                 </div>
             </div>
+            <div className="headerArea2">
+                <div></div>
+                <div></div>
+            </div>
+            <div className="headerArea3"></div>
             <div className="hi">{title}</div>
+            <div className="bottomArea"></div>
 
             <div className="modiSize top_left"></div>
             <div className="modiSize top_right"></div>
@@ -80,13 +86,16 @@ const FolderComponentBlock = styled.div`
 
     z-index: ${(props) => props.zIndexCnt};
 
+    display: grid;
+    grid-template-rows: 32px 25px 32px 1fr 20px;
+
     .modiSize {
         position: absolute;
         width: 4px;
         height: 4px;
         cursor: pointer;
 
-        background-color: red;
+        // background-color: red;
     }
 
     .top_left {
@@ -121,8 +130,17 @@ const FolderComponentBlock = styled.div`
         justify-content: space-between;
         align-items: center;
 
-        padding: 1px;
+        padding: 1px 1px 0 1px;
         box-sizing: border-box;
+    }
+
+    .headerArea2 {
+        padding: 0 1px;
+        border-bottom: 1px solid #e3e3e3;
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }
 
     .buttonArea {
