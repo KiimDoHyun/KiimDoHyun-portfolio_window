@@ -7,7 +7,6 @@ import {
 } from "../../../store/program";
 import { useSetRecoilState, useRecoilState } from "recoil";
 import { useState } from "react";
-import { useMemo } from "react";
 
 const FolderContainer = ({ componentID }) => {
     const setProgramList = useSetRecoilState(rc_program_programList);
@@ -75,11 +74,18 @@ const FolderContainer = ({ componentID }) => {
         }
     }, [activeProgram, componentID, setZIndexCnt]);
 
+    useEffect(() => {
+        document.addEventListener("mousemove", onMouseMove);
+
+        return () => {
+            document.removeEventListener("mousemove", onMouseMove);
+        };
+    }, [onMouseMove]);
+
     const propDatas = {
         onClick,
         onClickClose,
         onMouseDown,
-        onMouseMove,
         onMouseUp,
 
         boxRef,

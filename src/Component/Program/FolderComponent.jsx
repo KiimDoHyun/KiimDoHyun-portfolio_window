@@ -5,7 +5,6 @@ const FolderComponent = ({
     onClick,
     onClickClose,
     onMouseDown,
-    onMouseMove,
     onMouseUp,
 
     boxRef,
@@ -20,7 +19,6 @@ const FolderComponent = ({
             <div
                 className="headerArea"
                 onMouseDown={onMouseDown}
-                onMouseMove={onMouseMove}
                 onMouseUp={onMouseUp}
             >
                 <div className="infoArea"></div>
@@ -71,7 +69,7 @@ const FolderComponentBlock = styled.div`
         justify-content: space-between;
         align-items: center;
 
-        padding: 2px;
+        padding: 1px;
         box-sizing: border-box;
     }
 
