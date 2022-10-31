@@ -7,10 +7,9 @@ const TaskBar = (props) => {
         onMouseEnter,
         onMouseLeave,
         onClickTaskIcon,
-        activeItem,
+        hoverTarget,
 
         programList,
-        activeProgram,
     } = props;
     return (
         <>
@@ -26,11 +25,10 @@ const TaskBar = (props) => {
                             <div
                                 key={idx}
                                 className={
-                                    activeItem === item.key
+                                    hoverTarget === item.key
                                         ? "shortCutIcon taskHoverEffect"
                                         : "shortCutIcon"
                                 }
-                                // className="shortCutIcon"
                                 title={item.key}
                                 onMouseEnter={() => onMouseEnter(item)}
                                 onMouseLeave={() => onMouseLeave(item)}

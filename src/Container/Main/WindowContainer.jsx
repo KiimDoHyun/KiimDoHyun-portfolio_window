@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import Window from "../../Component/Main/Window";
 import img from "../../logo.svg";
 import { useRecoilState, useSetRecoilState } from "recoil";
@@ -8,9 +8,8 @@ import {
     rc_program_zIndexCnt,
 } from "../../store/program";
 
-const WindowContainer = (props) => {
+const WindowContainer = () => {
     const windowRef = useRef(null);
-    const [activeIcon, setActiveIton] = useState(null);
     const [iconBoxArr] = useState([
         {
             key: "프로젝트",
@@ -34,14 +33,11 @@ const WindowContainer = (props) => {
     const setZIndexCnt = useSetRecoilState(rc_program_zIndexCnt);
 
     // 아이콘 클릭
-    const onClickIcon = useCallback((item) => {
-        setActiveIton(item.key);
-    }, []);
+    const onClickIcon = useCallback((item) => {}, []);
 
     // 아이콘 더블클릭
     const onDoubleClickIcon = useCallback(
         (item) => {
-            setActiveIton(null);
             // 만약 이미 열었던 거라면 (지금 열려있는지, 최소화 상태인지)
             let target = programList.find(
                 (listItem) => listItem.key === item.key
@@ -78,7 +74,7 @@ const WindowContainer = (props) => {
                 });
             }
         },
-        [programList, setProgramList]
+        [programList, setProgramList, setZIndexCnt, setActiveProgram]
     );
 
     const propDatas = {

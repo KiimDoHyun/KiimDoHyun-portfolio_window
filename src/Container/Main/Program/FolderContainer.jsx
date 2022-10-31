@@ -12,6 +12,7 @@ const FolderContainer = ({ item }) => {
     const { key, status } = item;
     const setProgramList = useSetRecoilState(rc_program_programList);
     const [zIndexCnt, setZIndexCnt] = useRecoilState(rc_program_zIndexCnt);
+    const temp_zIndexCnt = zIndexCnt;
     const [activeProgram, setActiveProgram] = useRecoilState(
         rc_program_activeProgram
     );
@@ -25,19 +26,19 @@ const FolderContainer = ({ item }) => {
     // 현재 창 클릭
     const onClick = useCallback(() => {
         setActiveProgram(key);
-    }, []);
+    }, [setActiveProgram, key]);
 
     // 최대화
     const onClickMax = useCallback(() => {
         setIsMaxSize(true);
         // 좌우 크기를 100vw로
         // 상하를 100vh 로 하면 안되고 하단 바 크기만큼 빼서 조정.
-    }, []);
+    }, [setIsMaxSize]);
 
     // 기본 크기
     const onClickNormalSize = useCallback(() => {
         setIsMaxSize(false);
-    }, []);
+    }, [setIsMaxSize]);
 
     // 최소화
     const onClickMin = useCallback(() => {
@@ -57,7 +58,7 @@ const FolderContainer = ({ item }) => {
             )
         );
         // 최소화
-    }, []);
+    }, [key, setProgramList]);
 
     // 닫기
     const onClickClose = useCallback(() => {
@@ -68,16 +69,19 @@ const FolderContainer = ({ item }) => {
         setTimeout(() => {
             setProgramList((prev) => prev.filter((item) => item.key !== key));
         }, [300]);
-    }, [setProgramList]);
+    }, [key, setProgramList]);
 
     // 이동 활성화
-    const onMouseDown = useCallback((e) => {
-        setIsMovable(true);
-        prevPos.current = {
-            X: e.clientX,
-            Y: e.clientY,
-        };
-    }, []);
+    const onMouseDown = useCallback(
+        (e) => {
+            setIsMovable(true);
+            prevPos.current = {
+                X: e.clientX,
+                Y: e.clientY,
+            };
+        },
+        [setIsMovable]
+    );
 
     // 이동
     const onMouseMove = useCallback(
@@ -114,7 +118,7 @@ const FolderContainer = ({ item }) => {
     // 현재 창 맨 앞으로
     useEffect(() => {
         if (activeProgram === key) {
-            boxRef.current.style.zIndex = zIndexCnt + 1;
+            boxRef.current.style.zIndex = temp_zIndexCnt + 1;
             setZIndexCnt((prev) => prev + 1);
         }
     }, [activeProgram, key, setZIndexCnt]);
