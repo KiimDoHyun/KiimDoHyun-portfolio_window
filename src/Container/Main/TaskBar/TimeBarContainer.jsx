@@ -93,7 +93,13 @@ const TimeBarContainer = () => {
 
     // 현재 날짜로
     const onClickDateText = useCallback(() => {
-        //
+        setMonth(date.getMonth());
+        setYear(date.getFullYear());
+        setCalendarBodyClassName("active_calendarBody");
+
+        setTimeout(() => {
+            setCalendarBodyClassName("");
+        }, [200]);
     }, []);
 
     // 현재 날짜로
