@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import TaskBar from "../../Component/Main/TaskBar";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { rc_statusBar_active } from "../../store/statusBar";
@@ -13,41 +13,46 @@ const TaskBarContainer = () => {
         rc_program_programList
     );
 
-    const [activeProgram, setActiveProgram] = useRecoilState(
-        rc_program_activeProgram
-    );
-    const [activeItem, setActiveItem] = useState("");
+    // const [activeProgram, setActiveProgram] = useRecoilState(
+    //     rc_program_activeProgram
+    // );
+
+    const setActiveProgram = useSetRecoilState(rc_program_activeProgram);
+    const [hoverTarget, setHoverTarget] = useState("");
 
     // 마우스 오버
     const onMouseEnter = useCallback(({ key }) => {
         // setActive(true);
-        setActiveItem(key);
+        setHoverTarget(key);
     }, []);
 
     // 마우스 아웃
     const onMouseLeave = useCallback((item) => {
-        setActiveItem("");
+        setHoverTarget("");
         // setActive(false);
     }, []);
 
     // 아이템 클릭
-    const onClickTaskIcon = useCallback((item) => {
-        setActiveItem(item.key);
-        setActiveProgram(item.key);
+    const onClickTaskIcon = useCallback(
+        (item) => {
+            setHoverTarget(item.key);
+            setActiveProgram(item.key);
 
-        if (item.status === "min") {
-            setProgramList((prev) =>
-                prev.map((prevItem) =>
-                    prevItem.key === item.key
-                        ? { ...prevItem, status: "active" }
-                        : { ...prevItem }
-                )
-            );
-        }
+            if (item.status === "min") {
+                setProgramList((prev) =>
+                    prev.map((prevItem) =>
+                        prevItem.key === item.key
+                            ? { ...prevItem, status: "active" }
+                            : { ...prevItem }
+                    )
+                );
+            }
 
-        setActiveItem(item.key);
-        setActiveProgram(item.key);
-    }, []);
+            setHoverTarget(item.key);
+            setActiveProgram(item.key);
+        },
+        [setHoverTarget, setActiveProgram, setProgramList]
+    );
 
     // 시작 아이콘 클릭
     const onClickStartIcon = useCallback(() => {
@@ -59,10 +64,9 @@ const TaskBarContainer = () => {
         onMouseEnter,
         onMouseLeave,
         onClickTaskIcon,
-        activeItem,
+        hoverTarget,
 
         programList,
-        activeProgram,
     };
 
     return <TaskBar {...propDatas} />;
