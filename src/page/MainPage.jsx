@@ -4,17 +4,22 @@ import TaskBarContainer from "../Container/Main/TaskBarContainer";
 import WindowContainer from "../Container/Main/WindowContainer";
 import wallpaper from "../asset/images/wallpaper/Samsung_wallpaper.jpg";
 import StatusBar from "../Component/TaskBar/StatusBar";
+import { useSetRecoilState } from "recoil";
+import { rc_statusBar_active } from "../store/statusBar";
 
 const MainPage = () => {
+    const setActive = useSetRecoilState(rc_statusBar_active);
     return (
         <MainPageBlock>
-            <div className="windowCover">
+            <div className="windowCover" onMouseDown={() => setActive(false)}>
                 <WindowContainer />
-                <StatusBar />
             </div>
             <div className="taskBarCover">
                 <TaskBarContainer />
             </div>
+
+            {/* z-index 가장 높게, 바깥 클릭시 사라짐 구현 필요, 비활성화 상태 처리 필요 */}
+            <StatusBar />
         </MainPageBlock>
     );
 };
