@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react";
 import TaskBar from "../../Component/Main/TaskBar";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
     rc_program_activeProgram,
     rc_program_programList,
@@ -9,8 +9,23 @@ import {
     rc_taskbar_statusBar_active,
     rc_taskbar_timeBar_active,
 } from "../../store/taskbar";
+import {
+    rc_global_date,
+    rc_global_hour,
+    rc_global_min,
+    rc_global_month,
+    rc_global_timeline,
+    rc_global_year,
+} from "../../store/global";
 
 const TaskBarContainer = () => {
+    const cur_timeline = useRecoilValue(rc_global_timeline);
+    const cur_hour = useRecoilValue(rc_global_hour);
+    const cur_minute = useRecoilValue(rc_global_min);
+    const cur_year = useRecoilValue(rc_global_year);
+    const cur_month = useRecoilValue(rc_global_month);
+    const cur_date = useRecoilValue(rc_global_date);
+
     const setActiveStatusBar = useSetRecoilState(rc_taskbar_statusBar_active);
     const [programList, setProgramList] = useRecoilState(
         rc_program_programList
@@ -76,6 +91,13 @@ const TaskBarContainer = () => {
 
         programList,
         onClickTime,
+
+        cur_year,
+        cur_month,
+        cur_date,
+        cur_hour,
+        cur_minute,
+        cur_timeline,
     };
 
     return <TaskBar {...propDatas} />;

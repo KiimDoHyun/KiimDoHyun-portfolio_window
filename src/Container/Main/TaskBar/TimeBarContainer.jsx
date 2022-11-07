@@ -3,20 +3,37 @@ import { useEffect } from "react";
 import { useCallback } from "react";
 import { useRecoilValue } from "recoil";
 import TimeBar from "../../../Component/TaskBar/TimeBar";
+import {
+    rc_global_date,
+    rc_global_day,
+    rc_global_hour,
+    rc_global_min,
+    rc_global_month,
+    rc_global_sec,
+    rc_global_timeline,
+    rc_global_year,
+} from "../../../store/global";
 import { rc_taskbar_timeBar_active } from "../../../store/taskbar";
 
 const TimeBarContainer = () => {
     const date = new Date();
-    // const year = date.getFullYear();
-    // const month = date.getMonth(); // 0 ~ 11
 
-    const active = useRecoilValue(rc_taskbar_timeBar_active);
-    const [calendarData, setCalendarData] = useState([]);
-    const [year, setYear] = useState(date.getFullYear());
-    const [month, setMonth] = useState(date.getMonth());
+    const active = useRecoilValue(rc_taskbar_timeBar_active); // 바 활성화 상태
+    const [calendarData, setCalendarData] = useState([]); // 달력 데이터
+    const [year, setYear] = useState(date.getFullYear()); // 년도 (가변)
+    const [month, setMonth] = useState(date.getMonth()); // 월   (가변)
 
-    const [calendarBodyClassName, setCalendarBodyClassName] = useState("");
-    // const [day, setDay] = useState(date.getDate());
+    // 현재 날짜 전용 데이터
+    const cur_year = useRecoilValue(rc_global_year);
+    const cur_month = useRecoilValue(rc_global_month);
+    const cur_day = useRecoilValue(rc_global_day);
+    const cur_date = useRecoilValue(rc_global_date);
+    const cur_hour = useRecoilValue(rc_global_hour);
+    const cur_minute = useRecoilValue(rc_global_min);
+    const cur_second = useRecoilValue(rc_global_sec);
+    const cur_timeline = useRecoilValue(rc_global_timeline);
+
+    const [calendarBodyClassName, setCalendarBodyClassName] = useState(""); // 이동모션
 
     useEffect(() => {
         const setDate = new Date(year, month, 1);
@@ -70,27 +87,6 @@ const TimeBarContainer = () => {
         }
     }, [active]);
 
-    // console.log("year: ", year);
-    // console.log("이번달: ", month + 1);
-    // console.log("firstDayName: ", firstDayName);
-    // console.log("이번달 말일: ", lastDay);
-    // console.log("저번달 말일: ", prevLastDay);
-    // console.log("curDate: ", curDate);
-    /*
-    이번달의 시작일이 무슨 요일인지
-    끝나는 날짜가 몇일인지 (30, 31)
-
-    날짜 구성은 일요일을 기준으로 한다
-    "일", "월", "화", "수", "목", "금", "토"
-      0    1     2    3      4    5     6
-
-    화요일이 1일이면 0, 1은 빈값, 그다음부터 채우기 시작한다
-
-    말일까지 채우고 남는 값은 비운다. 
-
-    */
-    // const lastDate = date();
-
     // 현재 날짜로
     const onClickDateText = useCallback(() => {
         setMonth(date.getMonth());
@@ -140,6 +136,15 @@ const TimeBarContainer = () => {
         year,
         calendarBodyClassName,
         active,
+
+        cur_year,
+        cur_month,
+        cur_day,
+        cur_date,
+        cur_hour,
+        cur_minute,
+        cur_second,
+        cur_timeline,
 
         onClickDateText,
         onClickYear,

@@ -11,6 +11,13 @@ const TaskBar = (props) => {
 
         programList,
         onClickTime,
+
+        cur_year,
+        cur_month,
+        cur_date,
+        cur_hour,
+        cur_minute,
+        cur_timeline,
     } = props;
     return (
         <>
@@ -48,8 +55,12 @@ const TaskBar = (props) => {
                         className="dateInfo taskHoverEffect"
                         onClick={onClickTime}
                     >
-                        <div className="time">오후 10:31</div>
-                        <div className="date">2022-06-22</div>
+                        <div className="time">
+                            {cur_timeline} {cur_hour}:{cur_minute}
+                        </div>
+                        <div className="date">
+                            {cur_year}-{cur_month}-{`0${cur_date}`.slice(-2)}
+                        </div>
                     </div>
                     <div className="info taskHoverEffect"></div>
                     <div className="closeAllButton taskHoverEffect"></div>

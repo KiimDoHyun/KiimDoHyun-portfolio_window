@@ -13,6 +13,15 @@ const TimeBar = (props) => {
         calendarBodyClassName,
         active,
 
+        cur_year,
+        cur_month,
+        cur_day,
+        cur_date,
+        cur_hour,
+        cur_minute,
+        cur_second,
+        cur_timeline,
+
         onClickDateText,
         onClickYear,
         onClickUp,
@@ -22,9 +31,11 @@ const TimeBar = (props) => {
     return (
         <TimeBarBlock active={active}>
             <div className="timeArea">
-                <div className="time">오후 2:24:34</div>
+                <div className="time">
+                    {cur_timeline} {cur_hour}:{cur_minute}:{cur_second}
+                </div>
                 <div className="date" onClick={onClickDateText}>
-                    2022년 7월 7일 월요일
+                    {cur_year}년 {cur_month}월 {cur_date}일 {cur_day}요일
                 </div>
             </div>
             <div className="calendarArea">
@@ -195,6 +206,7 @@ const TimeBarBlock = styled.div`
         color: #ededed;
     }
     .box_curDate {
+        color: #ededed;
         position: relative;
         background-color: #0078d7;
     }
