@@ -10,6 +10,7 @@ const TaskBar = (props) => {
         hoverTarget,
 
         programList,
+        onClickTime,
     } = props;
     return (
         <>
@@ -43,7 +44,10 @@ const TaskBar = (props) => {
                 <div className="box3">
                     <div className="arrowUpIcon taskHoverEffect"></div>
                     <div className="icon" />
-                    <div className="dateInfo taskHoverEffect">
+                    <div
+                        className="dateInfo taskHoverEffect"
+                        onClick={onClickTime}
+                    >
                         <div className="time">오후 10:31</div>
                         <div className="date">2022-06-22</div>
                     </div>
@@ -118,6 +122,10 @@ const TaskBarBlock = styled.div`
         flex-direction: column;
         align-items: center;
         justify-content: center;
+    }
+
+    .dateInfo > div {
+        cursor: default;
     }
 
     .closeAllButton {

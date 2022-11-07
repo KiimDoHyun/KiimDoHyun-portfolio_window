@@ -1,17 +1,21 @@
 import React, { useCallback, useState } from "react";
 import TaskBar from "../../Component/Main/TaskBar";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { rc_statusBar_active } from "../../store/statusBar";
 import {
     rc_program_activeProgram,
     rc_program_programList,
 } from "../../store/program";
+import {
+    rc_taskbar_statusBar_active,
+    rc_taskbar_timeBar_active,
+} from "../../store/taskbar";
 
 const TaskBarContainer = () => {
-    const setActiveStatusBar = useSetRecoilState(rc_statusBar_active);
+    const setActiveStatusBar = useSetRecoilState(rc_taskbar_statusBar_active);
     const [programList, setProgramList] = useRecoilState(
         rc_program_programList
     );
+    const setActiveTimeBar = useSetRecoilState(rc_taskbar_timeBar_active);
 
     // const [activeProgram, setActiveProgram] = useRecoilState(
     //     rc_program_activeProgram
@@ -59,6 +63,10 @@ const TaskBarContainer = () => {
         setActiveStatusBar((prevState) => !prevState);
     }, [setActiveStatusBar]);
 
+    const onClickTime = useCallback(() => {
+        setActiveTimeBar((prevState) => !prevState);
+    }, [setActiveTimeBar]);
+
     const propDatas = {
         onClickStartIcon,
         onMouseEnter,
@@ -67,6 +75,7 @@ const TaskBarContainer = () => {
         hoverTarget,
 
         programList,
+        onClickTime,
     };
 
     return <TaskBar {...propDatas} />;
