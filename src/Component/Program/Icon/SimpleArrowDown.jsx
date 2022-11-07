@@ -1,11 +1,16 @@
 import React from "react";
+import { useState } from "react";
 import styled from "styled-components";
 
 const SimpleArrowDown = () => {
+    const [active, setActive] = useState("");
     return (
-        <SimpleArrowDownBlock>
-            <div className="arrow1" />
-            <div className="arrow2" />
+        <SimpleArrowDownBlock
+            onMouseEnter={() => setActive("active")}
+            onMouseLeave={() => setActive("")}
+        >
+            <div className={`${active} arrow1`} />
+            <div className={`${active} arrow2`} />
         </SimpleArrowDownBlock>
     );
 };
@@ -32,6 +37,10 @@ const SimpleArrowDownBlock = styled.div`
 
     .arrow2 {
         rotate: 135deg;
+    }
+
+    .active {
+        background-color: white;
     }
 `;
 export default SimpleArrowDown;
