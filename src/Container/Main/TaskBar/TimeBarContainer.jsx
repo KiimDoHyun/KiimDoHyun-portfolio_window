@@ -103,18 +103,21 @@ const TimeBarContainer = () => {
         //
     }, []);
 
-    // month -
+    // month +
     const onClickUp = useCallback(() => {
         //
+        if (month + 1 > 11) {
+            setYear((prev) => prev + 1);
+        }
         setMonth((prev) => (prev + 1) % 12);
         setCalendarBodyClassName("active_calendarBody");
 
         setTimeout(() => {
             setCalendarBodyClassName("");
         }, [200]);
-    }, [setMonth]);
+    }, [month, setMonth]);
 
-    // month +
+    // month -
     const onClickDown = useCallback(() => {
         if (month - 1 < 0) {
             setMonth(11);
