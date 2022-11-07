@@ -7,11 +7,14 @@ import SimpleArrowUp from "../Program/Icon/SimpleArrowUp";
 
 const TimeBar = (props) => {
     const active = useRecoilValue(rc_taskbar_timeBar_active);
-    const { onClickDateText } = props;
-    const temp = [];
-    for (let i = 0; i < 49; i++) {
-        temp.push(i);
-    }
+    const { calendarData, onClickDateText } = props;
+    // const temp = [];
+    // for (let i = 0; i < 42; i++) {
+    //     temp.push(i);
+    // }
+
+    const date = ["일", "월", "화", "수", "목", "금", "토"];
+    console.log("calendarData: ", calendarData);
     return (
         <TimeBarBlock active={active}>
             <div className="timeArea">
@@ -33,9 +36,17 @@ const TimeBar = (props) => {
                     </div>
                 </div>
                 <div className="calendarBody">
-                    {temp.map((item, idx) => (
-                        <div className="box" key={idx}>
-                            {item}
+                    {date.map((dateItem) => (
+                        <div key={dateItem} className="box box_title">
+                            {dateItem}
+                        </div>
+                    ))}
+                    {calendarData.map((item, idx) => (
+                        <div
+                            className={`${item.type} box box_content`}
+                            key={`${item.type}${item.data}${idx}`}
+                        >
+                            {item.data}
                         </div>
                     ))}
                 </div>
@@ -156,10 +167,23 @@ const TimeBarBlock = styled.div`
         display: flex;
         align-items: center;
         justify-content: center;
-        color: #ededed;
+        cursor: default;
     }
 
-    .box:hover {
+    .box_prev,
+    .box_next {
+        color: gray;
+    }
+    .box_title,
+    .box_cur,
+    .box_curMonth {
+        color: #ededed;
+    }
+    .box_curDate {
+        background-color: blue;
+    }
+
+    .box_content:hover {
         border-color: #797979;
     }
 `;
