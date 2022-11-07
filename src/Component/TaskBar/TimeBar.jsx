@@ -1,42 +1,48 @@
 import React from "react";
-import { useRecoilValue } from "recoil";
 import styled from "styled-components";
-import { rc_taskbar_timeBar_active } from "../../store/taskbar";
 import SimpleArrowDown from "../Program/Icon/SimpleArrowDown";
 import SimpleArrowUp from "../Program/Icon/SimpleArrowUp";
 
-const TimeBar = (props) => {
-    const active = useRecoilValue(rc_taskbar_timeBar_active);
-    const { calendarData, onClickDateText } = props;
-    // const temp = [];
-    // for (let i = 0; i < 42; i++) {
-    //     temp.push(i);
-    // }
+const dateArr = ["일", "월", "화", "수", "목", "금", "토"];
 
-    const date = ["일", "월", "화", "수", "목", "금", "토"];
-    console.log("calendarData: ", calendarData);
+const TimeBar = (props) => {
+    const {
+        calendarData,
+        month,
+        year,
+        calendarBodyClassName,
+        active,
+
+        onClickDateText,
+        onClickYear,
+        onClickUp,
+        onClickDown,
+    } = props;
+
     return (
         <TimeBarBlock active={active}>
             <div className="timeArea">
                 <div className="time">오후 2:24:34</div>
                 <div className="date" onClick={onClickDateText}>
-                    2022년 11월 7일 월요일
+                    2022년 7월 7일 월요일
                 </div>
             </div>
             <div className="calendarArea">
                 <div className="calendarHeader">
-                    <div className="year_month">2022년 11월</div>
+                    <div className="year_month" onClick={onClickYear}>
+                        {year}년 {month + 1}월
+                    </div>
                     <div className="calendarArrowArea">
-                        <div className="up">
+                        <div className="up" onClick={onClickDown}>
                             <SimpleArrowUp />
                         </div>
-                        <div className="down">
+                        <div className="down" onClick={onClickUp}>
                             <SimpleArrowDown />
                         </div>
                     </div>
                 </div>
-                <div className="calendarBody">
-                    {date.map((dateItem) => (
+                <div className={`${calendarBodyClassName} calendarBody`}>
+                    {dateArr.map((dateItem) => (
                         <div key={dateItem} className="box box_title">
                             {dateItem}
                         </div>
@@ -152,10 +158,19 @@ const TimeBarBlock = styled.div`
     }
 
     .calendarBody {
+        transition: 0.2s;
+        scale: 1;
+        opacity: 1;
+
         display: grid;
         grid-template-columns: repeat(7, 1fr);
         grid-template-rows: repeat(7, 1fr);
         gap: 2px;
+    }
+
+    .active_calendarBody {
+        scale: 0.97;
+        opacity: 0.1;
     }
 
     .box {
@@ -180,7 +195,17 @@ const TimeBarBlock = styled.div`
         color: #ededed;
     }
     .box_curDate {
-        background-color: blue;
+        position: relative;
+        background-color: #0078d7;
+    }
+
+    .box_curDate:after {
+        content: "";
+        width: 100%;
+        height: 100%;
+        border: 2px solid black;
+        position: absolute;
+        box-sizing: border-box;
     }
 
     .box_content:hover {

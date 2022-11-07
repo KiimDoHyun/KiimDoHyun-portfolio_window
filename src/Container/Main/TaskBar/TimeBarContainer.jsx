@@ -1,25 +1,37 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { useCallback } from "react";
+import { useRecoilValue } from "recoil";
 import TimeBar from "../../../Component/TaskBar/TimeBar";
+import { rc_taskbar_timeBar_active } from "../../../store/taskbar";
 
 const TimeBarContainer = () => {
     const date = new Date();
-    const year = date.getFullYear();
+    // const year = date.getFullYear();
     // const month = date.getMonth(); // 0 ~ 11
 
+    const active = useRecoilValue(rc_taskbar_timeBar_active);
     const [calendarData, setCalendarData] = useState([]);
+    const [year, setYear] = useState(date.getFullYear());
     const [month, setMonth] = useState(date.getMonth());
-    const setDate = new Date(year, month, 1);
-    const firstDayName = setDate.getDay(); // 0: 일 , 6: 토
-    const lastDay = new Date(date.getFullYear(), month + 1, 0).getDate();
-    const prevLastDay = new Date(date.getFullYear(), month, 0).getDate();
-    const curDate = date.getDate();
+
+    const [calendarBodyClassName, setCalendarBodyClassName] = useState("");
+    // const [day, setDay] = useState(date.getDate());
+
     useEffect(() => {
+        const setDate = new Date(year, month, 1);
+        const firstDayName = setDate.getDay(); // 0: 일 , 6: 토
+        const lastDay = new Date(date.getFullYear(), month + 1, 0).getDate();
+        const prevLastDay = new Date(date.getFullYear(), month, 0).getDate();
+        const curDate = date.getDate();
         let data = 1;
         let tempData = [];
         for (let i = 0; i < 42; i++) {
-            if (data === curDate) {
+            if (
+                year === date.getFullYear() &&
+                month === date.getMonth() &&
+                data === curDate
+            ) {
                 tempData.push({ type: "box_curDate", data: data });
                 data += 1;
                 continue;
@@ -49,7 +61,14 @@ const TimeBarContainer = () => {
             }
         }
         setCalendarData(tempData);
-    }, []);
+    }, [year, month]);
+
+    useEffect(() => {
+        if (!active) {
+            setMonth(date.getMonth());
+            setYear(date.getFullYear());
+        }
+    }, [active]);
 
     // console.log("year: ", year);
     // console.log("이번달: ", month + 1);
@@ -77,9 +96,49 @@ const TimeBarContainer = () => {
         //
     }, []);
 
+    // 현재 날짜로
+    const onClickYear = useCallback(() => {
+        //
+    }, []);
+
+    // month -
+    const onClickUp = useCallback(() => {
+        //
+        setMonth((prev) => (prev + 1) % 12);
+        setCalendarBodyClassName("active_calendarBody");
+
+        setTimeout(() => {
+            setCalendarBodyClassName("");
+        }, [200]);
+    }, [setMonth]);
+
+    // month +
+    const onClickDown = useCallback(() => {
+        if (month - 1 < 0) {
+            setMonth(11);
+            setYear((prev) => prev - 1);
+        } else {
+            setMonth(month - 1);
+        }
+
+        setCalendarBodyClassName("active_calendarBody");
+
+        setTimeout(() => {
+            setCalendarBodyClassName("");
+        }, [200]);
+    }, [month, setMonth]);
+
     const propDatas = {
         calendarData,
+        month,
+        year,
+        calendarBodyClassName,
+        active,
+
         onClickDateText,
+        onClickYear,
+        onClickUp,
+        onClickDown,
     };
     return <TimeBar {...propDatas} />;
 };
