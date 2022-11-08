@@ -48,16 +48,15 @@ const InfoBarBlock = styled.div`
     }
     display: grid;
     grid-template-rows: auto 1fr 100px;
-    border-left: 1px solid gray;
+    border-left: 1px solid #4d4d4d;
 
     position: absolute;
-    right: ${(props) => (props.active ? "0px" : "-361px")};
+    right: ${(props) => (props.active ? "0px" : "-401px")};
     bottom: 50px;
     pointer-events: ${(props) => (props.active ? "auto" : "none")};
     z-index: ${(props) => (props.active ? "99999" : "0")};
-    width: 360px;
+    width: 400px;
     height: calc(100% - 50px);
-    background-color: white;
 
     transition: 0.4s;
     transition-timing-function: cubic-bezier(0, 0.5, 0, 1);
