@@ -9,7 +9,10 @@ function App() {
             <SetCurTime />
             <BrowserRouter>
                 <Routes>
-                    <Route element={<MainPage />} path="/" />
+                    <Route
+                        element={<MainPage />}
+                        path="/KiimDoHyun-portfolio_window"
+                    />
                 </Routes>
             </BrowserRouter>
         </div>
