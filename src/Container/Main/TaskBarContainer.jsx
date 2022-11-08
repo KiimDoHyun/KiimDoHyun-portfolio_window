@@ -65,6 +65,14 @@ const TaskBarContainer = () => {
                             : { ...prevItem }
                     )
                 );
+            } else {
+                setProgramList((prev) =>
+                    prev.map((prevItem) =>
+                        prevItem.key === item.key
+                            ? { ...prevItem, status: "min" }
+                            : { ...prevItem }
+                    )
+                );
             }
 
             setHoverTarget(item.key);
