@@ -10,7 +10,6 @@ const InfoBar = (props) => {
 
     return (
         <InfoBarBlock active={active}>
-            <h2>History</h2>
             <div className="commitArea">
                 {error && <ErrorBox />}
                 {data &&
@@ -41,11 +40,6 @@ const InfoBarBlock = styled.div`
         margin: 0;
     }
 
-    h2 {
-        margin: 10px 0;
-        color: white;
-        cursor: default;
-    }
     display: grid;
     grid-template-rows: auto 1fr 100px;
     border-left: 1px solid #4d4d4d;
