@@ -73,6 +73,7 @@ const MainPageBlock = styled.div`
     .taskBarCover {
         position: relative;
         background-color: #20343b;
+        z-index: 10000;
     }
 `;
 export default MainPage;

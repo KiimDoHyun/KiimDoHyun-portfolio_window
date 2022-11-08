@@ -79,10 +79,10 @@ const TimeBarBlock = styled.div`
 
     position: absolute;
     right: 0;
-    bottom: ${(props) => (props.active ? "50px" : "-100px")};
+    bottom: ${(props) => (props.active ? "50px" : "-150px")};
     opacity: ${(props) => (props.active ? "1" : "0")};
     pointer-events: ${(props) => (props.active ? "auto" : "none")};
-    z-index: ${(props) => (props.active ? "99999" : "0")};
+    z-index: ${(props) => (props.active ? "999" : "0")};
     width: 360px;
     height: 720px;
     background-color: white;

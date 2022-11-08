@@ -2,6 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import SimpleArrowUp from "../Program/Icon/SimpleArrowUp";
 import message from "../../asset/images/icons/message.png";
+
+import windows from "../../asset/images/icons/windows.svg";
+import Windows from "../Program/Icon/Windows";
 const TaskBar = (props) => {
     const {
         onClickStartIcon,
@@ -30,7 +33,10 @@ const TaskBar = (props) => {
                 <div
                     className="box1 taskHoverEffect"
                     onClick={onClickStartIcon}
-                />
+                >
+                    <Windows />
+                    {/* <img src={windows} alt="windows" /> */}
+                </div>
                 <div className="box2">
                     {/* 프로젝트 */}
                     {programList.map((item, idx) => {
@@ -94,7 +100,6 @@ const TaskBarBlock = styled.div`
     grid-template-columns: 50px auto 200px;
     height: 100%;
     position: relative;
-    z-index: 10000;
 
     .shortCutIcon {
         transition: 0.2s;
@@ -106,6 +111,33 @@ const TaskBarBlock = styled.div`
 
         height: 100%;
         width: 50px;
+    }
+
+    .box1 {
+        width: 50px;
+        height: 50px;
+        padding: 15px;
+        box-sizing: border-box;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        trainsition: 0.2s;
+    }
+
+    .box1:hover path {
+        fill: #00adef;
+    }
+    .box1:active path {
+        fill: #0076ff;
+    }
+    .box1 svg {
+        width: 100%;
+        height: 100%;
+    }
+    .box1 path {
+        fill: white;
     }
 
     .box2 {
