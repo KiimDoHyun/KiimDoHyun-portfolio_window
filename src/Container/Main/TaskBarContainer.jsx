@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import TaskBar from "../../Component/Main/TaskBar";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
@@ -61,7 +61,7 @@ const TaskBarContainer = () => {
                 setProgramList((prev) =>
                     prev.map((prevItem) =>
                         prevItem.key === item.key
-                            ? { ...prevItem, status: "active" }
+                            ? { ...prevItem, status: "active_default" }
                             : { ...prevItem }
                     )
                 );
@@ -81,6 +81,10 @@ const TaskBarContainer = () => {
     const onClickTime = useCallback(() => {
         setActiveTimeBar((prevState) => !prevState);
     }, [setActiveTimeBar]);
+
+    useEffect(() => {
+        console.log("programList :", programList);
+    }, [programList]);
 
     const propDatas = {
         onClickStartIcon,

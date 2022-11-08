@@ -48,7 +48,7 @@ const WindowContainer = () => {
                     setProgramList((prev) =>
                         prev.map((prevItem) =>
                             prevItem.key === target.key
-                                ? { ...prevItem, status: "active" }
+                                ? { ...prevItem, status: "active_default" }
                                 : { ...prevItem }
                         )
                     );
@@ -67,7 +67,7 @@ const WindowContainer = () => {
                     const Component = obj.default;
                     setProgramList([
                         ...programList,
-                        { Component, key: item.key, status: "active" },
+                        { Component, key: item.key, status: "active_default" },
                     ]);
                     setActiveProgram(item.key);
                     setZIndexCnt((prev) => prev + 1);

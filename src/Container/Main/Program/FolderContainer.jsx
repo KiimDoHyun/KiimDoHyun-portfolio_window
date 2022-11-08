@@ -30,26 +30,31 @@ const FolderContainer = ({ item }) => {
 
     // 최대화
     const onClickMax = useCallback(() => {
+        setProgramList((prev) =>
+            prev.map((prevItem) =>
+                prevItem.key === key
+                    ? { ...prevItem, status: "active_max" }
+                    : { ...prevItem }
+            )
+        );
+
         setIsMaxSize(true);
-        // 좌우 크기를 100vw로
-        // 상하를 100vh 로 하면 안되고 하단 바 크기만큼 빼서 조정.
-    }, [setIsMaxSize]);
+    }, [setIsMaxSize, setProgramList]);
 
     // 기본 크기
     const onClickNormalSize = useCallback(() => {
         setIsMaxSize(false);
-    }, [setIsMaxSize]);
+        setProgramList((prev) =>
+            prev.map((prevItem) =>
+                prevItem.key === key
+                    ? { ...prevItem, status: "active_default" }
+                    : { ...prevItem }
+            )
+        );
+    }, [setIsMaxSize, setProgramList]);
 
     // 최소화
     const onClickMin = useCallback(() => {
-        boxRef.current.style.transition = "0.25s";
-        boxRef.current.style.opacity = "0";
-        boxRef.current.style.left = "80px";
-        boxRef.current.style.top = "60vh";
-        boxRef.current.style.scale = "0.6";
-        boxRef.current.style.width = "500px";
-        boxRef.current.style.height = "500px";
-
         setProgramList((prev) =>
             prev.map((prevItem) =>
                 prevItem.key === key
@@ -57,7 +62,6 @@ const FolderContainer = ({ item }) => {
                     : { ...prevItem }
             )
         );
-        // 최소화
     }, [key, setProgramList]);
 
     // 닫기
@@ -100,10 +104,14 @@ const FolderContainer = ({ item }) => {
 
             // left, top으로 이동
 
-            // 조건1 0 이하로 움직이지 못한다.
-            if (boxRef.current.offsetLeft - posX > 0) {
-            }
             boxRef.current.style.transition = "0s";
+
+            localStorage.setItem(
+                `${key}Left`,
+                boxRef.current.offsetLeft - posX
+            );
+            localStorage.setItem(`${key}Top`, boxRef.current.offsetTop - posY);
+
             boxRef.current.style.left = boxRef.current.offsetLeft - posX + "px";
             boxRef.current.style.top = boxRef.current.offsetTop - posY + "px";
         },
@@ -132,9 +140,31 @@ const FolderContainer = ({ item }) => {
         };
     }, [onMouseMove]);
 
-    // 최대화, 기본 크기 토글
     useEffect(() => {
-        if (isMaxSize) {
+        /*
+        min
+        active_defult
+        active_max
+        */
+        if (status === "active_default") {
+            console.log("활성화");
+            boxRef.current.style.transition = "0.25s";
+            boxRef.current.style.opacity = "1";
+            const left = localStorage.getItem(`${key}Left`);
+            const top = localStorage.getItem(`${key}Top`);
+
+            if (left && top) {
+                boxRef.current.style.left = left + "px";
+                boxRef.current.style.top = top + "px";
+            } else {
+                boxRef.current.style.left = "calc(50vw - 250px)";
+                boxRef.current.style.top = "calc(50vh - 250px)";
+            }
+            boxRef.current.style.width = "500px";
+            boxRef.current.style.height = "500px";
+            boxRef.current.style.scale = "1";
+        } else if (status === "active_max") {
+            console.log("최대화");
             boxRef.current.style.transition =
                 "all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s";
             boxRef.current.style.width = "100vw";
@@ -142,28 +172,24 @@ const FolderContainer = ({ item }) => {
 
             boxRef.current.style.left = "0";
             boxRef.current.style.top = "0";
-        } else {
-            boxRef.current.style.transition =
-                "all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s";
-            boxRef.current.style.width = "500px";
-            boxRef.current.style.height = "500px";
-
-            boxRef.current.style.left = "calc(50vw - 250px)";
-            boxRef.current.style.top = "calc(50vh - 250px)";
-        }
-    }, [isMaxSize]);
-
-    useEffect(() => {
-        if (status === "active") {
+        } else if (status === "min") {
+            console.log("최소화");
             boxRef.current.style.transition = "0.25s";
-            boxRef.current.style.opacity = "1";
-            boxRef.current.style.left = "calc(50vw - 250px)";
-            boxRef.current.style.top = "calc(50vh - 250px)";
+            boxRef.current.style.opacity = "0";
+            boxRef.current.style.left = "80px";
+            boxRef.current.style.top = "60vh";
+            boxRef.current.style.scale = "0.6";
             boxRef.current.style.width = "500px";
             boxRef.current.style.height = "500px";
-            boxRef.current.style.scale = "1";
         }
     }, [status]);
+
+    useEffect(() => {
+        return () => {
+            localStorage.removeItem(`${key}Left`);
+            localStorage.removeItem(`${key}Top`);
+        };
+    }, []);
 
     const propDatas = {
         onClick,

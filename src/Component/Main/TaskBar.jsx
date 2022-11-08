@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import SimpleArrowUp from "../Program/Icon/SimpleArrowUp";
 
 const TaskBar = (props) => {
     const {
@@ -49,7 +50,9 @@ const TaskBar = (props) => {
                     })}
                 </div>
                 <div className="box3">
-                    <div className="arrowUpIcon taskHoverEffect"></div>
+                    <div className="arrowUpIcon taskHoverEffect">
+                        <SimpleArrowUp />
+                    </div>
                     <div className="icon" />
                     <div
                         className="dateInfo taskHoverEffect"
