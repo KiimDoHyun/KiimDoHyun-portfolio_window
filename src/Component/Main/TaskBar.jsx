@@ -15,6 +15,7 @@ const TaskBar = (props) => {
         onClickInfo,
         hiddenIcon,
         onClickHiddenIcon,
+        onClickCloseAll,
 
         cur_year,
         cur_month,
@@ -78,7 +79,10 @@ const TaskBar = (props) => {
                     >
                         <img src={message} alt={"message"} />
                     </div>
-                    <div className="closeAllButton taskHoverEffect"></div>
+                    <div
+                        className="closeAllButton taskHoverEffect"
+                        onClick={onClickCloseAll}
+                    ></div>
                 </div>
             </TaskBarBlock>
         </>

@@ -115,6 +115,17 @@ const TaskBarContainer = () => {
         setActiveInfoBar(false);
     }, [setHiddenIcon]);
 
+    // 모두 닫기
+    const onClickCloseAll = useCallback(() => {
+        setActiveInfoBar(false);
+        setActiveTimeBar(false);
+        setHiddenIcon(false);
+        setActiveStatusBar(false);
+        setProgramList((prev) =>
+            prev.map((prevItem) => ({ ...prevItem, status: "min" }))
+        );
+    }, []);
+
     // useEffect(() => {
     //     console.log("programList :", programList);
     // }, [programList]);
@@ -151,6 +162,7 @@ const TaskBarContainer = () => {
         onClickInfo,
         hiddenIcon,
         onClickHiddenIcon,
+        onClickCloseAll,
 
         cur_year,
         cur_month,
