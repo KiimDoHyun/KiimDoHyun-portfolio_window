@@ -13,6 +13,7 @@ function App() {
                         element={<MainPage />}
                         path="/KiimDoHyun-portfolio_window"
                     />
+                    {/* <Route element={<MainPage />} path="/" /> */}
                 </Routes>
             </BrowserRouter>
         </div>

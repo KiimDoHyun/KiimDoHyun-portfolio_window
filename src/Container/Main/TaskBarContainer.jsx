@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import TaskBar from "../../Component/Main/TaskBar";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
@@ -19,8 +19,6 @@ import {
     rc_global_timeline,
     rc_global_year,
 } from "../../store/global";
-import useAxios from "../../hooks/useAxios";
-import { getCommitApi } from "../../api/git";
 
 const TaskBarContainer = () => {
     const cur_timeline = useRecoilValue(rc_global_timeline);
@@ -91,26 +89,36 @@ const TaskBarContainer = () => {
 
     // 시작 아이콘 클릭
     const onClickStartIcon = useCallback(() => {
-        setActiveStatusBar((prevState) => !prevState);
+        setActiveStatusBar((prev) => !prev);
+
+        setActiveTimeBar(false);
+        setActiveInfoBar(false);
+        setHiddenIcon(false);
     }, [setActiveStatusBar]);
 
     // 시간 클릭
     const onClickTime = useCallback(() => {
-        setActiveTimeBar((prevState) => !prevState);
+        setActiveTimeBar((prev) => !prev);
+
         setActiveInfoBar(false);
+        setActiveStatusBar(false);
         setHiddenIcon(false);
     }, [setActiveTimeBar]);
 
     // 정보 바 클릭
     const onClickInfo = useCallback(() => {
         setActiveInfoBar((prev) => !prev);
-        setActiveTimeBar(false);
+
         setHiddenIcon(false);
+        setActiveTimeBar(false);
+        setActiveStatusBar(false);
     }, [setActiveInfoBar]);
 
     // 숨겨진 아이콘 클릭
     const onClickHiddenIcon = useCallback(() => {
         setHiddenIcon((prev) => !prev);
+
+        setActiveStatusBar(false);
         setActiveTimeBar(false);
         setActiveInfoBar(false);
     }, [setHiddenIcon]);
@@ -127,41 +135,29 @@ const TaskBarContainer = () => {
     }, []);
 
     // useEffect(() => {
-    //     console.log("programList :", programList);
-    // }, [programList]);
-
-    // const [commit, getCommit] = useAxios(getCommitApi);
-    // useEffect(() => {
-    //     getCommit();
+    //     var userLang = navigator.language || navigator.userLanguage;
+    //     console.log("The language is: " + userLang);
+    //     const online = window.navigator.onLine;
+    //     if (online) {
+    //         console.log("Online :D");
+    //     } else {
+    //         console.log("Offline :(");
+    //     }
     // }, []);
-
-    // useEffect(() => {
-    //     console.log("commit :", commit);
-    // }, [commit]);
-
-    useEffect(() => {
-        var userLang = navigator.language || navigator.userLanguage;
-        console.log("The language is: " + userLang);
-        const online = window.navigator.onLine;
-        if (online) {
-            console.log("Online :D");
-        } else {
-            console.log("Offline :(");
-        }
-    }, []);
 
     const propDatas = {
         onClickStartIcon,
+        onClickTime,
+        onClickInfo,
+        onClickHiddenIcon,
+
+        hoverTarget,
+        programList,
+        hiddenIcon,
+
         onMouseEnter,
         onMouseLeave,
         onClickTaskIcon,
-        hoverTarget,
-
-        programList,
-        onClickTime,
-        onClickInfo,
-        hiddenIcon,
-        onClickHiddenIcon,
         onClickCloseAll,
 
         cur_year,

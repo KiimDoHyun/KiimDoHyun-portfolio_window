@@ -3,21 +3,21 @@ import styled from "styled-components";
 import SimpleArrowUp from "../Program/Icon/SimpleArrowUp";
 import message from "../../asset/images/icons/message.png";
 
-import windows from "../../asset/images/icons/windows.svg";
 import Windows from "../Program/Icon/Windows";
 const TaskBar = (props) => {
     const {
         onClickStartIcon,
+        onClickTime,
+        onClickInfo,
+        onClickHiddenIcon,
+
+        hoverTarget,
+        programList,
+        hiddenIcon,
+
         onMouseEnter,
         onMouseLeave,
         onClickTaskIcon,
-        hoverTarget,
-
-        programList,
-        onClickTime,
-        onClickInfo,
-        hiddenIcon,
-        onClickHiddenIcon,
         onClickCloseAll,
 
         cur_year,
@@ -30,13 +30,15 @@ const TaskBar = (props) => {
     return (
         <>
             <TaskBarBlock>
+                {/* 시작 */}
                 <div
                     className="box1 taskHoverEffect"
                     onClick={onClickStartIcon}
                 >
                     <Windows />
-                    {/* <img src={windows} alt="windows" /> */}
                 </div>
+
+                {/* 작업표시줄 */}
                 <div className="box2">
                     {/* 프로젝트 */}
                     {programList.map((item, idx) => {
@@ -59,7 +61,10 @@ const TaskBar = (props) => {
                         );
                     })}
                 </div>
+
                 <div className="box3">
+                    {/* 숨겨진 아이콘 */}
+
                     <div
                         className="arrowUpIcon taskHoverEffect"
                         title={hiddenIcon ? "숨기기" : "숨겨진 아이콘 표시"}
@@ -67,6 +72,8 @@ const TaskBar = (props) => {
                     >
                         <SimpleArrowUp />
                     </div>
+
+                    {/* 시간 */}
                     <div
                         className="dateInfo taskHoverEffect"
                         onClick={onClickTime}
@@ -78,6 +85,8 @@ const TaskBar = (props) => {
                             {cur_year}-{cur_month}-{`0${cur_date}`.slice(-2)}
                         </div>
                     </div>
+
+                    {/* 알림 */}
                     <div
                         className="info taskHoverEffect"
                         onClick={onClickInfo}
@@ -85,6 +94,8 @@ const TaskBar = (props) => {
                     >
                         <img src={message} alt={"message"} />
                     </div>
+
+                    {/* 모두 닫기 */}
                     <div
                         className="closeAllButton taskHoverEffect"
                         onClick={onClickCloseAll}
