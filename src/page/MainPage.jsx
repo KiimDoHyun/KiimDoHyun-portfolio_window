@@ -7,13 +7,16 @@ import StatusBar from "../Component/TaskBar/StatusBar";
 import { useSetRecoilState } from "recoil";
 import TimeBarContainer from "../Container/Main/TaskBar/TimeBarContainer";
 import {
+    rc_taskbar_infoBar_active,
     rc_taskbar_statusBar_active,
     rc_taskbar_timeBar_active,
 } from "../store/taskbar";
+import InfoBarContainer from "../Container/Main/InfoBarContainer";
 
 const MainPage = () => {
     const setActive_status = useSetRecoilState(rc_taskbar_statusBar_active);
     const setActive_time = useSetRecoilState(rc_taskbar_timeBar_active);
+    const setActiveInfoBar = useSetRecoilState(rc_taskbar_infoBar_active);
     return (
         <MainPageBlock>
             <div
@@ -21,6 +24,7 @@ const MainPage = () => {
                 onMouseDown={() => {
                     setActive_status(false);
                     setActive_time(false);
+                    setActiveInfoBar(false);
                 }}
             >
                 <WindowContainer />
@@ -29,9 +33,14 @@ const MainPage = () => {
                 <TaskBarContainer />
             </div>
 
-            {/* z-index 가장 높게, 바깥 클릭시 사라짐 구현 필요, 비활성화 상태 처리 필요 */}
+            {/* 시작 */}
             <StatusBar />
+
+            {/* 시간 */}
             <TimeBarContainer />
+
+            {/* 정보 */}
+            <InfoBarContainer />
         </MainPageBlock>
     );
 };

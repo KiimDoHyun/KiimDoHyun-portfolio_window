@@ -6,6 +6,7 @@ import {
     rc_program_programList,
 } from "../../store/program";
 import {
+    rc_taskbar_infoBar_active,
     rc_taskbar_statusBar_active,
     rc_taskbar_timeBar_active,
 } from "../../store/taskbar";
@@ -17,6 +18,8 @@ import {
     rc_global_timeline,
     rc_global_year,
 } from "../../store/global";
+import useAxios from "../../hooks/useAxios";
+import { getCommitApi } from "../../api/git";
 
 const TaskBarContainer = () => {
     const cur_timeline = useRecoilValue(rc_global_timeline);
@@ -27,6 +30,7 @@ const TaskBarContainer = () => {
     const cur_date = useRecoilValue(rc_global_date);
 
     const setActiveStatusBar = useSetRecoilState(rc_taskbar_statusBar_active);
+    const setActiveInfoBar = useSetRecoilState(rc_taskbar_infoBar_active);
     const [programList, setProgramList] = useRecoilState(
         rc_program_programList
     );
@@ -86,13 +90,30 @@ const TaskBarContainer = () => {
         setActiveStatusBar((prevState) => !prevState);
     }, [setActiveStatusBar]);
 
+    // 시간 클릭
     const onClickTime = useCallback(() => {
         setActiveTimeBar((prevState) => !prevState);
+        setActiveInfoBar(false);
     }, [setActiveTimeBar]);
 
-    useEffect(() => {
-        console.log("programList :", programList);
-    }, [programList]);
+    // 정보 바 클릭
+    const onClickInfo = useCallback(() => {
+        setActiveInfoBar((prev) => !prev);
+        setActiveTimeBar(false);
+    }, [setActiveInfoBar]);
+
+    // useEffect(() => {
+    //     console.log("programList :", programList);
+    // }, [programList]);
+
+    // const [commit, getCommit] = useAxios(getCommitApi);
+    // useEffect(() => {
+    //     getCommit();
+    // }, []);
+
+    // useEffect(() => {
+    //     console.log("commit :", commit);
+    // }, [commit]);
 
     const propDatas = {
         onClickStartIcon,
@@ -103,6 +124,7 @@ const TaskBarContainer = () => {
 
         programList,
         onClickTime,
+        onClickInfo,
 
         cur_year,
         cur_month,

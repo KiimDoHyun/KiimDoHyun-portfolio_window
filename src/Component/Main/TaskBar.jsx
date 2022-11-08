@@ -12,6 +12,7 @@ const TaskBar = (props) => {
 
         programList,
         onClickTime,
+        onClickInfo,
 
         cur_year,
         cur_month,
@@ -65,7 +66,10 @@ const TaskBar = (props) => {
                             {cur_year}-{cur_month}-{`0${cur_date}`.slice(-2)}
                         </div>
                     </div>
-                    <div className="info taskHoverEffect"></div>
+                    <div
+                        className="info taskHoverEffect"
+                        onClick={onClickInfo}
+                    ></div>
                     <div className="closeAllButton taskHoverEffect"></div>
                 </div>
             </TaskBarBlock>
