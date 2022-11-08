@@ -41,7 +41,7 @@ const InfoBarBlock = styled.div`
     }
 
     display: grid;
-    grid-template-rows: auto 1fr 100px;
+    grid-template-rows: 1fr 100px;
     border-left: 1px solid #4d4d4d;
 
     position: absolute;

@@ -6,7 +6,7 @@ import { rc_taskbar_statusBar_active } from "../../store/taskbar";
 const StatusBar = () => {
     const active = useRecoilValue(rc_taskbar_statusBar_active);
 
-    return <StatusBarBlock active={active}>StatusBar</StatusBarBlock>;
+    return <StatusBarBlock active={active}></StatusBarBlock>;
 };
 
 const StatusBarBlock = styled.div`
