@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/KiimDoHyun-portfolio_window/static/css/main.0d9e984c.css",
-    "main.js": "/KiimDoHyun-portfolio_window/static/js/main.23f52e7a.js",
+    "main.js": "/KiimDoHyun-portfolio_window/static/js/main.06856027.js",
     "static/js/677.fa83e96c.chunk.js": "/KiimDoHyun-portfolio_window/static/js/677.fa83e96c.chunk.js",
     "static/js/787.1ed0c42c.chunk.js": "/KiimDoHyun-portfolio_window/static/js/787.1ed0c42c.chunk.js",
     "static/media/Samsung_wallpaper.jpg": "/KiimDoHyun-portfolio_window/static/media/Samsung_wallpaper.9a05930f75b0be8b16cb.jpg",
@@ -10,12 +10,12 @@
     "index.html": "/KiimDoHyun-portfolio_window/index.html",
     "static/media/windows.svg": "/KiimDoHyun-portfolio_window/static/media/windows.0fd38fe733ddba9bb0ed873c50c1bd75.svg",
     "main.0d9e984c.css.map": "/KiimDoHyun-portfolio_window/static/css/main.0d9e984c.css.map",
-    "main.23f52e7a.js.map": "/KiimDoHyun-portfolio_window/static/js/main.23f52e7a.js.map",
+    "main.06856027.js.map": "/KiimDoHyun-portfolio_window/static/js/main.06856027.js.map",
     "677.fa83e96c.chunk.js.map": "/KiimDoHyun-portfolio_window/static/js/677.fa83e96c.chunk.js.map",
     "787.1ed0c42c.chunk.js.map": "/KiimDoHyun-portfolio_window/static/js/787.1ed0c42c.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.0d9e984c.css",
-    "static/js/main.23f52e7a.js"
+    "static/js/main.06856027.js"
   ]
 }
