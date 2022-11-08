@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import SimpleArrowUp from "../Program/Icon/SimpleArrowUp";
-
+import message from "../../asset/images/icons/message.png";
 const TaskBar = (props) => {
     const {
         onClickStartIcon,
@@ -66,10 +66,9 @@ const TaskBar = (props) => {
                             {cur_year}-{cur_month}-{`0${cur_date}`.slice(-2)}
                         </div>
                     </div>
-                    <div
-                        className="info taskHoverEffect"
-                        onClick={onClickInfo}
-                    ></div>
+                    <div className="info taskHoverEffect" onClick={onClickInfo}>
+                        <img src={message} alt={"message"} />
+                    </div>
                     <div className="closeAllButton taskHoverEffect"></div>
                 </div>
             </TaskBarBlock>
@@ -148,6 +147,17 @@ const TaskBarBlock = styled.div`
 
     .closeAllButton {
         border-left: 1px solid gray;
+    }
+
+    .info {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .info img {
+        width: 60%;
+        object-fit: cover;
     }
 `;
 export default TaskBar;

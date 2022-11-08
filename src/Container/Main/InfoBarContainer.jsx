@@ -1,4 +1,5 @@
 import React from "react";
+import { useCallback } from "react";
 import { useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { getCommitApi } from "../../api/git";
@@ -14,9 +15,12 @@ const InfoBarContainer = () => {
         rc_global_DisplayLight
     );
 
-    const onChange = ({ target: { value } }) => {
-        setDisplayLight(value);
-    };
+    const onChange = useCallback(
+        ({ target: { value } }) => {
+            setDisplayLight(value);
+        },
+        [setDisplayLight]
+    );
 
     useEffect(() => {
         if (active) {

@@ -18,7 +18,6 @@ const InfoBar = (props) => {
                         <CommitItem item={item} key={idx} />
                     ))}
             </div>
-            <div className="boxArea"></div>
             <div className="displayLightArea">
                 <div className="iconCover">
                     <img src={sum} alt="sum" />
@@ -48,7 +47,7 @@ const InfoBarBlock = styled.div`
         cursor: default;
     }
     display: grid;
-    grid-template-rows: auto 2fr 1fr 100px;
+    grid-template-rows: auto 1fr 100px;
     border-left: 1px solid gray;
 
     position: absolute;
