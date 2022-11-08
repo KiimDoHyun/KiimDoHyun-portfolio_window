@@ -2,10 +2,10 @@ import React from "react";
 import styled from "styled-components";
 import CommitItem from "./InfoBar/CommitItem";
 import ErrorBox from "./InfoBar/ErrorBox";
+import sum from "../asset/images/icons/sun.png";
 
 const InfoBar = (props) => {
-    const { active, commit } = props;
-
+    const { active, commit, displayLight, onChange } = props;
     const { data, error } = commit;
 
     return (
@@ -19,7 +19,18 @@ const InfoBar = (props) => {
                     ))}
             </div>
             <div className="boxArea"></div>
-            <div className="displayLightArea"></div>
+            <div className="displayLightArea">
+                <div className="iconCover">
+                    <img src={sum} alt="sum" />
+                </div>
+                <input
+                    type={"range"}
+                    min={1}
+                    max={100}
+                    value={displayLight}
+                    onChange={onChange}
+                />
+            </div>
         </InfoBarBlock>
     );
 };
@@ -62,7 +73,23 @@ const InfoBarBlock = styled.div`
         overflow: scroll;
     }
 
-    .errorBox {
+    .displayLightArea {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+    }
+
+    .displayLightArea .iconCover {
+        width: 30px;
+        height: 30px;
+    }
+    .displayLightArea .iconCover img {
+        width: 100%;
+        height: 100%;
+    }
+
+    .displayLightArea input {
+        width: 70%;
     }
 `;
 export default InfoBar;

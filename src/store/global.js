@@ -1,5 +1,6 @@
 import { atom } from "recoil";
 
+// 시간정보
 export const rc_global_year = atom({
     key: "rc_global_year",
     default: null,
@@ -38,4 +39,10 @@ export const rc_global_sec = atom({
 export const rc_global_timeline = atom({
     key: "rc_global_timeline",
     default: null,
+});
+
+// 화면 밝기
+export const rc_global_DisplayLight = atom({
+    key: "rc_global_DisplayLight",
+    default: 100,
 });

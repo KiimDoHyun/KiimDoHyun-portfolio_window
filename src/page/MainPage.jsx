@@ -12,6 +12,7 @@ import {
     rc_taskbar_timeBar_active,
 } from "../store/taskbar";
 import InfoBarContainer from "../Container/Main/InfoBarContainer";
+import DisplayCover from "../Component/DisplayCover";
 
 const MainPage = () => {
     const setActive_status = useSetRecoilState(rc_taskbar_statusBar_active);
@@ -19,6 +20,7 @@ const MainPage = () => {
     const setActiveInfoBar = useSetRecoilState(rc_taskbar_infoBar_active);
     return (
         <MainPageBlock>
+            <DisplayCover />
             <div
                 className="windowCover"
                 onMouseDown={() => {
