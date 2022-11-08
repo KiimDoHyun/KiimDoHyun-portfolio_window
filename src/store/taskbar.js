@@ -17,3 +17,9 @@ export const rc_taskbar_infoBar_active = atom({
     key: "rc_taskbar_infoBar_active",
     default: false,
 });
+
+// 숨겨진 아이콘 활성화 여부
+export const rc_taskbar_hiddenIcon_active = atom({
+    key: "rc_taskbar_hiddenIcon_active",
+    default: false,
+});

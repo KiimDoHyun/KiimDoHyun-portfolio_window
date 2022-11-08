@@ -7,17 +7,20 @@ import StatusBar from "../Component/TaskBar/StatusBar";
 import { useSetRecoilState } from "recoil";
 import TimeBarContainer from "../Container/Main/TaskBar/TimeBarContainer";
 import {
+    rc_taskbar_hiddenIcon_active,
     rc_taskbar_infoBar_active,
     rc_taskbar_statusBar_active,
     rc_taskbar_timeBar_active,
 } from "../store/taskbar";
 import InfoBarContainer from "../Container/Main/InfoBarContainer";
 import DisplayCover from "../Component/DisplayCover";
+import HiddenIcon from "../Component/TaskBar/HiddenIcon";
 
 const MainPage = () => {
     const setActive_status = useSetRecoilState(rc_taskbar_statusBar_active);
     const setActive_time = useSetRecoilState(rc_taskbar_timeBar_active);
     const setActiveInfoBar = useSetRecoilState(rc_taskbar_infoBar_active);
+    const setHiddenIcon = useSetRecoilState(rc_taskbar_hiddenIcon_active);
     return (
         <MainPageBlock>
             <DisplayCover />
@@ -27,6 +30,7 @@ const MainPage = () => {
                     setActive_status(false);
                     setActive_time(false);
                     setActiveInfoBar(false);
+                    setHiddenIcon(false);
                 }}
             >
                 <WindowContainer />
@@ -43,6 +47,9 @@ const MainPage = () => {
 
             {/* 정보 */}
             <InfoBarContainer />
+
+            {/* 숨겨진 아이콘 */}
+            <HiddenIcon />
         </MainPageBlock>
     );
 };

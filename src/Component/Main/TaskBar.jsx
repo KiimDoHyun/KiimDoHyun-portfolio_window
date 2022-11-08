@@ -13,6 +13,8 @@ const TaskBar = (props) => {
         programList,
         onClickTime,
         onClickInfo,
+        hiddenIcon,
+        onClickHiddenIcon,
 
         cur_year,
         cur_month,
@@ -51,10 +53,13 @@ const TaskBar = (props) => {
                     })}
                 </div>
                 <div className="box3">
-                    <div className="arrowUpIcon taskHoverEffect">
+                    <div
+                        className="arrowUpIcon taskHoverEffect"
+                        title={hiddenIcon ? "숨기기" : "숨겨진 아이콘 표시"}
+                        onClick={onClickHiddenIcon}
+                    >
                         <SimpleArrowUp />
                     </div>
-                    <div className="icon" />
                     <div
                         className="dateInfo taskHoverEffect"
                         onClick={onClickTime}
@@ -66,7 +71,11 @@ const TaskBar = (props) => {
                             {cur_year}-{cur_month}-{`0${cur_date}`.slice(-2)}
                         </div>
                     </div>
-                    <div className="info taskHoverEffect" onClick={onClickInfo}>
+                    <div
+                        className="info taskHoverEffect"
+                        onClick={onClickInfo}
+                        title="새 알림 없음"
+                    >
                         <img src={message} alt={"message"} />
                     </div>
                     <div className="closeAllButton taskHoverEffect"></div>
@@ -78,9 +87,10 @@ const TaskBar = (props) => {
 
 const TaskBarBlock = styled.div`
     display: grid;
-    grid-template-columns: 50px auto 280px;
+    grid-template-columns: 50px auto 200px;
     height: 100%;
     position: relative;
+    z-index: 10000;
 
     .shortCutIcon {
         transition: 0.2s;
@@ -121,7 +131,8 @@ const TaskBarBlock = styled.div`
 
     .box3 {
         display: grid;
-        grid-template-columns: 1fr 5fr 4fr 2fr 5px;
+        grid-template-columns: 1fr 4fr 50px 5px;
+        gap: 5px;
     }
 
     .taskHoverEffect {
@@ -129,6 +140,10 @@ const TaskBarBlock = styled.div`
     }
     .taskHoverEffect:hover {
         background-color: #dfdfdf12;
+    }
+
+    .arrowUpIcon {
+        padding: 5px;
     }
 
     .dateInfo {
@@ -156,7 +171,7 @@ const TaskBarBlock = styled.div`
     }
 
     .info img {
-        width: 60%;
+        width: 50%;
         object-fit: cover;
     }
 `;

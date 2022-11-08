@@ -6,6 +6,7 @@ import {
     rc_program_programList,
 } from "../../store/program";
 import {
+    rc_taskbar_hiddenIcon_active,
     rc_taskbar_infoBar_active,
     rc_taskbar_statusBar_active,
     rc_taskbar_timeBar_active,
@@ -29,6 +30,9 @@ const TaskBarContainer = () => {
     const cur_month = useRecoilValue(rc_global_month);
     const cur_date = useRecoilValue(rc_global_date);
 
+    const [hiddenIcon, setHiddenIcon] = useRecoilState(
+        rc_taskbar_hiddenIcon_active
+    );
     const setActiveStatusBar = useSetRecoilState(rc_taskbar_statusBar_active);
     const setActiveInfoBar = useSetRecoilState(rc_taskbar_infoBar_active);
     const [programList, setProgramList] = useRecoilState(
@@ -94,13 +98,22 @@ const TaskBarContainer = () => {
     const onClickTime = useCallback(() => {
         setActiveTimeBar((prevState) => !prevState);
         setActiveInfoBar(false);
+        setHiddenIcon(false);
     }, [setActiveTimeBar]);
 
     // 정보 바 클릭
     const onClickInfo = useCallback(() => {
         setActiveInfoBar((prev) => !prev);
         setActiveTimeBar(false);
+        setHiddenIcon(false);
     }, [setActiveInfoBar]);
+
+    // 숨겨진 아이콘 클릭
+    const onClickHiddenIcon = useCallback(() => {
+        setHiddenIcon((prev) => !prev);
+        setActiveTimeBar(false);
+        setActiveInfoBar(false);
+    }, [setHiddenIcon]);
 
     // useEffect(() => {
     //     console.log("programList :", programList);
@@ -115,6 +128,17 @@ const TaskBarContainer = () => {
     //     console.log("commit :", commit);
     // }, [commit]);
 
+    useEffect(() => {
+        var userLang = navigator.language || navigator.userLanguage;
+        console.log("The language is: " + userLang);
+        const online = window.navigator.onLine;
+        if (online) {
+            console.log("Online :D");
+        } else {
+            console.log("Offline :(");
+        }
+    }, []);
+
     const propDatas = {
         onClickStartIcon,
         onMouseEnter,
@@ -125,6 +149,8 @@ const TaskBarContainer = () => {
         programList,
         onClickTime,
         onClickInfo,
+        hiddenIcon,
+        onClickHiddenIcon,
 
         cur_year,
         cur_month,
