@@ -47,7 +47,16 @@ const SetCurTime = () => {
             setSec(`0${date.getSeconds()}`.slice(-2));
             // setSec(date.getSeconds());
         }, 1000);
-    }, []);
+    }, [
+        setYear,
+        setMonth,
+        setDate,
+        setDay,
+        setTimeLine,
+        setHour,
+        setMin,
+        setSec,
+    ]);
     return <></>;
 };
 

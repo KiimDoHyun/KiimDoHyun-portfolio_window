@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useCallback } from "react";
-import { getCommitApi } from "../api/git";
 
 const useAxios = (api) => {
     const [state, setState] = useState({
@@ -21,7 +20,7 @@ const useAxios = (api) => {
                 error: e,
             });
         }
-    }, []);
+    }, [api]);
 
     return [state, getData];
 };

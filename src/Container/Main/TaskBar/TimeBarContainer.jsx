@@ -16,7 +16,7 @@ import {
 import { rc_taskbar_timeBar_active } from "../../../store/taskbar";
 
 const TimeBarContainer = () => {
-    const date = new Date();
+    const [date] = useState(new Date());
 
     const active = useRecoilValue(rc_taskbar_timeBar_active); // 바 활성화 상태
     const [calendarData, setCalendarData] = useState([]); // 달력 데이터
@@ -78,14 +78,14 @@ const TimeBarContainer = () => {
             }
         }
         setCalendarData(tempData);
-    }, [year, month]);
+    }, [year, month, date]);
 
     useEffect(() => {
         if (!active) {
             setMonth(date.getMonth());
             setYear(date.getFullYear());
         }
-    }, [active]);
+    }, [date, active]);
 
     // 현재 날짜로
     const onClickDateText = useCallback(() => {
@@ -96,7 +96,7 @@ const TimeBarContainer = () => {
         setTimeout(() => {
             setCalendarBodyClassName("");
         }, [200]);
-    }, []);
+    }, [date]);
 
     // 현재 날짜로
     const onClickYear = useCallback(() => {
