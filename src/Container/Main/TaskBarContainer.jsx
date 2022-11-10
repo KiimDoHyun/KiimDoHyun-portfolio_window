@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import TaskBar from "../../Component/Main/TaskBar";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
@@ -20,6 +20,13 @@ import {
     rc_global_year,
 } from "../../store/global";
 
+const glowLevelArr = [
+    "", // none
+    "#ffffff0d", // 호버
+    "#ffffff24", // active
+    "#ffffff2b", //호버 + active:
+];
+
 const TaskBarContainer = () => {
     const cur_timeline = useRecoilValue(rc_global_timeline);
     const cur_hour = useRecoilValue(rc_global_hour);
@@ -38,53 +45,81 @@ const TaskBarContainer = () => {
     );
     const setActiveTimeBar = useSetRecoilState(rc_taskbar_timeBar_active);
 
-    // const [activeProgram, setActiveProgram] = useRecoilState(
-    //     rc_program_activeProgram
-    // );
+    const [activeProgram, setActiveProgram] = useRecoilState(
+        rc_program_activeProgram
+    );
 
-    const setActiveProgram = useSetRecoilState(rc_program_activeProgram);
-    const [hoverTarget, setHoverTarget] = useState("");
+    // const setActiveProgram = useSetRecoilState(rc_program_activeProgram);
+    const [hoverTarget, setHoverTarget] = useState({ key: "", idx: -1 });
+
+    const box2Ref = useRef(null);
 
     // 마우스 오버
-    const onMouseEnter = useCallback(({ key }) => {
-        // setActive(true);
-        setHoverTarget(key);
-    }, []);
+    const onMouseEnter = useCallback(
+        ({ key }, idx) => {
+            // 현재 활성화된 아이템은 최대 밝기로
+            if (box2Ref.current.children[idx].title === activeProgram) {
+                box2Ref.current.children[idx].style.backgroundColor =
+                    glowLevelArr[3];
+            }
+            // 일반 아이템은 기본 밝기로
+            else {
+                box2Ref.current.children[idx].style.backgroundColor =
+                    glowLevelArr[1];
+            }
+            setHoverTarget({ key, idx });
+        },
+        [activeProgram]
+    );
 
     // 마우스 아웃
-    const onMouseLeave = useCallback((item) => {
+    const onMouseLeave = useCallback((idx) => {
+        // 밝기를 가장 낮춘다
+        // 이미 활성화된 아이템은 기본 밝기를 가지고있기 때문에 사라지지 않는다
+        box2Ref.current.children[idx].style.backgroundColor = glowLevelArr[0];
         setHoverTarget("");
-        // setActive(false);
     }, []);
 
     // 아이템 클릭
     const onClickTaskIcon = useCallback(
-        (item) => {
-            setHoverTarget(item.key);
-            setActiveProgram(item.key);
+        (item, idx) => {
+            // setHoverTarget(item.key);
+            // setActiveProgram(item.key);
 
+            // 최소화 되었던 아이템을 활성화 시킨다
             if (item.status === "min") {
                 setProgramList((prev) =>
                     prev.map((prevItem) =>
                         prevItem.key === item.key
-                            ? { ...prevItem, status: "active_default" }
+                            ? { ...prevItem, status: "active" }
                             : { ...prevItem }
                     )
                 );
+                box2Ref.current.children[idx].style.backgroundColor =
+                    glowLevelArr[2];
+                setActiveProgram(item.key);
             } else {
-                setProgramList((prev) =>
-                    prev.map((prevItem) =>
-                        prevItem.key === item.key
-                            ? { ...prevItem, status: "min" }
-                            : { ...prevItem }
-                    )
-                );
+                // 현재 가장 앞에있는 아이템이면 최소화 시킨다.
+                if (item.key === activeProgram) {
+                    setProgramList((prev) =>
+                        prev.map((prevItem) =>
+                            prevItem.key === item.key
+                                ? { ...prevItem, status: "min" }
+                                : { ...prevItem }
+                        )
+                    );
+                }
+                // 현재 가장 앞에있는 아이템이 아니면 가장앞으로 이동만 시킨다.
+                else {
+                    box2Ref.current.children[idx].style.backgroundColor =
+                        glowLevelArr[2];
+                    setActiveProgram(item.key);
+                }
             }
 
-            setHoverTarget(item.key);
-            setActiveProgram(item.key);
+            // setHoverTarget(item.key);
         },
-        [setHoverTarget, setActiveProgram, setProgramList]
+        [setHoverTarget, setActiveProgram, setProgramList, activeProgram]
     );
 
     // 시작 아이콘 클릭
@@ -153,6 +188,7 @@ const TaskBarContainer = () => {
 
         hoverTarget,
         programList,
+        activeProgram,
         hiddenIcon,
 
         onMouseEnter,
@@ -166,6 +202,8 @@ const TaskBarContainer = () => {
         cur_hour,
         cur_minute,
         cur_timeline,
+
+        box2Ref,
     };
 
     return <TaskBar {...propDatas} />;

@@ -52,13 +52,24 @@ const FolderComponent = ({
                 <div></div>
             </div>
             <div className="headerArea3"></div>
-            <div className="hi">{title}</div>
-            <div className="bottomArea"></div>
 
-            <div className="modiSize top_left"></div>
-            <div className="modiSize top_right"></div>
-            <div className="modiSize bottom_left"></div>
-            <div className="modiSize bottom_right"></div>
+            {title === "구글" ? (
+                <iframe
+                    src={"https://www.google.com/search?igu=1"}
+                    width={"100%"}
+                    height={"100%"}
+                />
+            ) : (
+                <>
+                    <div className="hi">{title}</div>
+                    <div className="bottomArea"></div>
+
+                    <div className="modiSize top_left"></div>
+                    <div className="modiSize top_right"></div>
+                    <div className="modiSize bottom_left"></div>
+                    <div className="modiSize bottom_right"></div>
+                </>
+            )}
         </FolderComponentBlock>
     );
 };

@@ -23,6 +23,12 @@ const WindowContainer = () => {
             name: "기술스택",
             type: "FOLDER",
         },
+        {
+            key: "구글",
+            img: img,
+            name: "구글",
+            type: "FOLDER",
+        },
     ]);
 
     const [programList, setProgramList] = useRecoilState(
@@ -48,7 +54,7 @@ const WindowContainer = () => {
                     setProgramList((prev) =>
                         prev.map((prevItem) =>
                             prevItem.key === target.key
-                                ? { ...prevItem, status: "active_default" }
+                                ? { ...prevItem, status: "active" }
                                 : { ...prevItem }
                         )
                     );
@@ -67,7 +73,7 @@ const WindowContainer = () => {
                     const Component = obj.default;
                     setProgramList([
                         ...programList,
-                        { Component, key: item.key, status: "active_default" },
+                        { Component, key: item.key, status: "active" },
                     ]);
                     setActiveProgram(item.key);
                     setZIndexCnt((prev) => prev + 1);

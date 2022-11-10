@@ -30,27 +30,52 @@ const FolderContainer = ({ item }) => {
 
     // 최대화
     const onClickMax = useCallback(() => {
-        setProgramList((prev) =>
-            prev.map((prevItem) =>
-                prevItem.key === key
-                    ? { ...prevItem, status: "active_max" }
-                    : { ...prevItem }
-            )
-        );
+        // setProgramList((prev) =>
+        //     prev.map((prevItem) =>
+        //         prevItem.key === key
+        //             ? { ...prevItem, status: "active_max" }
+        //             : { ...prevItem }
+        //     )
+        // );
 
         setIsMaxSize(true);
+        boxRef.current.style.transition = "0.25s";
+        boxRef.current.style.left = "0";
+        boxRef.current.style.top = "0";
+
+        localStorage.setItem(`${key}width`, "100vw");
+        localStorage.setItem(`${key}height`, "calc(100vh - 50px)");
+
+        boxRef.current.style.width = "100vw";
+        boxRef.current.style.height = "calc(100vh - 50px)";
     }, [setIsMaxSize, setProgramList]);
 
     // 기본 크기
     const onClickNormalSize = useCallback(() => {
         setIsMaxSize(false);
-        setProgramList((prev) =>
-            prev.map((prevItem) =>
-                prevItem.key === key
-                    ? { ...prevItem, status: "active_default" }
-                    : { ...prevItem }
-            )
-        );
+        // setProgramList((prev) =>
+        //     prev.map((prevItem) =>
+        //         prevItem.key === key
+        //             ? { ...prevItem, status: "active" }
+        //             : { ...prevItem }
+        //     )
+        // );
+        const left = localStorage.getItem(`${key}Left`);
+        const top = localStorage.getItem(`${key}Top`);
+        boxRef.current.style.transition = "0.25s";
+
+        if (left && top) {
+            boxRef.current.style.left = left + "px";
+            boxRef.current.style.top = top + "px";
+        } else {
+            boxRef.current.style.left = "calc(50vw - 250px)";
+            boxRef.current.style.top = "calc(50vh - 250px)";
+        }
+        localStorage.setItem(`${key}width`, "500px");
+        localStorage.setItem(`${key}height`, "500px");
+
+        boxRef.current.style.width = "500px";
+        boxRef.current.style.height = "500px";
     }, [setIsMaxSize, setProgramList]);
 
     // 최소화
@@ -92,6 +117,10 @@ const FolderContainer = ({ item }) => {
         (e) => {
             if (!isMovable) return;
 
+            // if (e.clientY <= 0) {
+            //     console.log("exit");
+            //     return;
+            // }
             // 이전 좌표와 현재 좌표 차이값
             const posX = prevPos.current.X - e.clientX;
             const posY = prevPos.current.Y - e.clientY;
@@ -141,39 +170,52 @@ const FolderContainer = ({ item }) => {
     }, [onMouseMove]);
 
     useEffect(() => {
+        if (status === "active") {
+            if (isMaxSize) {
+                boxRef.current.style.left = "0px";
+                boxRef.current.style.top = "0px";
+            } else {
+                const left = localStorage.getItem(`${key}Left`);
+                const top = localStorage.getItem(`${key}Top`);
+
+                //
+                if (left && top) {
+                    boxRef.current.style.left = left + "px";
+                    boxRef.current.style.top = top + "px";
+                } else {
+                    boxRef.current.style.left = "calc(50vw - 250px)";
+                    boxRef.current.style.top = "calc(50vh - 250px)";
+                }
+            }
+        }
+    }, [status, isMaxSize, boxRef]);
+
+    useEffect(() => {
         /*
         min
-        active_defult
-        active_max
+        active
         */
-        if (status === "active_default") {
-            console.log("활성화");
+
+        // 활성화
+        if (status === "active") {
             boxRef.current.style.transition = "0.25s";
             boxRef.current.style.opacity = "1";
-            const left = localStorage.getItem(`${key}Left`);
-            const top = localStorage.getItem(`${key}Top`);
 
-            if (left && top) {
-                boxRef.current.style.left = left + "px";
-                boxRef.current.style.top = top + "px";
+            const height = localStorage.getItem(`${key}height`);
+            const width = localStorage.getItem(`${key}width`);
+
+            if (height && width) {
+                boxRef.current.style.height = height;
+                boxRef.current.style.width = width;
             } else {
-                boxRef.current.style.left = "calc(50vw - 250px)";
-                boxRef.current.style.top = "calc(50vh - 250px)";
+                boxRef.current.style.width = "500px";
+                boxRef.current.style.height = "500px";
             }
-            boxRef.current.style.width = "500px";
-            boxRef.current.style.height = "500px";
-            boxRef.current.style.scale = "1";
-        } else if (status === "active_max") {
-            console.log("최대화");
-            boxRef.current.style.transition =
-                "all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s";
-            boxRef.current.style.width = "100vw";
-            boxRef.current.style.height = "calc(100vh - 50px)";
 
-            boxRef.current.style.left = "0";
-            boxRef.current.style.top = "0";
-        } else if (status === "min") {
-            console.log("최소화");
+            boxRef.current.style.scale = "1";
+        }
+        // 최소화
+        else if (status === "min") {
             boxRef.current.style.transition = "0.25s";
             boxRef.current.style.opacity = "0";
             boxRef.current.style.left = "80px";
@@ -184,10 +226,16 @@ const FolderContainer = ({ item }) => {
         }
     }, [status]);
 
+    // useEffect(() => {
+
+    // }, [isMaxSize]);
+
     useEffect(() => {
         return () => {
             localStorage.removeItem(`${key}Left`);
             localStorage.removeItem(`${key}Top`);
+            localStorage.removeItem(`${key}width`);
+            localStorage.removeItem(`${key}height`);
         };
     }, []);
 

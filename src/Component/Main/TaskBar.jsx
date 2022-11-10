@@ -13,6 +13,7 @@ const TaskBar = (props) => {
 
         hoverTarget,
         programList,
+        activeProgram,
         hiddenIcon,
 
         onMouseEnter,
@@ -26,6 +27,8 @@ const TaskBar = (props) => {
         cur_hour,
         cur_minute,
         cur_timeline,
+
+        box2Ref,
     } = props;
     return (
         <>
@@ -39,23 +42,21 @@ const TaskBar = (props) => {
                 </div>
 
                 {/* 작업표시줄 */}
-                <div className="box2">
+                <div className="box2" ref={box2Ref}>
                     {/* 프로젝트 */}
                     {programList.map((item, idx) => {
                         return (
                             <div
                                 key={idx}
-                                className={
-                                    hoverTarget === item.key
-                                        ? "shortCutIcon taskHoverEffect"
-                                        : "shortCutIcon"
-                                }
+                                className={`shortCutIcon ${
+                                    activeProgram === item.key && "activeIcon"
+                                }`}
                                 title={item.key}
-                                onMouseEnter={() => onMouseEnter(item)}
-                                onMouseLeave={() => onMouseLeave(item)}
-                                onClick={() => onClickTaskIcon(item)}
+                                onMouseEnter={() => onMouseEnter(item, idx)}
+                                onMouseLeave={() => onMouseLeave(idx)}
+                                onClick={() => onClickTaskIcon(item, idx)}
                             >
-                                <div className="shortCut_Test" />
+                                <div className="shortCut_Icon" />
                                 <div className="shortCut_BottomLine" />
                             </div>
                         );
@@ -153,6 +154,10 @@ const TaskBarBlock = styled.div`
 
     .box2 {
         display: flex;
+    }
+
+    .activeIcon {
+        background-color: #ffffff24;
     }
 
     .activeShortCutIcon {
