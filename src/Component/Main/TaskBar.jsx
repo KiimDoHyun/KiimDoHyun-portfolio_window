@@ -154,18 +154,25 @@ const TaskBarBlock = styled.div`
 
     .box2 {
         display: flex;
+        gap: 2px;
     }
 
     .activeIcon {
         background-color: #ffffff24;
+    }
+    .activeIcon .shortCut_BottomLine {
+        width: 95%;
     }
 
     .activeShortCutIcon {
         background-color: #dfdfdf12;
     }
 
+    .shortCutIcon:hover .shortCut_BottomLine {
+        width: 95%;
+    }
     .activeShortCutIcon .shortCut_BottomLine {
-        width: 100%;
+        width: 70%;
     }
 
     .shortCut_Test {
