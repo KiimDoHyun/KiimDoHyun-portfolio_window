@@ -8,6 +8,7 @@ import {
 import {
     rc_taskbar_hiddenIcon_active,
     rc_taskbar_infoBar_active,
+    rc_taskbar_preview_active,
     rc_taskbar_statusBar_active,
     rc_taskbar_timeBar_active,
 } from "../../store/taskbar";
@@ -38,6 +39,7 @@ const TaskBarContainer = () => {
     const [hiddenIcon, setHiddenIcon] = useRecoilState(
         rc_taskbar_hiddenIcon_active
     );
+    const setPreview = useSetRecoilState(rc_taskbar_preview_active);
     const setActiveStatusBar = useSetRecoilState(rc_taskbar_statusBar_active);
     const setActiveInfoBar = useSetRecoilState(rc_taskbar_infoBar_active);
     const [programList, setProgramList] = useRecoilState(
@@ -57,6 +59,7 @@ const TaskBarContainer = () => {
     // 마우스 오버
     const onMouseEnter = useCallback(
         ({ key }, idx) => {
+            setPreview(true);
             // 현재 활성화된 아이템은 최대 밝기로
             if (box2Ref.current.children[idx].title === activeProgram) {
                 box2Ref.current.children[idx].style.backgroundColor =
@@ -74,6 +77,8 @@ const TaskBarContainer = () => {
 
     // 마우스 아웃
     const onMouseLeave = useCallback((idx) => {
+        console.log("아웃");
+        setPreview(false);
         // 밝기를 가장 낮춘다
         // 이미 활성화된 아이템은 기본 밝기를 가지고있기 때문에 사라지지 않는다
         box2Ref.current.children[idx].style.backgroundColor = glowLevelArr[0];
@@ -168,6 +173,10 @@ const TaskBarContainer = () => {
             prev.map((prevItem) => ({ ...prevItem, status: "min" }))
         );
     }, []);
+
+    useEffect(() => {
+        console.log("hoverTarget :", hoverTarget, programList);
+    }, [hoverTarget, programList]);
 
     // useEffect(() => {
     //     var userLang = navigator.language || navigator.userLanguage;

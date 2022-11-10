@@ -23,3 +23,9 @@ export const rc_taskbar_hiddenIcon_active = atom({
     key: "rc_taskbar_hiddenIcon_active",
     default: false,
 });
+
+// 미리보기 활성화 여부
+export const rc_taskbar_preview_active = atom({
+    key: "rc_taskbar_preview_active",
+    default: false,
+});

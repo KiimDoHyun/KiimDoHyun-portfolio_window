@@ -15,6 +15,7 @@ import {
 import InfoBarContainer from "../Container/Main/InfoBarContainer";
 import DisplayCover from "../Component/DisplayCover";
 import HiddenIcon from "../Component/TaskBar/HiddenIcon";
+import Preview from "../Component/Preview";
 
 const MainPage = () => {
     const setActive_status = useSetRecoilState(rc_taskbar_statusBar_active);
@@ -50,6 +51,9 @@ const MainPage = () => {
 
             {/* 숨겨진 아이콘 */}
             <HiddenIcon />
+
+            {/* 미리보기 */}
+            {/* <Preview /> */}
         </MainPageBlock>
     );
 };
