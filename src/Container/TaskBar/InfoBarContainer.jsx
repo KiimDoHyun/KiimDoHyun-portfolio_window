@@ -3,7 +3,7 @@ import { useCallback } from "react";
 import { useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { getCommitApi } from "../../api/git";
-import InfoBar from "../../Component/InfoBar";
+import InfoBar from "../../Component/TaskBar/InfoBar";
 import useAxios from "../../hooks/useAxios";
 import { rc_global_DisplayLight } from "../../store/global";
 import { rc_taskbar_infoBar_active } from "../../store/taskbar";

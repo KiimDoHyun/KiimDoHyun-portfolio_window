@@ -1,12 +1,12 @@
 import React, { useCallback, useRef, useState } from "react";
-import Window from "../../Component/Main/Window";
-import img from "../../logo.svg";
+import Window from "../Component/Main/Window";
+import img from "../logo.svg";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import {
     rc_program_activeProgram,
     rc_program_programList,
     rc_program_zIndexCnt,
-} from "../../store/program";
+} from "../store/program";
 
 const WindowContainer = () => {
     const windowRef = useRef(null);

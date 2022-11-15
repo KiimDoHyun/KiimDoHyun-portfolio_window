@@ -3,22 +3,69 @@ import styled, { keyframes } from "styled-components";
 import { useRecoilValue } from "recoil";
 import { rc_taskbar_statusBar_active } from "../../store/taskbar";
 
-const StatusBar = () => {
-    const active = useRecoilValue(rc_taskbar_statusBar_active);
+const StatusBar = ({
+    active,
+    activeLeftArea_Detail,
 
+    onMouseEnter,
+    onMouseLeave,
+}) => {
     return (
         <StatusBarBlock active={active}>
             {/* 소개 */}
-            <div className="statusBarBoxArea leftArea">
-                <div className="leftArea_top">
-                    <div className="statusBox leftArea_box"></div>
-                </div>
-                <div className="leftArea_contents">
-                    <div className="statusBox leftArea_box"></div>
-                    <div className="statusBox leftArea_box"></div>
-                    <div className="statusBox leftArea_box"></div>
-                    <div className="statusBox leftArea_box"></div>
-                    <div className="statusBox leftArea_box"></div>
+            <div
+                className="statusBarBoxArea leftArea"
+                onMouseEnter={onMouseEnter}
+                onMouseLeave={onMouseLeave}
+            >
+                {/* 마우스 호버에 따른 너비 변경을 위해 한단계 추가 */}
+                <div
+                    className={
+                        activeLeftArea_Detail
+                            ? "leftArea_Contents leftArea_Contents_Wide"
+                            : "leftArea_Contents"
+                    }
+                >
+                    <div className="leftArea_top">
+                        <div className="statusBox leftArea_box">
+                            <div className="icon">
+                                <div />
+                            </div>
+                            <div className="text">리액트</div>
+                        </div>
+                    </div>
+                    <div className="leftArea_contents">
+                        <div className="statusBox leftArea_box">
+                            <div className="icon">
+                                <div />
+                            </div>
+                            <div className="text">리액트</div>
+                        </div>
+                        <div className="statusBox leftArea_box">
+                            <div className="icon">
+                                <div />
+                            </div>
+                            <div className="text">리액트</div>
+                        </div>
+                        <div className="statusBox leftArea_box">
+                            <div className="icon">
+                                <div />
+                            </div>
+                            <div className="text">리액트</div>
+                        </div>
+                        <div className="statusBox leftArea_box">
+                            <div className="icon">
+                                <div />
+                            </div>
+                            <div className="text">리액트</div>
+                        </div>
+                        <div className="statusBox leftArea_box">
+                            <div className="icon">
+                                <div />
+                            </div>
+                            <div className="text">리액트</div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -112,7 +159,6 @@ const StatusBarBlock = styled.div`
     z-index: ${(props) => (props.active ? "999" : "0")};
     width: 650px;
     height: 650px;
-    background-color: white;
     box-shadow: 0px -3px 20px 3px #00000061;
 
     transition: 0.4s;
@@ -120,7 +166,7 @@ const StatusBarBlock = styled.div`
     background-color: #393a3b;
 
     display: flex;
-    gap: 5px;
+    gap: 10px;
 
     .statusBarBoxArea {
         height: 100%;
@@ -134,19 +180,68 @@ const StatusBarBlock = styled.div`
         background-color: #ffffff24;
     }
 
+    .test {
+        position: absolute;
+        width: 0px;
+        height: 100%;
+        background-color: blue;
+        left: 50px;
+
+        transition: 0.1s;
+    }
+
+    .testActive {
+        width: 200px;
+    }
+
     .leftArea {
-        // background-color: red;
+        position: relative;
         width: 50px;
+    }
+
+    .leftArea_Contents {
+        position: absolute;
+        background-color: #393a3b;
+        width: 100%;
+        height: 100%;
+
+        transition: 0.1s;
 
         display: flex;
         flex-direction: column;
         justify-content: space-between;
     }
 
+    .leftArea_Contents_Wide {
+        width: 200px;
+        z-index: 10;
+
+        box-shadow: 0px 9px 20px 0px #181818;
+    }
+
     .leftArea_box {
-        width: 50px;
+        width: 100%;
         height: 50px;
         background-color: transparent;
+
+        overflow: hidden;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .leftArea_box .icon {
+        width: 48px;
+        height: 50px;
+        // background-color: #ffffff3b;
+    }
+
+    .leftArea_box .text {
+        color: #e8e8e8;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        font-size: 14px;
+        font-weight: lighter;
     }
 
     .centerArea {
@@ -188,7 +283,7 @@ const StatusBarBlock = styled.div`
     }
 
     .show_animation {
-        animation-duration: 0.5s;
+        animation-duration: 0.4s;
         animation-timing-function: cubic-bezier(0, 0.65, 0.35, 1);
         animation-name: ${show_from_bottom};
     }
@@ -196,6 +291,21 @@ const StatusBarBlock = styled.div`
     .dummy {
         width: 100%;
         height: 50px;
+    }
+
+    // 스크롤바
+
+    .centerArea:hover::-webkit-scrollbar {
+        width: 2px;
+    }
+    .centerArea::-webkit-scrollbar {
+        width: 0px;
+    }
+    .centerArea::-webkit-scrollbar-thumb {
+        background-color: #acacac;
+    }
+
+    .centerArea::-webkit-scrollbar-track {
     }
 `;
 export default React.memo(StatusBar);

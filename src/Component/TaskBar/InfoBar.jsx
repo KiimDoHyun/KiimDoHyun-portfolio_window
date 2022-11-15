@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import CommitItem from "./InfoBar/CommitItem";
-import ErrorBox from "./InfoBar/ErrorBox";
-import sum from "../asset/images/icons/sun.png";
+import CommitItem from "../InfoBar/CommitItem";
+import ErrorBox from "../InfoBar/ErrorBox";
+import sum from "../../asset/images/icons/sun.png";
 
 const InfoBar = (props) => {
     const { active, commit, displayLight, onChange } = props;

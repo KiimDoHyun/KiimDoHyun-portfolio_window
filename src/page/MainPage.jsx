@@ -1,21 +1,22 @@
 import React from "react";
 import styled from "styled-components";
-import TaskBarContainer from "../Container/Main/TaskBarContainer";
-import WindowContainer from "../Container/Main/WindowContainer";
+import WindowContainer from "../Container/WindowContainer";
 import wallpaper from "../asset/images/wallpaper/Samsung_wallpaper.jpg";
 import StatusBar from "../Component/TaskBar/StatusBar";
 import { useSetRecoilState } from "recoil";
-import TimeBarContainer from "../Container/Main/TaskBar/TimeBarContainer";
+import TimeBarContainer from "../Container/TaskBar/TimeBarContainer";
 import {
     rc_taskbar_hiddenIcon_active,
     rc_taskbar_infoBar_active,
     rc_taskbar_statusBar_active,
     rc_taskbar_timeBar_active,
 } from "../store/taskbar";
-import InfoBarContainer from "../Container/Main/InfoBarContainer";
 import DisplayCover from "../Component/DisplayCover";
 import HiddenIcon from "../Component/TaskBar/HiddenIcon";
 import Preview from "../Component/Preview";
+import TaskBarContainer from "../Container/TaskBar/TaskBarContainer";
+import InfoBarContainer from "../Container/TaskBar/InfoBarContainer";
+import StatusBarContainer from "../Container/TaskBar/StatusBarContainer";
 
 const MainPage = () => {
     const setActive_status = useSetRecoilState(rc_taskbar_statusBar_active);
@@ -41,7 +42,7 @@ const MainPage = () => {
             </div>
 
             {/* 시작 */}
-            <StatusBar />
+            <StatusBarContainer />
 
             {/* 시간 */}
             <TimeBarContainer />

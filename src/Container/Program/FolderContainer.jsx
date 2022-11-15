@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useRef } from "react";
-import FolderComponent from "../../../Component/Program/FolderComponent";
+import FolderComponent from "../../Component/Program/FolderComponent";
 import {
     rc_program_activeProgram,
     rc_program_programList,
     rc_program_zIndexCnt,
-} from "../../../store/program";
+} from "../../store/program";
 import { useSetRecoilState, useRecoilState } from "recoil";
 import { useState } from "react";
 

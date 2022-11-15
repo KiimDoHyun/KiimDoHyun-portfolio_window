@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { useCallback } from "react";
 import { useRecoilValue } from "recoil";
-import TimeBar from "../../../Component/TaskBar/TimeBar";
+import TimeBar from "../../Component/TaskBar/TimeBar";
 import {
     rc_global_date,
     rc_global_day,
@@ -12,8 +12,8 @@ import {
     rc_global_sec,
     rc_global_timeline,
     rc_global_year,
-} from "../../../store/global";
-import { rc_taskbar_timeBar_active } from "../../../store/taskbar";
+} from "../../store/global";
+import { rc_taskbar_timeBar_active } from "../../store/taskbar";
 
 const TimeBarContainer = () => {
     const [date] = useState(new Date());
