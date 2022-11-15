@@ -3,9 +3,19 @@ import styled, { keyframes } from "styled-components";
 import { useRecoilValue } from "recoil";
 import { rc_taskbar_statusBar_active } from "../../store/taskbar";
 
+import imgReact from "../../asset/images/icons/react.png";
+import imgJS from "../../asset/images/icons/javascript.png";
+import imgAraon from "../../asset/images/icons/araon_logo_noText.png";
+import imgKit from "../../asset/images/icons/logo_kit.jpg";
+import imgOne from "../../asset/images/icons/number_one.png";
+import imgUser from "../../asset/images/icons/user.png";
+import imgMenu from "../../asset/images/icons/hamburger_menu.png";
+import LeftAreaBox from "./StatusBar/LeftAreaBox";
+
 const StatusBar = ({
     active,
     activeLeftArea_Detail,
+    statusBar_LeftArea_Items,
 
     onMouseEnter,
     onMouseLeave,
@@ -27,44 +37,16 @@ const StatusBar = ({
                     }
                 >
                     <div className="leftArea_top">
-                        <div className="statusBox leftArea_box">
-                            <div className="icon">
-                                <div />
-                            </div>
-                            <div className="text">리액트</div>
-                        </div>
+                        <LeftAreaBox src={imgMenu} text={"소개"} />
                     </div>
                     <div className="leftArea_contents">
-                        <div className="statusBox leftArea_box">
-                            <div className="icon">
-                                <div />
-                            </div>
-                            <div className="text">리액트</div>
-                        </div>
-                        <div className="statusBox leftArea_box">
-                            <div className="icon">
-                                <div />
-                            </div>
-                            <div className="text">리액트</div>
-                        </div>
-                        <div className="statusBox leftArea_box">
-                            <div className="icon">
-                                <div />
-                            </div>
-                            <div className="text">리액트</div>
-                        </div>
-                        <div className="statusBox leftArea_box">
-                            <div className="icon">
-                                <div />
-                            </div>
-                            <div className="text">리액트</div>
-                        </div>
-                        <div className="statusBox leftArea_box">
-                            <div className="icon">
-                                <div />
-                            </div>
-                            <div className="text">리액트</div>
-                        </div>
+                        {statusBar_LeftArea_Items.map((item, idx) => (
+                            <LeftAreaBox
+                                key={idx}
+                                src={item.img}
+                                text={item.text}
+                            />
+                        ))}
                     </div>
                 </div>
             </div>
@@ -180,20 +162,6 @@ const StatusBarBlock = styled.div`
         background-color: #ffffff24;
     }
 
-    .test {
-        position: absolute;
-        width: 0px;
-        height: 100%;
-        background-color: blue;
-        left: 50px;
-
-        transition: 0.1s;
-    }
-
-    .testActive {
-        width: 200px;
-    }
-
     .leftArea {
         position: relative;
         width: 50px;
@@ -217,31 +185,6 @@ const StatusBarBlock = styled.div`
         z-index: 10;
 
         box-shadow: 0px 9px 20px 0px #181818;
-    }
-
-    .leftArea_box {
-        width: 100%;
-        height: 50px;
-        background-color: transparent;
-
-        overflow: hidden;
-        display: flex;
-        flex-wrap: wrap;
-    }
-
-    .leftArea_box .icon {
-        width: 48px;
-        height: 50px;
-        // background-color: #ffffff3b;
-    }
-
-    .leftArea_box .text {
-        color: #e8e8e8;
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        font-size: 14px;
-        font-weight: lighter;
     }
 
     .centerArea {
