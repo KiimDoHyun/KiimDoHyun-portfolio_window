@@ -11,14 +11,14 @@ const StatusBar = () => {
             {/* 소개 */}
             <div className="statusBarBoxArea leftArea">
                 <div className="leftArea_top">
-                    <div className="leftArea_box"></div>
+                    <div className="statusBox leftArea_box"></div>
                 </div>
                 <div className="leftArea_contents">
-                    <div className="leftArea_box"></div>
-                    <div className="leftArea_box"></div>
-                    <div className="leftArea_box"></div>
-                    <div className="leftArea_box"></div>
-                    <div className="leftArea_box"></div>
+                    <div className="statusBox leftArea_box"></div>
+                    <div className="statusBox leftArea_box"></div>
+                    <div className="statusBox leftArea_box"></div>
+                    <div className="statusBox leftArea_box"></div>
+                    <div className="statusBox leftArea_box"></div>
                 </div>
             </div>
 
@@ -29,7 +29,40 @@ const StatusBar = () => {
                         ? "statusBarBoxArea centerArea show_animation"
                         : "statusBarBoxArea centerArea"
                 }
-            ></div>
+            >
+                <div className="statusBox dummy" />
+                <div className="statusBox dummy" />
+                <div className="statusBox dummy" />
+                <div className="statusBox dummy" />
+                <div className="statusBox dummy" />
+                <div className="statusBox dummy" />
+                <div className="statusBox dummy" />
+                <div className="statusBox dummy" />
+                <div className="statusBox dummy" />
+                <div className="statusBox dummy" />
+                <div className="statusBox dummy" />
+                <div className="statusBox dummy" />
+                <div className="statusBox dummy" />
+                <div className="statusBox dummy" />
+                <div className="statusBox dummy" />
+                <div className="statusBox dummy" />
+                <div className="statusBox dummy" />
+                <div className="statusBox dummy" />
+                <div className="statusBox dummy" />
+                <div className="statusBox dummy" />
+                <div className="statusBox dummy" />
+                <div className="statusBox dummy" />
+                <div className="statusBox dummy" />
+                <div className="statusBox dummy" />
+                <div className="statusBox dummy" />
+                <div className="statusBox dummy" />
+                <div className="statusBox dummy" />
+                <div className="statusBox dummy" />
+                <div className="statusBox dummy" />
+                <div className="statusBox dummy" />
+                <div className="statusBox dummy" />
+                <div className="statusBox dummy" />
+            </div>
 
             {/* 기술 스택 */}
             <div
@@ -43,13 +76,13 @@ const StatusBar = () => {
                     <p>기술 스택</p>
                 </div>
                 <div className="rightArea_boxArea">
-                    <div className="rightArea_box"></div>
-                    <div className="rightArea_box"></div>
-                    <div className="rightArea_box"></div>
-                    <div className="rightArea_box"></div>
-                    <div className="rightArea_box"></div>
-                    <div className="rightArea_box"></div>
-                    <div className="rightArea_box"></div>
+                    <div className="statusBox rightArea_box"></div>
+                    <div className="statusBox rightArea_box"></div>
+                    <div className="statusBox rightArea_box"></div>
+                    <div className="statusBox rightArea_box"></div>
+                    <div className="statusBox rightArea_box"></div>
+                    <div className="statusBox rightArea_box"></div>
+                    <div className="statusBox rightArea_box"></div>
                 </div>
             </div>
         </StatusBarBlock>
@@ -93,8 +126,16 @@ const StatusBarBlock = styled.div`
         height: 100%;
     }
 
+    .statusBox {
+        box-sizing: border-box;
+    }
+
+    .statusBox:hover {
+        background-color: #ffffff24;
+    }
+
     .leftArea {
-        background-color: red;
+        // background-color: red;
         width: 50px;
 
         display: flex;
@@ -105,12 +146,14 @@ const StatusBarBlock = styled.div`
     .leftArea_box {
         width: 50px;
         height: 50px;
-        background-color: gray;
+        background-color: transparent;
     }
 
     .centerArea {
-        background-color: blue;
+        background-color: transparent;
         width: 270px;
+
+        overflow-y: scroll;
     }
 
     .rightArea {
@@ -135,16 +178,24 @@ const StatusBarBlock = styled.div`
     }
 
     .rightArea_box {
-        // width: 100px;
         flex-basis: 32%;
         height: 100px;
-        background-color: gray;
+        background-color: #ffffff14;
+    }
+
+    .rightArea_box:hover {
+        border: 2px solid #9b9b9b;
     }
 
     .show_animation {
         animation-duration: 0.5s;
         animation-timing-function: cubic-bezier(0, 0.65, 0.35, 1);
         animation-name: ${show_from_bottom};
+    }
+
+    .dummy {
+        width: 100%;
+        height: 50px;
     }
 `;
 export default React.memo(StatusBar);
