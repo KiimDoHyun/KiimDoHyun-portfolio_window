@@ -113,6 +113,7 @@ const TaskBarContainer = () => {
                                 : { ...prevItem }
                         )
                     );
+                    setActiveProgram("");
                 }
                 // 현재 가장 앞에있는 아이템이 아니면 가장앞으로 이동만 시킨다.
                 else {

@@ -21,7 +21,8 @@ const StatusBarBlock = styled.div`
     background-color: white;
     box-shadow: 0px -3px 20px 3px #00000061;
 
-    transition: 0.25s;
+    transition: 0.4s;
+    transition-timing-function: cubic-bezier(0, 0.5, 0, 1);
     background-color: #393a3b;
 `;
 export default React.memo(StatusBar);
