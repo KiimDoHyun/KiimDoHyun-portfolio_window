@@ -1,12 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 
-const RightAreaBox = ({ img, name }) => {
+const RightAreaBox = ({ img, name, onClick }) => {
     return (
-        <RightAreaBoxBlock className="statusBox">
+        <RightAreaBoxBlock
+            className="statusBox"
+            onClick={() => onClick({ key: "기술스택" })}
+        >
             <img src={img} alt="name" />
             <div className="text">{name}</div>
-            {/* <div className="text">{name.slice(0, 10)}</div> */}
         </RightAreaBoxBlock>
     );
 };
@@ -45,4 +47,4 @@ const RightAreaBoxBlock = styled.div`
         cursor: default;
     }
 `;
-export default RightAreaBox;
+export default React.memo(RightAreaBox);

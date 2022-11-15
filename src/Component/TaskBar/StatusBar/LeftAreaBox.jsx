@@ -1,9 +1,12 @@
 import React from "react";
 import styled from "styled-components";
 
-const LeftAreaBox = ({ img, name }) => {
+const LeftAreaBox = ({ img, name, onClick }) => {
     return (
-        <LeftAreaBoxBlock className="statusBox">
+        <LeftAreaBoxBlock
+            className="statusBox"
+            onClick={() => onClick({ key: "내컴퓨터" })}
+        >
             <div className="icon">
                 <img src={img} alt={name} />
             </div>

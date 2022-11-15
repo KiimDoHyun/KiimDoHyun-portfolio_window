@@ -14,6 +14,7 @@ const StatusBar = ({
 
     onMouseEnter,
     onMouseLeave,
+    onClickBox,
 }) => {
     return (
         <StatusBarBlock active={active}>
@@ -32,7 +33,11 @@ const StatusBar = ({
                     }
                 >
                     <div className="leftArea_top">
-                        <LeftAreaBox img={imgMenu} name={"소개"} />
+                        <LeftAreaBox
+                            img={imgMenu}
+                            name={"소개"}
+                            onClick={onClickBox}
+                        />
                     </div>
                     <div className="leftArea_contents">
                         {statusBar_LeftArea_Items.map((item, idx) => (
@@ -40,6 +45,7 @@ const StatusBar = ({
                                 key={idx}
                                 img={item.img}
                                 name={item.text}
+                                onClick={onClickBox}
                             />
                         ))}
                     </div>
@@ -73,7 +79,11 @@ const StatusBar = ({
                                     name={item.department}
                                 />
                             )}
-                            <CenterAreaBox img={item.img} name={item.name} />
+                            <CenterAreaBox
+                                img={item.img}
+                                name={item.name}
+                                onClick={onClickBox}
+                            />
                         </React.Fragment>
                     );
                 })}
@@ -96,6 +106,7 @@ const StatusBar = ({
                             key={idx}
                             img={item.img}
                             name={item.name}
+                            onClick={onClickBox}
                         />
                     ))}
                 </div>
@@ -109,6 +120,7 @@ const StatusBar = ({
                             key={idx}
                             img={item.img}
                             name={item.name}
+                            onClick={onClickBox}
                         />
                     ))}
                 </div>

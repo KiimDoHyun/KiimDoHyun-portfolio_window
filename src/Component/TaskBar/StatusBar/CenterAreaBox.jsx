@@ -2,9 +2,12 @@ import React from "react";
 import styled from "styled-components";
 import defaultImg from "../../../asset/images/icons/project_default_1.png";
 
-const CenterAreaBox = ({ img, name, showImg = true }) => {
+const CenterAreaBox = ({ img, name, showImg = true, onClick }) => {
     return (
-        <CenterAreaBoxBlock className="statusBox">
+        <CenterAreaBoxBlock
+            className="statusBox"
+            onClick={() => onClick({ key: "프로젝트" })}
+        >
             {showImg && <img src={img ? img : defaultImg} alt="name" />}
             <div className="text">{name}</div>
         </CenterAreaBoxBlock>
@@ -33,4 +36,4 @@ const CenterAreaBoxBlock = styled.div`
         cursor: default;
     }
 `;
-export default CenterAreaBox;
+export default React.memo(CenterAreaBox);
