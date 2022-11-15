@@ -41,7 +41,7 @@ const LeftAreaBoxBlock = styled.div`
         display: flex;
         align-items: center;
         justify-content: flex-start;
-        font-size: 14px;
+        font-size: 13px;
         font-weight: lighter;
         cursor: default;
     }

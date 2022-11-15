@@ -181,7 +181,7 @@ const StatusBarBlock = styled.div`
     }
 
     .leftArea_Contents_Wide {
-        width: 200px;
+        width: 220px;
         z-index: 10;
 
         box-shadow: 0px 9px 20px 0px #181818;
