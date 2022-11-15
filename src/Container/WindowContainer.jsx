@@ -7,6 +7,7 @@ import {
     rc_program_programList,
     rc_program_zIndexCnt,
 } from "../store/program";
+import { window_programList } from "../Common/data";
 
 const WindowContainer = () => {
     const windowRef = useRef(null);
@@ -73,7 +74,12 @@ const WindowContainer = () => {
                     const Component = obj.default;
                     setProgramList([
                         ...programList,
-                        { Component, key: item.key, status: "active" },
+                        {
+                            Component,
+                            key: item.key,
+                            status: "active",
+                            icon: item.img,
+                        },
                     ]);
                     setActiveProgram(item.key);
                     setZIndexCnt((prev) => prev + 1);
@@ -85,7 +91,7 @@ const WindowContainer = () => {
 
     const propDatas = {
         windowRef,
-        iconBoxArr,
+        iconBoxArr: window_programList,
         onClickIcon,
         onDoubleClickIcon,
     };

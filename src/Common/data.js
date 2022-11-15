@@ -7,10 +7,15 @@ import imgHTML from "../asset/images/icons/html.png";
 import imgCSS from "../asset/images/icons/css.png";
 import imgStyledComponent from "../asset/images/icons/styledcomponent.png";
 import imgGithub from "../asset/images/icons/github.png";
+
 import imgVue from "../asset/images/icons/vue.png";
 import imgPython from "../asset/images/icons/python.png";
 import imgBootstrap from "../asset/images/icons/bootstrap.png";
 import imgTailwind from "../asset/images/icons/tailwind-css.png";
+
+import imgProjectList from "../asset/images/icons/projectList.png";
+import imgTechStack from "../asset/images/icons/techStack.png";
+import imgChrome from "../asset/images/icons/chrome.png";
 
 /**************************************
                 프로젝트 경력
@@ -187,5 +192,29 @@ export const techStack_sub = [
     {
         img: imgTailwind,
         name: "tailwind-css",
+    },
+];
+
+/**************************************
+                바탕화면 폴더 리스트
+***************************************/
+export const window_programList = [
+    {
+        key: "프로젝트",
+        img: imgProjectList,
+        name: "프로젝트",
+        type: "FOLDER",
+    },
+    {
+        key: "기술스택",
+        img: imgTechStack,
+        name: "기술스택",
+        type: "FOLDER",
+    },
+    {
+        key: "구글",
+        img: imgChrome,
+        name: "구글",
+        type: "FOLDER",
     },
 ];

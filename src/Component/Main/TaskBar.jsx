@@ -56,7 +56,9 @@ const TaskBar = (props) => {
                                 onMouseLeave={() => onMouseLeave(idx)}
                                 onClick={() => onClickTaskIcon(item, idx)}
                             >
-                                <div className="shortCut_Icon" />
+                                <div className="shortCut_Img">
+                                    <img src={item.icon} alt={item.key} />
+                                </div>
                                 <div className="shortCut_BottomLine" />
                             </div>
                         );
@@ -173,6 +175,20 @@ const TaskBarBlock = styled.div`
     }
     .activeShortCutIcon .shortCut_BottomLine {
         width: 70%;
+    }
+
+    .shortCut_Img {
+        width: 25px;
+        height: 25px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .shortCut_Img img {
+        width: 100%;
+        height: 100%;
     }
 
     .shortCut_Test {

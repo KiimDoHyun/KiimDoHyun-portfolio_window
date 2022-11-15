@@ -1,11 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-
+import icon from "../../../asset/images/icons/monitor.png";
 const LeftAreaBox = ({ img, name, onClick }) => {
     return (
         <LeftAreaBoxBlock
             className="statusBox"
-            onClick={() => onClick({ key: "내컴퓨터" })}
+            onClick={() => onClick({ key: "내컴퓨터", icon: icon })}
         >
             <div className="icon">
                 <img src={img} alt={name} />

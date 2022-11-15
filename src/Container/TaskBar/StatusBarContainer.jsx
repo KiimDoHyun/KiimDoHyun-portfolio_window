@@ -100,7 +100,7 @@ const StatusBarContainer = () => {
                     const Component = obj.default;
                     setProgramList([
                         ...programList,
-                        { Component, key: item.key, status: "active" },
+                        { Component, key: item.key, status: "active", icon: item.icon },
                     ]);
                     setActiveProgram(item.key);
                     setZIndexCnt((prev) => prev + 1);

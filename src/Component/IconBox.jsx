@@ -9,13 +9,10 @@ const IconBox = ({ item, onClick, onDoubleClick }) => {
             onClick={() => onClick(item)}
             onDoubleClick={() => onDoubleClick(item)}
         >
-            <img
-                className="iconImg"
-                src={img ? img : defaultImg}
-                alt="iconImg"
-            />
+            <div className="iconImgBox">
+                <img src={img ? img : defaultImg} alt="iconImg" />
+            </div>
             <div className="name">{name ? name : "Icon"}</div>
-            <div className="iconBox"></div>
         </IconBoxBlock>
     );
 };
@@ -28,8 +25,10 @@ const IconBoxBlock = styled.div`
     box-sizing: border-box;
     cursor: pointer;
 
-    display: grid;
-    grid-template-rows: 8fr 2fr;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
     border: 2px solid #ffffff00;
 
     :hover {
@@ -41,7 +40,11 @@ const IconBoxBlock = styled.div`
         backgrond-color: red;
     }
 
-    .iconImg {
+    .iconImgBox {
+        width: 50px;
+        height: 50px;
+    }
+    .iconImgBox img {
         width: 100%;
         height: 100%;
     }
