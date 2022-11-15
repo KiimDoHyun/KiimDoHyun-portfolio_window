@@ -1,13 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 
-const LeftAreaBox = ({ src, text }) => {
+const LeftAreaBox = ({ img, name }) => {
     return (
         <LeftAreaBoxBlock className="statusBox">
             <div className="icon">
-                <img src={src} alt={text} />
+                <img src={img} alt={name} />
             </div>
-            <div className="text">{text}</div>
+            <div className="text">{name}</div>
         </LeftAreaBoxBlock>
     );
 };

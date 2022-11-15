@@ -1,16 +1,11 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
-import { useRecoilValue } from "recoil";
-import { rc_taskbar_statusBar_active } from "../../store/taskbar";
 
-import imgReact from "../../asset/images/icons/react.png";
-import imgJS from "../../asset/images/icons/javascript.png";
-import imgAraon from "../../asset/images/icons/araon_logo_noText.png";
-import imgKit from "../../asset/images/icons/logo_kit.jpg";
-import imgOne from "../../asset/images/icons/number_one.png";
-import imgUser from "../../asset/images/icons/user.png";
 import imgMenu from "../../asset/images/icons/hamburger_menu.png";
 import LeftAreaBox from "./StatusBar/LeftAreaBox";
+import { projectDatas, techStack, techStack_sub } from "../../Common/data";
+import CenterAreaBox from "./StatusBar/CenterAreaBox";
+import RightAreaBox from "./StatusBar/RightAreaBox";
 
 const StatusBar = ({
     active,
@@ -37,14 +32,14 @@ const StatusBar = ({
                     }
                 >
                     <div className="leftArea_top">
-                        <LeftAreaBox src={imgMenu} text={"소개"} />
+                        <LeftAreaBox img={imgMenu} name={"소개"} />
                     </div>
                     <div className="leftArea_contents">
                         {statusBar_LeftArea_Items.map((item, idx) => (
                             <LeftAreaBox
                                 key={idx}
-                                src={item.img}
-                                text={item.text}
+                                img={item.img}
+                                name={item.text}
                             />
                         ))}
                     </div>
@@ -59,86 +54,29 @@ const StatusBar = ({
                         : "statusBarBoxArea centerArea"
                 }
             >
-                <div className="statusBox dummy">
-                    <img src={imgReact} alt="imgReact" />
-                    <div className="text">React</div>
-                </div>
-                <div className="statusBox dummy">
-                    <img src={imgReact} alt="imgReact" />
-                    <div className="text">React</div>
-                </div>{" "}
-                <div className="statusBox dummy">
-                    <img src={imgReact} alt="imgReact" />
-                    <div className="text">React</div>
-                </div>{" "}
-                <div className="statusBox dummy">
-                    <img src={imgReact} alt="imgReact" />
-                    <div className="text">React</div>
-                </div>{" "}
-                <div className="statusBox dummy">
-                    <img src={imgReact} alt="imgReact" />
-                    <div className="text">React</div>
-                </div>{" "}
-                <div className="statusBox dummy">
-                    <img src={imgReact} alt="imgReact" />
-                    <div className="text">React</div>
-                </div>{" "}
-                <div className="statusBox dummy">
-                    <img src={imgReact} alt="imgReact" />
-                    <div className="text">React</div>
-                </div>{" "}
-                <div className="statusBox dummy">
-                    <img src={imgReact} alt="imgReact" />
-                    <div className="text">React</div>
-                </div>{" "}
-                <div className="statusBox dummy">
-                    <img src={imgReact} alt="imgReact" />
-                    <div className="text">React</div>
-                </div>{" "}
-                <div className="statusBox dummy">
-                    <img src={imgReact} alt="imgReact" />
-                    <div className="text">React</div>
-                </div>{" "}
-                <div className="statusBox dummy">
-                    <img src={imgReact} alt="imgReact" />
-                    <div className="text">React</div>
-                </div>{" "}
-                <div className="statusBox dummy">
-                    <img src={imgReact} alt="imgReact" />
-                    <div className="text">React</div>
-                </div>{" "}
-                <div className="statusBox dummy">
-                    <img src={imgReact} alt="imgReact" />
-                    <div className="text">React</div>
-                </div>{" "}
-                <div className="statusBox dummy">
-                    <img src={imgReact} alt="imgReact" />
-                    <div className="text">React</div>
-                </div>{" "}
-                <div className="statusBox dummy">
-                    <img src={imgReact} alt="imgReact" />
-                    <div className="text">React</div>
-                </div>{" "}
-                <div className="statusBox dummy">
-                    <img src={imgReact} alt="imgReact" />
-                    <div className="text">React</div>
-                </div>{" "}
-                <div className="statusBox dummy">
-                    <img src={imgReact} alt="imgReact" />
-                    <div className="text">React</div>
-                </div>{" "}
-                <div className="statusBox dummy">
-                    <img src={imgReact} alt="imgReact" />
-                    <div className="text">React</div>
-                </div>{" "}
-                <div className="statusBox dummy">
-                    <img src={imgReact} alt="imgReact" />
-                    <div className="text">React</div>
-                </div>{" "}
-                <div className="statusBox dummy">
-                    <img src={imgReact} alt="imgReact" />
-                    <div className="text">React</div>
-                </div>
+                {projectDatas.map((item, idx) => {
+                    let showTitle = false;
+                    if (idx === 0) showTitle = true;
+                    else {
+                        if (
+                            item.department !== projectDatas[idx - 1].department
+                        ) {
+                            showTitle = true;
+                        }
+                    }
+                    return (
+                        <React.Fragment key={idx}>
+                            {showTitle && (
+                                <CenterAreaBox
+                                    showImg={false}
+                                    img={null}
+                                    name={item.department}
+                                />
+                            )}
+                            <CenterAreaBox img={item.img} name={item.name} />
+                        </React.Fragment>
+                    );
+                })}
             </div>
 
             {/* 기술 스택 */}
@@ -150,49 +88,29 @@ const StatusBar = ({
                 }
             >
                 <div className="rightArea_title">
-                    <p>기술 스택</p>
+                    <p>주로 사용하는 기술 스택</p>
                 </div>
                 <div className="rightArea_boxArea">
-                    <div className="statusBox rightArea_box">
-                        <img src={imgReact} alt="imgReact" />
-                        <div className="text">React</div>
-                    </div>
-                    <div className="statusBox rightArea_box">
-                        <img src={imgReact} alt="imgReact" />
-                        <div className="text">React</div>
-                    </div>
-                    <div className="statusBox rightArea_box">
-                        <img src={imgReact} alt="imgReact" />
-                        <div className="text">React</div>
-                    </div>
-                    <div className="statusBox rightArea_box">
-                        <img src={imgReact} alt="imgReact" />
-                        <div className="text">React</div>
-                    </div>
-                    <div className="statusBox rightArea_box">
-                        <img src={imgReact} alt="imgReact" />
-                        <div className="text">React</div>
-                    </div>
-                    <div className="statusBox rightArea_box">
-                        <img src={imgReact} alt="imgReact" />
-                        <div className="text">React</div>
-                    </div>
-                    <div className="statusBox rightArea_box">
-                        <img src={imgReact} alt="imgReact" />
-                        <div className="text">React</div>
-                    </div>
-                    <div className="statusBox rightArea_box">
-                        <img src={imgReact} alt="imgReact" />
-                        <div className="text">React</div>
-                    </div>
-                    <div className="statusBox rightArea_box">
-                        <img src={imgReact} alt="imgReact" />
-                        <div className="text">React</div>
-                    </div>
-                    <div className="statusBox rightArea_box">
-                        <img src={imgReact} alt="imgReact" />
-                        <div className="text">React</div>
-                    </div>
+                    {techStack.map((item, idx) => (
+                        <RightAreaBox
+                            key={idx}
+                            img={item.img}
+                            name={item.name}
+                        />
+                    ))}
+                </div>
+
+                <div className="rightArea_title">
+                    <p>사용해본적은 있는 기술</p>
+                </div>
+                <div className="rightArea_boxArea">
+                    {techStack_sub.map((item, idx) => (
+                        <RightAreaBox
+                            key={idx}
+                            img={item.img}
+                            name={item.name}
+                        />
+                    ))}
                 </div>
             </div>
         </StatusBarBlock>
@@ -208,7 +126,7 @@ to {
     scale: 1 1.0;
 }
 `;
-// 내부 공간 크기는 최대 화면 크기 기준 기본 시작 메뉴바와 완전 동일한 px(모바일 고려 X, 2px 차이 존재)
+
 const StatusBarBlock = styled.div`
     p {
         margin: 0;
@@ -221,7 +139,7 @@ const StatusBarBlock = styled.div`
     pointer-events: ${(props) => (props.active ? "auto" : "none")};
     z-index: ${(props) => (props.active ? "999" : "0")};
     width: 650px;
-    height: 650px;
+    height: 500px;
     box-shadow: 0px -3px 20px 3px #00000061;
 
     transition: 0.4s;
@@ -230,6 +148,9 @@ const StatusBarBlock = styled.div`
 
     display: flex;
     gap: 10px;
+
+    padding-top: 5px;
+    box-sizing: border-box;
 
     .statusBarBoxArea {
         height: 100%;
@@ -276,19 +197,29 @@ const StatusBarBlock = styled.div`
     }
 
     .rightArea {
-        // background-color: pink;
         width: 330px;
 
-        display: flex;
-        flex-direction: column;
+        overflow-y: scroll;
+
+        // display: flex;
+        // flex-direction: column;
     }
 
     .rightArea_title {
-        flex-basis: 5%;
+        // flex-basis: 5%;
+        height: 10px;
+
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        color: #e8e8e8;
+        cursor: pointer;
+        margin: 10px 0;
+        padding-left: 5px;
     }
 
     .rightArea_boxArea {
-        flex-basis: 95%;
+        // flex-basis: 95%;
 
         display: flex;
         flex-wrap: wrap;
@@ -296,41 +227,7 @@ const StatusBarBlock = styled.div`
         gap: 5px;
 
         padding: 5px;
-    }
-
-    .rightArea_box {
-        flex-basis: 32%;
-        height: 100px;
-        background-color: #ffffff14;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: 2px solid #9b9b9b00;
-
-        box-sizing: border-box;
-        padding: 10px;
-
-        position: relative;
-    }
-
-    .rightArea_box:hover {
-        border: 2px solid #9b9b9b;
-    }
-
-    .rightArea_box img {
-        width: 50%;
-        height: 50%;
-    }
-
-    .rightArea_box .text {
-        position: absolute;
-        bottom: 5px;
-        left: 5px;
-        font-size: 14px;
-        font-weight: lighter;
-        color: #e8e8e8;
-        cursor: default;
+        margin-bottom: 30px;
     }
 
     .show_animation {
@@ -339,39 +236,15 @@ const StatusBarBlock = styled.div`
         animation-name: ${show_from_bottom};
     }
 
-    .dummy {
-        width: 100%;
-        height: 50px;
-
-        display: flex;
-        align-items: center;
-        gap: 5px;
-    }
-
-    .dummy img {
-        width: 30px;
-        height: 30px;
-    }
-    .dummy .text {
-        font-size: 14px;
-        font-weight: lighter;
-        color: #e8e8e8;
-        cursor: default;
-    }
-
     // 스크롤바
 
-    .centerArea:hover::-webkit-scrollbar {
+    .rightArea::-webkit-scrollbar,
+    .centerArea::-webkit-scrollbar {
         width: 2px;
     }
-    .centerArea::-webkit-scrollbar {
-        width: 0px;
-    }
+    .rightArea::-webkit-scrollbar-thumb,
     .centerArea::-webkit-scrollbar-thumb {
         background-color: #acacac;
-    }
-
-    .centerArea::-webkit-scrollbar-track {
     }
 `;
 export default React.memo(StatusBar);

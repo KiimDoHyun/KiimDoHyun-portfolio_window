@@ -10,7 +10,6 @@ import imgAraon from "../../asset/images/icons/araon_logo_noText.png";
 import imgKit from "../../asset/images/icons/logo_kit.jpg";
 import imgOne from "../../asset/images/icons/number_one.png";
 import imgUser from "../../asset/images/icons/user.png";
-import imgMenu from "../../asset/images/icons/hamburger_menu.png";
 const StatusBarContainer = () => {
     const active = useRecoilValue(rc_taskbar_statusBar_active);
 
