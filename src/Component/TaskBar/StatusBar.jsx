@@ -59,38 +59,86 @@ const StatusBar = ({
                         : "statusBarBoxArea centerArea"
                 }
             >
-                <div className="statusBox dummy" />
-                <div className="statusBox dummy" />
-                <div className="statusBox dummy" />
-                <div className="statusBox dummy" />
-                <div className="statusBox dummy" />
-                <div className="statusBox dummy" />
-                <div className="statusBox dummy" />
-                <div className="statusBox dummy" />
-                <div className="statusBox dummy" />
-                <div className="statusBox dummy" />
-                <div className="statusBox dummy" />
-                <div className="statusBox dummy" />
-                <div className="statusBox dummy" />
-                <div className="statusBox dummy" />
-                <div className="statusBox dummy" />
-                <div className="statusBox dummy" />
-                <div className="statusBox dummy" />
-                <div className="statusBox dummy" />
-                <div className="statusBox dummy" />
-                <div className="statusBox dummy" />
-                <div className="statusBox dummy" />
-                <div className="statusBox dummy" />
-                <div className="statusBox dummy" />
-                <div className="statusBox dummy" />
-                <div className="statusBox dummy" />
-                <div className="statusBox dummy" />
-                <div className="statusBox dummy" />
-                <div className="statusBox dummy" />
-                <div className="statusBox dummy" />
-                <div className="statusBox dummy" />
-                <div className="statusBox dummy" />
-                <div className="statusBox dummy" />
+                <div className="statusBox dummy">
+                    <img src={imgReact} alt="imgReact" />
+                    <div className="text">React</div>
+                </div>
+                <div className="statusBox dummy">
+                    <img src={imgReact} alt="imgReact" />
+                    <div className="text">React</div>
+                </div>{" "}
+                <div className="statusBox dummy">
+                    <img src={imgReact} alt="imgReact" />
+                    <div className="text">React</div>
+                </div>{" "}
+                <div className="statusBox dummy">
+                    <img src={imgReact} alt="imgReact" />
+                    <div className="text">React</div>
+                </div>{" "}
+                <div className="statusBox dummy">
+                    <img src={imgReact} alt="imgReact" />
+                    <div className="text">React</div>
+                </div>{" "}
+                <div className="statusBox dummy">
+                    <img src={imgReact} alt="imgReact" />
+                    <div className="text">React</div>
+                </div>{" "}
+                <div className="statusBox dummy">
+                    <img src={imgReact} alt="imgReact" />
+                    <div className="text">React</div>
+                </div>{" "}
+                <div className="statusBox dummy">
+                    <img src={imgReact} alt="imgReact" />
+                    <div className="text">React</div>
+                </div>{" "}
+                <div className="statusBox dummy">
+                    <img src={imgReact} alt="imgReact" />
+                    <div className="text">React</div>
+                </div>{" "}
+                <div className="statusBox dummy">
+                    <img src={imgReact} alt="imgReact" />
+                    <div className="text">React</div>
+                </div>{" "}
+                <div className="statusBox dummy">
+                    <img src={imgReact} alt="imgReact" />
+                    <div className="text">React</div>
+                </div>{" "}
+                <div className="statusBox dummy">
+                    <img src={imgReact} alt="imgReact" />
+                    <div className="text">React</div>
+                </div>{" "}
+                <div className="statusBox dummy">
+                    <img src={imgReact} alt="imgReact" />
+                    <div className="text">React</div>
+                </div>{" "}
+                <div className="statusBox dummy">
+                    <img src={imgReact} alt="imgReact" />
+                    <div className="text">React</div>
+                </div>{" "}
+                <div className="statusBox dummy">
+                    <img src={imgReact} alt="imgReact" />
+                    <div className="text">React</div>
+                </div>{" "}
+                <div className="statusBox dummy">
+                    <img src={imgReact} alt="imgReact" />
+                    <div className="text">React</div>
+                </div>{" "}
+                <div className="statusBox dummy">
+                    <img src={imgReact} alt="imgReact" />
+                    <div className="text">React</div>
+                </div>{" "}
+                <div className="statusBox dummy">
+                    <img src={imgReact} alt="imgReact" />
+                    <div className="text">React</div>
+                </div>{" "}
+                <div className="statusBox dummy">
+                    <img src={imgReact} alt="imgReact" />
+                    <div className="text">React</div>
+                </div>{" "}
+                <div className="statusBox dummy">
+                    <img src={imgReact} alt="imgReact" />
+                    <div className="text">React</div>
+                </div>
             </div>
 
             {/* 기술 스택 */}
@@ -105,13 +153,46 @@ const StatusBar = ({
                     <p>기술 스택</p>
                 </div>
                 <div className="rightArea_boxArea">
-                    <div className="statusBox rightArea_box"></div>
-                    <div className="statusBox rightArea_box"></div>
-                    <div className="statusBox rightArea_box"></div>
-                    <div className="statusBox rightArea_box"></div>
-                    <div className="statusBox rightArea_box"></div>
-                    <div className="statusBox rightArea_box"></div>
-                    <div className="statusBox rightArea_box"></div>
+                    <div className="statusBox rightArea_box">
+                        <img src={imgReact} alt="imgReact" />
+                        <div className="text">React</div>
+                    </div>
+                    <div className="statusBox rightArea_box">
+                        <img src={imgReact} alt="imgReact" />
+                        <div className="text">React</div>
+                    </div>
+                    <div className="statusBox rightArea_box">
+                        <img src={imgReact} alt="imgReact" />
+                        <div className="text">React</div>
+                    </div>
+                    <div className="statusBox rightArea_box">
+                        <img src={imgReact} alt="imgReact" />
+                        <div className="text">React</div>
+                    </div>
+                    <div className="statusBox rightArea_box">
+                        <img src={imgReact} alt="imgReact" />
+                        <div className="text">React</div>
+                    </div>
+                    <div className="statusBox rightArea_box">
+                        <img src={imgReact} alt="imgReact" />
+                        <div className="text">React</div>
+                    </div>
+                    <div className="statusBox rightArea_box">
+                        <img src={imgReact} alt="imgReact" />
+                        <div className="text">React</div>
+                    </div>
+                    <div className="statusBox rightArea_box">
+                        <img src={imgReact} alt="imgReact" />
+                        <div className="text">React</div>
+                    </div>
+                    <div className="statusBox rightArea_box">
+                        <img src={imgReact} alt="imgReact" />
+                        <div className="text">React</div>
+                    </div>
+                    <div className="statusBox rightArea_box">
+                        <img src={imgReact} alt="imgReact" />
+                        <div className="text">React</div>
+                    </div>
                 </div>
             </div>
         </StatusBarBlock>
@@ -213,16 +294,43 @@ const StatusBarBlock = styled.div`
         flex-wrap: wrap;
         align-content: flex-start;
         gap: 5px;
+
+        padding: 5px;
     }
 
     .rightArea_box {
         flex-basis: 32%;
         height: 100px;
         background-color: #ffffff14;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid #9b9b9b00;
+
+        box-sizing: border-box;
+        padding: 10px;
+
+        position: relative;
     }
 
     .rightArea_box:hover {
         border: 2px solid #9b9b9b;
+    }
+
+    .rightArea_box img {
+        width: 50%;
+        height: 50%;
+    }
+
+    .rightArea_box .text {
+        position: absolute;
+        bottom: 5px;
+        left: 5px;
+        font-size: 14px;
+        font-weight: lighter;
+        color: #e8e8e8;
+        cursor: default;
     }
 
     .show_animation {
@@ -234,6 +342,21 @@ const StatusBarBlock = styled.div`
     .dummy {
         width: 100%;
         height: 50px;
+
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .dummy img {
+        width: 30px;
+        height: 30px;
+    }
+    .dummy .text {
+        font-size: 14px;
+        font-weight: lighter;
+        color: #e8e8e8;
+        cursor: default;
     }
 
     // 스크롤바
