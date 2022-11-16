@@ -151,20 +151,127 @@ const FolderContainer = ({ item }) => {
             }
 
             if (isResizable) {
+                /*
+                    posX 에 이전과 커서 위치 차이값이 들어있다.
+
+                    마우스가 움직이면서 이전 좌표값을 갱신한다
+
+                    차이값 만큼 width, height 값을 계산한다
+
+                    만약 최소값보다 큰 경우만 값을 갱신한다
+
+                    만약 최소값 이하로 내려가려한다면?
+
+                    커서값은 계속 갱신된다. (현재 위치좌표로)
+
+                    커서가 오른쪽으로 움직이는 순간
+
+                    좌표 값 차이만큼 width 값이 변한다
+                    이때 커서는 한참 왼쪽에있다.
+
+                    커서가 다시 원래 위치로 오고 나서 값 계산에 따른 너비를 갱신해야한다.
+
+                    원래위치는 최소 값에 도달한 위치를 말한다.
+                    
+                */
+
+                // 커서의 이전 위치를 기반으로 어느 방향으로 움직일지 체크
+                boxRef.current.style.transition = "0s";
                 const posX = prevPos.current.X - e.clientX;
                 const posY = prevPos.current.Y - e.clientY;
 
-                // 현재 좌표가 이전 좌표로 바뀜
-                prevPos.current = {
-                    X: e.clientX,
-                    Y: e.clientY,
-                };
-                boxRef.current.style.transition = "0s";
+                // 크기 값 갱신
+                const newWidth = boxRef.current.offsetWidth - posX;
+                const newHeight = boxRef.current.offsetHeight - posY;
 
-                boxRef.current.style.width =
-                    boxRef.current.offsetWidth - posX + "px";
-                boxRef.current.style.height =
-                    boxRef.current.offsetHeight - posY + "px";
+                if (posX > 0) {
+                    console.log("왼쪽");
+                    if (newWidth < 300) {
+                        console.log("너비가 최소 크기보다 작습니다.");
+                    } else {
+                        localStorage.setItem(
+                            `${key}width`,
+                            `${boxRef.current.offsetWidth - posX}px`
+                        );
+
+                        boxRef.current.style.width =
+                            boxRef.current.offsetWidth - posX + "px";
+                        // 마우스 위치..
+
+                        // 현재 좌표가 이전 좌표로 바뀜
+                        prevPos.current.X = e.clientX;
+                        //
+                    }
+                } else {
+                    if (prevPos.current.X <= e.clientX) {
+                        console.log("prevPos.current.X: ", prevPos.current.X);
+                        console.log("e.clientX: ", e.clientX);
+                        localStorage.setItem(
+                            `${key}width`,
+                            `${boxRef.current.offsetWidth - posX}px`
+                        );
+
+                        boxRef.current.style.width =
+                            boxRef.current.offsetWidth - posX + "px";
+                        // 마우스 위치..
+
+                        // 현재 좌표가 이전 좌표로 바뀜
+                        prevPos.current.X = e.clientX;
+                    }
+                }
+
+                // if (posY > 0) {
+                //     if (newHeight > 60) {
+                //         localStorage.setItem(
+                //             `${key}height`,
+                //             `${boxRef.current.offsetHeight - posY}px`
+                //         );
+
+                //         boxRef.current.style.height =
+                //             boxRef.current.offsetHeight - posY + "px";
+
+                //         // 현재 좌표가 이전 좌표로 바뀜
+                //         prevPos.current = e.clientY;
+                //     }
+                //     console.log("위쪽");
+                // } else {
+                //     console.log("아래쪽");
+                // }
+
+                // console.log(" e.clientX: ", e.clientX);
+
+                // if (newWidth > 300) {
+                //     localStorage.setItem(
+                //         `${key}width`,
+                //         `${boxRef.current.offsetWidth - posX}px`
+                //     );
+
+                //     boxRef.current.style.width =
+                //         boxRef.current.offsetWidth - posX + "px";
+                //     // 마우스 위치..
+
+                //     // 현재 좌표가 이전 좌표로 바뀜
+                //     prevPos.current = {
+                //         X: e.clientX,
+                //         Y: e.clientY,
+                //     };
+                // }
+
+                // if (newHeight > 60) {
+                //     localStorage.setItem(
+                //         `${key}height`,
+                //         `${boxRef.current.offsetHeight - posY}px`
+                //     );
+
+                //     boxRef.current.style.height =
+                //         boxRef.current.offsetHeight - posY + "px";
+
+                //     // 현재 좌표가 이전 좌표로 바뀜
+                //     prevPos.current = {
+                //         X: e.clientX,
+                //         Y: e.clientY,
+                //     };
+                // }
             }
         },
         [isMovable, isResizable]
@@ -186,6 +293,9 @@ const FolderContainer = ({ item }) => {
     // 이동 활성화
     useEffect(() => {
         document.addEventListener("mousemove", onMouseMove);
+
+        // 마우스 클릭이 종료되는 경우 모든 이벤트 종료 처리 필요
+        document.addEventListener("mouseup", () => setIsResizable(false));
 
         return () => {
             document.removeEventListener("mousemove", onMouseMove);
@@ -250,7 +360,7 @@ const FolderContainer = ({ item }) => {
     }, [status]);
 
     const onMouseDown_Resize = useCallback((e) => {
-        //
+        console.log("posX: ", e.clientX);
         setIsResizable(true);
         prevPos.current = {
             X: e.clientX,

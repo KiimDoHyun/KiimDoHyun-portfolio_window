@@ -68,31 +68,6 @@ const FolderComponent = ({
                             <div className="folder" />
                             <div className="folder" />
                             <div className="folder" />
-                            <div className="folder" />
-                            <div className="folder" />
-                            <div className="folder" />
-                            <div className="folder" />
-                            <div className="folder" />
-                            <div className="folder" />
-                            <div className="folder" />
-                            <div className="folder" />
-                            <div className="folder" />
-                            <div className="folder" />
-                            <div className="folder" />
-                            <div className="folder" />
-                            <div className="folder" />
-                            <div className="folder" />
-                            <div className="folder" />
-                            <div className="folder" />
-                            <div className="folder" />
-                            <div className="folder" />
-                            <div className="folder" />
-                            <div className="folder" />
-                            <div className="folder" />
-                            <div className="folder" />
-                            <div className="folder" />
-                            <div className="folder" />
-                            <div className="folder" />
                         </div>
                     </div>
                     <div className="bottomArea"></div>
@@ -251,9 +226,6 @@ const FolderComponentBlock = styled.div`
 
     animation: ${open} 0.25s 0s;
 
-    ${(props) => props.isClose && ` opacity: 0; transform: scale(0.9)`}
-
-    // Test
     .contentsArea_Cover {
         width: 100%;
         height: 100%;
@@ -281,5 +253,11 @@ const FolderComponentBlock = styled.div`
         height: 80px;
         border: 1px solid;
     }
+
+    ${(props) => props.isClose && ` opacity: 0; transform: scale(0.9)`}
 `;
 export default FolderComponent;
+
+/*
+
+*/
