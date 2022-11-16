@@ -17,6 +17,7 @@ const FolderContainer = ({ item }) => {
         rc_program_activeProgram
     );
     const [isMovable, setIsMovable] = useState(false);
+    const [isResizable, setIsResizable] = useState(false);
     const [isClose, setIsClose] = useState(false);
     const [isMaxSize, setIsMaxSize] = useState(false);
 
@@ -115,36 +116,58 @@ const FolderContainer = ({ item }) => {
     // 이동
     const onMouseMove = useCallback(
         (e) => {
-            if (!isMovable) return;
-
             // if (e.clientY <= 0) {
             //     console.log("exit");
             //     return;
             // }
             // 이전 좌표와 현재 좌표 차이값
-            const posX = prevPos.current.X - e.clientX;
-            const posY = prevPos.current.Y - e.clientY;
+            if (isMovable) {
+                const posX = prevPos.current.X - e.clientX;
+                const posY = prevPos.current.Y - e.clientY;
 
-            // 현재 좌표가 이전 좌표로 바뀜
-            prevPos.current = {
-                X: e.clientX,
-                Y: e.clientY,
-            };
+                // 현재 좌표가 이전 좌표로 바뀜
+                prevPos.current = {
+                    X: e.clientX,
+                    Y: e.clientY,
+                };
 
-            // left, top으로 이동
+                // left, top으로 이동
 
-            boxRef.current.style.transition = "0s";
+                boxRef.current.style.transition = "0s";
 
-            localStorage.setItem(
-                `${key}Left`,
-                boxRef.current.offsetLeft - posX
-            );
-            localStorage.setItem(`${key}Top`, boxRef.current.offsetTop - posY);
+                localStorage.setItem(
+                    `${key}Left`,
+                    boxRef.current.offsetLeft - posX
+                );
+                localStorage.setItem(
+                    `${key}Top`,
+                    boxRef.current.offsetTop - posY
+                );
 
-            boxRef.current.style.left = boxRef.current.offsetLeft - posX + "px";
-            boxRef.current.style.top = boxRef.current.offsetTop - posY + "px";
+                boxRef.current.style.left =
+                    boxRef.current.offsetLeft - posX + "px";
+                boxRef.current.style.top =
+                    boxRef.current.offsetTop - posY + "px";
+            }
+
+            if (isResizable) {
+                const posX = prevPos.current.X - e.clientX;
+                const posY = prevPos.current.Y - e.clientY;
+
+                // 현재 좌표가 이전 좌표로 바뀜
+                prevPos.current = {
+                    X: e.clientX,
+                    Y: e.clientY,
+                };
+                boxRef.current.style.transition = "0s";
+
+                boxRef.current.style.width =
+                    boxRef.current.offsetWidth - posX + "px";
+                boxRef.current.style.height =
+                    boxRef.current.offsetHeight - posY + "px";
+            }
         },
-        [isMovable]
+        [isMovable, isResizable]
     );
 
     // 이동 종료
@@ -226,6 +249,24 @@ const FolderContainer = ({ item }) => {
         }
     }, [status]);
 
+    const onMouseDown_Resize = useCallback((e) => {
+        //
+        setIsResizable(true);
+        prevPos.current = {
+            X: e.clientX,
+            Y: e.clientY,
+        };
+    }, []);
+
+    const onMouseMove_Resize = useCallback(() => {
+        //
+    }, []);
+
+    const onMouseUp_Resize = useCallback(() => {
+        //
+        setIsResizable(false);
+    }, []);
+
     // useEffect(() => {
 
     // }, [isMaxSize]);
@@ -247,7 +288,8 @@ const FolderContainer = ({ item }) => {
         onClickMin,
         onMouseDown,
         onMouseUp,
-
+        onMouseDown_Resize,
+        onMouseUp_Resize,
         boxRef,
         isClose,
         isMaxSize,

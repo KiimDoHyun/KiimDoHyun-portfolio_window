@@ -9,6 +9,8 @@ const FolderComponent = ({
     onClickMin,
     onMouseDown,
     onMouseUp,
+    onMouseDown_Resize,
+    onMouseUp_Resize,
 
     boxRef,
     isClose,
@@ -27,7 +29,7 @@ const FolderComponent = ({
                 onMouseDown={onMouseDown}
                 onMouseUp={onMouseUp}
             >
-                <div className="infoArea"></div>
+                <div className="infoArea">{title}</div>
                 <div className="buttonArea">
                     <div className="min" onClick={onClickMin}>
                         <div />
@@ -51,7 +53,6 @@ const FolderComponent = ({
                 <div></div>
                 <div></div>
             </div>
-            <div className="headerArea3"></div>
 
             {title === "구글" ? (
                 <iframe
@@ -61,13 +62,50 @@ const FolderComponent = ({
                 />
             ) : (
                 <>
-                    <div className="hi">{title}</div>
+                    {/* 내용 */}
+                    <div className="contentsArea_Cover">
+                        <div className="contentsArea">
+                            <div className="folder" />
+                            <div className="folder" />
+                            <div className="folder" />
+                            <div className="folder" />
+                            <div className="folder" />
+                            <div className="folder" />
+                            <div className="folder" />
+                            <div className="folder" />
+                            <div className="folder" />
+                            <div className="folder" />
+                            <div className="folder" />
+                            <div className="folder" />
+                            <div className="folder" />
+                            <div className="folder" />
+                            <div className="folder" />
+                            <div className="folder" />
+                            <div className="folder" />
+                            <div className="folder" />
+                            <div className="folder" />
+                            <div className="folder" />
+                            <div className="folder" />
+                            <div className="folder" />
+                            <div className="folder" />
+                            <div className="folder" />
+                            <div className="folder" />
+                            <div className="folder" />
+                            <div className="folder" />
+                            <div className="folder" />
+                        </div>
+                    </div>
                     <div className="bottomArea"></div>
 
                     <div className="modiSize top_left"></div>
                     <div className="modiSize top_right"></div>
+                    <div className="modiSize right"></div>
                     <div className="modiSize bottom_left"></div>
-                    <div className="modiSize bottom_right"></div>
+                    <div
+                        className="modiSize bottom_right"
+                        onMouseDown={onMouseDown_Resize}
+                        onMouseUp={onMouseUp_Resize}
+                    ></div>
                 </>
             )}
         </FolderComponentBlock>
@@ -98,7 +136,7 @@ const FolderComponentBlock = styled.div`
     z-index: ${(props) => props.zIndexCnt};
 
     display: grid;
-    grid-template-rows: 32px 25px 32px 1fr 20px;
+    grid-template-rows: 32px 25px 1fr 20px;
 
     .modiSize {
         position: absolute;
@@ -214,5 +252,34 @@ const FolderComponentBlock = styled.div`
     animation: ${open} 0.25s 0s;
 
     ${(props) => props.isClose && ` opacity: 0; transform: scale(0.9)`}
+
+    // Test
+    .contentsArea_Cover {
+        width: 100%;
+        height: 100%;
+        overflow: scroll;
+    }
+    .contentsArea {
+        width: 100%;
+        height: 100%;
+
+        padding: 10px;
+        box-sizing: border-box;
+
+        background-color: #d2d2d2;
+
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+
+        align-content: flex-start;
+    }
+
+    // 보통 아이콘
+    .folder {
+        width: 80px;
+        height: 80px;
+        border: 1px solid;
+    }
 `;
 export default FolderComponent;
