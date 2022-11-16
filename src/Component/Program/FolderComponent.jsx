@@ -1,5 +1,7 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
+import folderFull from "../../asset/images/icons/folder_full.png";
+import folderEmpty from "../../asset/images/icons/folder_empty.png";
 
 const FolderComponent = ({
     onClick,
@@ -15,7 +17,7 @@ const FolderComponent = ({
     boxRef,
     isClose,
     isMaxSize,
-    title,
+    item,
 }) => {
     return (
         <FolderComponentBlock
@@ -29,7 +31,10 @@ const FolderComponent = ({
                 onMouseDown={onMouseDown}
                 onMouseUp={onMouseUp}
             >
-                <div className="infoArea">{title}</div>
+                <div className="infoArea">
+                    <img src={item.icon} alt={item.key} />
+                    <div>{item.key}</div>
+                </div>
                 <div className="buttonArea">
                     <div className="min" onClick={onClickMin}>
                         <div />
@@ -54,7 +59,7 @@ const FolderComponent = ({
                 <div></div>
             </div>
 
-            {title === "구글" ? (
+            {item.key === "구글" ? (
                 <iframe
                     src={"https://www.google.com/webhp?igu=1"}
                     width={"100%"}
@@ -65,9 +70,120 @@ const FolderComponent = ({
                     {/* 내용 */}
                     <div className="contentsArea_Cover">
                         <div className="contentsArea">
-                            <div className="folder" />
-                            <div className="folder" />
-                            <div className="folder" />
+                            <div className="folder">
+                                <img src={folderEmpty} alt="folderEmpty" />
+                                <div className="name">
+                                    폴더 2asdfasdfasdfasdfasdfasdfasdfasdf번
+                                </div>
+                            </div>
+                            <div className="folder">
+                                <img src={folderEmpty} alt="folderEmpty" />
+                                <div className="name">
+                                    폴더 2asdfasdfasdfasdfasdfasdfasdfasdf번
+                                </div>
+                            </div>{" "}
+                            <div className="folder">
+                                <img src={folderEmpty} alt="folderEmpty" />
+                                <div className="name">
+                                    폴더 2asdfasdfasdfasdfasdfasdfasdfasdf번
+                                </div>
+                            </div>{" "}
+                            <div className="folder">
+                                <img src={folderEmpty} alt="folderEmpty" />
+                                <div className="name">
+                                    폴더 2asdfasdfasdfasdfasdfasdfasdfasdf번
+                                </div>
+                            </div>{" "}
+                            <div className="folder">
+                                <img src={folderEmpty} alt="folderEmpty" />
+                                <div className="name">
+                                    폴더 2asdfasdfasdfasdfasdfasdfasdfasdf번
+                                </div>
+                            </div>{" "}
+                            <div className="folder">
+                                <img src={folderEmpty} alt="folderEmpty" />
+                                <div className="name">
+                                    폴더 2asdfasdfasdfasdfasdfasdfasdfasdf번
+                                </div>
+                            </div>{" "}
+                            <div className="folder">
+                                <img src={folderEmpty} alt="folderEmpty" />
+                                <div className="name">
+                                    폴더 2asdfasdfasdfasdfasdfasdfasdfasdf번
+                                </div>
+                            </div>{" "}
+                            <div className="folder">
+                                <img src={folderEmpty} alt="folderEmpty" />
+                                <div className="name">
+                                    폴더 2asdfasdfasdfasdfasdfasdfasdfasdf번
+                                </div>
+                            </div>{" "}
+                            <div className="folder">
+                                <img src={folderEmpty} alt="folderEmpty" />
+                                <div className="name">
+                                    폴더 2asdfasdfasdfasdfasdfasdfasdfasdf번
+                                </div>
+                            </div>{" "}
+                            <div className="folder">
+                                <img src={folderEmpty} alt="folderEmpty" />
+                                <div className="name">
+                                    폴더 2asdfasdfasdfasdfasdfasdfasdfasdf번
+                                </div>
+                            </div>{" "}
+                            <div className="folder">
+                                <img src={folderEmpty} alt="folderEmpty" />
+                                <div className="name">
+                                    폴더 2asdfasdfasdfasdfasdfasdfasdfasdf번
+                                </div>
+                            </div>{" "}
+                            <div className="folder">
+                                <img src={folderEmpty} alt="folderEmpty" />
+                                <div className="name">
+                                    폴더 2asdfasdfasdfasdfasdfasdfasdfasdf번
+                                </div>
+                            </div>{" "}
+                            <div className="folder">
+                                <img src={folderEmpty} alt="folderEmpty" />
+                                <div className="name">
+                                    폴더 2asdfasdfasdfasdfasdfasdfasdfasdf번
+                                </div>
+                            </div>{" "}
+                            <div className="folder">
+                                <img src={folderEmpty} alt="folderEmpty" />
+                                <div className="name">
+                                    폴더 2asdfasdfasdfasdfasdfasdfasdfasdf번
+                                </div>
+                            </div>{" "}
+                            <div className="folder">
+                                <img src={folderEmpty} alt="folderEmpty" />
+                                <div className="name">
+                                    폴더 2asdfasdfasdfasdfasdfasdfasdfasdf번
+                                </div>
+                            </div>{" "}
+                            <div className="folder">
+                                <img src={folderEmpty} alt="folderEmpty" />
+                                <div className="name">
+                                    폴더 2asdfasdfasdfasdfasdfasdfasdfasdf번
+                                </div>
+                            </div>{" "}
+                            <div className="folder">
+                                <img src={folderEmpty} alt="folderEmpty" />
+                                <div className="name">
+                                    폴더 2asdfasdfasdfasdfasdfasdfasdfasdf번
+                                </div>
+                            </div>{" "}
+                            <div className="folder">
+                                <img src={folderEmpty} alt="folderEmpty" />
+                                <div className="name">
+                                    폴더 2asdfasdfasdfasdfasdfasdfasdfasdf번
+                                </div>
+                            </div>{" "}
+                            <div className="folder">
+                                <img src={folderEmpty} alt="folderEmpty" />
+                                <div className="name">
+                                    폴더 2asdfasdfasdfasdfasdfasdfasdfasdf번
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div className="bottomArea"></div>
@@ -144,6 +260,19 @@ const FolderComponentBlock = styled.div`
         bottom: 0;
         right: 0;
         cursor: nw-resize;
+    }
+
+    .infoArea {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        height: 100%;
+        margin-left: 10px;
+    }
+
+    .infoArea img {
+        width: 20px;
+        height: 20px;
     }
 
     .headerArea {
@@ -238,10 +367,8 @@ const FolderComponentBlock = styled.div`
         padding: 10px;
         box-sizing: border-box;
 
-        background-color: #d2d2d2;
-
         display: flex;
-        gap: 10px;
+        gap: 20px;
         flex-wrap: wrap;
 
         align-content: flex-start;
@@ -250,8 +377,22 @@ const FolderComponentBlock = styled.div`
     // 보통 아이콘
     .folder {
         width: 80px;
+        height: auto;
+
+        padding: 5px 10px;
+    }
+    .folder:hover {
+        background-color: #dee7f1b5;
+    }
+    .folder img {
+        width: 80px;
         height: 80px;
-        border: 1px solid;
+    }
+
+    .folder .name {
+        word-break: break-all;
+        font-size: 12px;
+        cursor: default;
     }
 
     ${(props) => props.isClose && ` opacity: 0; transform: scale(0.9)`}

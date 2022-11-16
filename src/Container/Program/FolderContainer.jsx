@@ -172,6 +172,8 @@ const FolderContainer = ({ item }) => {
                     커서가 다시 원래 위치로 오고 나서 값 계산에 따른 너비를 갱신해야한다.
 
                     원래위치는 최소 값에 도달한 위치를 말한다.
+
+                    크기 조정함수 공통화 필요
                     
                 */
 
@@ -184,7 +186,43 @@ const FolderContainer = ({ item }) => {
                 const newWidth = boxRef.current.offsetWidth - posX;
                 const newHeight = boxRef.current.offsetHeight - posY;
 
-                if (posX > 0) {
+                // ====================
+                // 상
+                if (posX === 0 && posY > 0) {
+                    console.log("위쪽");
+                    if (newHeight < 60) {
+                        console.log("최소 높이 보다 낮습니다.");
+                    } else {
+                        localStorage.setItem(
+                            `${key}height`,
+                            `${boxRef.current.offsetHeight - posY}px`
+                        );
+
+                        boxRef.current.style.height =
+                            boxRef.current.offsetHeight - posY + "px";
+
+                        // 현재 좌표가 이전 좌표로 바뀜
+                        prevPos.current.Y = e.clientY;
+                    }
+                }
+                // 하
+                else if (posX === 0 && posY < 0) {
+                    if (prevPos.current.Y <= e.clientY) {
+                        console.log("아래쪽");
+                        localStorage.setItem(
+                            `${key}height`,
+                            `${boxRef.current.offsetHeight - posY}px`
+                        );
+
+                        boxRef.current.style.height =
+                            boxRef.current.offsetHeight - posY + "px";
+
+                        // 현재 좌표가 이전 좌표로 바뀜
+                        prevPos.current.Y = e.clientY;
+                    }
+                }
+                // 좌
+                else if (posX > 0 && posY === 0) {
                     console.log("왼쪽");
                     if (newWidth < 300) {
                         console.log("너비가 최소 크기보다 작습니다.");
@@ -196,13 +234,66 @@ const FolderContainer = ({ item }) => {
 
                         boxRef.current.style.width =
                             boxRef.current.offsetWidth - posX + "px";
-                        // 마우스 위치..
 
                         // 현재 좌표가 이전 좌표로 바뀜
                         prevPos.current.X = e.clientX;
                         //
                     }
-                } else {
+                }
+                // 우
+                else if (posX < 0 && posY === 0) {
+                    console.log("오른쪽");
+                    if (prevPos.current.X <= e.clientX) {
+                        localStorage.setItem(
+                            `${key}width`,
+                            `${boxRef.current.offsetWidth - posX}px`
+                        );
+
+                        boxRef.current.style.width =
+                            boxRef.current.offsetWidth - posX + "px";
+                        // 마우스 위치..
+
+                        // 현재 좌표가 이전 좌표로 바뀜
+                        prevPos.current.X = e.clientX;
+                    }
+                }
+                // 왼쪽 위
+                else if (posX > 0 && posY > 0) {
+                    console.log("왼쪽 위");
+                    if (newWidth < 300) {
+                        console.log("너비가 최소 크기보다 작습니다.");
+                    } else {
+                        localStorage.setItem(
+                            `${key}width`,
+                            `${boxRef.current.offsetWidth - posX}px`
+                        );
+
+                        boxRef.current.style.width =
+                            boxRef.current.offsetWidth - posX + "px";
+
+                        // 현재 좌표가 이전 좌표로 바뀜
+                        prevPos.current.X = e.clientX;
+                        //
+                    }
+
+                    if (newHeight < 60) {
+                        console.log("최소 높이 보다 낮습니다.");
+                    } else {
+                        localStorage.setItem(
+                            `${key}height`,
+                            `${boxRef.current.offsetHeight - posY}px`
+                        );
+
+                        boxRef.current.style.height =
+                            boxRef.current.offsetHeight - posY + "px";
+
+                        // 현재 좌표가 이전 좌표로 바뀜
+                        prevPos.current.Y = e.clientY;
+                    }
+                }
+                // 오른쪽 위
+                else if (posX < 0 && posY > 0) {
+                    console.log("오른쪽 위");
                     if (prevPos.current.X <= e.clientX) {
                         console.log("prevPos.current.X: ", prevPos.current.X);
                         console.log("e.clientX: ", e.clientX);
@@ -218,60 +309,86 @@ const FolderContainer = ({ item }) => {
                         // 현재 좌표가 이전 좌표로 바뀜
                         prevPos.current.X = e.clientX;
                     }
+
+                    if (newHeight < 60) {
+                        console.log("최소 높이 보다 낮습니다.");
+                    } else {
+                        localStorage.setItem(
+                            `${key}height`,
+                            `${boxRef.current.offsetHeight - posY}px`
+                        );
+
+                        boxRef.current.style.height =
+                            boxRef.current.offsetHeight - posY + "px";
+
+                        // 현재 좌표가 이전 좌표로 바뀜
+                        prevPos.current.Y = e.clientY;
+                    }
                 }
+                // 왼쪽 아래
+                else if (posX > 0 && posY < 0) {
+                    console.log("왼쪽 아래");
+                    if (newWidth < 300) {
+                        console.log("너비가 최소 크기보다 작습니다.");
+                    } else {
+                        localStorage.setItem(
+                            `${key}width`,
+                            `${boxRef.current.offsetWidth - posX}px`
+                        );
 
-                // if (posY > 0) {
-                //     if (newHeight > 60) {
-                //         localStorage.setItem(
-                //             `${key}height`,
-                //             `${boxRef.current.offsetHeight - posY}px`
-                //         );
+                        boxRef.current.style.width =
+                            boxRef.current.offsetWidth - posX + "px";
 
-                //         boxRef.current.style.height =
-                //             boxRef.current.offsetHeight - posY + "px";
+                        // 현재 좌표가 이전 좌표로 바뀜
+                        prevPos.current.X = e.clientX;
+                        //
+                    }
 
-                //         // 현재 좌표가 이전 좌표로 바뀜
-                //         prevPos.current = e.clientY;
-                //     }
-                //     console.log("위쪽");
-                // } else {
-                //     console.log("아래쪽");
-                // }
+                    if (prevPos.current.Y <= e.clientY) {
+                        localStorage.setItem(
+                            `${key}height`,
+                            `${boxRef.current.offsetHeight - posY}px`
+                        );
 
-                // console.log(" e.clientX: ", e.clientX);
+                        boxRef.current.style.height =
+                            boxRef.current.offsetHeight - posY + "px";
 
-                // if (newWidth > 300) {
-                //     localStorage.setItem(
-                //         `${key}width`,
-                //         `${boxRef.current.offsetWidth - posX}px`
-                //     );
+                        // 현재 좌표가 이전 좌표로 바뀜
+                        prevPos.current.Y = e.clientY;
+                    }
+                }
+                // 오른쪽 아래
+                else if (posX < 0 && posY < 0) {
+                    console.log("오른쪽 아래");
+                    if (prevPos.current.X <= e.clientX) {
+                        console.log("prevPos.current.X: ", prevPos.current.X);
+                        console.log("e.clientX: ", e.clientX);
+                        localStorage.setItem(
+                            `${key}width`,
+                            `${boxRef.current.offsetWidth - posX}px`
+                        );
 
-                //     boxRef.current.style.width =
-                //         boxRef.current.offsetWidth - posX + "px";
-                //     // 마우스 위치..
+                        boxRef.current.style.width =
+                            boxRef.current.offsetWidth - posX + "px";
+                        // 마우스 위치..
 
-                //     // 현재 좌표가 이전 좌표로 바뀜
-                //     prevPos.current = {
-                //         X: e.clientX,
-                //         Y: e.clientY,
-                //     };
-                // }
+                        // 현재 좌표가 이전 좌표로 바뀜
+                        prevPos.current.X = e.clientX;
+                    }
 
-                // if (newHeight > 60) {
-                //     localStorage.setItem(
-                //         `${key}height`,
-                //         `${boxRef.current.offsetHeight - posY}px`
-                //     );
+                    if (prevPos.current.Y <= e.clientY) {
+                        localStorage.setItem(
+                            `${key}height`,
+                            `${boxRef.current.offsetHeight - posY}px`
+                        );
 
-                //     boxRef.current.style.height =
-                //         boxRef.current.offsetHeight - posY + "px";
+                        boxRef.current.style.height =
+                            boxRef.current.offsetHeight - posY + "px";
 
-                //     // 현재 좌표가 이전 좌표로 바뀜
-                //     prevPos.current = {
-                //         X: e.clientX,
-                //         Y: e.clientY,
-                //     };
-                // }
+                        // 현재 좌표가 이전 좌표로 바뀜
+                        prevPos.current.Y = e.clientY;
+                    }
+                }
             }
         },
         [isMovable, isResizable]
@@ -403,7 +520,7 @@ const FolderContainer = ({ item }) => {
         boxRef,
         isClose,
         isMaxSize,
-        title: key,
+        item,
     };
     return <FolderComponent {...propDatas} />;
 };
