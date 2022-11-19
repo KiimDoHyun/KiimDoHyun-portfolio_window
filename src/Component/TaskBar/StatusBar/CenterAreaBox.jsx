@@ -1,13 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 import defaultImg from "../../../asset/images/icons/project_default_1.png";
-import icon from "../../../asset/images/icons/projectList.png";
+import { window_programList } from "../../../Common/data";
 
 const CenterAreaBox = ({ img, name, showImg = true, onClick }) => {
     return (
         <CenterAreaBoxBlock
             className="statusBox"
-            onClick={() => onClick({ key: "프로젝트", icon: icon })}
+            onClick={() => onClick(window_programList[0])}
         >
             {showImg && <img src={img ? img : defaultImg} alt="name" />}
             <div className="text">{name}</div>

@@ -50,9 +50,10 @@ const useActiveProgram = () => {
                         ...programList,
                         {
                             Component,
-                            key: item.key,
                             status: "active",
-                            icon: item.icon,
+                            ...item,
+                            // key: item.key,
+                            // icon: item.icon,
                         },
                     ]);
                     setActiveProgram(item.key);

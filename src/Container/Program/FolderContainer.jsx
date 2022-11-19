@@ -21,6 +21,11 @@ const FolderContainer = ({ item }) => {
     const [isClose, setIsClose] = useState(false);
     const [isMaxSize, setIsMaxSize] = useState(false);
 
+    const [folderContents, setFolderContents] = useState(item.contents || []);
+    const [folderHistory, setFolderHistory] = useState([item.contents]);
+
+    const [selectedItem, setSelectedItem] = useState(""); // 클릭한 아이템
+
     const prevPos = useRef();
     const boxRef = useRef();
 
@@ -494,9 +499,39 @@ const FolderContainer = ({ item }) => {
         setIsResizable(false);
     }, []);
 
-    // useEffect(() => {
+    // 특정 아이템 클릭
+    const onClickItem = useCallback((name) => {
+        setSelectedItem(name);
+    }, []);
 
-    // }, [isMaxSize]);
+    // 특정 아이템 더블 클릭
+    const onDoubleClickItem = useCallback(
+        (item) => {
+            console.log("item: ", item);
+            if (item.type === "FOLDER") {
+                // 이동 기록에 없는 경우만 추가한다.
+                if (
+                    !folderHistory.some(
+                        (someItem) => someItem.name === item.name
+                    )
+                ) {
+                    setFolderHistory((prev) => [...prev, item.contents]);
+                }
+                setFolderContents(item.contents);
+            }
+        },
+        [folderHistory]
+    );
+
+    const onClickLeft = useCallback(() => {
+        setFolderContents(folderHistory[0]);
+        //
+    }, []);
+
+    const onClickRight = useCallback(() => {
+        // setFolderContents(folderHistory[folderHistory.length - 1]);
+        //
+    }, []);
 
     useEffect(() => {
         return () => {
@@ -517,10 +552,17 @@ const FolderContainer = ({ item }) => {
         onMouseUp,
         onMouseDown_Resize,
         onMouseUp_Resize,
+        onClickItem,
+        onDoubleClickItem,
+        onClickLeft,
+        onClickRight,
+
         boxRef,
         isClose,
         isMaxSize,
         item,
+        selectedItem,
+        folderContents,
     };
     return <FolderComponent {...propDatas} />;
 };

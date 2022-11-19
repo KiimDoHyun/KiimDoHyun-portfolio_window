@@ -70,7 +70,11 @@ const TaskBar = (props) => {
 
                     <div
                         className="arrowUpIcon taskHoverEffect"
-                        title={hiddenIcon ? "숨기기" : "숨겨진 아이콘 표시"}
+                        title={
+                            hiddenIcon
+                                ? "숨기기"
+                                : "포트폴리오 제작에 사용된 기술\n숨겨진 아이콘 표시"
+                        }
                         onClick={onClickHiddenIcon}
                     >
                         <SimpleArrowUp />

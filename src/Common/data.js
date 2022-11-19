@@ -24,7 +24,7 @@ export const projectDatas = [
     {
         name: "셈틀꾼 홈페이지 제작",
         desc: "학과 학술동아리(컴퓨터공학과 학술 동아리) 셈틀꾼의 홈페이지 제작",
-        img: null,
+        icon: null,
         projectStart: "2020.07",
         projectEnd: "2020.08",
         projectPeriod: "1개월",
@@ -37,7 +37,7 @@ export const projectDatas = [
     {
         name: "벼룩시장 프로젝트",
         desc: "교내 중고 책 거래(벼룩시장)의 온라인 플랫폼 제작 및 운영",
-        img: null,
+        icon: null,
         projectStart: "2021.02",
         projectEnd: "2021.09",
         projectPeriod: "7개월",
@@ -50,7 +50,7 @@ export const projectDatas = [
     {
         name: "구알맛 / 구알맛 오너즈",
         desc: "구미 맛집 활성화를 위한 프로젝트",
-        img: null,
+        icon: null,
         projectStart: "2021.09",
         projectEnd: "2021.12",
         projectPeriod: "4개월",
@@ -63,7 +63,7 @@ export const projectDatas = [
     {
         name: "LHWS (집클릭)",
         desc: "LH 공공기관 전세임대 지원 솔루션",
-        img: null,
+        icon: null,
         projectStart: "2021.12",
         projectEnd: "2022.03",
         projectPeriod: "4개월",
@@ -76,7 +76,7 @@ export const projectDatas = [
     {
         name: "Araon React Framework",
         desc: "React 베이스 + DevExpress 를 이용한 대시보드형 자체 웹 프레임워크 제작",
-        img: null,
+        icon: null,
         projectStart: "2022.05",
         projectEnd: "2022.07",
         projectPeriod: "3개월",
@@ -89,7 +89,7 @@ export const projectDatas = [
     {
         name: "SBL FEMS",
         desc: "삼성 바이오로직스의 공장 내부 데이터를 시각화 하기 위한 프로젝트",
-        img: null,
+        icon: null,
         projectStart: "2022.07",
         projectEnd: "2022.09",
         projectPeriod: "3개월",
@@ -102,7 +102,7 @@ export const projectDatas = [
     {
         name: "SNS 로그인 분석",
         desc: "SNS 로그인에 대한 프론트와 백엔드의 기술 확보를 위한 연구 개발업무. 프론트엔드, 백엔드 개발 후 관련 기술 교육",
-        img: null,
+        icon: null,
         projectStart: "2022.09",
         projectEnd: "2022.09",
         projectPeriod: "1주일",
@@ -122,7 +122,7 @@ export const projectDatas = [
     {
         name: "SBL EDM",
         desc: "삼성바이오로직스 업무 지원 시스템 구축을 위한 프로젝트",
-        img: null,
+        icon: null,
         projectStart: "2022.10",
         projectEnd: "진행중",
         projectPeriod: "진행중",
@@ -139,47 +139,47 @@ export const projectDatas = [
 ***************************************/
 export const techStack = [
     {
-        img: imgReact,
+        icon: imgReact,
         name: "React.js",
         type: "IMAGE",
     },
     {
-        img: imgJS,
+        icon: imgJS,
         name: "자바스크립트",
         type: "IMAGE",
     },
     {
-        img: imgRedux,
+        icon: imgRedux,
         name: "리덕스",
         type: "IMAGE",
     },
     {
-        img: imgRecoil,
+        icon: imgRecoil,
         name: "리코일",
         type: "IMAGE",
     },
     {
-        img: imgNode,
+        icon: imgNode,
         name: "노드js",
         type: "IMAGE",
     },
     {
-        img: imgHTML,
+        icon: imgHTML,
         name: "HTML",
         type: "IMAGE",
     },
     {
-        img: imgCSS,
+        icon: imgCSS,
         name: "CSS",
         type: "IMAGE",
     },
     {
-        img: imgStyledComponent,
+        icon: imgStyledComponent,
         name: "styled-component",
         type: "IMAGE",
     },
     {
-        img: imgGithub,
+        icon: imgGithub,
         name: "Github",
         type: "IMAGE",
     },
@@ -187,36 +187,48 @@ export const techStack = [
 
 export const techStack_sub = [
     {
-        img: imgVue,
+        icon: imgVue,
         name: "Vue.js",
         type: "IMAGE",
     },
     {
-        img: imgPython,
+        icon: imgPython,
         name: "파이썬",
         type: "IMAGE",
     },
     {
-        img: imgBootstrap,
+        icon: imgBootstrap,
         name: "부트스트랩",
         type: "IMAGE",
     },
     {
-        img: imgTailwind,
+        icon: imgTailwind,
         name: "tailwind-css",
         type: "IMAGE",
     },
 ];
+
+/*
+파일 유형
+1. 폴더
+2. 이미지
+3. 텍스트와 이미지가 같이있는 pdf 형식
+4. 내컴퓨터
+*/
 
 // 폴더
 export const techFolderList = [
     {
         name: "MAIN_TECH",
         type: "FOLDER",
+        folderCnt: techStack.length,
+        contents: techStack,
     },
     {
         name: "SUB_TECH",
         type: "FOLDER",
+        folderCnt: techStack_sub.length,
+        contents: techStack_sub,
     },
 ];
 
@@ -227,14 +239,32 @@ export const careerList = [
     {
         name: "금오공과대학교 셈틀꾼",
         type: "FOLDER",
+        folderCnt: projectDatas.filter(
+            (item) => item.department === "금오공과대학교 셈틀꾼"
+        ).length,
+        contents: projectDatas.filter(
+            (item) => item.department === "금오공과대학교 셈틀꾼"
+        ),
     },
     {
         name: "금오공과대학교 컴퓨터공학과 학생회",
         type: "FOLDER",
+        folderCnt: projectDatas.filter(
+            (item) => item.department === "금오공과대학교 컴퓨터공학과 학생회"
+        ).length,
+        contents: projectDatas.filter(
+            (item) => item.department === "금오공과대학교 셈틀꾼"
+        ),
     },
     {
         name: "(주) 아라온소프트",
         type: "FOLDER",
+        folderCnt: projectDatas.filter(
+            (item) => item.department === "(주) 아라온소프트"
+        ).length,
+        contents: projectDatas.filter(
+            (item) => item.department === "금오공과대학교 셈틀꾼"
+        ),
     },
 ];
 
@@ -247,12 +277,14 @@ export const window_programList = [
         icon: imgProjectList,
         name: "프로젝트",
         type: "FOLDER",
+        contents: careerList,
     },
     {
         key: "기술스택",
         icon: imgTechStack,
         name: "기술스택",
         type: "FOLDER",
+        contents: techFolderList,
     },
     {
         key: "구글",

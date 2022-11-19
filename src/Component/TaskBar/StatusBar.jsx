@@ -80,7 +80,7 @@ const StatusBar = ({
                                 />
                             )}
                             <CenterAreaBox
-                                img={item.img}
+                                img={item.icon}
                                 name={item.name}
                                 onClick={onClickBox}
                             />
@@ -104,7 +104,7 @@ const StatusBar = ({
                     {techStack.map((item, idx) => (
                         <RightAreaBox
                             key={idx}
-                            img={item.img}
+                            img={item.icon}
                             name={item.name}
                             onClick={onClickBox}
                         />
@@ -118,7 +118,7 @@ const StatusBar = ({
                     {techStack_sub.map((item, idx) => (
                         <RightAreaBox
                             key={idx}
-                            img={item.img}
+                            img={item.icon}
                             name={item.name}
                             onClick={onClickBox}
                         />

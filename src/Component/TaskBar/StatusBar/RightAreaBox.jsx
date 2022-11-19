@@ -1,12 +1,12 @@
 import React from "react";
 import styled from "styled-components";
-import icon from "../../../asset/images/icons/techStack.png";
+import { window_programList } from "../../../Common/data";
 
 const RightAreaBox = ({ img, name, onClick }) => {
     return (
         <RightAreaBoxBlock
             className="statusBox"
-            onClick={() => onClick({ key: "기술스택", icon: icon })}
+            onClick={() => onClick(window_programList[1])}
         >
             <img src={img} alt="name" />
             <div className="text">{name}</div>

@@ -2,6 +2,9 @@ import React from "react";
 import styled, { keyframes } from "styled-components";
 import folderFull from "../../asset/images/icons/folder_full.png";
 import folderEmpty from "../../asset/images/icons/folder_empty.png";
+import defaultImage from "../../asset/images/icons/image_default.png";
+import leftArrow from "../../asset/images/icons/left-arrow.png";
+import rightArrow from "../../asset/images/icons/right-arrow.png";
 import TechStackFolder from "../Folder/TechStackFolder";
 
 const FolderComponent = ({
@@ -14,11 +17,17 @@ const FolderComponent = ({
     onMouseUp,
     onMouseDown_Resize,
     onMouseUp_Resize,
+    onClickItem,
+    onDoubleClickItem,
+    onClickLeft,
+    onClickRight,
 
     boxRef,
     isClose,
     isMaxSize,
     item,
+    selectedItem,
+    folderContents,
 }) => {
     return (
         <FolderComponentBlock
@@ -58,7 +67,18 @@ const FolderComponent = ({
 
             {/* 폴더형인지, 인터넷형인지에 따라 생김새가 달라질 헤더 영역 */}
             <div className="headerArea2">
-                <div></div>
+                <div className="arrowBox">
+                    <img
+                        src={leftArrow}
+                        alt="leftArrow"
+                        onClick={onClickLeft}
+                    />
+                    <img
+                        src={rightArrow}
+                        alt="rightArrow"
+                        onClick={onClickRight}
+                    />
+                </div>
                 <div></div>
             </div>
 
@@ -71,14 +91,52 @@ const FolderComponent = ({
                         height={"100%"}
                     />
                 ) : (
-                    <>
-                        <TechStackFolder />
-                    </>
+                    <div className="contentsArea_folder">
+                        {folderContents ? (
+                            <>
+                                {folderContents.map((item, idx) => (
+                                    <div
+                                        className={
+                                            selectedItem === item.name
+                                                ? "folder folder_selected"
+                                                : "folder"
+                                        }
+                                        key={idx}
+                                        onClick={() => onClickItem(item.name)}
+                                        onDoubleClick={() =>
+                                            onDoubleClickItem(item)
+                                        }
+                                    >
+                                        {/*  폴더 */}
+                                        {item.type === "FOLDER" ? (
+                                            <img
+                                                src={
+                                                    item.folderCnt
+                                                        ? folderFull
+                                                        : folderEmpty
+                                                }
+                                                alt="folderEmpty"
+                                            />
+                                        ) : (
+                                            <img
+                                                src={item.icon || defaultImage}
+                                                alt={item.name}
+                                            />
+                                        )}
+
+                                        <div className="name">{item.name}</div>
+                                    </div>
+                                ))}
+                            </>
+                        ) : null}
+                    </div>
                 )}
             </div>
 
             {/* 폴더형 일때만 출력하도록. */}
-            <div className="bottomArea">2 개항목</div>
+            {item.type === "FOLDER" && (
+                <div className="bottomArea">{folderContents.length} 개항목</div>
+            )}
 
             <div className="modiSize top_left"></div>
             <div className="modiSize top_right"></div>
@@ -181,7 +239,7 @@ const FolderComponentBlock = styled.div`
     }
 
     .headerArea2 {
-        padding: 0 1px;
+        padding: 0 10px;
         border-bottom: 1px solid #e3e3e3;
 
         display: flex;
@@ -275,9 +333,16 @@ const FolderComponentBlock = styled.div`
         height: auto;
 
         padding: 5px 10px;
+
+        border: 1px solid #ffffff00;
+    }
+
+    .folder_selected {
+        background-color: #cce8ff !important;
+        border: 1px solid #99d1ff;
     }
     .folder:hover {
-        background-color: #dee7f1b5;
+        background-color: #e5f3ff;
     }
     .folder img {
         width: 80px;
@@ -296,6 +361,15 @@ const FolderComponentBlock = styled.div`
         justify-content: flex-start;
         font-size: 12px;
         padding: 0 10px;
+    }
+
+    .arrowBox {
+        display: flex;
+        gap: 10px;
+    }
+    .arrowBox img {
+        width: 15px;
+        height: 100%;
     }
 
     ${(props) => props.isClose && ` opacity: 0; transform: scale(0.9)`}
