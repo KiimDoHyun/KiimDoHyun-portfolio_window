@@ -3,14 +3,14 @@ import defaultImg from "../logo.svg";
 import styled from "styled-components";
 
 const IconBox = ({ item, onClick, onDoubleClick }) => {
-    const { name, img } = item;
+    const { name, icon } = item;
     return (
         <IconBoxBlock
             onClick={() => onClick(item)}
             onDoubleClick={() => onDoubleClick(item)}
         >
             <div className="iconImgBox">
-                <img src={img ? img : defaultImg} alt="iconImg" />
+                <img src={icon ? icon : defaultImg} alt="iconImg" />
             </div>
             <div className="name">{name ? name : "Icon"}</div>
         </IconBoxBlock>

@@ -2,6 +2,7 @@ import React from "react";
 import styled, { keyframes } from "styled-components";
 import folderFull from "../../asset/images/icons/folder_full.png";
 import folderEmpty from "../../asset/images/icons/folder_empty.png";
+import TechStackFolder from "../Folder/TechStackFolder";
 
 const FolderComponent = ({
     onClick,
@@ -54,151 +55,40 @@ const FolderComponent = ({
                     </div>
                 </div>
             </div>
+
+            {/* 폴더형인지, 인터넷형인지에 따라 생김새가 달라질 헤더 영역 */}
             <div className="headerArea2">
                 <div></div>
                 <div></div>
             </div>
 
-            {item.key === "구글" ? (
-                <iframe
-                    src={"https://www.google.com/webhp?igu=1"}
-                    width={"100%"}
-                    height={"100%"}
-                />
-            ) : (
-                <>
-                    {/* 내용 */}
-                    <div className="contentsArea_Cover">
-                        <div className="contentsArea">
-                            <div className="folder">
-                                <img src={folderEmpty} alt="folderEmpty" />
-                                <div className="name">
-                                    폴더 2asdfasdfasdfasdfasdfasdfasdfasdf번
-                                </div>
-                            </div>
-                            <div className="folder">
-                                <img src={folderEmpty} alt="folderEmpty" />
-                                <div className="name">
-                                    폴더 2asdfasdfasdfasdfasdfasdfasdfasdf번
-                                </div>
-                            </div>{" "}
-                            <div className="folder">
-                                <img src={folderEmpty} alt="folderEmpty" />
-                                <div className="name">
-                                    폴더 2asdfasdfasdfasdfasdfasdfasdfasdf번
-                                </div>
-                            </div>{" "}
-                            <div className="folder">
-                                <img src={folderEmpty} alt="folderEmpty" />
-                                <div className="name">
-                                    폴더 2asdfasdfasdfasdfasdfasdfasdfasdf번
-                                </div>
-                            </div>{" "}
-                            <div className="folder">
-                                <img src={folderEmpty} alt="folderEmpty" />
-                                <div className="name">
-                                    폴더 2asdfasdfasdfasdfasdfasdfasdfasdf번
-                                </div>
-                            </div>{" "}
-                            <div className="folder">
-                                <img src={folderEmpty} alt="folderEmpty" />
-                                <div className="name">
-                                    폴더 2asdfasdfasdfasdfasdfasdfasdfasdf번
-                                </div>
-                            </div>{" "}
-                            <div className="folder">
-                                <img src={folderEmpty} alt="folderEmpty" />
-                                <div className="name">
-                                    폴더 2asdfasdfasdfasdfasdfasdfasdfasdf번
-                                </div>
-                            </div>{" "}
-                            <div className="folder">
-                                <img src={folderEmpty} alt="folderEmpty" />
-                                <div className="name">
-                                    폴더 2asdfasdfasdfasdfasdfasdfasdfasdf번
-                                </div>
-                            </div>{" "}
-                            <div className="folder">
-                                <img src={folderEmpty} alt="folderEmpty" />
-                                <div className="name">
-                                    폴더 2asdfasdfasdfasdfasdfasdfasdfasdf번
-                                </div>
-                            </div>{" "}
-                            <div className="folder">
-                                <img src={folderEmpty} alt="folderEmpty" />
-                                <div className="name">
-                                    폴더 2asdfasdfasdfasdfasdfasdfasdfasdf번
-                                </div>
-                            </div>{" "}
-                            <div className="folder">
-                                <img src={folderEmpty} alt="folderEmpty" />
-                                <div className="name">
-                                    폴더 2asdfasdfasdfasdfasdfasdfasdfasdf번
-                                </div>
-                            </div>{" "}
-                            <div className="folder">
-                                <img src={folderEmpty} alt="folderEmpty" />
-                                <div className="name">
-                                    폴더 2asdfasdfasdfasdfasdfasdfasdfasdf번
-                                </div>
-                            </div>{" "}
-                            <div className="folder">
-                                <img src={folderEmpty} alt="folderEmpty" />
-                                <div className="name">
-                                    폴더 2asdfasdfasdfasdfasdfasdfasdfasdf번
-                                </div>
-                            </div>{" "}
-                            <div className="folder">
-                                <img src={folderEmpty} alt="folderEmpty" />
-                                <div className="name">
-                                    폴더 2asdfasdfasdfasdfasdfasdfasdfasdf번
-                                </div>
-                            </div>{" "}
-                            <div className="folder">
-                                <img src={folderEmpty} alt="folderEmpty" />
-                                <div className="name">
-                                    폴더 2asdfasdfasdfasdfasdfasdfasdfasdf번
-                                </div>
-                            </div>{" "}
-                            <div className="folder">
-                                <img src={folderEmpty} alt="folderEmpty" />
-                                <div className="name">
-                                    폴더 2asdfasdfasdfasdfasdfasdfasdfasdf번
-                                </div>
-                            </div>{" "}
-                            <div className="folder">
-                                <img src={folderEmpty} alt="folderEmpty" />
-                                <div className="name">
-                                    폴더 2asdfasdfasdfasdfasdfasdfasdfasdf번
-                                </div>
-                            </div>{" "}
-                            <div className="folder">
-                                <img src={folderEmpty} alt="folderEmpty" />
-                                <div className="name">
-                                    폴더 2asdfasdfasdfasdfasdfasdfasdfasdf번
-                                </div>
-                            </div>{" "}
-                            <div className="folder">
-                                <img src={folderEmpty} alt="folderEmpty" />
-                                <div className="name">
-                                    폴더 2asdfasdfasdfasdfasdfasdfasdfasdf번
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="bottomArea"></div>
+            {/* 내부 데이터가 들어올 영역 */}
+            <div className="contentsArea_Cover">
+                {item.key === "구글" ? (
+                    <iframe
+                        src={"https://www.google.com/webhp?igu=1"}
+                        width={"100%"}
+                        height={"100%"}
+                    />
+                ) : (
+                    <>
+                        <TechStackFolder />
+                    </>
+                )}
+            </div>
 
-                    <div className="modiSize top_left"></div>
-                    <div className="modiSize top_right"></div>
-                    <div className="modiSize right"></div>
-                    <div className="modiSize bottom_left"></div>
-                    <div
-                        className="modiSize bottom_right"
-                        onMouseDown={onMouseDown_Resize}
-                        onMouseUp={onMouseUp_Resize}
-                    ></div>
-                </>
-            )}
+            {/* 폴더형 일때만 출력하도록. */}
+            <div className="bottomArea">2 개항목</div>
+
+            <div className="modiSize top_left"></div>
+            <div className="modiSize top_right"></div>
+            <div className="modiSize right"></div>
+            <div className="modiSize bottom_left"></div>
+            <div
+                className="modiSize bottom_right"
+                onMouseDown={onMouseDown_Resize}
+                onMouseUp={onMouseUp_Resize}
+            ></div>
         </FolderComponentBlock>
     );
 };
@@ -273,6 +163,9 @@ const FolderComponentBlock = styled.div`
     .infoArea img {
         width: 20px;
         height: 20px;
+    }
+    .infoArea div {
+        font-size: 14px;
     }
 
     .headerArea {
@@ -360,7 +253,9 @@ const FolderComponentBlock = styled.div`
         height: 100%;
         overflow: scroll;
     }
-    .contentsArea {
+
+    // 폴더형 컨텐츠 영역
+    .contentsArea_folder {
         width: 100%;
         height: 100%;
 
@@ -393,6 +288,14 @@ const FolderComponentBlock = styled.div`
         word-break: break-all;
         font-size: 12px;
         cursor: default;
+    }
+    .bottomArea {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        font-size: 12px;
+        padding: 0 10px;
     }
 
     ${(props) => props.isClose && ` opacity: 0; transform: scale(0.9)`}

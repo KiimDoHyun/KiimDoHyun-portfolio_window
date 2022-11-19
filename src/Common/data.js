@@ -141,38 +141,47 @@ export const techStack = [
     {
         img: imgReact,
         name: "React.js",
+        type: "IMAGE",
     },
     {
         img: imgJS,
         name: "자바스크립트",
+        type: "IMAGE",
     },
     {
         img: imgRedux,
         name: "리덕스",
+        type: "IMAGE",
     },
     {
         img: imgRecoil,
         name: "리코일",
+        type: "IMAGE",
     },
     {
         img: imgNode,
         name: "노드js",
+        type: "IMAGE",
     },
     {
         img: imgHTML,
         name: "HTML",
+        type: "IMAGE",
     },
     {
         img: imgCSS,
         name: "CSS",
+        type: "IMAGE",
     },
     {
         img: imgStyledComponent,
         name: "styled-component",
+        type: "IMAGE",
     },
     {
         img: imgGithub,
         name: "Github",
+        type: "IMAGE",
     },
 ];
 
@@ -180,33 +189,52 @@ export const techStack_sub = [
     {
         img: imgVue,
         name: "Vue.js",
+        type: "IMAGE",
     },
     {
         img: imgPython,
         name: "파이썬",
+        type: "IMAGE",
     },
     {
         img: imgBootstrap,
         name: "부트스트랩",
+        type: "IMAGE",
     },
     {
         img: imgTailwind,
         name: "tailwind-css",
+        type: "IMAGE",
+    },
+];
+
+// 폴더
+export const techFolderList = [
+    {
+        name: "MAIN_TECH",
+        type: "FOLDER",
+    },
+    {
+        name: "SUB_TECH",
+        type: "FOLDER",
     },
 ];
 
 /**************************************
-                경력
+                경력 (프로젝트 폴더의 폴더)
 ***************************************/
 export const careerList = [
     {
         name: "금오공과대학교 셈틀꾼",
+        type: "FOLDER",
     },
     {
         name: "금오공과대학교 컴퓨터공학과 학생회",
+        type: "FOLDER",
     },
     {
         name: "(주) 아라온소프트",
+        type: "FOLDER",
     },
 ];
 
@@ -216,20 +244,20 @@ export const careerList = [
 export const window_programList = [
     {
         key: "프로젝트",
-        img: imgProjectList,
+        icon: imgProjectList,
         name: "프로젝트",
         type: "FOLDER",
     },
     {
         key: "기술스택",
-        img: imgTechStack,
+        icon: imgTechStack,
         name: "기술스택",
         type: "FOLDER",
     },
     {
         key: "구글",
-        img: imgChrome,
+        icon: imgChrome,
         name: "구글",
-        type: "FOLDER",
+        type: "BROWSER",
     },
 ];

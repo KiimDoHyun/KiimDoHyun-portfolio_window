@@ -15,6 +15,7 @@ import {
     rc_program_programList,
     rc_program_zIndexCnt,
 } from "../../store/program";
+import useActiveProgram from "../../hooks/useActiveProgram";
 const StatusBarContainer = () => {
     const [active, setActive] = useRecoilState(rc_taskbar_statusBar_active);
 
@@ -67,49 +68,15 @@ const StatusBarContainer = () => {
         setActiveLeftArea_Detail(false);
     }, [activeLeftArea_timer]);
 
-    // 소개 영역 아이템 클릭
-    // windowContainer 의 onDoubleClickIcon 함수와 정확히 동일한 함수 (공통화 필요)
+    // 소개 영역 아이템 클릭 (활성화)
+    const activeProgram = useActiveProgram();
+
     const onClickBox = useCallback(
         (item) => {
-            // 만약 이미 열었던 거라면 (지금 열려있는지, 최소화 상태인지)
-            let target = programList.find(
-                (listItem) => listItem.key === item.key
-            );
-            if (target) {
-                // 열려있는데 최소화 상태라면
-                if (target.status === "min") {
-                    setProgramList((prev) =>
-                        prev.map((prevItem) =>
-                            prevItem.key === target.key
-                                ? { ...prevItem, status: "active" }
-                                : { ...prevItem }
-                        )
-                    );
-                    // 다시 크기를 키우고 맨앞으로 이동시킨다.
-                }
-                // 열려 있는 상태라면
-                else if (target.status === "min") {
-                    // 맨앞으로 이동시킨다.
-                }
-                setActiveProgram(item.key);
-                setZIndexCnt((prev) => prev + 1);
-            }
-            // 처음 여는거라면
-            else {
-                import("../Program/FolderContainer").then((obj) => {
-                    const Component = obj.default;
-                    setProgramList([
-                        ...programList,
-                        { Component, key: item.key, status: "active", icon: item.icon },
-                    ]);
-                    setActiveProgram(item.key);
-                    setZIndexCnt((prev) => prev + 1);
-                });
-            }
-
+            activeProgram(item);
             setActive(false);
         },
-        [programList, setProgramList, setZIndexCnt, setActiveProgram, setActive]
+        [activeProgram, setActive]
     );
 
     const propDatas = {
