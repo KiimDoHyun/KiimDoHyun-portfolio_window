@@ -7,6 +7,8 @@ import leftArrow from "../../asset/images/icons/left-arrow.png";
 import rightArrow from "../../asset/images/icons/right-arrow.png";
 import TechStackFolder from "../Folder/TechStackFolder";
 
+const DEFAULT_SIZE = 80;
+
 const FolderComponent = ({
     onClick,
     onClickClose,
@@ -21,6 +23,7 @@ const FolderComponent = ({
     onDoubleClickItem,
     onClickLeft,
     onClickRight,
+    setDisplayType,
 
     boxRef,
     isClose,
@@ -28,6 +31,8 @@ const FolderComponent = ({
     item,
     selectedItem,
     folderContents,
+    displayType,
+    displayList,
 }) => {
     return (
         <FolderComponentBlock
@@ -79,11 +84,22 @@ const FolderComponent = ({
                         onClick={onClickRight}
                     />
                 </div>
-                <div></div>
+                <div>
+                    <select
+                        value={displayType}
+                        onChange={(e) => setDisplayType(e.target.value)}
+                    >
+                        {displayList.map((item, idx) => (
+                            <option key={idx} value={item.value}>
+                                {item.name}
+                            </option>
+                        ))}
+                    </select>
+                </div>
             </div>
 
             {/* 내부 데이터가 들어올 영역 */}
-            <div className="contentsArea_Cover">
+            <div className={`contentsArea_Cover`}>
                 {item.key === "구글" ? (
                     <iframe
                         src={"https://www.google.com/webhp?igu=1"}
@@ -91,16 +107,23 @@ const FolderComponent = ({
                         height={"100%"}
                     />
                 ) : (
-                    <div className="contentsArea_folder">
-                        {folderContents ? (
+                    <div className={`${displayType} contentsArea_folder`}>
+                        {folderContents && folderContents.length > 0 ? (
                             <>
+                                {displayType === "DETAIL" && (
+                                    <div className="detailHeader">
+                                        <div className="name">{"이미지"}</div>
+                                        <div className="name">{"이름"}</div>
+                                        <div className="name">{"유형"}</div>
+                                    </div>
+                                )}
                                 {folderContents.map((item, idx) => (
                                     <div
-                                        className={
+                                        className={`${
                                             selectedItem === item.name
                                                 ? "folder folder_selected"
                                                 : "folder"
-                                        }
+                                        }`}
                                         key={idx}
                                         onClick={() => onClickItem(item.name)}
                                         onDoubleClick={() =>
@@ -108,27 +131,40 @@ const FolderComponent = ({
                                         }
                                     >
                                         {/*  폴더 */}
-                                        {item.type === "FOLDER" ? (
-                                            <img
-                                                src={
-                                                    item.folderCnt
-                                                        ? folderFull
-                                                        : folderEmpty
-                                                }
-                                                alt="folderEmpty"
-                                            />
-                                        ) : (
-                                            <img
-                                                src={item.icon || defaultImage}
-                                                alt={item.name}
-                                            />
-                                        )}
+                                        <div className="imgCover">
+                                            {item.type === "FOLDER" ? (
+                                                <img
+                                                    src={
+                                                        item.folderCnt
+                                                            ? folderFull
+                                                            : folderEmpty
+                                                    }
+                                                    alt="folderEmpty"
+                                                />
+                                            ) : (
+                                                <img
+                                                    src={
+                                                        item.icon ||
+                                                        defaultImage
+                                                    }
+                                                    alt={item.name}
+                                                />
+                                            )}
+                                        </div>
 
                                         <div className="name">{item.name}</div>
+
+                                        {displayType === "DETAIL" && (
+                                            <div className="name">
+                                                {item.type}
+                                            </div>
+                                        )}
                                     </div>
                                 ))}
                             </>
-                        ) : null}
+                        ) : (
+                            <div className="noContents">비어있습니다.</div>
+                        )}
                     </div>
                 )}
             </div>
@@ -327,13 +363,70 @@ const FolderComponentBlock = styled.div`
         align-content: flex-start;
     }
 
+    // 아주 큰 아이콘
+    .BIG_BIG_ICON .folder {
+        width: ${DEFAULT_SIZE * 2}px;
+    }
+
+    .BIG_BIG_ICON img {
+        width: ${DEFAULT_SIZE * 2}px;
+        height: ${DEFAULT_SIZE * 2}px;
+    }
+
+    // 큰 아이콘
+    .BIG_ICON .folder {
+        width: ${DEFAULT_SIZE * 1.5}px;
+    }
+
+    .BIG_ICON img {
+        width: ${DEFAULT_SIZE * 1.5}px;
+        height: ${DEFAULT_SIZE * 1.5}px;
+    }
+
     // 보통 아이콘
+    .MEDIUM_ICON .folder {
+        width: ${DEFAULT_SIZE}px;
+    }
+
+    .MEDIUM_ICON img {
+        width: ${DEFAULT_SIZE}px;
+        height: ${DEFAULT_SIZE}px;
+    }
+
+    // 작은 아이콘
+    .SMALL_ICON .folder {
+        width: ${DEFAULT_SIZE * 0.5}px;
+    }
+
+    .SMALL_ICON img {
+        width: ${DEFAULT_SIZE * 0.5}px;
+        height: ${DEFAULT_SIZE * 0.5}px;
+    }
+
+    // 자세히
+    .DETAIL {
+        gap: 0px;
+    }
+
+    .DETAIL .folder {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+    .DETAIL .folder div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .DETAIL img {
+        width: ${DEFAULT_SIZE * 0.25}px;
+        height: ${DEFAULT_SIZE * 0.25}px;
+    }
+
     .folder {
-        width: 80px;
         height: auto;
-
         padding: 5px 10px;
-
         border: 1px solid #ffffff00;
     }
 
@@ -344,16 +437,24 @@ const FolderComponentBlock = styled.div`
     .folder:hover {
         background-color: #e5f3ff;
     }
-    .folder img {
-        width: 80px;
-        height: 80px;
-    }
-
     .folder .name {
         word-break: break-all;
         font-size: 12px;
         cursor: default;
     }
+
+    .detailHeader {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        width: 100%;
+        padding: 5px 10px;
+    }
+
+    .detailHeader .name {
+        font-size: 11px;
+        cursor: default;
+    }
+
     .bottomArea {
         width: 100%;
         display: flex;
@@ -370,6 +471,17 @@ const FolderComponentBlock = styled.div`
     .arrowBox img {
         width: 15px;
         height: 100%;
+    }
+
+    .noContents {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: gray;
+        font-size: 14px;
+        cursor: default;
     }
 
     ${(props) => props.isClose && ` opacity: 0; transform: scale(0.9)`}

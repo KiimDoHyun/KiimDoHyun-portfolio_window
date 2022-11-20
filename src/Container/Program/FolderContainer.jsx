@@ -8,7 +8,16 @@ import {
 import { useSetRecoilState, useRecoilState } from "recoil";
 import { useState } from "react";
 
+const displayList = [
+    { value: "BIG_BIG_ICON", name: "아주 큰 아이콘" },
+    { value: "BIG_ICON", name: "큰 아이콘" },
+    { value: "MEDIUM_ICON", name: "보통 아이콘" },
+    { value: "SMALL_ICON", name: "작은 아이콘" },
+    { value: "DETAIL", name: "자세히" },
+];
+
 const FolderContainer = ({ item }) => {
+    console.log("item: ", item);
     const { key, status } = item;
     const setProgramList = useSetRecoilState(rc_program_programList);
     const [zIndexCnt, setZIndexCnt] = useRecoilState(rc_program_zIndexCnt);
@@ -26,6 +35,9 @@ const FolderContainer = ({ item }) => {
 
     const [selectedItem, setSelectedItem] = useState(""); // 클릭한 아이템
 
+    const [displayType, setDisplayType] = useState(displayList[2].value);
+
+    // 보기 유형
     const prevPos = useRef();
     const boxRef = useRef();
 
@@ -556,6 +568,7 @@ const FolderContainer = ({ item }) => {
         onDoubleClickItem,
         onClickLeft,
         onClickRight,
+        setDisplayType,
 
         boxRef,
         isClose,
@@ -563,6 +576,8 @@ const FolderContainer = ({ item }) => {
         item,
         selectedItem,
         folderContents,
+        displayType,
+        displayList,
     };
     return <FolderComponent {...propDatas} />;
 };

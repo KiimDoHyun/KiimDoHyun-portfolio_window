@@ -253,7 +253,7 @@ export const careerList = [
             (item) => item.department === "금오공과대학교 컴퓨터공학과 학생회"
         ).length,
         contents: projectDatas.filter(
-            (item) => item.department === "금오공과대학교 셈틀꾼"
+            (item) => item.department === "금오공과대학교 컴퓨터공학과 학생회"
         ),
     },
     {
@@ -263,7 +263,7 @@ export const careerList = [
             (item) => item.department === "(주) 아라온소프트"
         ).length,
         contents: projectDatas.filter(
-            (item) => item.department === "금오공과대학교 셈틀꾼"
+            (item) => item.department === "(주) 아라온소프트"
         ),
     },
 ];
