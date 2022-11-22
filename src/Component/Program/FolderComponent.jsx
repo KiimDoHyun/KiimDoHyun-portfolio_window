@@ -47,8 +47,8 @@ const FolderComponent = ({
                 onMouseUp={onMouseUp}
             >
                 <div className="infoArea">
-                    <img src={item.icon} alt={item.key} />
-                    <div>{item.key}</div>
+                    <img src={item.icon || folderEmpty} alt={item.name} />
+                    <div>{item.name}</div>
                 </div>
                 <div className="buttonArea">
                     <div className="min" onClick={onClickMin}>
@@ -78,12 +78,14 @@ const FolderComponent = ({
                         alt="leftArrow"
                         onClick={onClickLeft}
                     />
-                    <img
+                    {/*  뒤로 가기 임시 제거 */}
+                    {/* <img
                         src={rightArrow}
                         alt="rightArrow"
                         onClick={onClickRight}
-                    />
+                    /> */}
                 </div>
+                <div className="routeBox">{item.route}</div>
                 <div>
                     <select
                         value={displayType}
@@ -100,78 +102,88 @@ const FolderComponent = ({
 
             {/* 내부 데이터가 들어올 영역 */}
             <div className={`contentsArea_Cover`}>
-                {item.key === "구글" ? (
+                {item.name === "구글" ? (
                     <iframe
                         src={"https://www.google.com/webhp?igu=1"}
                         width={"100%"}
                         height={"100%"}
                     />
                 ) : (
-                    <div className={`${displayType} contentsArea_folder`}>
-                        {folderContents && folderContents.length > 0 ? (
-                            <>
-                                {displayType === "DETAIL" && (
-                                    <div className="detailHeader">
-                                        <div className="name">{"이미지"}</div>
-                                        <div className="name">{"이름"}</div>
-                                        <div className="name">{"유형"}</div>
-                                    </div>
-                                )}
-                                {folderContents.map((item, idx) => (
-                                    <div
-                                        className={`${
-                                            selectedItem === item.name
-                                                ? "folder folder_selected"
-                                                : "folder"
-                                        }`}
-                                        key={idx}
-                                        onClick={() => onClickItem(item.name)}
-                                        onDoubleClick={() =>
-                                            onDoubleClickItem(item)
-                                        }
-                                    >
-                                        {/*  폴더 */}
-                                        <div className="imgCover">
-                                            {item.type === "FOLDER" ? (
-                                                <img
-                                                    src={
-                                                        item.folderCnt
-                                                            ? folderFull
-                                                            : folderEmpty
-                                                    }
-                                                    alt="folderEmpty"
-                                                />
-                                            ) : (
-                                                <img
-                                                    src={
-                                                        item.icon ||
-                                                        defaultImage
-                                                    }
-                                                    alt={item.name}
-                                                />
+                    <>
+                        <div className="sideFolderArea"></div>
+                        <div className={`${displayType} contentsArea_folder`}>
+                            {folderContents && folderContents.length > 0 ? (
+                                <>
+                                    {displayType === "DETAIL" && (
+                                        <div className="detailHeader">
+                                            <div className="name">
+                                                {"이미지"}
+                                            </div>
+                                            <div className="name">{"이름"}</div>
+                                            <div className="name">{"유형"}</div>
+                                        </div>
+                                    )}
+                                    {folderContents.map((item, idx) => (
+                                        <div
+                                            className={`${
+                                                selectedItem === item.name
+                                                    ? "folder folder_selected"
+                                                    : "folder"
+                                            }`}
+                                            key={idx}
+                                            onClick={() =>
+                                                onClickItem(item.name)
+                                            }
+                                            onDoubleClick={() =>
+                                                onDoubleClickItem(item)
+                                            }
+                                        >
+                                            {/*  폴더 */}
+                                            <div className="imgCover">
+                                                {item.type === "FOLDER" ? (
+                                                    <img
+                                                        src={
+                                                            item.folderCnt
+                                                                ? folderFull
+                                                                : folderEmpty
+                                                        }
+                                                        alt="folderEmpty"
+                                                    />
+                                                ) : (
+                                                    <img
+                                                        src={
+                                                            item.icon ||
+                                                            defaultImage
+                                                        }
+                                                        alt={item.name}
+                                                    />
+                                                )}
+                                            </div>
+
+                                            <div className="name">
+                                                {item.name}
+                                            </div>
+
+                                            {displayType === "DETAIL" && (
+                                                <div className="name">
+                                                    {item.type}
+                                                </div>
                                             )}
                                         </div>
-
-                                        <div className="name">{item.name}</div>
-
-                                        {displayType === "DETAIL" && (
-                                            <div className="name">
-                                                {item.type}
-                                            </div>
-                                        )}
-                                    </div>
-                                ))}
-                            </>
-                        ) : (
-                            <div className="noContents">비어있습니다.</div>
-                        )}
-                    </div>
+                                    ))}
+                                </>
+                            ) : (
+                                <div className="noContents">비어있습니다.</div>
+                            )}
+                        </div>
+                    </>
                 )}
             </div>
 
             {/* 폴더형 일때만 출력하도록. */}
             {item.type === "FOLDER" && (
-                <div className="bottomArea">{folderContents.length} 개항목</div>
+                <></>
+                // <div className="bottomArea">{folderContents.length} 개항목</div>
             )}
 
             <div className="modiSize top_left"></div>
@@ -281,6 +293,19 @@ const FolderComponentBlock = styled.div`
         display: flex;
         justify-content: space-between;
         align-items: center;
+    }
+
+    .arrowBox {
+        display: flex;
+        gap: 10px;
+    }
+    .arrowBox img {
+        width: 15px;
+        height: 100%;
+    }
+
+    .routeBox {
+        flex: 1;
     }
 
     .buttonArea {
@@ -462,15 +487,6 @@ const FolderComponentBlock = styled.div`
         justify-content: flex-start;
         font-size: 12px;
         padding: 0 10px;
-    }
-
-    .arrowBox {
-        display: flex;
-        gap: 10px;
-    }
-    .arrowBox img {
-        width: 15px;
-        height: 100%;
     }
 
     .noContents {

@@ -21,14 +21,14 @@ const useActiveProgram = () => {
         (item) => {
             // 만약 이미 열었던 거라면 (지금 열려있는지, 최소화 상태인지)
             let target = programList.find(
-                (listItem) => listItem.key === item.key
+                (listItem) => listItem.name === item.name
             );
             if (target) {
                 // 열려있는데 최소화 상태라면
                 if (target.status === "min") {
                     setProgramList((prev) =>
                         prev.map((prevItem) =>
-                            prevItem.key === target.key
+                            prevItem.name === target.name
                                 ? { ...prevItem, status: "active" }
                                 : { ...prevItem }
                         )
@@ -39,7 +39,7 @@ const useActiveProgram = () => {
                 else if (target.status === "min") {
                     // 맨앞으로 이동시킨다.
                 }
-                setActiveProgram(item.key);
+                setActiveProgram(item.name);
                 setZIndexCnt((prev) => prev + 1);
             }
             // 처음 여는거라면
@@ -56,7 +56,7 @@ const useActiveProgram = () => {
                             // icon: item.icon,
                         },
                     ]);
-                    setActiveProgram(item.key);
+                    setActiveProgram(item.name);
                     setZIndexCnt((prev) => prev + 1);
                 });
             }

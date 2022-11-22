@@ -1,13 +1,21 @@
 import React from "react";
 import styled from "styled-components";
 import defaultImg from "../../../asset/images/icons/project_default_1.png";
-import { window_programList } from "../../../Common/data";
+import { directory } from "../../../Common/data";
 
-const CenterAreaBox = ({ img, name, showImg = true, onClick }) => {
+const CenterAreaBox = ({ item, img, name, showImg = true, onClick }) => {
     return (
         <CenterAreaBoxBlock
             className="statusBox"
-            onClick={() => onClick(window_programList[0])}
+            onClick={() => {
+                if (item) {
+                    onClick(
+                        directory.find(
+                            (findItem) => findItem.name === item.parent
+                        )
+                    );
+                }
+            }}
         >
             {showImg && <img src={img ? img : defaultImg} alt="name" />}
             <div className="text">{name}</div>

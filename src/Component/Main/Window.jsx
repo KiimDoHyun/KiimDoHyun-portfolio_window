@@ -11,7 +11,7 @@ const Window = (props) => {
                     item={item}
                     onClick={onClickIcon}
                     onDoubleClick={onDoubleClickIcon}
-                    key={`${item.name}${item.key}`}
+                    key={`${item.name}`}
                 />
             ))}
         </WindowBlock>

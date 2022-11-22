@@ -1,12 +1,20 @@
 import React from "react";
 import styled from "styled-components";
-import { window_programList } from "../../../Common/data";
+import { directory } from "../../../Common/data";
 
-const RightAreaBox = ({ img, name, onClick }) => {
+const RightAreaBox = ({ item, img, name, onClick }) => {
     return (
         <RightAreaBoxBlock
             className="statusBox"
-            onClick={() => onClick(window_programList[1])}
+            onClick={() => {
+                if (item) {
+                    onClick(
+                        directory.find(
+                            (findItem) => findItem.name === item.parent
+                        )
+                    );
+                }
+            }}
         >
             <img src={img} alt="name" />
             <div className="text">{name}</div>

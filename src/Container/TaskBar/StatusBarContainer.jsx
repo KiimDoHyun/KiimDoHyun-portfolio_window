@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useCallback } from "react";
 import { useRef } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
@@ -16,8 +16,36 @@ import {
     rc_program_zIndexCnt,
 } from "../../store/program";
 import useActiveProgram from "../../hooks/useActiveProgram";
+import { rc_global_Directory_Tree } from "../../store/global";
+
 const StatusBarContainer = () => {
     const [active, setActive] = useRecoilState(rc_taskbar_statusBar_active);
+    const Directory_Tree = useRecoilValue(rc_global_Directory_Tree);
+
+    const projectDatas = useMemo(() => {
+        if (Object.keys(Directory_Tree).length < 1) {
+            return [];
+        }
+        return [
+            ...Directory_Tree["금오공과대학교 셈틀꾼"],
+            ...Directory_Tree["금오공과대학교 컴퓨터공학과 학생회"],
+            ...Directory_Tree["(주)아라온소프트"],
+        ];
+    }, [Directory_Tree]);
+
+    const techStack_main = useMemo(() => {
+        if (Object.keys(Directory_Tree).length < 1) {
+            return [];
+        }
+        return [...Directory_Tree["MAIN_TECH"]];
+    }, [Directory_Tree]);
+
+    const techStack_sub = useMemo(() => {
+        if (Object.keys(Directory_Tree).length < 1) {
+            return [];
+        }
+        return [...Directory_Tree["SUB_TECH"]];
+    }, [Directory_Tree]);
 
     const [activeLeftArea_Detail, setActiveLeftArea_Detail] = useState(false);
     const activeLeftArea_timer = useRef(null);
@@ -48,11 +76,11 @@ const StatusBarContainer = () => {
         },
     ]);
 
-    const [programList, setProgramList] = useRecoilState(
-        rc_program_programList
-    );
-    const setZIndexCnt = useSetRecoilState(rc_program_zIndexCnt);
-    const setActiveProgram = useSetRecoilState(rc_program_activeProgram);
+    // const [programList, setProgramList] = useRecoilState(
+    //     rc_program_programList
+    // );
+    // const setZIndexCnt = useSetRecoilState(rc_program_zIndexCnt);
+    // const setActiveProgram = useSetRecoilState(rc_program_activeProgram);
 
     // 마우스 왼쪽 영역 hover in
     const onMouseEnter = useCallback(() => {
@@ -83,6 +111,10 @@ const StatusBarContainer = () => {
         active,
         activeLeftArea_Detail,
         statusBar_LeftArea_Items,
+
+        projectDatas,
+        techStack_main,
+        techStack_sub,
 
         onMouseEnter,
         onMouseLeave,

@@ -46,3 +46,9 @@ export const rc_global_DisplayLight = atom({
     key: "rc_global_DisplayLight",
     default: 100,
 });
+
+// 전체 파일 구조 트리
+export const rc_global_Directory_Tree = atom({
+    key: "rc_global_Directory_Tree",
+    default: {},
+});

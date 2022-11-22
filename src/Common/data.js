@@ -269,27 +269,292 @@ export const careerList = [
 ];
 
 /**************************************
-                바탕화면 폴더 리스트
+                전체 파일 구조
 ***************************************/
-export const window_programList = [
+//
+/*
+root
+프로젝트, 기술스택, 구글, 소개(내컴퓨터)
+
+파일 정보
+name: 파일 이름
+type: 파일 유형
+icon: 파일 아이콘
+parent: 부모
+
+1. 배열에 파일 추가
+2. 배열정보를 이용해 트리 구조 생성 (부모: [자식1, 자식2])
+ -  마운트 될때 1회만 진행.
+ - 생성된 트리구조는 recoil에 저장.
+ 
+ ex) 바탕화면 컨텐츠를 보여줄땐 부모가 root 인 컨텐츠만
+
+ 바탕화면에서 특정 폴더 클릭 시
+
+ 해당 폴더의 위치까지 경로를 찾는다 (DFS)
+
+ 해당 폴더 내용을 보여준다. 내용? 해당 폴더를 부모로 하는 모든 컨텐츠
+
+ 폴더 내부에서 특정 폴더를 클릭하면? 클릭한 폴더를 부모로 하는 모든 컨텐츠
+ -> 트리구조에서 타겟 폴더를 키로 가지는 컨텐츠를 찾으면 됨.
+
+*/
+export const directory = [
     {
-        key: "프로젝트",
-        icon: imgProjectList,
+        name: "root",
+        type: "FOLDER",
+        icon: "",
+        parent: "KDH",
+    },
+    {
         name: "프로젝트",
         type: "FOLDER",
-        contents: careerList,
+        icon: imgProjectList,
+        parent: "root",
     },
     {
-        key: "기술스택",
-        icon: imgTechStack,
         name: "기술스택",
         type: "FOLDER",
-        contents: techFolderList,
+        icon: imgTechStack,
+        parent: "root",
     },
     {
-        key: "구글",
-        icon: imgChrome,
         name: "구글",
         type: "BROWSER",
+        icon: imgChrome,
+        parent: "root",
+    },
+    {
+        name: "구글",
+        type: "BROWSER",
+        icon: imgChrome,
+        parent: "내컴퓨터",
+    },
+    {
+        name: "(주)아라온소프트",
+        type: "FOLDER",
+        icon: "",
+        parent: "프로젝트",
+    },
+    {
+        name: "금오공과대학교 셈틀꾼",
+        type: "FOLDER",
+        icon: "",
+        parent: "프로젝트",
+    },
+    {
+        name: "금오공과대학교 컴퓨터공학과 학생회",
+        type: "FOLDER",
+        icon: "",
+        parent: "프로젝트",
+    },
+    {
+        name: "MAIN_TECH",
+        type: "FOLDER",
+        icon: "",
+        parent: "기술스택",
+    },
+    {
+        name: "SUB_TECH",
+        type: "FOLDER",
+        icon: "",
+        parent: "기술스택",
+    },
+    {
+        name: "구알맛 / 구알맛 오너즈",
+        type: "DOC",
+        icon: "",
+        parent: "(주)아라온소프트",
+    },
+    {
+        name: "LHWS (집클릭)",
+        type: "DOC",
+        icon: "",
+        parent: "(주)아라온소프트",
+    },
+    {
+        name: "Araon React Framework",
+        type: "DOC",
+        icon: "",
+        parent: "(주)아라온소프트",
+    },
+    {
+        name: "SBL FEMS",
+        type: "DOC",
+        icon: "",
+        parent: "(주)아라온소프트",
+    },
+    {
+        name: "SNS 로그인 분석",
+        type: "DOC",
+        icon: "",
+        parent: "(주)아라온소프트",
+    },
+    {
+        name: "SBL EDM",
+        type: "DOC",
+        icon: "",
+        parent: "(주)아라온소프트",
+    },
+    {
+        name: "셈틀꾼 홈페이지 제작",
+        type: "DOC",
+        icon: "",
+        parent: "금오공과대학교 셈틀꾼",
+    },
+    {
+        name: "벼룩시장 프로젝트",
+        type: "DOC",
+        icon: "",
+        parent: "금오공과대학교 컴퓨터공학과 학생회",
+    },
+    {
+        icon: imgReact,
+        name: "React.js",
+        type: "IMAGE",
+        parent: "MAIN_TECH",
+    },
+    {
+        icon: imgJS,
+        name: "자바스크립트",
+        type: "IMAGE",
+        parent: "MAIN_TECH",
+    },
+    {
+        icon: imgRedux,
+        name: "리덕스",
+        type: "IMAGE",
+        parent: "MAIN_TECH",
+    },
+    {
+        icon: imgRecoil,
+        name: "리코일",
+        type: "IMAGE",
+        parent: "MAIN_TECH",
+    },
+    {
+        icon: imgNode,
+        name: "노드js",
+        type: "IMAGE",
+        parent: "MAIN_TECH",
+    },
+    {
+        icon: imgHTML,
+        name: "HTML",
+        type: "IMAGE",
+        parent: "MAIN_TECH",
+    },
+    {
+        icon: imgCSS,
+        name: "CSS",
+        type: "IMAGE",
+        parent: "MAIN_TECH",
+    },
+    {
+        icon: imgStyledComponent,
+        name: "styled-component",
+        type: "IMAGE",
+        parent: "MAIN_TECH",
+    },
+    {
+        icon: imgGithub,
+        name: "Github",
+        type: "IMAGE",
+        parent: "MAIN_TECH",
+    },
+    {
+        icon: imgVue,
+        name: "Vue.js",
+        type: "IMAGE",
+        parent: "SUB_TECH",
+    },
+    {
+        icon: imgPython,
+        name: "파이썬",
+        type: "IMAGE",
+        parent: "SUB_TECH",
+    },
+    {
+        icon: imgBootstrap,
+        name: "부트스트랩",
+        type: "IMAGE",
+        parent: "SUB_TECH",
+    },
+    {
+        icon: imgTailwind,
+        name: "tailwind-css",
+        type: "IMAGE",
+        parent: "SUB_TECH",
+    },
+];
+
+export const fileList = [
+    {
+        name: "root",
+        type: "FOLDER",
+        icon: "",
+        route: "/root",
+        contents: [
+            {
+                name: "프로젝트",
+                type: "FOLDER",
+                icon: imgProjectList,
+                route: "/root/project",
+                contents: [
+                    {
+                        name: "금오공과대학교 셈틀꾼",
+                        type: "FOLDER",
+                        contents: projectDatas.filter(
+                            (item) =>
+                                item.department === "금오공과대학교 셈틀꾼"
+                        ),
+                        route: "/root/project/semtle",
+                    },
+                    {
+                        name: "금오공과대학교 컴퓨터공학과 학생회",
+                        type: "FOLDER",
+                        contents: projectDatas.filter(
+                            (item) =>
+                                item.department ===
+                                "금오공과대학교 컴퓨터공학과 학생회"
+                        ),
+                        route: "/root/project/computer_science_group",
+                    },
+                    {
+                        name: "(주) 아라온소프트",
+                        type: "FOLDER",
+                        contents: projectDatas.filter(
+                            (item) => item.department === "(주) 아라온소프트"
+                        ),
+                        route: "/root/project/araonsoft",
+                    },
+                ],
+            },
+            {
+                name: "기술스택",
+                type: "FOLDER",
+                icon: imgTechStack,
+                route: "/root/techstack",
+                contents: [
+                    {
+                        name: "MAIN_TECH",
+                        type: "FOLDER",
+                        contents: techStack,
+                        route: "/root/techstack/main_tech",
+                    },
+                    {
+                        name: "SUB_TECH",
+                        type: "FOLDER",
+                        contents: techStack_sub,
+                        route: "/root/techstack/sub_tech",
+                    },
+                ],
+            },
+            {
+                name: "구글",
+                type: "BROWSER",
+                icon: imgChrome,
+            },
+        ],
     },
 ];

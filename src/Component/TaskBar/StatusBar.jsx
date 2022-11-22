@@ -3,7 +3,7 @@ import styled, { keyframes } from "styled-components";
 
 import imgMenu from "../../asset/images/icons/hamburger_menu.png";
 import LeftAreaBox from "./StatusBar/LeftAreaBox";
-import { projectDatas, techStack, techStack_sub } from "../../Common/data";
+// import { projectDatas, techStack, techStack_sub } from "../../Common/data";
 import CenterAreaBox from "./StatusBar/CenterAreaBox";
 import RightAreaBox from "./StatusBar/RightAreaBox";
 
@@ -11,6 +11,10 @@ const StatusBar = ({
     active,
     activeLeftArea_Detail,
     statusBar_LeftArea_Items,
+
+    projectDatas,
+    techStack_main,
+    techStack_sub,
 
     onMouseEnter,
     onMouseLeave,
@@ -64,9 +68,7 @@ const StatusBar = ({
                     let showTitle = false;
                     if (idx === 0) showTitle = true;
                     else {
-                        if (
-                            item.department !== projectDatas[idx - 1].department
-                        ) {
+                        if (item.parent !== projectDatas[idx - 1].parent) {
                             showTitle = true;
                         }
                     }
@@ -76,10 +78,11 @@ const StatusBar = ({
                                 <CenterAreaBox
                                     showImg={false}
                                     img={null}
-                                    name={item.department}
+                                    name={item.parent}
                                 />
                             )}
                             <CenterAreaBox
+                                item={item}
                                 img={item.icon}
                                 name={item.name}
                                 onClick={onClickBox}
@@ -101,11 +104,12 @@ const StatusBar = ({
                     <p>주로 사용하는 기술 스택</p>
                 </div>
                 <div className="rightArea_boxArea">
-                    {techStack.map((item, idx) => (
+                    {techStack_main.map((item, idx) => (
                         <RightAreaBox
                             key={idx}
                             img={item.icon}
                             name={item.name}
+                            item={item}
                             onClick={onClickBox}
                         />
                     ))}
@@ -120,6 +124,7 @@ const StatusBar = ({
                             key={idx}
                             img={item.icon}
                             name={item.name}
+                            item={item}
                             onClick={onClickBox}
                         />
                     ))}

@@ -52,13 +52,13 @@ const TaskBarContainer = () => {
     );
 
     // const setActiveProgram = useSetRecoilState(rc_program_activeProgram);
-    const [hoverTarget, setHoverTarget] = useState({ key: "", idx: -1 });
+    const [hoverTarget, setHoverTarget] = useState({ name: "", idx: -1 });
 
     const box2Ref = useRef(null);
 
     // 마우스 오버
     const onMouseEnter = useCallback(
-        ({ key }, idx) => {
+        ({ name }, idx) => {
             setPreview(true);
             // 현재 활성화된 아이템은 최대 밝기로
             if (box2Ref.current.children[idx].title === activeProgram) {
@@ -70,7 +70,7 @@ const TaskBarContainer = () => {
                 box2Ref.current.children[idx].style.backgroundColor =
                     glowLevelArr[1];
             }
-            setHoverTarget({ key, idx });
+            setHoverTarget({ name, idx });
         },
         [activeProgram]
     );
@@ -95,20 +95,20 @@ const TaskBarContainer = () => {
             if (item.status === "min") {
                 setProgramList((prev) =>
                     prev.map((prevItem) =>
-                        prevItem.key === item.key
+                        prevItem.name === item.name
                             ? { ...prevItem, status: "active" }
                             : { ...prevItem }
                     )
                 );
                 box2Ref.current.children[idx].style.backgroundColor =
                     glowLevelArr[2];
-                setActiveProgram(item.key);
+                setActiveProgram(item.name);
             } else {
                 // 현재 가장 앞에있는 아이템이면 최소화 시킨다.
-                if (item.key === activeProgram) {
+                if (item.name === activeProgram) {
                     setProgramList((prev) =>
                         prev.map((prevItem) =>
-                            prevItem.key === item.key
+                            prevItem.name === item.name
                                 ? { ...prevItem, status: "min" }
                                 : { ...prevItem }
                         )
@@ -119,7 +119,7 @@ const TaskBarContainer = () => {
                 else {
                     box2Ref.current.children[idx].style.backgroundColor =
                         glowLevelArr[2];
-                    setActiveProgram(item.key);
+                    setActiveProgram(item.name);
                 }
             }
 

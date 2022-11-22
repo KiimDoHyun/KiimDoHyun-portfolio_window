@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import SimpleArrowUp from "../Program/Icon/SimpleArrowUp";
 import message from "../../asset/images/icons/message.png";
+import folderEmpty from "../../asset/images/icons/folder_empty.png";
 
 import Windows from "../Program/Icon/Windows";
 const TaskBar = (props) => {
@@ -49,15 +50,18 @@ const TaskBar = (props) => {
                             <div
                                 key={idx}
                                 className={`shortCutIcon ${
-                                    activeProgram === item.key && "activeIcon"
+                                    activeProgram === item.name && "activeIcon"
                                 }`}
-                                title={item.key}
+                                title={item.name}
                                 onMouseEnter={() => onMouseEnter(item, idx)}
                                 onMouseLeave={() => onMouseLeave(idx)}
                                 onClick={() => onClickTaskIcon(item, idx)}
                             >
                                 <div className="shortCut_Img">
-                                    <img src={item.icon} alt={item.key} />
+                                    <img
+                                        src={item.icon || folderEmpty}
+                                        alt={item.name}
+                                    />
                                 </div>
                                 <div className="shortCut_BottomLine" />
                             </div>
