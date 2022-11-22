@@ -13,16 +13,11 @@ const WindowContainer = () => {
     const programList = useRecoilValue(rc_program_programList);
     const Directory_Tree = useRecoilValue(rc_global_Directory_Tree);
 
-    console.log("Directory_Tree: ", Directory_Tree);
     // 아이콘 클릭
     const onClickIcon = useCallback((item) => {}, []);
 
     // 아이콘 더블클릭 (활성화)
     const onDoubleClickIcon = useActiveProgram();
-
-    useEffect(() => {
-        console.log("programList :", programList);
-    }, [programList]);
 
     const propDatas = {
         windowRef,

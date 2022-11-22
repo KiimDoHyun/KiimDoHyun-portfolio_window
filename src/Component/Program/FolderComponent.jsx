@@ -4,8 +4,6 @@ import folderFull from "../../asset/images/icons/folder_full.png";
 import folderEmpty from "../../asset/images/icons/folder_empty.png";
 import defaultImage from "../../asset/images/icons/image_default.png";
 import leftArrow from "../../asset/images/icons/left-arrow.png";
-import rightArrow from "../../asset/images/icons/right-arrow.png";
-import TechStackFolder from "../Folder/TechStackFolder";
 
 const DEFAULT_SIZE = 80;
 
@@ -33,6 +31,7 @@ const FolderComponent = ({
     folderContents,
     displayType,
     displayList,
+    currentFolder,
 }) => {
     return (
         <FolderComponentBlock
@@ -85,8 +84,13 @@ const FolderComponent = ({
                         onClick={onClickRight}
                     /> */}
                 </div>
-                <div className="routeBox">{item.route}</div>
-                <div>
+                <div className="routeBox">
+                    <input
+                        value={currentFolder.route || "/ [error]"}
+                        readOnly
+                    />
+                </div>
+                <div className="selectDisplayType">
                     <select
                         value={displayType}
                         onChange={(e) => setDisplayType(e.target.value)}
@@ -287,8 +291,8 @@ const FolderComponentBlock = styled.div`
     }
 
     .headerArea2 {
+        gap: 10px;
         padding: 0 10px;
-        border-bottom: 1px solid #e3e3e3;
 
         display: flex;
         justify-content: space-between;
@@ -306,6 +310,28 @@ const FolderComponentBlock = styled.div`
 
     .routeBox {
         flex: 1;
+
+        text-align: left;
+        padding: 0 10px;
+        font-size: 12px;
+        cursor: default;
+
+        display: flex;
+        align-items: center;
+        border: 1px solid #e3e3e3;
+        height: 100%;
+    }
+    .routeBox input {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        border: none;
+        outline: none;
+    }
+
+    .selectDisplayType {
+        height: 100%;
     }
 
     .buttonArea {

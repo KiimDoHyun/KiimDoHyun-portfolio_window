@@ -1,8 +1,10 @@
 import React from "react";
+import { useRecoilValue } from "recoil";
 import styled from "styled-components";
-import { directory } from "../../../Common/data";
+import { rc_global_Directory_List } from "../../../store/global";
 
 const RightAreaBox = ({ item, img, name, onClick }) => {
+    const directory = useRecoilValue(rc_global_Directory_List);
     return (
         <RightAreaBoxBlock
             className="statusBox"

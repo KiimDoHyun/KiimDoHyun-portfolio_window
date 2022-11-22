@@ -1,7 +1,7 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { useCallback } from "react";
 import { useRef } from "react";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import StatusBar from "../../Component/TaskBar/StatusBar";
 import { rc_taskbar_statusBar_active } from "../../store/taskbar";
 import imgReact from "../../asset/images/icons/react.png";
@@ -10,11 +10,6 @@ import imgAraon from "../../asset/images/icons/araon_logo_noText.png";
 import imgKit from "../../asset/images/icons/logo_kit.jpg";
 import imgOne from "../../asset/images/icons/number_one.png";
 import imgUser from "../../asset/images/icons/user.png";
-import {
-    rc_program_activeProgram,
-    rc_program_programList,
-    rc_program_zIndexCnt,
-} from "../../store/program";
 import useActiveProgram from "../../hooks/useActiveProgram";
 import { rc_global_Directory_Tree } from "../../store/global";
 

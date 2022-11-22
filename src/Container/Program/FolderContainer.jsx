@@ -7,8 +7,10 @@ import {
 } from "../../store/program";
 import { useSetRecoilState, useRecoilState, useRecoilValue } from "recoil";
 import { useState } from "react";
-import { rc_global_Directory_Tree } from "../../store/global";
-import { directory } from "../../Common/data";
+import {
+    rc_global_Directory_List,
+    rc_global_Directory_Tree,
+} from "../../store/global";
 const displayList = [
     { value: "BIG_BIG_ICON", name: "아주 큰 아이콘" },
     { value: "BIG_ICON", name: "큰 아이콘" },
@@ -23,6 +25,7 @@ const FolderContainer = ({ item }) => {
     // name은 변하지 않음. (고유값.)
     const { name, status } = item;
     const Directory_Tree = useRecoilValue(rc_global_Directory_Tree);
+    const directory = useRecoilValue(rc_global_Directory_List);
 
     const setProgramList = useSetRecoilState(rc_program_programList);
 
@@ -38,7 +41,9 @@ const FolderContainer = ({ item }) => {
     const [isMaxSize, setIsMaxSize] = useState(false);
 
     // 현재 폴더 정보 (초기엔 바탕화면에서 클릭한 아이템.)
-    const [currentFolder, setCurrentFolder] = useState(item);
+    const [currentFolder, setCurrentFolder] = useState(
+        directory.find((findItem) => item.name === findItem.name)
+    );
 
     // 현재 폴더에서 보여줄 컨텐츠 (초기엔 바탕화면에서 클릭한 아이템의 컨텐츠)
     const [folderContents, setFolderContents] = useState(
@@ -219,9 +224,7 @@ const FolderContainer = ({ item }) => {
                 // ====================
                 // 상
                 if (posX === 0 && posY > 0) {
-                    console.log("위쪽");
                     if (newHeight < 60) {
-                        console.log("최소 높이 보다 낮습니다.");
                     } else {
                         localStorage.setItem(
                             `${name}height`,
@@ -238,7 +241,6 @@ const FolderContainer = ({ item }) => {
                 // 하
                 else if (posX === 0 && posY < 0) {
                     if (prevPos.current.Y <= e.clientY) {
-                        console.log("아래쪽");
                         localStorage.setItem(
                             `${name}height`,
                             `${boxRef.current.offsetHeight - posY}px`
@@ -253,9 +255,7 @@ const FolderContainer = ({ item }) => {
                 }
                 // 좌
                 else if (posX > 0 && posY === 0) {
-                    console.log("왼쪽");
                     if (newWidth < 300) {
-                        console.log("너비가 최소 크기보다 작습니다.");
                     } else {
                         localStorage.setItem(
                             `${name}width`,
@@ -272,7 +272,6 @@ const FolderContainer = ({ item }) => {
                 }
                 // 우
                 else if (posX < 0 && posY === 0) {
-                    console.log("오른쪽");
                     if (prevPos.current.X <= e.clientX) {
                         localStorage.setItem(
                             `${name}width`,
@@ -289,9 +288,7 @@ const FolderContainer = ({ item }) => {
                 }
                 // 왼쪽 위
                 else if (posX > 0 && posY > 0) {
-                    console.log("왼쪽 위");
                     if (newWidth < 300) {
-                        console.log("너비가 최소 크기보다 작습니다.");
                     } else {
                         localStorage.setItem(
                             `${name}width`,
@@ -307,7 +304,6 @@ const FolderContainer = ({ item }) => {
                     }
 
                     if (newHeight < 60) {
-                        console.log("최소 높이 보다 낮습니다.");
                     } else {
                         localStorage.setItem(
                             `${name}height`,
@@ -323,10 +319,7 @@ const FolderContainer = ({ item }) => {
                 }
                 // 오른쪽 위
                 else if (posX < 0 && posY > 0) {
-                    console.log("오른쪽 위");
                     if (prevPos.current.X <= e.clientX) {
-                        console.log("prevPos.current.X: ", prevPos.current.X);
-                        console.log("e.clientX: ", e.clientX);
                         localStorage.setItem(
                             `${name}width`,
                             `${boxRef.current.offsetWidth - posX}px`
@@ -341,7 +334,6 @@ const FolderContainer = ({ item }) => {
                     }
 
                     if (newHeight < 60) {
-                        console.log("최소 높이 보다 낮습니다.");
                     } else {
                         localStorage.setItem(
                             `${name}height`,
@@ -357,9 +349,7 @@ const FolderContainer = ({ item }) => {
                 }
                 // 왼쪽 아래
                 else if (posX > 0 && posY < 0) {
-                    console.log("왼쪽 아래");
                     if (newWidth < 300) {
-                        console.log("너비가 최소 크기보다 작습니다.");
                     } else {
                         localStorage.setItem(
                             `${name}width`,
@@ -389,10 +379,7 @@ const FolderContainer = ({ item }) => {
                 }
                 // 오른쪽 아래
                 else if (posX < 0 && posY < 0) {
-                    console.log("오른쪽 아래");
                     if (prevPos.current.X <= e.clientX) {
-                        console.log("prevPos.current.X: ", prevPos.current.X);
-                        console.log("e.clientX: ", e.clientX);
                         localStorage.setItem(
                             `${name}width`,
                             `${boxRef.current.offsetWidth - posX}px`
@@ -507,7 +494,6 @@ const FolderContainer = ({ item }) => {
     }, [status]);
 
     const onMouseDown_Resize = useCallback((e) => {
-        console.log("posX: ", e.clientX);
         setIsResizable(true);
         prevPos.current = {
             X: e.clientX,
@@ -535,9 +521,10 @@ const FolderContainer = ({ item }) => {
     */
     const onDoubleClickItem = useCallback(
         (item) => {
-            console.log("item: ", item);
             if (item.type === "FOLDER") {
-                setCurrentFolder(item);
+                setCurrentFolder(
+                    directory.find((findItem) => item.name === findItem.name)
+                );
                 setFolderContents(Directory_Tree[item.name] || []);
             }
 
@@ -552,7 +539,7 @@ const FolderContainer = ({ item }) => {
             //     setFolderContents(item.contents);
             // }
         },
-        [Directory_Tree, folderHistory]
+        [Directory_Tree, folderHistory, directory]
     );
 
     // 뒤로 가기
@@ -560,14 +547,21 @@ const FolderContainer = ({ item }) => {
     현재 위치를 현재 아이템의 부모로 변경한다.
     */
     const onClickLeft = useCallback(() => {
+        if (!currentFolder.parent) return;
+
         setFolderContents(Directory_Tree[currentFolder.parent]);
-        setCurrentFolder(
-            directory.find((item) => item.name === currentFolder.parent)
-        );
-        // setFolderContents(folderHistory[0]);
-        //
+        if (currentFolder.parent === "KDH") {
+            setCurrentFolder({
+                route: "/ KDH",
+            });
+        } else {
+            setCurrentFolder(
+                directory.find((item) => item.name === currentFolder.parent)
+            );
+        }
     }, [setFolderContents, currentFolder, Directory_Tree]);
 
+    // 미구현
     const onClickRight = useCallback(() => {
         // setFolderContents(folderHistory[folderHistory.length - 1]);
         //
@@ -606,6 +600,7 @@ const FolderContainer = ({ item }) => {
         folderContents,
         displayType,
         displayList,
+        currentFolder,
     };
     return <FolderComponent {...propDatas} />;
 };

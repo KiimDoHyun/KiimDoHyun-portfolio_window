@@ -1,9 +1,11 @@
 import React from "react";
+import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import defaultImg from "../../../asset/images/icons/project_default_1.png";
-import { directory } from "../../../Common/data";
+import { rc_global_Directory_List } from "../../../store/global";
 
 const CenterAreaBox = ({ item, img, name, showImg = true, onClick }) => {
+    const directory = useRecoilValue(rc_global_Directory_List);
     return (
         <CenterAreaBoxBlock
             className="statusBox"
