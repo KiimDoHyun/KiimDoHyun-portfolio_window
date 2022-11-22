@@ -69,8 +69,9 @@ const FolderComponent = ({
                 </div>
             </div>
 
-            {/* 폴더형인지, 인터넷형인지에 따라 생김새가 달라질 헤더 영역 */}
             <div className="headerArea2">
+                {/* 폴더형 전용 헤더 */}
+
                 <div className="arrowBox">
                     <img
                         src={leftArrow}

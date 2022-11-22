@@ -1,11 +1,17 @@
 import React from "react";
+import { useRecoilValue } from "recoil";
 import styled from "styled-components";
-import icon from "../../../asset/images/icons/monitor.png";
+import { rc_global_Directory_List } from "../../../store/global";
 const LeftAreaBox = ({ img, name, onClick }) => {
+    const directory = useRecoilValue(rc_global_Directory_List);
     return (
         <LeftAreaBoxBlock
             className="statusBox"
-            onClick={() => onClick({ key: "내컴퓨터", icon: icon })}
+            onClick={() => {
+                onClick(
+                    directory.find((findItem) => findItem.name === "내컴퓨터")
+                );
+            }}
         >
             <div className="icon">
                 <img src={img} alt={name} />

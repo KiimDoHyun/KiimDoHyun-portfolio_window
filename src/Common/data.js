@@ -17,6 +17,8 @@ import imgProjectList from "../asset/images/icons/projectList.png";
 import imgTechStack from "../asset/images/icons/techStack.png";
 import imgChrome from "../asset/images/icons/chrome.png";
 
+import monitor from "../asset/images/icons/monitor.png";
+
 /**************************************
                 프로젝트 경력
 ***************************************/
@@ -173,6 +175,12 @@ export const directory = [
         parent: "KDH",
     },
     {
+        name: "내컴퓨터",
+        type: "FOLDER",
+        icon: monitor,
+        parent: "root",
+    },
+    {
         name: "프로젝트",
         type: "FOLDER",
         icon: imgProjectList,
@@ -189,12 +197,6 @@ export const directory = [
         type: "BROWSER",
         icon: imgChrome,
         parent: "root",
-    },
-    {
-        name: "구글",
-        type: "BROWSER",
-        icon: imgChrome,
-        parent: "내컴퓨터",
     },
     {
         name: "(주)아라온소프트",
