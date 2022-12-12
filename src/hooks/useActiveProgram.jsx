@@ -1,4 +1,3 @@
-import React from "react";
 import { useCallback } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import {
@@ -46,8 +45,8 @@ const useActiveProgram = () => {
             else {
                 import("../Container/Program/FolderContainer").then((obj) => {
                     const Component = obj.default;
-                    setProgramList([
-                        ...programList,
+                    setProgramList((prev) => [
+                        ...prev,
                         {
                             Component,
                             status: "active",
@@ -56,6 +55,16 @@ const useActiveProgram = () => {
                             // icon: item.icon,
                         },
                     ]);
+                    // setProgramList([
+                    //     ...programList,
+                    //     {
+                    //         Component,
+                    //         status: "active",
+                    //         ...item,
+                    //         // key: item.key,
+                    //         // icon: item.icon,
+                    //     },
+                    // ]);
                     setActiveProgram(item.name);
                     setZIndexCnt((prev) => prev + 1);
                 });

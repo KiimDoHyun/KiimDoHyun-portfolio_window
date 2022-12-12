@@ -32,6 +32,15 @@ const FolderComponent = ({
     displayType,
     displayList,
     currentFolder,
+
+    // IMAGE
+    IMG_onClickLeft,
+    IMG_onClickRight,
+    imageArr,
+    curImageIdx,
+
+    // DOC
+    DOCData,
 }) => {
     return (
         <FolderComponentBlock
@@ -46,8 +55,30 @@ const FolderComponent = ({
                 onMouseUp={onMouseUp}
             >
                 <div className="infoArea">
-                    <img src={item.icon || folderEmpty} alt={item.name} />
-                    <div>{item.name}</div>
+                    {/* 폴더, 브라우저는 프로그램명이 동적으로 변하지 않음. */}
+                    {(item.type === "FOLDER" || item.type === "BROWSER") && (
+                        <>
+                            <img
+                                src={item.icon || folderEmpty}
+                                alt={item.name}
+                            />
+                            <div>{item.name}</div>
+                        </>
+                    )}
+                    {/* 이미지는 프로그램명이 동적으로 변함. */}
+                    {item.type === "IMAGE" && imageArr.length > 0 && (
+                        <>
+                            <img src={defaultImage} alt={"이미지"} />
+                            <div>{imageArr[curImageIdx].name}</div>
+                        </>
+                    )}
+
+                    {item.type === "DOC" && (
+                        <>
+                            <img src={defaultImage} alt={"이미지"} />
+                            <div>{item.name}</div>
+                        </>
+                    )}
                 </div>
                 <div className="buttonArea">
                     <div className="min" onClick={onClickMin}>
@@ -71,49 +102,55 @@ const FolderComponent = ({
 
             <div className="headerArea2">
                 {/* 폴더형 전용 헤더 */}
-
-                <div className="arrowBox">
-                    <img
-                        src={leftArrow}
-                        alt="leftArrow"
-                        onClick={onClickLeft}
-                    />
-                    {/*  뒤로 가기 임시 제거 */}
-                    {/* <img
+                {item.type === "FOLDER" && (
+                    <>
+                        <div className="arrowBox">
+                            <img
+                                src={leftArrow}
+                                alt="leftArrow"
+                                onClick={onClickLeft}
+                            />
+                            {/*  뒤로 가기 임시 제거 */}
+                            {/* <img
                         src={rightArrow}
                         alt="rightArrow"
                         onClick={onClickRight}
                     /> */}
-                </div>
-                <div className="routeBox">
-                    <input
-                        value={currentFolder.route || "/ [error]"}
-                        readOnly
-                    />
-                </div>
-                <div className="selectDisplayType">
-                    <select
-                        value={displayType}
-                        onChange={(e) => setDisplayType(e.target.value)}
-                    >
-                        {displayList.map((item, idx) => (
-                            <option key={idx} value={item.value}>
-                                {item.name}
-                            </option>
-                        ))}
-                    </select>
-                </div>
+                        </div>
+                        <div className="routeBox">
+                            <input
+                                value={currentFolder.route || "/ [error]"}
+                                readOnly
+                            />
+                        </div>
+                        <div className="selectDisplayType">
+                            <select
+                                value={displayType}
+                                onChange={(e) => setDisplayType(e.target.value)}
+                            >
+                                {displayList.map((item, idx) => (
+                                    <option key={idx} value={item.value}>
+                                        {item.name}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                    </>
+                )}
             </div>
 
             {/* 내부 데이터가 들어올 영역 */}
             <div className={`contentsArea_Cover`}>
-                {item.name === "구글" ? (
+                {/* 브라우저 */}
+                {item.type === "BROWSER" && (
                     <iframe
                         src={"https://www.google.com/webhp?igu=1"}
                         width={"100%"}
                         height={"100%"}
                     />
-                ) : (
+                )}
+                {/* 폴더 */}
+                {item.type === "FOLDER" && (
                     <>
                         <div className="sideFolderArea"></div>
                         <div className={`${displayType} contentsArea_folder`}>
@@ -183,12 +220,61 @@ const FolderComponent = ({
                         </div>
                     </>
                 )}
+                {/* 이미지 */}
+                {/* 좌우 이동 버튼 정중앙 이미지(원래 크기) */}
+                {item.type === "IMAGE" && (
+                    <div className="contentsArea_image">
+                        <div
+                            className="image_arrow image_arrowLeft"
+                            title="이전"
+                            onClick={IMG_onClickLeft}
+                        >
+                            {"<"}
+                        </div>
+                        <div
+                            className="image_arrow image_arrowRight"
+                            title="다음"
+                            onClick={IMG_onClickRight}
+                        >
+                            {">"}
+                        </div>
+
+                        {imageArr.length > 0 && (
+                            <img
+                                className="imageContent"
+                                // src={item.icon}
+                                src={imageArr[curImageIdx].icon}
+                                alt={imageArr[curImageIdx].name}
+                            />
+                        )}
+                    </div>
+                )}
+                {/* 문서 */}
+                {item.type === "DOC" && (
+                    <div className="contentsArea_doc">
+                        <div className="doc_imageArea"></div>
+                        {/* {console.log("DOCData", DOCData)} */}
+                        {DOCData &&
+                            DOCData.keys.map((item, idx) => (
+                                <div key={idx} className="doc_card">
+                                    <div className="cardTitle">{item}</div>
+                                    <div className="cardContent">
+                                        {DOCData.data[item]}
+                                    </div>
+                                </div>
+                            ))}
+                    </div>
+                )}
             </div>
 
-            {/* 폴더형 일때만 출력하도록. */}
+            {/* 현재 폴더에 존재하는 프로그램 개수 (폴더일때만 출력) */}
             {item.type === "FOLDER" && (
-                <></>
-                // <div className="bottomArea">{folderContents.length} 개항목</div>
+                <div className="bottomArea">{folderContents.length} 개항목</div>
+            )}
+            {item.type === "IMAGE" && (
+                <div className="bottomArea">
+                    {curImageIdx + 1} / {imageArr.length}
+                </div>
             )}
 
             <div className="modiSize top_left"></div>
@@ -398,6 +484,92 @@ const FolderComponentBlock = styled.div`
         width: 100%;
         height: 100%;
         overflow: scroll;
+        position: relative;
+    }
+
+    // 문서 컨텐츠 영역
+    .contentsArea_doc {
+        width: 100%;
+        height: 100%;
+
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+        align-content: flex-start;
+        box-sizing: border-box;
+        padding: 10px;
+    }
+
+    .doc_imageArea {
+        width: 100%;
+        height: 200px;
+        background-color: gray;
+    }
+
+    .doc_card {
+        box-sizing: border-box;
+        padding: 10px;
+
+        min-width: 100px;
+        min-height: 100px;
+
+        max-width: 350px;
+
+        border: 1px solid gray;
+        border-radius: 10px;
+        // background-color: red;
+
+        transition: 0.1s;
+    }
+
+    .cardTitle {
+        width: 100%;
+        height: 30px;
+
+        text-align: left;
+        font-weight: bold;
+
+        margin-bottom: 15px;
+    }
+    .cardContent {
+        text-align: left;
+        width: 100%;
+
+        font-size: 14px;
+    }
+
+    // 이미지 컨텐츠 영역
+    .contentsArea_image {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background-color: #20343b;
+    }
+
+    .image_arrow {
+        position: absolute;
+        height: 100%;
+        width: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: gray;
+        opacity: 0;
+        transition: 0.2s;
+    }
+    .image_arrow:hover {
+        opacity: 1;
+    }
+
+    .image_arrowLeft {
+        left: 0;
+    }
+
+    .image_arrowRight {
+        right: 0;
     }
 
     // 폴더형 컨텐츠 영역

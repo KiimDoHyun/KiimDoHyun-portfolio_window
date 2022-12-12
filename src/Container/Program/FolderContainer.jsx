@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useMemo, useRef } from "react";
 import FolderComponent from "../../Component/Program/FolderComponent";
 import {
     rc_program_activeProgram,
@@ -11,6 +11,8 @@ import {
     rc_global_Directory_List,
     rc_global_Directory_Tree,
 } from "../../store/global";
+import useActiveProgram from "../../hooks/useActiveProgram";
+import { projectDatas } from "../../Common/data";
 const displayList = [
     { value: "BIG_BIG_ICON", name: "아주 큰 아이콘" },
     { value: "BIG_ICON", name: "큰 아이콘" },
@@ -24,6 +26,7 @@ const FolderContainer = ({ item }) => {
     // props 가 변하고 item으로 받는 status가 변경됨.
     // name은 변하지 않음. (고유값.)
     const { name, status } = item;
+
     const Directory_Tree = useRecoilValue(rc_global_Directory_Tree);
     const directory = useRecoilValue(rc_global_Directory_List);
 
@@ -54,6 +57,9 @@ const FolderContainer = ({ item }) => {
     const [selectedItem, setSelectedItem] = useState(""); // 클릭한 아이템
 
     const [displayType, setDisplayType] = useState(displayList[2].value);
+
+    // 아이콘 더블클릭 (활성화)
+    const onDoubleClickIcon = useActiveProgram();
 
     // 보기 유형
     const prevPos = useRef();
@@ -517,27 +523,22 @@ const FolderContainer = ({ item }) => {
 
     // 특정 아이템 더블 클릭
     /*
-    현재 위치를 해당 아이템으로 변경한다.
+    
     */
     const onDoubleClickItem = useCallback(
         (item) => {
+            // 폴더인 경우 현재 위치를 해당 폴더 위치로 변경한다.
             if (item.type === "FOLDER") {
                 setCurrentFolder(
                     directory.find((findItem) => item.name === findItem.name)
                 );
                 setFolderContents(Directory_Tree[item.name] || []);
             }
-
-            //     // 이동 기록에 없는 경우만 추가한다.
-            //     if (
-            //         !folderHistory.some(
-            //             (someItem) => someItem.name === item.name
-            //         )
-            //     ) {
-            //         setFolderHistory((prev) => [...prev, item.contents]);
-            //     }
-            //     setFolderContents(item.contents);
-            // }
+            // DOC, IMAGE 인 경우
+            // 해당하는 창을 띄운다
+            else {
+                onDoubleClickIcon(item);
+            }
         },
         [Directory_Tree, folderHistory, directory]
     );
@@ -566,6 +567,83 @@ const FolderContainer = ({ item }) => {
         // setFolderContents(folderHistory[folderHistory.length - 1]);
         //
     }, []);
+
+    /*
+    이미지형
+
+    1. 현재 아이템의 부모의 모든 아이템중 이미지형 프로그램을 배열로 가지고 있는다.
+
+    2. 현재 아이템은 해당 배열의 몇번째 인덱스인지 저장한다.
+
+    3. 좌,우 버튼을 누르면 현재 인덱스를 +-1 해준다.
+
+    4. 화면에 출력될 이미지는 해당 배열에서 특정된 인덱스에 해당하는 이미지를 가지게 된다.
+    */
+
+    // 현재 아이템의 부모의 모든 아이템중 이미지형 프로그램
+    const [imageArr, setImageArr] = useState([]);
+    const imageArrLength = useRef(0);
+
+    // 현재 아이템의 인덱스
+    const [curImageIdx, setCurImageIdx] = useState(0);
+
+    // 이미지형 프로그램의 경우 수행
+    useEffect(() => {
+        if (item.type === "IMAGE") {
+            // 부모의 아이템
+            const parentContents = Directory_Tree[item.parent] || [];
+
+            // 가공된 아이템
+            const calculated_parentContents = parentContents.filter(
+                (filterItem) => filterItem.type === "IMAGE"
+            );
+            imageArrLength.current = calculated_parentContents.length;
+
+            setImageArr(calculated_parentContents);
+
+            setCurImageIdx(
+                calculated_parentContents.findIndex(
+                    (fintItem) => fintItem.name === item.name
+                )
+            );
+        }
+    }, [Directory_Tree, item]);
+
+    const IMG_onClickLeft = useCallback(() => {
+        // 나의 부모의 자식들을 알고 있어야 좌우 이동이 가능하다.
+        setCurImageIdx((prev) => (prev - 1 >= 0 ? prev - 1 : 0));
+    }, []);
+
+    const IMG_onClickRight = useCallback(() => {
+        setCurImageIdx((prev) =>
+            prev + 1 < imageArrLength.current
+                ? prev + 1
+                : imageArrLength.current - 1
+        );
+    }, []);
+
+    /*
+    문서형
+
+    현재 프로그램이 문서형이라면
+
+    문서 정보를 가져온다.
+
+    문서정보는 변경되지 않는다.
+    */
+    const DOCData = useMemo(() => {
+        if (item.type !== "DOC") return null;
+
+        const target = projectDatas.find(
+            (findItem) => findItem["프로젝트 명"] === item.name
+        );
+        console.log("target", target);
+        return { data: target, keys: Object.keys(target) || [] };
+    }, [projectDatas, item]);
+
+    // useEffect(() => {
+    //     console.log("DOCData", DOCData);
+    // }, []);
 
     useEffect(() => {
         return () => {
@@ -601,6 +679,15 @@ const FolderContainer = ({ item }) => {
         displayType,
         displayList,
         currentFolder,
+
+        // IMAGE
+        IMG_onClickLeft,
+        IMG_onClickRight,
+        imageArr,
+        curImageIdx,
+
+        // DOC
+        DOCData,
     };
     return <FolderComponent {...propDatas} />;
 };

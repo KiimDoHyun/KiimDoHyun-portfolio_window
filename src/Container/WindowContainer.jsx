@@ -25,6 +25,7 @@ const WindowContainer = () => {
         onClickIcon,
         onDoubleClickIcon,
     };
+
     return (
         <>
             <Window {...propDatas} />

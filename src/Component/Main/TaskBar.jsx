@@ -3,6 +3,7 @@ import styled from "styled-components";
 import SimpleArrowUp from "../Program/Icon/SimpleArrowUp";
 import message from "../../asset/images/icons/message.png";
 import folderEmpty from "../../asset/images/icons/folder_empty.png";
+import defaultImage from "../../asset/images/icons/image_default.png";
 
 import Windows from "../Program/Icon/Windows";
 const TaskBar = (props) => {
@@ -58,10 +59,24 @@ const TaskBar = (props) => {
                                 onClick={() => onClickTaskIcon(item, idx)}
                             >
                                 <div className="shortCut_Img">
-                                    <img
-                                        src={item.icon || folderEmpty}
-                                        alt={item.name}
-                                    />
+                                    {item.type === "IMAGE" && (
+                                        <img
+                                            src={defaultImage}
+                                            alt={item.name}
+                                        />
+                                    )}
+                                    {item.type === "FOLDER" && (
+                                        <img
+                                            src={folderEmpty}
+                                            alt={item.name}
+                                        />
+                                    )}
+                                    {item.type === "BROWSER" && (
+                                        <img
+                                            src={item.icon || folderEmpty}
+                                            alt={item.name}
+                                        />
+                                    )}
                                 </div>
                                 <div className="shortCut_BottomLine" />
                             </div>
