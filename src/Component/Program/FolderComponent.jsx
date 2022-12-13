@@ -44,6 +44,7 @@ const FolderComponent = ({
 }) => {
     return (
         <FolderComponentBlock
+            className="folderComponent"
             ref={boxRef}
             isClose={isClose}
             onMouseDown={onClick}
@@ -253,16 +254,18 @@ const FolderComponent = ({
                 {item.type === "DOC" && (
                     <div className="contentsArea_doc">
                         <div className="doc_imageArea"></div>
-                        {/* {console.log("DOCData", DOCData)} */}
-                        {DOCData &&
-                            DOCData.keys.map((item, idx) => (
-                                <div key={idx} className="doc_card">
-                                    <div className="cardTitle">{item}</div>
-                                    <div className="cardContent">
-                                        {DOCData.data[item]}
+                        <div className="doc_contentsArea">
+                            {/* {console.log("DOCData", DOCData)} */}
+                            {DOCData &&
+                                DOCData.keys.map((item, idx) => (
+                                    <div key={idx} className="doc_card">
+                                        <div className="cardTitle">{item}</div>
+                                        <div className="cardContent">
+                                            {DOCData.data[item]}
+                                        </div>
                                     </div>
-                                </div>
-                            ))}
+                                ))}
+                        </div>
                     </div>
                 )}
             </div>
@@ -488,6 +491,7 @@ const FolderComponentBlock = styled.div`
     }
 
     // 문서 컨텐츠 영역
+    // 850 px 이상인 경우  처리 필요함.
     .contentsArea_doc {
         width: 100%;
         height: 100%;
@@ -506,35 +510,23 @@ const FolderComponentBlock = styled.div`
         background-color: gray;
     }
 
+    .doc_contentsArea {
+        width: 100%;
+    }
+
     .doc_card {
+        text-align: left;
+
         box-sizing: border-box;
         padding: 10px;
-
-        min-width: 100px;
-        min-height: 100px;
-
-        max-width: 350px;
-
-        border: 1px solid gray;
-        border-radius: 10px;
-        // background-color: red;
-
-        transition: 0.1s;
+        border-bottom: 1px solid gray;
     }
 
     .cardTitle {
-        width: 100%;
-        height: 30px;
-
-        text-align: left;
         font-weight: bold;
-
-        margin-bottom: 15px;
+        margin-bottom: 10px;
     }
     .cardContent {
-        text-align: left;
-        width: 100%;
-
         font-size: 14px;
     }
 
