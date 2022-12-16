@@ -5,6 +5,8 @@ import folderEmpty from "../../asset/images/icons/folder_empty.png";
 import defaultImage from "../../asset/images/icons/image_default.png";
 import leftArrow from "../../asset/images/icons/left-arrow.png";
 
+import reactIcon from "../../asset/images/icons/react.png";
+
 const DEFAULT_SIZE = 80;
 
 const FolderComponent = ({
@@ -63,21 +65,23 @@ const FolderComponent = ({
                                 src={item.icon || folderEmpty}
                                 alt={item.name}
                             />
-                            <div>{item.name}</div>
+                            <div className="programTitle">{item.name}</div>
                         </>
                     )}
                     {/* 이미지는 프로그램명이 동적으로 변함. */}
                     {item.type === "IMAGE" && imageArr.length > 0 && (
                         <>
                             <img src={defaultImage} alt={"이미지"} />
-                            <div>{imageArr[curImageIdx].name}</div>
+                            <div className="programTitle">
+                                {imageArr[curImageIdx].name}
+                            </div>
                         </>
                     )}
 
                     {item.type === "DOC" && (
                         <>
                             <img src={defaultImage} alt={"이미지"} />
-                            <div>{item.name}</div>
+                            <div className="programTitle">{item.name}</div>
                         </>
                     )}
                 </div>
@@ -255,16 +259,84 @@ const FolderComponent = ({
                     <div className="contentsArea_doc">
                         <div className="doc_imageArea"></div>
                         <div className="doc_contentsArea">
-                            {/* {console.log("DOCData", DOCData)} */}
-                            {DOCData &&
-                                DOCData.keys.map((item, idx) => (
-                                    <div key={idx} className="doc_card">
-                                        <div className="cardTitle">{item}</div>
-                                        <div className="cardContent">
-                                            {DOCData.data[item]}
+                            <div className="doc_card">
+                                <div className="cardTitle">프로젝트 명</div>
+                                <div className="cardContent">
+                                    {DOCData.data.projectName}
+                                </div>
+                            </div>
+
+                            <div className="doc_card">
+                                <div className="cardTitle">프로젝트 설명</div>
+                                <div className="cardContent">
+                                    {DOCData.data.projectDesc}
+                                </div>
+                            </div>
+
+                            <div className="doc_card">
+                                <div className="cardTitle">프로젝트 기간</div>
+                                <div className="cardContent">
+                                    {DOCData.data.projectTerm.map(
+                                        (termItem, idx) => (
+                                            <div key={idx}>{termItem}</div>
+                                        )
+                                    )}
+                                </div>
+                            </div>
+                            <div className="doc_card">
+                                <div className="cardTitle">프로젝트 성격</div>
+                                <div className="cardContent">
+                                    {DOCData.data.projectType}
+                                </div>
+                            </div>
+                            <div className="doc_card">
+                                <div className="cardTitle">담당 역할</div>
+                                <div className="cardContent">
+                                    {DOCData.data.role.map((roleItem, idx) => (
+                                        <div key={idx}>
+                                            {`${idx + 1}. `}
+                                            {roleItem}
                                         </div>
-                                    </div>
-                                ))}
+                                    ))}
+                                </div>
+                            </div>
+                            <div className="doc_card">
+                                <div className="cardTitle">개발부서</div>
+                                <div className="cardContent">
+                                    {DOCData.data.department}
+                                </div>
+                            </div>
+                            <div className="doc_card">
+                                <div className="cardTitle">
+                                    사용한 기술 스택
+                                </div>
+                                <div className="cardContent doc_stack">
+                                    {DOCData.data.stack.map(
+                                        (stackItem, idx) => (
+                                            <div
+                                                className="stackItem"
+                                                key={idx}
+                                            >
+                                                <div className="stackItem_name">
+                                                    {stackItem.name}
+                                                </div>
+                                                <div className="stackItem_Image">
+                                                    <img
+                                                        src={stackItem.img}
+                                                        alt="stackImage"
+                                                    />
+                                                </div>
+                                            </div>
+                                        )
+                                    )}
+                                </div>
+                            </div>
+                            <div className="doc_card">
+                                <div className="cardTitle">url</div>
+                                <div className="cardContent">
+                                    {DOCData.data.url}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 )}
@@ -397,6 +469,8 @@ const FolderComponentBlock = styled.div`
         width: 15px;
         height: 100%;
     }
+    .programTitle {
+    }
 
     .routeBox {
         flex: 1;
@@ -510,7 +584,7 @@ const FolderComponentBlock = styled.div`
         min-height: 200px;
         background-color: gray;
 
-        max-width: 1000px;
+        max-width: 850px;
     }
 
     .doc_contentsArea {
@@ -521,7 +595,7 @@ const FolderComponentBlock = styled.div`
         text-align: left;
 
         box-sizing: border-box;
-        padding: 10px;
+        padding: 20px 0;
         border-bottom: 1px solid gray;
     }
 
@@ -530,7 +604,55 @@ const FolderComponentBlock = styled.div`
         margin-bottom: 10px;
     }
     .cardContent {
-        font-size: 14px;
+        font-size: 12px;
+        color: #4b4b4b;
+    }
+
+    .doc_stack {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+    .stackItem {
+        border: 1px solid gray;
+        padding: 5px 10px;
+        border-radius: 5px;
+        width: fit-content;
+        position: relative;
+        cursor: pointer;
+    }
+
+    .stackItem:hover {
+        color: white;
+        background-color: gray;
+    }
+    .stackItem:hover .stackItem_Image {
+        bottom: -45px;
+        opacity: 1;
+        width: 40px;
+        height: 40px;
+        box-shadow: 0px 0px 10px 2px #a1a1a1;
+    }
+
+    .stackItem_Image {
+        position: absolute;
+
+        left: calc(50% - 20px);
+        width: 20px;
+        height: 20px;
+        bottom: -35px;
+
+        background-color: white;
+        opacity: 0;
+        transition: 0.2s;
+
+        box-sizing: border-box;
+        padding: 5px;
+    }
+
+    .stackItem_Image img {
+        width: 100%;
+        height: 100%;
     }
 
     // 이미지 컨텐츠 영역

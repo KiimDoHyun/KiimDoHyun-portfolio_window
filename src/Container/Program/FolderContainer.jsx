@@ -634,8 +634,11 @@ const FolderContainer = ({ item }) => {
     const DOCData = useMemo(() => {
         if (item.type !== "DOC") return null;
 
+        console.log("item.name: ", item.name);
+
+        console.log("projectDatas: ", projectDatas);
         const target = projectDatas.find(
-            (findItem) => findItem["프로젝트 명"] === item.name
+            (findItem) => findItem.projectName === item.name
         );
         console.log("target", target);
         return { data: target, keys: Object.keys(target) || [] };
