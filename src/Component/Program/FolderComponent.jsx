@@ -506,12 +506,15 @@ const FolderComponentBlock = styled.div`
 
     .doc_imageArea {
         width: 100%;
-        height: 200px;
+        height: auto;
+        min-height: 200px;
         background-color: gray;
+
+        max-width: 1000px;
     }
 
     .doc_contentsArea {
-        width: 100%;
+        flex: 1;
     }
 
     .doc_card {
