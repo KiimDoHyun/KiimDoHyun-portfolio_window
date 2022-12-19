@@ -42,7 +42,7 @@ export const projectDatas = [
         projectName: "셈틀꾼 홈페이지 제작",
         projectDesc:
             "학과 학술동아리(컴퓨터공학과 학술 동아리) 셈틀꾼의 홈페이지 제작",
-        projectImages: [imgVue],
+        projectImages: [],
         projectTerm: ["2020.07", "2020.08", "1개월"],
         projectType: "동아리 프로젝트",
         projectReulst: [

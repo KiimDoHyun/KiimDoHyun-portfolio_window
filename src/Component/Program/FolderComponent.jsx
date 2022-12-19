@@ -12,6 +12,9 @@ import minimize from "../../asset/images/icons/minimize.png";
 
 import defaultDocumentImage from "../../asset/images/icons/document_default.png";
 
+import collapseArrowLeft from "../../asset/images/icons/collapse-arrow-left-white.png";
+import collapseArrowRight from "../../asset/images/icons/collapse-arrow-right-white.png";
+
 const DEFAULT_SIZE = 80;
 
 const FolderComponent = ({
@@ -238,14 +241,20 @@ const FolderComponent = ({
                             title="이전"
                             onClick={IMG_onClickLeft}
                         >
-                            {"<"}
+                            <img
+                                src={collapseArrowLeft}
+                                alt="collapseArrowLeft"
+                            />
                         </div>
                         <div
                             className="image_arrow image_arrowRight"
                             title="다음"
                             onClick={IMG_onClickRight}
                         >
-                            {">"}
+                            <img
+                                src={collapseArrowRight}
+                                alt="collapseArrowRight"
+                            />
                         </div>
 
                         {imageArr.length > 0 && (
@@ -772,23 +781,30 @@ const FolderComponentBlock = styled.div`
     .image_arrow {
         position: absolute;
         height: 100%;
-        width: 50px;
+        width: 100px;
         display: flex;
         align-items: center;
         justify-content: center;
-        background-color: gray;
         opacity: 0;
         transition: 0.2s;
     }
+
+    .image_arrow img {
+        width: 15px;
+        height: 15px;
+    }
+
     .image_arrow:hover {
         opacity: 1;
     }
 
     .image_arrowLeft {
+        background: linear-gradient(to right, #00000029, #ffffff00);
         left: 0;
     }
 
     .image_arrowRight {
+        background: linear-gradient(to right, #ffffff00, #00000029);
         right: 0;
     }
 
