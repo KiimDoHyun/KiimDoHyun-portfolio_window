@@ -4,6 +4,7 @@ import SimpleArrowUp from "../Program/Icon/SimpleArrowUp";
 import message from "../../asset/images/icons/message.png";
 import folderEmpty from "../../asset/images/icons/folder_empty.png";
 import defaultImage from "../../asset/images/icons/image_default.png";
+import defaultDocumentImage from "../../asset/images/icons/document_default.png";
 
 import Windows from "../Program/Icon/Windows";
 const TaskBar = (props) => {
@@ -68,6 +69,12 @@ const TaskBar = (props) => {
                                     {item.type === "FOLDER" && (
                                         <img
                                             src={folderEmpty}
+                                            alt={item.name}
+                                        />
+                                    )}
+                                    {item.type === "DOC" && (
+                                        <img
+                                            src={defaultDocumentImage}
                                             alt={item.name}
                                         />
                                     )}

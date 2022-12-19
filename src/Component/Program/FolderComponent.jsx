@@ -5,7 +5,12 @@ import folderEmpty from "../../asset/images/icons/folder_empty.png";
 import defaultImage from "../../asset/images/icons/image_default.png";
 import leftArrow from "../../asset/images/icons/left-arrow.png";
 
-import reactIcon from "../../asset/images/icons/react.png";
+import close from "../../asset/images/icons/close.png";
+import horizontalLine from "../../asset/images/icons/horizontal-line.png";
+import maximize from "../../asset/images/icons/maximize.png";
+import minimize from "../../asset/images/icons/minimize.png";
+
+import defaultDocumentImage from "../../asset/images/icons/document_default.png";
 
 const DEFAULT_SIZE = 80;
 
@@ -80,27 +85,26 @@ const FolderComponent = ({
 
                     {item.type === "DOC" && (
                         <>
-                            <img src={defaultImage} alt={"이미지"} />
+                            <img src={defaultDocumentImage} alt={"이미지"} />
                             <div className="programTitle">{item.name}</div>
                         </>
                     )}
                 </div>
                 <div className="buttonArea">
-                    <div className="min" onClick={onClickMin}>
-                        <div />
+                    <div className="buttonIcon" onClick={onClickMin}>
+                        <img src={horizontalLine} alt="horizontalLine" />
                     </div>
                     {isMaxSize ? (
-                        <div className="normalSize" onClick={onClickNormalSize}>
-                            <div />
+                        <div className="buttonIcon" onClick={onClickNormalSize}>
+                            <img src={minimize} alt="horizontalLine" />
                         </div>
                     ) : (
-                        <div className="max" onClick={onClickMax}>
-                            <div />
+                        <div className="buttonIcon" onClick={onClickMax}>
+                            <img src={maximize} alt="horizontalLine" />
                         </div>
                     )}
-                    <div className="close" onClick={onClickClose}>
-                        <div />
-                        <div />
+                    <div className="buttonIcon close" onClick={onClickClose}>
+                        <img src={close} alt="horizontalLine" />
                     </div>
                 </div>
             </div>
@@ -379,10 +383,11 @@ const FolderComponent = ({
                                     )}
                                 </div>
                             </div>
+
                             <div className="doc_card">
                                 <div className="cardTitle">url</div>
                                 <div className="cardContent">
-                                    {DOCData.data.url}
+                                    {DOCData.data.url || "공개된 URL 없음"}
                                 </div>
                             </div>
                         </div>
@@ -590,12 +595,10 @@ const FolderComponentBlock = styled.div`
     }
 
     .buttonArea > div > img {
-        width: 10px;
+        width: 14px;
     }
 
-    .buttonArea .min:hover,
-    .buttonArea .normalSize:hover,
-    .buttonArea .max:hover {
+    .buttonArea .buttonIcon:hover {
         background-color: #ddddddb3;
     }
 
