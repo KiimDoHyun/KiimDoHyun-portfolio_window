@@ -283,6 +283,7 @@ const FolderComponent = ({
                                 </div>
                             )}
                         </div>
+
                         <div className="doc_contentsArea">
                             <div className="doc_card">
                                 <div className="cardTitle">프로젝트 명</div>
@@ -632,11 +633,11 @@ const FolderComponentBlock = styled.div`
         height: auto;
         min-height: 200px;
         background-color: #e7e7e7;
-
-        max-width: 850px;
-
         display: inline-box;
         overflow: scroll;
+
+        flex-grow: 1;
+        flex-basis: 500px;
     }
 
     .noProjectImage {
@@ -667,6 +668,12 @@ const FolderComponentBlock = styled.div`
 
     .doc_contentsArea {
         flex: 1;
+
+        overflow: scroll;
+        height: 100%;
+        width: 100%;
+        flex-grow: 1;
+        flex-basis: 500px;
     }
 
     .doc_card {
