@@ -808,6 +808,11 @@ const FolderComponentBlock = styled.div`
         right: 0;
     }
 
+    .imageContent {
+        width: 96px;
+        height: 96px;
+    }
+
     // 폴더형 컨텐츠 영역
     .contentsArea_folder {
         width: 100%;
