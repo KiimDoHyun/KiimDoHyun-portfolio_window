@@ -338,12 +338,6 @@ export const directory = [
         parent: "기술스택",
     },
     {
-        name: "TEST_TECH",
-        type: "FOLDER",
-        icon: "",
-        parent: "기술스택",
-    },
-    {
         name: "구알맛-구알맛 오너즈",
         type: "DOC",
         icon: "",
