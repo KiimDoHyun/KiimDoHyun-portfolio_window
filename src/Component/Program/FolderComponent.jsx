@@ -434,7 +434,9 @@ const FolderComponent = ({
                                 </div>
                                 <div className="myInfoArea">
                                     <h1>김도현</h1>
-                                    <p>bzidol@naver.com</p>
+                                    <p style={{ userSelect: "text" }}>
+                                        bzidol@naver.com
+                                    </p>
                                     <p>010-7793-5630</p>
                                     <p>{"남자 / 27 세"}</p>
                                 </div>
