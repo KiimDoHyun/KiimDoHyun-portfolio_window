@@ -51,11 +51,6 @@ export const projectDatas = [
                 content:
                     "처음으로 참여한 웹 프로젝트로 Vue.js 를 이용한 프론트엔드를 담당해서 개발함. 약 10명으로 구성된 프론트엔드, 백엔드 개발자와 협업을 진행한 프로젝트.",
             },
-            {
-                title: "웹 개발자 커리어 시작",
-                content:
-                    "처음으로 참여한 웹 프로젝트로 Vue.js 를 이용한 프론트엔드를 담당해서 개발함. 약 10명으로 구성된 프론트엔드, 백엔드 개발자와 협업을 진행한 프로젝트.",
-            },
         ],
         role: ["프론트엔드 개발"],
         department: "금오공과대학교 셈틀꾼",
@@ -285,7 +280,7 @@ export const directory = [
     },
     {
         name: "내컴퓨터",
-        type: "FOLDER",
+        type: "INFO",
         icon: monitor,
         parent: "root",
     },
