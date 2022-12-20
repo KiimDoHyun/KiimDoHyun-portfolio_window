@@ -19,6 +19,7 @@ import KDH from "../../asset/images/김도현.jpg";
 import blogLine from "../../asset/images/icons/blog_line.png";
 import githubLine from "../../asset/images/icons/github_line.png";
 import companyLine from "../../asset/images/icons/company_line.png";
+import linkedin from "../../asset/images/icons/linkedin_line.png";
 
 import campus from "../../asset/images/icons/campus_line_blue.png";
 import book from "../../asset/images/icons/book_line_blue.png";
@@ -486,7 +487,7 @@ const FolderComponent = ({
                                 </div>
                                 <div className="infoItem">
                                     <div className="myImageArea">
-                                        <img src={companyLine} alt="Company" />
+                                        <img src={linkedin} alt="linkedin" />
                                     </div>
                                     <div className="myInfoArea">
                                         <p>linkedin</p>
