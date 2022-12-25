@@ -21,11 +21,12 @@ const displayList = [
     { value: "DETAIL", name: "자세히" },
 ];
 
-const FolderContainer = ({ item }) => {
+const FolderContainer = ({ name, type, parent, status, contents }) => {
+    console.log("폴터 컨테이너 렌더링");
     // 프로그램 리스트의 현재 아이템의 상태가 변함.
     // props 가 변하고 item으로 받는 status가 변경됨.
     // name은 변하지 않음. (고유값.)
-    const { name, status } = item;
+    // const { name, status } = item;
 
     const Directory_Tree = useRecoilValue(rc_global_Directory_Tree);
     const directory = useRecoilValue(rc_global_Directory_List);
@@ -45,14 +46,14 @@ const FolderContainer = ({ item }) => {
 
     // 현재 폴더 정보 (초기엔 바탕화면에서 클릭한 아이템.)
     const [currentFolder, setCurrentFolder] = useState(
-        directory.find((findItem) => item.name === findItem.name)
+        directory.find((findItem) => name === findItem.name)
     );
 
     // 현재 폴더에서 보여줄 컨텐츠 (초기엔 바탕화면에서 클릭한 아이템의 컨텐츠)
     const [folderContents, setFolderContents] = useState(
-        Directory_Tree[item.name] || []
+        Directory_Tree[name] || []
     );
-    const [folderHistory, setFolderHistory] = useState([item.contents]);
+    const [folderHistory, setFolderHistory] = useState([contents]);
 
     const [selectedItem, setSelectedItem] = useState(""); // 클릭한 아이템
 
@@ -138,7 +139,9 @@ const FolderContainer = ({ item }) => {
         boxRef.current.style.opacity = "0";
 
         setTimeout(() => {
-            setProgramList((prev) => prev.filter((item) => item.name !== name));
+            setProgramList((prev) =>
+                prev.filter((filterItem) => filterItem.name !== name)
+            );
         }, [300]);
     }, [name, setProgramList]);
 
@@ -526,18 +529,20 @@ const FolderContainer = ({ item }) => {
     
     */
     const onDoubleClickItem = useCallback(
-        (item) => {
+        (clickedItem) => {
             // 폴더인 경우 현재 위치를 해당 폴더 위치로 변경한다.
-            if (item.type === "FOLDER") {
+            if (clickedItem.type === "FOLDER") {
                 setCurrentFolder(
-                    directory.find((findItem) => item.name === findItem.name)
+                    directory.find(
+                        (findItem) => clickedItem.name === findItem.name
+                    )
                 );
-                setFolderContents(Directory_Tree[item.name] || []);
+                setFolderContents(Directory_Tree[clickedItem.name] || []);
             }
             // DOC, IMAGE 인 경우
             // 해당하는 창을 띄운다
             else {
-                onDoubleClickIcon(item);
+                onDoubleClickIcon(clickedItem);
             }
         },
         [Directory_Tree, folderHistory, directory]
@@ -589,9 +594,9 @@ const FolderContainer = ({ item }) => {
 
     // 이미지형 프로그램의 경우 수행
     useEffect(() => {
-        if (item.type === "IMAGE") {
+        if (type === "IMAGE") {
             // 부모의 아이템
-            const parentContents = Directory_Tree[item.parent] || [];
+            const parentContents = Directory_Tree[parent] || [];
 
             // 가공된 아이템
             const calculated_parentContents = parentContents.filter(
@@ -603,11 +608,11 @@ const FolderContainer = ({ item }) => {
 
             setCurImageIdx(
                 calculated_parentContents.findIndex(
-                    (fintItem) => fintItem.name === item.name
+                    (fintItem) => fintItem.name === name
                 )
             );
         }
-    }, [Directory_Tree, item]);
+    }, [Directory_Tree, parent, name]);
 
     const IMG_onClickLeft = useCallback(() => {
         // 나의 부모의 자식들을 알고 있어야 좌우 이동이 가능하다.
@@ -632,17 +637,14 @@ const FolderContainer = ({ item }) => {
     문서정보는 변경되지 않는다.
     */
     const DOCData = useMemo(() => {
-        if (item.type !== "DOC") return null;
+        if (type !== "DOC") return null;
 
-        console.log("item.name: ", item.name);
-
-        console.log("projectDatas: ", projectDatas);
         const target = projectDatas.find(
-            (findItem) => findItem.projectName === item.name
+            (findItem) => findItem.projectName === name
         );
         console.log("target", target);
         return { data: target, keys: Object.keys(target) || [] };
-    }, [projectDatas, item]);
+    }, [projectDatas, type, name]);
 
     // useEffect(() => {
     //     console.log("DOCData", DOCData);
@@ -676,7 +678,7 @@ const FolderContainer = ({ item }) => {
         boxRef,
         isClose,
         isMaxSize,
-        item,
+        item: { name, type, parent, status, contents },
         selectedItem,
         folderContents,
         displayType,
