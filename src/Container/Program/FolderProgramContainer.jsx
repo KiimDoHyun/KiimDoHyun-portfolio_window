@@ -5,7 +5,7 @@ import {
     rc_global_Directory_List,
     rc_global_Directory_Tree,
 } from "../../store/global";
-import FolderProgramComponent from "../../Container/Program/FolderProgramComponent";
+import FolderProgramComponent from "../../Component/Program/FolderProgramComponent";
 
 const displayList = [
     { value: "BIG_BIG_ICON", name: "아주 큰 아이콘" },

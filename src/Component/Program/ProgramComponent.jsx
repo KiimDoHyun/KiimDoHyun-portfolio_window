@@ -12,7 +12,7 @@ import minimize from "../../asset/images/icons/minimize.png";
 import defaultDocumentImage from "../../asset/images/icons/document_default.png";
 
 import ImageProgramContainer from "../../Container/Program/ImageProgramContainer";
-import FolderProgramContainer from "./FolderProgramContainer";
+import FolderProgramContainer from "../../Container/Program/FolderProgramContainer";
 import DOCProgramContainer from "../../Container/Program/DOCProgramContainer";
 import INFOProgramContainer from "../../Container/Program/INFOProgramContainer";
 
