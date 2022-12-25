@@ -35,12 +35,12 @@ const WindowContainer = () => {
                 return (
                     <Component
                         key={`${item.name}`}
-                        name={item.name}
-                        type={item.type}
-                        parent={item.parent}
-                        status={item.statue}
-                        contents={item.contents}
-                        // item={item}
+                        // name={item.name}
+                        // type={item.type}
+                        // parent={item.parent}
+                        // status={item.statue}
+                        // contents={item.contents}
+                        item={item}
                     />
                 );
             })}

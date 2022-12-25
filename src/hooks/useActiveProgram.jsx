@@ -43,7 +43,7 @@ const useActiveProgram = () => {
             }
             // 처음 여는거라면
             else {
-                import("../Container/Program/FolderContainer").then((obj) => {
+                import("../Container/Program/ProgramContainer").then((obj) => {
                     const Component = obj.default;
                     setProgramList((prev) => [
                         ...prev,
