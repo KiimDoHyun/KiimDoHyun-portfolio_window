@@ -29,6 +29,12 @@ import gear from "../../asset/images/icons/gear_line_blue.png";
 import web from "../../asset/images/icons/web_line_blue.png";
 import companyBlue from "../../asset/images/icons/company_line_blue.png";
 
+import plus from "../../asset/images/icons/plus_line.png";
+import minus from "../../asset/images/icons/minus_line.png";
+import rotate_left from "../../asset/images/icons/rotate_left_line.png";
+import rotate_right from "../../asset/images/icons/rotate_right_line.png";
+import image_defaultSize from "../../asset/images/icons/image_defaultSize_line.png";
+
 const DEFAULT_SIZE = 80;
 
 const FolderComponent = ({
@@ -63,6 +69,13 @@ const FolderComponent = ({
     IMG_onClickRight,
     imageArr,
     curImageIdx,
+    refImage,
+    currentImage_sizeRate,
+    onClickM_Image_ScaleUp,
+    onClickM_Image_ScaleDown,
+    onClickM_Image_Rotate_Right,
+    onClickM_Image_Rotate_Left,
+    onClickM_Image_Default,
 
     // DOC
     DOCData,
@@ -129,7 +142,7 @@ const FolderComponent = ({
                 </div>
             </div>
 
-            <div className="headerArea2">
+            <div className={`headerArea2 headerArea2_${item.type}`}>
                 {/* 폴더형 전용 헤더 */}
                 {item.type === "FOLDER" && (
                     <>
@@ -163,6 +176,49 @@ const FolderComponent = ({
                                     </option>
                                 ))}
                             </select>
+                        </div>
+                    </>
+                )}
+
+                {item.type === "IMAGE" && (
+                    <>
+                        <div
+                            className="image_header_controller_btn"
+                            onClick={onClickM_Image_ScaleUp}
+                            title="이미지 확대"
+                        >
+                            <img src={plus} alt="확대" />
+                        </div>
+                        <div
+                            className="image_header_controller_btn"
+                            onClick={onClickM_Image_ScaleDown}
+                            title="이미지 축소"
+                        >
+                            <img src={minus} alt="축소" />
+                        </div>
+                        <div
+                            className="image_header_controller_btn"
+                            onClick={onClickM_Image_Rotate_Right}
+                            title="왼쪽으로 회전"
+                        >
+                            <img src={rotate_left} alt="회전_좌" />
+                        </div>
+                        <div
+                            className="image_header_controller_btn"
+                            onClick={onClickM_Image_Rotate_Left}
+                            title="오른쪽으로 회전"
+                        >
+                            <img src={rotate_right} alt="회전_우" />
+                        </div>
+                        <div
+                            className="image_header_controller_btn"
+                            onClick={onClickM_Image_Default}
+                            title="기본 설정으로"
+                        >
+                            <img src={image_defaultSize} alt="화면맞춤" />
+                        </div>
+                        <div className="image_haeder_controller_number">
+                            {Math.round(currentImage_sizeRate * 100)} %
                         </div>
                     </>
                 )}
@@ -283,6 +339,7 @@ const FolderComponent = ({
                         {imageArr.length > 0 && (
                             <img
                                 className="imageContent"
+                                ref={refImage}
                                 // src={item.icon}
                                 src={imageArr[curImageIdx].icon}
                                 alt={imageArr[curImageIdx].name}
@@ -1116,6 +1173,29 @@ const FolderComponentBlock = styled.div`
     .imageContent {
         width: 96px;
         height: 96px;
+    }
+
+    .image_header_controller_btn {
+        width: 20px;
+        height: 20px;
+
+        padding: 1px;
+        box-sizing: border-box;
+
+        transition: 0.2s;
+    }
+
+    .headerArea2_IMAGE {
+        justify-content: flex-start;
+    }
+    .image_header_controller_btn:hover {
+        background-color: #e6e6e6;
+    }
+
+    .image_header_controller_btn img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
     }
 
     // 폴더형 컨텐츠 영역

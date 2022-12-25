@@ -22,7 +22,6 @@ const displayList = [
 ];
 
 const FolderContainer = ({ name, type, parent, status, contents }) => {
-    console.log("폴터 컨테이너 렌더링");
     // 프로그램 리스트의 현재 아이템의 상태가 변함.
     // props 가 변하고 item으로 받는 status가 변경됨.
     // name은 변하지 않음. (고유값.)
@@ -54,7 +53,6 @@ const FolderContainer = ({ name, type, parent, status, contents }) => {
     const [folderContents, setFolderContents] = useState(
         Directory_Tree[name] || []
     );
-    const [folderHistory, setFolderHistory] = useState([contents]);
 
     const [selectedItem, setSelectedItem] = useState(""); // 클릭한 아이템
 
@@ -593,6 +591,12 @@ const FolderContainer = ({ name, type, parent, status, contents }) => {
     // 현재 아이템의 인덱스
     const [curImageIdx, setCurImageIdx] = useState(0);
 
+    // 이미지 크기 배율
+    const [currentImage_sizeRate, setCurrentImage_sizeRate] = useState(1);
+
+    // 이미지 회전 각
+    const [currentImage_rotate, setCurrentImage_rotate] = useState(0);
+
     // 이미지형 프로그램의 경우 수행
     useEffect(() => {
         if (type === "IMAGE") {
@@ -618,7 +622,10 @@ const FolderContainer = ({ name, type, parent, status, contents }) => {
     const IMG_onClickLeft = useCallback(() => {
         // 나의 부모의 자식들을 알고 있어야 좌우 이동이 가능하다.
         setCurImageIdx((prev) => (prev - 1 >= 0 ? prev - 1 : 0));
+        setCurrentImage_sizeRate(100);
     }, []);
+
+    const refImage = useRef(null);
 
     const IMG_onClickRight = useCallback(() => {
         setCurImageIdx((prev) =>
@@ -626,7 +633,25 @@ const FolderContainer = ({ name, type, parent, status, contents }) => {
                 ? prev + 1
                 : imageArrLength.current - 1
         );
+        setCurrentImage_sizeRate(100);
     }, []);
+
+    const onClickM_Image_ScaleUp = useCallback(() => {
+        setCurrentImage_sizeRate((prev) => prev + 0.2);
+    }, [setCurrentImage_sizeRate]);
+    const onClickM_Image_ScaleDown = useCallback(() => {
+        setCurrentImage_sizeRate((prev) => (prev - 0.2 > 0 ? prev - 0.2 : 0));
+    }, [setCurrentImage_sizeRate]);
+    const onClickM_Image_Rotate_Right = useCallback(() => {
+        setCurrentImage_rotate((prev) => (prev + 90) % 360);
+    }, [setCurrentImage_sizeRate]);
+    const onClickM_Image_Rotate_Left = useCallback(() => {
+        setCurrentImage_rotate((prev) => (prev - 90) % 360);
+    }, [setCurrentImage_sizeRate]);
+    const onClickM_Image_Default = useCallback(() => {
+        setCurrentImage_rotate(0);
+        setCurrentImage_sizeRate(1);
+    }, [setCurrentImage_sizeRate]);
 
     /*
     문서형
@@ -650,6 +675,18 @@ const FolderContainer = ({ name, type, parent, status, contents }) => {
     // useEffect(() => {
     //     console.log("DOCData", DOCData);
     // }, []);
+
+    useEffect(() => {
+        if (refImage.current) {
+            refImage.current.style.rotate = `${currentImage_rotate}deg`;
+        }
+    }, [currentImage_rotate]);
+
+    useEffect(() => {
+        if (refImage.current) {
+            refImage.current.style.scale = currentImage_sizeRate;
+        }
+    }, [currentImage_sizeRate]);
 
     useEffect(() => {
         return () => {
@@ -692,6 +729,13 @@ const FolderContainer = ({ name, type, parent, status, contents }) => {
         IMG_onClickRight,
         imageArr,
         curImageIdx,
+        refImage,
+        currentImage_sizeRate,
+        onClickM_Image_ScaleUp,
+        onClickM_Image_ScaleDown,
+        onClickM_Image_Rotate_Right,
+        onClickM_Image_Rotate_Left,
+        onClickM_Image_Default,
 
         // DOC
         DOCData,
