@@ -4,6 +4,11 @@ import SimpleArrowUp from "../Program/Icon/SimpleArrowUp";
 import message from "../../asset/images/icons/message.png";
 import folderEmpty from "../../asset/images/icons/folder_empty.png";
 import defaultImage from "../../asset/images/icons/image_default.png";
+import monitor from "../../asset/images/icons/monitor.png";
+import defaultDocumentImage from "../../asset/images/icons/document_default.png";
+
+import arrowUp from "../../asset/images/icons/collapse-arrow-up-white.png";
+import arrowDown from "../../asset/images/icons/collapse-arrow-down-white.png";
 
 import Windows from "../Program/Icon/Windows";
 const TaskBar = (props) => {
@@ -45,7 +50,7 @@ const TaskBar = (props) => {
 
                 {/* 작업표시줄 */}
                 <div className="box2" ref={box2Ref}>
-                    {/* 프로젝트 */}
+                    {/* 프로그램 */}
                     {programList.map((item, idx) => {
                         return (
                             <div
@@ -70,6 +75,15 @@ const TaskBar = (props) => {
                                             src={folderEmpty}
                                             alt={item.name}
                                         />
+                                    )}
+                                    {item.type === "DOC" && (
+                                        <img
+                                            src={defaultDocumentImage}
+                                            alt={item.name}
+                                        />
+                                    )}
+                                    {item.type === "INFO" && (
+                                        <img src={monitor} alt={item.name} />
                                     )}
                                     {item.type === "BROWSER" && (
                                         <img
@@ -96,7 +110,11 @@ const TaskBar = (props) => {
                         }
                         onClick={onClickHiddenIcon}
                     >
-                        <SimpleArrowUp />
+                        {hiddenIcon ? (
+                            <img src={arrowDown} alt="arrowDown" />
+                        ) : (
+                            <img src={arrowUp} alt="arrowUp" />
+                        )}
                     </div>
 
                     {/* 시간 */}
@@ -242,6 +260,12 @@ const TaskBarBlock = styled.div`
 
     .arrowUpIcon {
         padding: 5px;
+        display: flex;
+        align-items: center;
+    }
+
+    .arrowUpIcon img {
+        width: 100%;
     }
 
     .dateInfo {

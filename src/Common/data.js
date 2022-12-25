@@ -42,15 +42,10 @@ export const projectDatas = [
         projectName: "셈틀꾼 홈페이지 제작",
         projectDesc:
             "학과 학술동아리(컴퓨터공학과 학술 동아리) 셈틀꾼의 홈페이지 제작",
-        projectImages: [imgVue],
+        projectImages: [],
         projectTerm: ["2020.07", "2020.08", "1개월"],
         projectType: "동아리 프로젝트",
         projectReulst: [
-            {
-                title: "웹 개발자 커리어 시작",
-                content:
-                    "처음으로 참여한 웹 프로젝트로 Vue.js 를 이용한 프론트엔드를 담당해서 개발함. 약 10명으로 구성된 프론트엔드, 백엔드 개발자와 협업을 진행한 프로젝트.",
-            },
             {
                 title: "웹 개발자 커리어 시작",
                 content:
@@ -285,7 +280,7 @@ export const directory = [
     },
     {
         name: "내컴퓨터",
-        type: "FOLDER",
+        type: "INFO",
         icon: monitor,
         parent: "root",
     },
@@ -333,12 +328,6 @@ export const directory = [
     },
     {
         name: "SUB_TECH",
-        type: "FOLDER",
-        icon: "",
-        parent: "기술스택",
-    },
-    {
-        name: "TEST_TECH",
         type: "FOLDER",
         icon: "",
         parent: "기술스택",

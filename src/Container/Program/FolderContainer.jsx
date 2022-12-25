@@ -29,6 +29,7 @@ const FolderContainer = ({ name, type, parent, status, contents }) => {
     // const { name, status } = item;
 
     const Directory_Tree = useRecoilValue(rc_global_Directory_Tree);
+
     const directory = useRecoilValue(rc_global_Directory_List);
 
     const setProgramList = useSetRecoilState(rc_program_programList);
@@ -545,7 +546,7 @@ const FolderContainer = ({ name, type, parent, status, contents }) => {
                 onDoubleClickIcon(clickedItem);
             }
         },
-        [Directory_Tree, folderHistory, directory]
+        [onDoubleClickIcon, Directory_Tree, directory]
     );
 
     // 뒤로 가기
@@ -675,6 +676,7 @@ const FolderContainer = ({ name, type, parent, status, contents }) => {
         onClickRight,
         setDisplayType,
 
+        Directory_Tree,
         boxRef,
         isClose,
         isMaxSize,

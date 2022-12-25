@@ -5,7 +5,29 @@ import folderEmpty from "../../asset/images/icons/folder_empty.png";
 import defaultImage from "../../asset/images/icons/image_default.png";
 import leftArrow from "../../asset/images/icons/left-arrow.png";
 
-import reactIcon from "../../asset/images/icons/react.png";
+import close from "../../asset/images/icons/close.png";
+import horizontalLine from "../../asset/images/icons/horizontal-line.png";
+import maximize from "../../asset/images/icons/maximize.png";
+import minimize from "../../asset/images/icons/minimize.png";
+
+import defaultDocumentImage from "../../asset/images/icons/document_default.png";
+
+import collapseArrowLeft from "../../asset/images/icons/collapse-arrow-left-white.png";
+import collapseArrowRight from "../../asset/images/icons/collapse-arrow-right-white.png";
+
+import KDH from "../../asset/images/김도현.jpg";
+import blogLine from "../../asset/images/icons/blog_line.png";
+import githubLine from "../../asset/images/icons/github_line.png";
+import companyLine from "../../asset/images/icons/company_line.png";
+import linkedin from "../../asset/images/icons/linkedin_line.png";
+
+import campus from "../../asset/images/icons/campus_line_blue.png";
+import book from "../../asset/images/icons/book_line_blue.png";
+import coding from "../../asset/images/icons/coding_line_blue.png";
+import business from "../../asset/images/icons/business_line_blue.png";
+import gear from "../../asset/images/icons/gear_line_blue.png";
+import web from "../../asset/images/icons/web_line_blue.png";
+import companyBlue from "../../asset/images/icons/company_line_blue.png";
 
 const DEFAULT_SIZE = 80;
 
@@ -25,6 +47,7 @@ const FolderComponent = ({
     onClickRight,
     setDisplayType,
 
+    Directory_Tree,
     boxRef,
     isClose,
     isMaxSize,
@@ -59,7 +82,9 @@ const FolderComponent = ({
             >
                 <div className="infoArea">
                     {/* 폴더, 브라우저는 프로그램명이 동적으로 변하지 않음. */}
-                    {(item.type === "FOLDER" || item.type === "BROWSER") && (
+                    {(item.type === "FOLDER" ||
+                        item.type === "BROWSER" ||
+                        item.type === "INFO") && (
                         <>
                             <img
                                 src={item.icon || folderEmpty}
@@ -80,27 +105,26 @@ const FolderComponent = ({
 
                     {item.type === "DOC" && (
                         <>
-                            <img src={defaultImage} alt={"이미지"} />
+                            <img src={defaultDocumentImage} alt={"이미지"} />
                             <div className="programTitle">{item.name}</div>
                         </>
                     )}
                 </div>
                 <div className="buttonArea">
-                    <div className="min" onClick={onClickMin}>
-                        <div />
+                    <div className="buttonIcon" onClick={onClickMin}>
+                        <img src={horizontalLine} alt="horizontalLine" />
                     </div>
                     {isMaxSize ? (
-                        <div className="normalSize" onClick={onClickNormalSize}>
-                            <div />
+                        <div className="buttonIcon" onClick={onClickNormalSize}>
+                            <img src={minimize} alt="horizontalLine" />
                         </div>
                     ) : (
-                        <div className="max" onClick={onClickMax}>
-                            <div />
+                        <div className="buttonIcon" onClick={onClickMax}>
+                            <img src={maximize} alt="horizontalLine" />
                         </div>
                     )}
-                    <div className="close" onClick={onClickClose}>
-                        <div />
-                        <div />
+                    <div className="buttonIcon close" onClick={onClickClose}>
+                        <img src={close} alt="horizontalLine" />
                     </div>
                 </div>
             </div>
@@ -133,9 +157,9 @@ const FolderComponent = ({
                                 value={displayType}
                                 onChange={(e) => setDisplayType(e.target.value)}
                             >
-                                {displayList.map((item, idx) => (
-                                    <option key={idx} value={item.value}>
-                                        {item.name}
+                                {displayList.map((mapItem, idx) => (
+                                    <option key={idx} value={mapItem.value}>
+                                        {mapItem.name}
                                     </option>
                                 ))}
                             </select>
@@ -170,28 +194,34 @@ const FolderComponent = ({
                                             <div className="name">{"유형"}</div>
                                         </div>
                                     )}
-                                    {folderContents.map((item, idx) => (
+                                    {folderContents.map((mapItem, idx) => (
                                         <div
                                             className={`${
-                                                selectedItem === item.name
+                                                selectedItem === mapItem.name
                                                     ? "folder folder_selected"
                                                     : "folder"
                                             }`}
                                             key={idx}
                                             onClick={() =>
-                                                onClickItem(item.name)
+                                                onClickItem(mapItem.name)
                                             }
                                             onDoubleClick={() =>
-                                                onDoubleClickItem(item)
+                                                onDoubleClickItem(mapItem)
                                             }
                                         >
                                             {/*  폴더 */}
                                             <div className="imgCover">
-                                                {item.type === "FOLDER" ? (
+                                                {mapItem.type === "FOLDER" ? (
                                                     <img
                                                         src={
-                                                            item.folderCnt
-                                                                ? folderFull
+                                                            Directory_Tree[
+                                                                mapItem.name
+                                                            ] &&
+                                                            Directory_Tree[
+                                                                mapItem.name
+                                                            ].length > 0
+                                                                ? // item.folderCnt
+                                                                  folderFull
                                                                 : folderEmpty
                                                         }
                                                         alt="folderEmpty"
@@ -199,21 +229,21 @@ const FolderComponent = ({
                                                 ) : (
                                                     <img
                                                         src={
-                                                            item.icon ||
+                                                            mapItem.icon ||
                                                             defaultImage
                                                         }
-                                                        alt={item.name}
+                                                        alt={mapItem.name}
                                                     />
                                                 )}
                                             </div>
 
                                             <div className="name">
-                                                {item.name}
+                                                {mapItem.name}
                                             </div>
 
                                             {displayType === "DETAIL" && (
                                                 <div className="name">
-                                                    {item.type}
+                                                    {mapItem.type}
                                                 </div>
                                             )}
                                         </div>
@@ -234,14 +264,20 @@ const FolderComponent = ({
                             title="이전"
                             onClick={IMG_onClickLeft}
                         >
-                            {"<"}
+                            <img
+                                src={collapseArrowLeft}
+                                alt="collapseArrowLeft"
+                            />
                         </div>
                         <div
                             className="image_arrow image_arrowRight"
                             title="다음"
                             onClick={IMG_onClickRight}
                         >
-                            {">"}
+                            <img
+                                src={collapseArrowRight}
+                                alt="collapseArrowRight"
+                            />
                         </div>
 
                         {imageArr.length > 0 && (
@@ -283,6 +319,7 @@ const FolderComponent = ({
                                 </div>
                             )}
                         </div>
+
                         <div className="doc_contentsArea">
                             <div className="doc_card">
                                 <div className="cardTitle">프로젝트 명</div>
@@ -378,10 +415,154 @@ const FolderComponent = ({
                                     )}
                                 </div>
                             </div>
+
                             <div className="doc_card">
                                 <div className="cardTitle">url</div>
                                 <div className="cardContent">
-                                    {DOCData.data.url}
+                                    {DOCData.data.url || "공개된 URL 없음"}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
+                {/* 내 정보 */}
+                {item.type === "INFO" && (
+                    <div className="contentsArea_info">
+                        <div className="top">
+                            <div className="info1">
+                                <div className="myImageArea">
+                                    <img src={KDH} alt="김도현" />
+                                </div>
+                                <div className="myInfoArea">
+                                    <h1>김도현</h1>
+                                    <p style={{ userSelect: "text" }}>
+                                        bzidol@naver.com
+                                    </p>
+                                    <p>010-7793-5630</p>
+                                    <p>{"남자 / 27 세"}</p>
+                                </div>
+                            </div>
+                            <div className="info2">
+                                <div className="infoItem">
+                                    <div className="myImageArea">
+                                        <img src={githubLine} alt="Git" />
+                                    </div>
+                                    <div className="myInfoArea">
+                                        <p>Git</p>
+                                        <a
+                                            target={"_blank"}
+                                            href="https://github.com/KiimDoHyun"
+                                        >
+                                            이동하기
+                                        </a>
+                                    </div>
+                                </div>
+                                <div className="infoItem">
+                                    <div className="myImageArea">
+                                        <img src={blogLine} alt="Blog" />
+                                    </div>
+                                    <div className="myInfoArea">
+                                        <p>Blog</p>
+                                        <a
+                                            target={"_blank"}
+                                            href="https://velog.io/@kdh123"
+                                        >
+                                            이동하기
+                                        </a>
+                                    </div>
+                                </div>
+                                <div className="infoItem">
+                                    <div className="myImageArea">
+                                        <img src={companyLine} alt="Company" />
+                                    </div>
+                                    <div className="myInfoArea">
+                                        <p>Company</p>
+                                        <a
+                                            target={"_blank"}
+                                            href="https://araonsoft.com/"
+                                        >
+                                            이동하기
+                                        </a>
+                                    </div>
+                                </div>
+                                <div className="infoItem">
+                                    <div className="myImageArea">
+                                        <img src={linkedin} alt="linkedin" />
+                                    </div>
+                                    <div className="myInfoArea">
+                                        <p>linkedin</p>
+                                        <a
+                                            target={"_blank"}
+                                            href="https://www.linkedin.com/in/%EB%8F%84%ED%98%84-%EA%B9%80-b4a477252/"
+                                        >
+                                            이동하기
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="body">
+                            <div className="infoItem">
+                                <div className="myImageArea">
+                                    <img src={campus} alt="campus" />
+                                </div>
+                                <div className="myInfoArea">
+                                    <p className="title">대학교</p>
+                                    <p className="desc">금오공과대학교</p>
+                                </div>
+                            </div>
+                            <div className="infoItem">
+                                <div className="myImageArea">
+                                    <img src={book} alt="book" />
+                                </div>
+                                <div className="myInfoArea">
+                                    <p className="title">학과</p>
+                                    <p className="desc">컴퓨터공학과</p>
+                                </div>
+                            </div>
+                            <div className="infoItem">
+                                <div className="myImageArea">
+                                    <img src={business} alt="business" />
+                                </div>
+                                <div className="myInfoArea">
+                                    <p className="title">경력</p>
+                                    <p className="desc">{"1 년(주니어)"}</p>
+                                </div>
+                            </div>
+                            <div className="infoItem">
+                                <div className="myImageArea">
+                                    <img src={web} alt="web" />
+                                </div>
+                                <div className="myInfoArea">
+                                    <p className="title">분야</p>
+                                    <p className="desc">Front-end</p>
+                                </div>
+                            </div>
+                            <div className="infoItem">
+                                <div className="myImageArea">
+                                    <img src={companyBlue} alt="Company" />
+                                </div>
+                                <div className="myInfoArea">
+                                    <p className="title">회사</p>
+                                    <p className="desc">{"(주)아라온소프트"}</p>
+                                </div>
+                            </div>
+                            <div className="infoItem">
+                                <div className="myImageArea">
+                                    <img src={gear} alt="gear" />
+                                </div>
+                                <div className="myInfoArea">
+                                    <p className="title">주 스택</p>
+                                    <p className="desc">React</p>
+                                </div>
+                            </div>
+                            <div className="infoItem">
+                                <div className="myImageArea">
+                                    <img src={coding} alt="coding" />
+                                </div>
+                                <div className="myInfoArea">
+                                    <p className="title">주 언어</p>
+                                    <p className="desc">자바스크립트</p>
                                 </div>
                             </div>
                         </div>
@@ -430,6 +611,9 @@ const FolderComponentBlock = styled.div`
 
     box-shadow: 0px 0px 20px 3px #00000061;
     position: absolute;
+
+    border: 1px solid black;
+    box-sizing: border-box;
 
     background-color: white;
 
@@ -589,12 +773,10 @@ const FolderComponentBlock = styled.div`
     }
 
     .buttonArea > div > img {
-        width: 10px;
+        width: 14px;
     }
 
-    .buttonArea .min:hover,
-    .buttonArea .normalSize:hover,
-    .buttonArea .max:hover {
+    .buttonArea .buttonIcon:hover {
         background-color: #ddddddb3;
     }
 
@@ -632,11 +814,11 @@ const FolderComponentBlock = styled.div`
         height: auto;
         min-height: 200px;
         background-color: #e7e7e7;
-
-        max-width: 850px;
-
         display: inline-box;
         overflow: scroll;
+
+        flex-grow: 1;
+        flex-basis: 500px;
     }
 
     .noProjectImage {
@@ -667,6 +849,12 @@ const FolderComponentBlock = styled.div`
 
     .doc_contentsArea {
         flex: 1;
+
+        overflow: scroll;
+        height: 100%;
+        width: 100%;
+        flex-grow: 1;
+        flex-basis: 500px;
     }
 
     .doc_card {
@@ -748,6 +936,142 @@ const FolderComponentBlock = styled.div`
         font-weight: bold;
     }
 
+    // 내정보
+    .contentsArea_info {
+        width: 100%;
+        height: 100%;
+    }
+
+    .contentsArea_info .top {
+        min-height: 200px;
+        background-color: #f3f3f3;
+
+        display: flex;
+        flex-wrap: wrap;
+
+        padding: 50px 10px;
+        box-sizing: border-box;
+
+        row-gap: 50px;
+    }
+    .contentsArea_info .body {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 50px;
+
+        padding: 20px 10px;
+        box-sizing: border-box;
+    }
+
+    .info1 {
+        display: flex;
+        align-items: center;
+        gap: 50px;
+
+        flex-grow: 1;
+        flex-basis: 500px;
+
+        justify-content: center;
+    }
+
+    .info1 .myImageArea {
+        width: 180px;
+        height: 180px;
+
+        padding: 10px;
+        box-sizing: border-box;
+    }
+
+    .info1 .myImageArea img {
+        width: 100%;
+        height: 100%;
+        border-radius: 100%;
+        object-fit: cover;
+    }
+
+    .info1 .myInfoArea {
+        text-align: left;
+    }
+
+    .info1 .myInfoArea h1 {
+        margin: 0 0 10px 0;
+    }
+
+    .info1 .myInfoArea p {
+        color: gray;
+        margin: 0 0 5px 0;
+    }
+
+    .info2 {
+        display: flex;
+        flex-wrap: wrap;
+
+        column-gap: 100px;
+        row-gap: 30px;
+
+        flex-grow: 1;
+        flex-basis: 500px;
+    }
+    .info2 .infoItem {
+        width: 180px;
+    }
+
+    .infoItem {
+        display: flex;
+        align-items: center;
+        gap: 30px;
+    }
+
+    .infoItem .myImageArea {
+        width: 75px;
+        height: 75px;
+
+        box-sizing: border-box;
+        padding: 10px;
+    }
+
+    .infoItem .myImageArea img {
+        width: 100%;
+        height: 100%;
+    }
+
+    .body .myInfoArea,
+    .info2 .myInfoArea {
+        text-align: left;
+    }
+
+    .myInfoArea .desc {
+        margin: 0;
+        font-size: 14px;
+        color: #202020;
+    }
+
+    .body .infoItem {
+        box-sizing: border-box;
+        padding: 0 10px;
+        width: 230px;
+        border: 2px solid #ffffff00;
+        transition: 0.2s;
+
+        gap: 20px;
+    }
+    .body .infoItem:hover {
+        border-color: #dfdfdf;
+    }
+
+    .body .infoItem .title,
+    .info2 .myInfoArea p {
+        margin: 5px 0;
+        font-weight: bold;
+    }
+    .body .myInfoArea a,
+    .info2 .myInfoArea a {
+        text-decoration: none;
+        color: #76b3e4;
+
+        font-size: 14px;
+    }
+
     // 이미지 컨텐츠 영역
     .contentsArea_image {
         width: 100%;
@@ -762,24 +1086,36 @@ const FolderComponentBlock = styled.div`
     .image_arrow {
         position: absolute;
         height: 100%;
-        width: 50px;
+        width: 100px;
         display: flex;
         align-items: center;
         justify-content: center;
-        background-color: gray;
         opacity: 0;
         transition: 0.2s;
     }
+
+    .image_arrow img {
+        width: 15px;
+        height: 15px;
+    }
+
     .image_arrow:hover {
         opacity: 1;
     }
 
     .image_arrowLeft {
+        background: linear-gradient(to right, #00000029, #ffffff00);
         left: 0;
     }
 
     .image_arrowRight {
+        background: linear-gradient(to right, #ffffff00, #00000029);
         right: 0;
+    }
+
+    .imageContent {
+        width: 96px;
+        height: 96px;
     }
 
     // 폴더형 컨텐츠 영역
