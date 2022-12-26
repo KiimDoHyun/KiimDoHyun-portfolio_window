@@ -41,12 +41,12 @@ const FolderComponent = ({
             isMaxSize={isMaxSize}
         >
             {/* 공통 */}
-            <div
-                className="headerArea"
-                onMouseDown={onMouseDown}
-                onMouseUp={onMouseUp}
-            >
-                <div className="infoArea">
+            <div className="headerArea">
+                <div
+                    className="infoArea"
+                    onMouseDown={onMouseDown}
+                    onMouseUp={onMouseUp}
+                >
                     {/* 폴더, 브라우저는 프로그램명이 동적으로 변하지 않음. */}
                     {(item.type === "FOLDER" || item.type === "BROWSER") && (
                         // ||
@@ -85,6 +85,11 @@ const FolderComponent = ({
                         </>
                     )}
                 </div>
+                <div
+                    className="dragArea"
+                    onMouseDown={onMouseDown}
+                    onMouseUp={onMouseUp}
+                />
                 <div className="buttonArea">
                     <div className="buttonIcon" onClick={onClickMin}>
                         <img src={horizontalLine} alt="horizontalLine" />
@@ -228,6 +233,7 @@ const ProgramComponent = styled.div`
         display: flex;
         align-items: center;
         gap: 5px;
+        width: 85px;
         height: 100%;
         margin-left: 10px;
     }
@@ -262,6 +268,12 @@ const ProgramComponent = styled.div`
     }
 
     .programTitle {
+    }
+
+    .dragArea {
+        flex: 1;
+        height: 100%;
+        background-color: green;
     }
 
     .buttonArea {

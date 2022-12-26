@@ -11,10 +11,6 @@ import { useState } from "react";
 const ProgramContainer = ({
     item: { name, type, parent, status, contents },
 }) => {
-    // 프로그램 리스트의 현재 아이템의 상태가 변함.
-    // props 가 변하고 item으로 받는 status가 변경됨.
-    // name은 변하지 않음. (고유값.)
-    // const { name, status } = item;
     const setProgramList = useSetRecoilState(rc_program_programList);
 
     const [zIndexCnt, setZIndexCnt] = useRecoilState(rc_program_zIndexCnt);
@@ -39,14 +35,6 @@ const ProgramContainer = ({
 
     // 최대화
     const onClickMax = useCallback(() => {
-        // setProgramList((prev) =>
-        //     prev.map((prevItem) =>
-        //         prevItem.name === name
-        //             ? { ...prevItem, status: "active_max" }
-        //             : { ...prevItem }
-        //     )
-        // );
-
         setIsMaxSize(true);
         boxRef.current.style.transition = "0.25s";
         boxRef.current.style.left = "0";
@@ -62,24 +50,14 @@ const ProgramContainer = ({
     // 기본 크기
     const onClickNormalSize = useCallback(() => {
         setIsMaxSize(false);
-        // setProgramList((prev) =>
-        //     prev.map((prevItem) =>
-        //         prevItem.name === name
-        //             ? { ...prevItem, status: "active" }
-        //             : { ...prevItem }
-        //     )
-        // );
+
         const left = localStorage.getItem(`${name}Left`);
         const top = localStorage.getItem(`${name}Top`);
         boxRef.current.style.transition = "0.25s";
 
-        if (left && top) {
-            boxRef.current.style.left = left + "px";
-            boxRef.current.style.top = top + "px";
-        } else {
-            boxRef.current.style.left = "calc(50vw - 250px)";
-            boxRef.current.style.top = "calc(50vh - 250px)";
-        }
+        boxRef.current.style.left = left + "px";
+        boxRef.current.style.top = top + "px";
+
         localStorage.setItem(`${name}width`, "500px");
         localStorage.setItem(`${name}height`, "500px");
 
@@ -89,7 +67,6 @@ const ProgramContainer = ({
 
     // 최소화
     const onClickMin = useCallback(() => {
-        console.log("?");
         setProgramList((prev) =>
             prev.map((prevItem) =>
                 prevItem.name === name
@@ -485,20 +462,6 @@ const ProgramContainer = ({
         //
         setIsResizable(false);
     }, []);
-
-    /*
-    이미지형
-
-    1. 현재 아이템의 부모의 모든 아이템중 이미지형 프로그램을 배열로 가지고 있는다.
-
-    2. 현재 아이템은 해당 배열의 몇번째 인덱스인지 저장한다.
-
-    3. 좌,우 버튼을 누르면 현재 인덱스를 +-1 해준다.
-
-    4. 화면에 출력될 이미지는 해당 배열에서 특정된 인덱스에 해당하는 이미지를 가지게 된다.
-    */
-
-    // 현재 아이템의 부모의 모든 아이템중 이미지형 프로그램
 
     useEffect(() => {
         return () => {
