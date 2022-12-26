@@ -8,6 +8,7 @@ import image_defaultSize from "../../asset/images/icons/image_defaultSize_line.p
 
 import collapseArrowLeft from "../../asset/images/icons/collapse-arrow-left-white.png";
 import collapseArrowRight from "../../asset/images/icons/collapse-arrow-right-white.png";
+import styled from "styled-components";
 
 const ImageProgramComponent = ({
     type,
@@ -26,7 +27,7 @@ const ImageProgramComponent = ({
 }) => {
     return (
         <>
-            <div className={`headerArea2 headerArea2_${type}`}>
+            <FolderProgramHeaderBlock className={`headerArea2`}>
                 <div
                     className="image_header_controller_btn"
                     onClick={onClickM_Image_ScaleUp}
@@ -65,8 +66,8 @@ const ImageProgramComponent = ({
                 <div className="image_haeder_controller_number">
                     {Math.round(currentImage_sizeRate * 100)} %
                 </div>
-            </div>
-            <div className={`contentsArea_Cover`}>
+            </FolderProgramHeaderBlock>
+            <FolderProgramContentBlock className={`contentsArea_Cover`}>
                 <div className="contentsArea_image">
                     <div
                         className="image_arrow image_arrowLeft"
@@ -96,7 +97,7 @@ const ImageProgramComponent = ({
                         />
                     )}
                 </div>
-            </div>
+            </FolderProgramContentBlock>
             <div className="bottomArea">
                 {curImageIdx + 1} / {imageArr.length}{" "}
                 {imageArr[curImageIdx] && imageArr[curImageIdx].name}
@@ -104,5 +105,75 @@ const ImageProgramComponent = ({
         </>
     );
 };
+const FolderProgramHeaderBlock = styled.div`
+    justify-content: center !important;
+    gap: 30px !important;
+
+    .image_header_controller_btn {
+        width: 20px;
+        height: 20px;
+
+        padding: 1px;
+        box-sizing: border-box;
+
+        transition: 0.2s;
+    }
+
+    .image_header_controller_btn:hover {
+        background-color: #e6e6e6;
+    }
+
+    .image_header_controller_btn img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+`;
+const FolderProgramContentBlock = styled.div`
+    .contentsArea_image {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background-color: #20343b;
+    }
+
+    .image_arrow {
+        position: absolute;
+        height: 100%;
+        width: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: 0.2s;
+    }
+
+    .image_arrow img {
+        width: 15px;
+        height: 15px;
+    }
+
+    .image_arrow:hover {
+        opacity: 1;
+    }
+
+    .image_arrowLeft {
+        background: linear-gradient(to right, #00000029, #ffffff00);
+        left: 0;
+    }
+
+    .image_arrowRight {
+        background: linear-gradient(to right, #ffffff00, #00000029);
+        right: 0;
+    }
+
+    .imageContent {
+        width: 96px;
+        height: 96px;
+    }
+`;
 
 export default React.memo(ImageProgramComponent);
