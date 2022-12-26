@@ -101,7 +101,9 @@ const TaskBarContainer = () => {
 
         if (target) {
             const Component = target.Component;
-            return <Component item={target} />;
+            // target 상태가 '최소화' 상태인 경우 미리보기에서 안보이기 때문에
+            // 찾은 target의 상태는 항상 active로 설정한다.
+            return <Component item={{ ...target, status: "active" }} />;
         } else {
             return null;
         }
