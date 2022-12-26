@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+    useCallback,
+    useEffect,
+    useMemo,
+    useRef,
+    useState,
+} from "react";
 import TaskBar from "../../Component/Main/TaskBar";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
@@ -20,6 +26,7 @@ import {
     rc_global_timeline,
     rc_global_year,
 } from "../../store/global";
+import ProgramContainer from "../Program/ProgramContainer";
 
 const glowLevelArr = [
     "", // none
@@ -56,6 +63,50 @@ const TaskBarContainer = () => {
 
     const box2Ref = useRef(null);
 
+    const PreViewComponent = useMemo(() => {
+        const target = programList.find(
+            (findItem) => findItem.name === hoverTarget.name
+        );
+
+        return target;
+    }, [programList, hoverTarget]);
+
+    // 미리보기 삭제 버튼 이벤트
+    const onClick_Close_ShortCut = useCallback(() => {
+        // 현재 hover 상태인 아이템 정보를 이용해서 특정 프로그램을 제거한다.
+        const { name } = hoverTarget;
+        setProgramList((prevState) =>
+            prevState.filter((filterItem) => filterItem.name !== name)
+        );
+        setHoverTarget({ name: "", idx: -1 });
+    }, [hoverTarget]);
+
+    // 미리보기
+    const showPrev = useCallback(() => {
+        // Test
+        // return (
+        //     <ProgramContainer
+        //         item={{
+        //             icon: "",
+        //             name: "기술스택",
+        //             parent: "root",
+        //             status: "active",
+        //             type: "FOLDER",
+        //         }}
+        //     />
+        // );
+        const target = programList.find(
+            (findItem) => findItem.name === hoverTarget.name
+        );
+
+        if (target) {
+            const Component = target.Component;
+            return <Component item={target} />;
+        } else {
+            return null;
+        }
+    }, [programList, hoverTarget]);
+
     // 마우스 오버
     const onMouseEnter = useCallback(
         ({ name }, idx) => {
@@ -76,12 +127,13 @@ const TaskBarContainer = () => {
     );
 
     // 마우스 아웃
-    const onMouseLeave = useCallback((idx) => {
+    const onMouseLeave = useCallback((e, idx) => {
+        console.log("e: ", e);
         setPreview(false);
         // 밝기를 가장 낮춘다
         // 이미 활성화된 아이템은 기본 밝기를 가지고있기 때문에 사라지지 않는다
         box2Ref.current.children[idx].style.backgroundColor = glowLevelArr[0];
-        setHoverTarget("");
+        setHoverTarget({ name: "", idx: -1 });
     }, []);
 
     // 아이템 클릭
@@ -174,6 +226,10 @@ const TaskBarContainer = () => {
         );
     }, []);
 
+    useEffect(() => {
+        console.log("programList :", programList);
+    }, [programList]);
+
     // useEffect(() => {
     //     var userLang = navigator.language || navigator.userLanguage;
     //     console.log("The language is: " + userLang);
@@ -200,6 +256,8 @@ const TaskBarContainer = () => {
         onMouseLeave,
         onClickTaskIcon,
         onClickCloseAll,
+        showPrev,
+        onClick_Close_ShortCut,
 
         cur_year,
         cur_month,
@@ -209,6 +267,7 @@ const TaskBarContainer = () => {
         cur_timeline,
 
         box2Ref,
+        PreViewComponent,
     };
 
     return <TaskBar {...propDatas} />;

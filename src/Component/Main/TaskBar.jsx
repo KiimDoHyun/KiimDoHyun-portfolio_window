@@ -9,6 +9,7 @@ import defaultDocumentImage from "../../asset/images/icons/document_default.png"
 
 import arrowUp from "../../asset/images/icons/collapse-arrow-up-white.png";
 import arrowDown from "../../asset/images/icons/collapse-arrow-down-white.png";
+import close_white from "../../asset/images/icons/close_white.png";
 
 import Windows from "../Program/Icon/Windows";
 const TaskBar = (props) => {
@@ -27,6 +28,8 @@ const TaskBar = (props) => {
         onMouseLeave,
         onClickTaskIcon,
         onClickCloseAll,
+        showPrev,
+        onClick_Close_ShortCut,
 
         cur_year,
         cur_month,
@@ -36,10 +39,12 @@ const TaskBar = (props) => {
         cur_timeline,
 
         box2Ref,
+        PreViewComponent,
     } = props;
+
     return (
         <>
-            <TaskBarBlock>
+            <TaskBarBlock hoverTarget={hoverTarget}>
                 {/* 시작 */}
                 <div
                     className="box1 taskHoverEffect"
@@ -60,10 +65,12 @@ const TaskBar = (props) => {
                                 }`}
                                 title={item.name}
                                 onMouseEnter={() => onMouseEnter(item, idx)}
-                                onMouseLeave={() => onMouseLeave(idx)}
-                                onClick={() => onClickTaskIcon(item, idx)}
+                                onMouseLeave={(e) => onMouseLeave(e, idx)}
                             >
-                                <div className="shortCut_Img">
+                                <div
+                                    className="shortCut_Img"
+                                    onClick={() => onClickTaskIcon(item, idx)}
+                                >
                                     {item.type === "IMAGE" && (
                                         <img
                                             src={defaultImage}
@@ -93,6 +100,18 @@ const TaskBar = (props) => {
                                     )}
                                 </div>
                                 <div className="shortCut_BottomLine" />
+                                <div className="shotCut_Hover">
+                                    <div
+                                        className="buttonCover"
+                                        onClick={onClick_Close_ShortCut}
+                                    />
+                                    <div
+                                        className="bodyCover"
+                                        onClick={() =>
+                                            onClickTaskIcon(item, idx)
+                                        }
+                                    />
+                                </div>
                             </div>
                         );
                     })}
@@ -145,6 +164,18 @@ const TaskBar = (props) => {
                         onClick={onClickCloseAll}
                     ></div>
                 </div>
+                <div className="prevView">
+                    <div className="prevViewHeader">
+                        <div className="text">{hoverTarget.name}</div>
+                        <div
+                            className="button"
+                            // onClick={() => console.log("????????????????????")}
+                        >
+                            <img src={close_white} alt="close_white" />
+                        </div>
+                    </div>
+                    <div className="cover">{showPrev()}</div>
+                </div>
             </TaskBarBlock>
         </>
     );
@@ -166,7 +197,64 @@ const TaskBarBlock = styled.div`
 
         height: 100%;
         width: 50px;
+        position: relative;
     }
+
+    // 바로가기에 마우스가 올라가면 바로가기 외부에 존재하는 미리보기가 활성화된다.
+    // 바로가기에서 마우스가 떨어지면 현재 아이템 정보를 잃어버리기 때문에(미리보기로 마우스를 옮기는 순간 바로가기에서 마우스가 벗어남)
+    // 미리보기와 같은 크기를 가지는 div 를 같은 위치에 덮어 씌운다.
+    // 닫기 버튼 활성화를 위해 닫기 버튼 위치에 닫기 버튼과 동일한 크기의 div를 만들고
+    // 해당 div에 닫기 버튼 이벤트를 연결한다.
+    .shotCut_Hover {
+        position: absolute;
+        width: 200px;
+        height: 0px;
+        background-color: #00000000;
+        // top: -225px;
+        top: ${(props) => {
+            if (props.hoverTarget.name) {
+                return "-225px;";
+            } else {
+                return "225px;";
+            }
+        }}
+        left: ${(props) => {
+            if (props.hoverTarget.idx === 0) {
+                return "-50px;";
+            } else {
+                return "-75px;";
+            }
+        }}
+
+        pointer-events:  ${(props) => {
+            if (props.hoverTarget.name) {
+                return "all;";
+            } else {
+                return "none;";
+            }
+        }}
+    }
+
+    .shortCutIcon:hover .shotCut_Hover {
+        height: 225px !important;
+    }
+
+    .buttonCover {
+        position: absolute;
+        right: 0;
+        width: 40px;
+        height: 40px;
+        background-color: #00000000;
+    }
+
+    .bodyCover {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 200px;
+    }
+
 
     .box1 {
         width: 50px;
@@ -197,7 +285,7 @@ const TaskBarBlock = styled.div`
 
     .box2 {
         display: flex;
-        gap: 2px;
+        z-index: 2;
     }
 
     .activeIcon {
@@ -216,6 +304,70 @@ const TaskBarBlock = styled.div`
     }
     .activeShortCutIcon .shortCut_BottomLine {
         width: 70%;
+    }
+
+    .prevView {
+        position: absolute;
+        width: 200px;
+        height: 225px;
+        background-color: #20343b9c;
+
+        z-index: 1;
+
+        top: ${(props) => (props.hoverTarget.name ? "-225px;" : "50px;")};
+        opacity: ${(props) => (props.hoverTarget.name ? "1;" : "0;")};
+        left: ${(props) => {
+            if (props.hoverTarget.name) {
+                if (props.hoverTarget.idx > 0) {
+                    return (props.hoverTarget.idx - 1) * 50 + 25 + "px;";
+                } else {
+                    return "0px;";
+                }
+            } else {
+                return "0px;";
+            }
+        }};
+
+        // Test
+        // top: -225px;
+        // opacity: 1;
+        // left: 0px;
+
+        padding: 10px 15px 15px 15px;
+        box-sizing: border-box;
+        transition: 0.2s;
+    }
+
+    .prevViewHeader {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .prevViewHeader .text {
+        color: white;
+        font-size: 14px;
+    }
+    .prevViewHeader .button {
+        width: 20px;
+        height: 20px;
+    }
+
+    .prevViewHeader .button img {
+        width: 100%;
+        height: 100%;
+    }
+
+    .prevView .cover {
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+    .prevView .cover > div {
+        position: absolute;
+        left: -165px !important;
+        top: -150px !important;
+        scale: 0.35 !important;
     }
 
     .shortCut_Img {

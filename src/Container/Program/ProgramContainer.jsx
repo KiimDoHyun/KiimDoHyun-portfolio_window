@@ -45,6 +45,16 @@ const ProgramContainer = ({
 
         boxRef.current.style.width = "100vw";
         boxRef.current.style.height = "calc(100vh - 50px)";
+
+        /*
+        최대화
+
+        trainsition: 0.25s;
+        left: 0;
+        top: 0;
+        width: 100vw;
+        height: calc(100vh - 50px)
+        */
     }, [setIsMaxSize, setProgramList]);
 
     // 기본 크기
@@ -63,6 +73,16 @@ const ProgramContainer = ({
 
         boxRef.current.style.width = "500px";
         boxRef.current.style.height = "500px";
+
+        /*
+        기본크기
+        
+        trainsition: 0.25s;
+        left: 0; // -> 이전 기본 크기
+        top: 0; // -> 이전 기본 크기
+        width: 500px;
+        height: 500px;
+        */
     }, [setIsMaxSize, setProgramList]);
 
     // 최소화

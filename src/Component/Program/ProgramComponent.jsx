@@ -273,7 +273,6 @@ const ProgramComponent = styled.div`
     .dragArea {
         flex: 1;
         height: 100%;
-        background-color: green;
     }
 
     .buttonArea {
