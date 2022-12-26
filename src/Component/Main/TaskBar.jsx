@@ -312,7 +312,7 @@ const TaskBarBlock = styled.div`
         background-color: #20343b9c;
 
         z-index: 1;
-
+        
         top: ${(props) => (props.hoverTarget.name ? "-225px;" : "50px;")};
         opacity: ${(props) => (props.hoverTarget.name ? "1;" : "0;")};
         left: ${(props) => {
@@ -326,9 +326,16 @@ const TaskBarBlock = styled.div`
                 return "0px;";
             }
         }};
+        pointer-events:  ${(props) => {
+            if (props.hoverTarget.name) {
+                return "all;";
+            } else {
+                return "none;";
+            }
+        }}
 
         // Test
-        // top: -225px;
+        top: -225px;
         // opacity: 1;
         // left: 0px;
 
