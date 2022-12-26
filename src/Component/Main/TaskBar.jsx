@@ -193,7 +193,6 @@ const TaskBarBlock = styled.div`
         flex-direction: column;
         align-items: center;
         justify-content: flex-end;
-        gap: 10px;
 
         height: 100%;
         width: 50px;
@@ -371,17 +370,17 @@ const TaskBarBlock = styled.div`
     }
 
     .shortCut_Img {
-        width: 25px;
-        height: 25px;
-
+        // width: 25px;
+        width: 100%;
+        flex: 1;
         display: flex;
         align-items: center;
         justify-content: center;
     }
 
     .shortCut_Img img {
-        width: 100%;
-        height: 100%;
+        width: 25px;
+        height: 25px;
     }
 
     .shortCut_Test {

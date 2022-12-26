@@ -139,6 +139,7 @@ const TaskBarContainer = () => {
     }, []);
 
     // 아이템 클릭
+    // 버그 방지를 위해 이미지 크기에서만 이벤트가 발생한다.
     const onClickTaskIcon = useCallback(
         (item, idx) => {
             // setHoverTarget(item.key);
