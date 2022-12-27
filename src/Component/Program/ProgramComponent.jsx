@@ -233,7 +233,6 @@ const ProgramComponent = styled.div`
         display: flex;
         align-items: center;
         gap: 5px;
-        width: 85px;
         height: 100%;
         margin-left: 10px;
     }
