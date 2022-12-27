@@ -373,7 +373,7 @@ const TaskBarBlock = styled.div`
         position: absolute;
         left: -165px !important;
         top: -150px !important;
-        scale: 0.35 !important;
+        transform: scale(0.35);
     }
 
     .shortCut_Img {
