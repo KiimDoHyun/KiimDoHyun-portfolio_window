@@ -130,7 +130,6 @@ const TaskBarContainer = () => {
 
     // 마우스 아웃
     const onMouseLeave = useCallback((e, idx) => {
-        console.log("e: ", e);
         setPreview(false);
         // 밝기를 가장 낮춘다
         // 이미 활성화된 아이템은 기본 밝기를 가지고있기 때문에 사라지지 않는다
@@ -228,10 +227,6 @@ const TaskBarContainer = () => {
             prev.map((prevItem) => ({ ...prevItem, status: "min" }))
         );
     }, []);
-
-    useEffect(() => {
-        console.log("programList :", programList);
-    }, [programList]);
 
     // useEffect(() => {
     //     var userLang = navigator.language || navigator.userLanguage;

@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import SimpleArrowUp from "../Program/Icon/SimpleArrowUp";
 import message from "../../asset/images/icons/message.png";
 import folderEmpty from "../../asset/images/icons/folder_empty.png";
@@ -180,6 +180,17 @@ const TaskBar = (props) => {
         </>
     );
 };
+
+// 미리보기의 transform 이 늦게 적용되는 현상을 방지함.
+// opacity 1로 변하는 딜레이를 주어서 크기가 변하는 현상을 안보이도록.
+const prevView_coverTransform = keyframes`
+from {
+    opacity: 0;
+}
+to {
+    opacity: 1;
+}
+`;
 
 const TaskBarBlock = styled.div`
     display: grid;
@@ -373,7 +384,9 @@ const TaskBarBlock = styled.div`
         position: absolute;
         left: -165px !important;
         top: -150px !important;
-        transform: scale(0.35);
+        transform: scale(0.35) !important;
+
+        animation: ${prevView_coverTransform} 0.2s;
     }
 
     .shortCut_Img {
