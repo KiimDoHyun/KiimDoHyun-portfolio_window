@@ -12,9 +12,7 @@ const ProgramContainer = ({
     item: { name, type, parent, status, contents },
 }) => {
     const setProgramList = useSetRecoilState(rc_program_programList);
-
-    const [zIndexCnt, setZIndexCnt] = useRecoilState(rc_program_zIndexCnt);
-    const temp_zIndexCnt = zIndexCnt;
+    const setZIndexCnt = useSetRecoilState(rc_program_zIndexCnt);
 
     const [activeProgram, setActiveProgram] = useRecoilState(
         rc_program_activeProgram
@@ -55,7 +53,7 @@ const ProgramContainer = ({
         width: 100vw;
         height: calc(100vh - 50px)
         */
-    }, [setIsMaxSize, setProgramList, name]);
+    }, [setIsMaxSize, name]);
 
     // 기본 크기
     const onClickNormalSize = useCallback(() => {
@@ -83,7 +81,7 @@ const ProgramContainer = ({
         width: 500px;
         height: 500px;
         */
-    }, [setIsMaxSize, setProgramList, name]);
+    }, [setIsMaxSize, name]);
 
     // 최소화
     const onClickMin = useCallback(() => {
@@ -392,8 +390,13 @@ const ProgramContainer = ({
     // 현재 창 맨 앞으로
     useEffect(() => {
         if (activeProgram === name) {
-            boxRef.current.style.zIndex = temp_zIndexCnt + 1;
-            setZIndexCnt((prev) => prev + 1);
+            setZIndexCnt((prev) => {
+                boxRef.current.style.zIndex = prev + 1;
+                return prev + 1;
+            });
+
+            // boxRef.current.style.zIndex = temp_zIndexCnt + 1;
+            // setZIndexCnt((prev) => prev + 1);
         }
     }, [activeProgram, name, setZIndexCnt]);
 

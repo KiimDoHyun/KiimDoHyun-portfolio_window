@@ -1,5 +1,3 @@
-import React from "react";
-
 import plus from "../../asset/images/icons/plus_line.png";
 import minus from "../../asset/images/icons/minus_line.png";
 import rotate_left from "../../asset/images/icons/rotate_left_line.png";

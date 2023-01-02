@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "allowJs": true,
+        "target": "ES5",
+        "outDir": "./dist",
+        "moduleResolution": "Node",
+        "module": "commonjs",
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "lib": ["ES2015", "DOM", "DOM.Iterable"],
+        "typeRoots": ["src/types"]
+    },
+    "include": ["./src/**/*"],
+    "exclude": ["node_modules", "dist"]
+}
