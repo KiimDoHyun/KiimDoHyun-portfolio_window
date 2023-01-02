@@ -57,7 +57,7 @@ const FolderProgramContainer = ({ name, type }) => {
                 directory.find((item) => item.name === currentFolder.parent)
             );
         }
-    }, [setFolderContents, currentFolder, Directory_Tree]);
+    }, [setFolderContents, directory, currentFolder, Directory_Tree]);
 
     // 특정 아이템 더블 클릭
     const onDoubleClickItem = useCallback(

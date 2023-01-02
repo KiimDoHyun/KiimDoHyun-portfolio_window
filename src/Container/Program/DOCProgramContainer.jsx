@@ -20,7 +20,7 @@ const DOCProgramContainer = ({ type, name }) => {
         );
         console.log("target", target);
         return { data: target, keys: Object.keys(target) || [] };
-    }, [projectDatas, type, name]);
+    }, [type, name]);
 
     const propDatas = {
         type,

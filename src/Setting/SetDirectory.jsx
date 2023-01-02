@@ -82,7 +82,7 @@ const SetDirectory = () => {
 
         // 경로 정보를 추가한다.
         setDirectory_List(changedDirectory);
-    }, [setDirectory_Tree]);
+    }, [setDirectory_Tree, setDirectory_List]);
     return <></>;
 };
 

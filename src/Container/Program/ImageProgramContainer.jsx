@@ -53,12 +53,12 @@ const ImageProgramContainer = ({ type, parent, name }) => {
     // 이미지 회전_왼쪽
     const onClickM_Image_Rotate_Right = useCallback(() => {
         setCurrentImage_rotate((prev) => (prev - 45) % 360);
-    }, [setCurrentImage_sizeRate]);
+    }, []);
 
     // 이미지 회전_오른쪽
     const onClickM_Image_Rotate_Left = useCallback(() => {
         setCurrentImage_rotate((prev) => (prev + 45) % 360);
-    }, [setCurrentImage_sizeRate]);
+    }, []);
 
     // 이미지 기본 설정으로 변경
     const onClickM_Image_Default = useCallback(() => {

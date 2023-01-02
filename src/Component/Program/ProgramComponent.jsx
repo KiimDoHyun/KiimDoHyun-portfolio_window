@@ -119,6 +119,7 @@ const FolderComponent = ({
                         {item.type === "BROWSER" && (
                             <iframe
                                 src={"https://www.google.com/webhp?igu=1"}
+                                title={"Google"}
                                 width={"100%"}
                                 height={"100%"}
                             />

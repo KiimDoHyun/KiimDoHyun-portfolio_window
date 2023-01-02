@@ -1,10 +1,4 @@
-import React, {
-    useCallback,
-    useEffect,
-    useMemo,
-    useRef,
-    useState,
-} from "react";
+import React, { useCallback, useMemo, useRef, useState } from "react";
 import TaskBar from "../../Component/Main/TaskBar";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
@@ -26,7 +20,6 @@ import {
     rc_global_timeline,
     rc_global_year,
 } from "../../store/global";
-import ProgramContainer from "../Program/ProgramContainer";
 
 const glowLevelArr = [
     "", // none
@@ -79,7 +72,7 @@ const TaskBarContainer = () => {
             prevState.filter((filterItem) => filterItem.name !== name)
         );
         setHoverTarget({ name: "", idx: -1 });
-    }, [hoverTarget]);
+    }, [hoverTarget, setProgramList]);
 
     // 미리보기
     const showPrev = useCallback(() => {
@@ -125,17 +118,21 @@ const TaskBarContainer = () => {
             }
             setHoverTarget({ name, idx });
         },
-        [activeProgram]
+        [activeProgram, setPreview]
     );
 
     // 마우스 아웃
-    const onMouseLeave = useCallback((e, idx) => {
-        setPreview(false);
-        // 밝기를 가장 낮춘다
-        // 이미 활성화된 아이템은 기본 밝기를 가지고있기 때문에 사라지지 않는다
-        box2Ref.current.children[idx].style.backgroundColor = glowLevelArr[0];
-        setHoverTarget({ name: "", idx: -1 });
-    }, []);
+    const onMouseLeave = useCallback(
+        (e, idx) => {
+            setPreview(false);
+            // 밝기를 가장 낮춘다
+            // 이미 활성화된 아이템은 기본 밝기를 가지고있기 때문에 사라지지 않는다
+            box2Ref.current.children[idx].style.backgroundColor =
+                glowLevelArr[0];
+            setHoverTarget({ name: "", idx: -1 });
+        },
+        [setPreview]
+    );
 
     // 아이템 클릭
     // 버그 방지를 위해 이미지 크기에서만 이벤트가 발생한다.
@@ -178,7 +175,7 @@ const TaskBarContainer = () => {
 
             // setHoverTarget(item.key);
         },
-        [setHoverTarget, setActiveProgram, setProgramList, activeProgram]
+        [setActiveProgram, setProgramList, activeProgram]
     );
 
     // 시작 아이콘 클릭
@@ -188,7 +185,7 @@ const TaskBarContainer = () => {
         setActiveTimeBar(false);
         setActiveInfoBar(false);
         setHiddenIcon(false);
-    }, [setActiveStatusBar]);
+    }, [setActiveStatusBar, setActiveInfoBar, setActiveTimeBar, setHiddenIcon]);
 
     // 시간 클릭
     const onClickTime = useCallback(() => {
@@ -197,7 +194,7 @@ const TaskBarContainer = () => {
         setActiveInfoBar(false);
         setActiveStatusBar(false);
         setHiddenIcon(false);
-    }, [setActiveTimeBar]);
+    }, [setActiveStatusBar, setActiveInfoBar, setActiveTimeBar, setHiddenIcon]);
 
     // 정보 바 클릭
     const onClickInfo = useCallback(() => {
@@ -206,7 +203,7 @@ const TaskBarContainer = () => {
         setHiddenIcon(false);
         setActiveTimeBar(false);
         setActiveStatusBar(false);
-    }, [setActiveInfoBar]);
+    }, [setActiveStatusBar, setActiveInfoBar, setActiveTimeBar, setHiddenIcon]);
 
     // 숨겨진 아이콘 클릭
     const onClickHiddenIcon = useCallback(() => {
@@ -215,7 +212,7 @@ const TaskBarContainer = () => {
         setActiveStatusBar(false);
         setActiveTimeBar(false);
         setActiveInfoBar(false);
-    }, [setHiddenIcon]);
+    }, [setActiveStatusBar, setActiveInfoBar, setActiveTimeBar, setHiddenIcon]);
 
     // 모두 닫기
     const onClickCloseAll = useCallback(() => {
@@ -226,7 +223,13 @@ const TaskBarContainer = () => {
         setProgramList((prev) =>
             prev.map((prevItem) => ({ ...prevItem, status: "min" }))
         );
-    }, []);
+    }, [
+        setActiveStatusBar,
+        setActiveInfoBar,
+        setActiveTimeBar,
+        setHiddenIcon,
+        setProgramList,
+    ]);
 
     // useEffect(() => {
     //     var userLang = navigator.language || navigator.userLanguage;

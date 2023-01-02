@@ -55,7 +55,7 @@ const ProgramContainer = ({
         width: 100vw;
         height: calc(100vh - 50px)
         */
-    }, [setIsMaxSize, setProgramList]);
+    }, [setIsMaxSize, setProgramList, name]);
 
     // 기본 크기
     const onClickNormalSize = useCallback(() => {
@@ -83,7 +83,7 @@ const ProgramContainer = ({
         width: 500px;
         height: 500px;
         */
-    }, [setIsMaxSize, setProgramList]);
+    }, [setIsMaxSize, setProgramList, name]);
 
     // 최소화
     const onClickMin = useCallback(() => {
@@ -381,7 +381,7 @@ const ProgramContainer = ({
                 }
             }
         },
-        [isMovable, isResizable]
+        [isMovable, isResizable, name]
     );
 
     // 이동 종료
@@ -428,7 +428,7 @@ const ProgramContainer = ({
                 }
             }
         }
-    }, [status, isMaxSize, boxRef]);
+    }, [status, isMaxSize, boxRef, name]);
 
     useEffect(() => {
         /*
@@ -464,7 +464,7 @@ const ProgramContainer = ({
             boxRef.current.style.width = "500px";
             boxRef.current.style.height = "500px";
         }
-    }, [status]);
+    }, [status, name]);
 
     const onMouseDown_Resize = useCallback((e) => {
         setIsResizable(true);
@@ -472,10 +472,6 @@ const ProgramContainer = ({
             X: e.clientX,
             Y: e.clientY,
         };
-    }, []);
-
-    const onMouseMove_Resize = useCallback(() => {
-        //
     }, []);
 
     const onMouseUp_Resize = useCallback(() => {
@@ -490,7 +486,7 @@ const ProgramContainer = ({
             localStorage.removeItem(`${name}width`);
             localStorage.removeItem(`${name}height`);
         };
-    }, []);
+    }, [name]);
 
     const propDatas = {
         onClick,

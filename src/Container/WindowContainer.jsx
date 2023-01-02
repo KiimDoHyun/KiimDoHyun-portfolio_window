@@ -1,9 +1,7 @@
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useRef } from "react";
 import Window from "../Component/Main/Window";
 import { useRecoilValue } from "recoil";
 import { rc_program_programList } from "../store/program";
-import { window_programList } from "../Common/data";
-import { fileList } from "../Common/data";
 import useActiveProgram from "../hooks/useActiveProgram";
 import { rc_global_Directory_Tree } from "../store/global";
 

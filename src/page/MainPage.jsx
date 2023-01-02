@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import WindowContainer from "../Container/WindowContainer";
 import wallpaper from "../asset/images/wallpaper/Samsung_wallpaper.jpg";
-import StatusBar from "../Component/TaskBar/StatusBar";
 import { useSetRecoilState } from "recoil";
 import TimeBarContainer from "../Container/TaskBar/TimeBarContainer";
 import {
@@ -13,7 +12,6 @@ import {
 } from "../store/taskbar";
 import DisplayCover from "../Component/DisplayCover";
 import HiddenIcon from "../Component/TaskBar/HiddenIcon";
-import Preview from "../Component/Preview";
 import TaskBarContainer from "../Container/TaskBar/TaskBarContainer";
 import InfoBarContainer from "../Container/TaskBar/InfoBarContainer";
 import StatusBarContainer from "../Container/TaskBar/StatusBarContainer";

@@ -47,6 +47,7 @@ const INFOProgramComponent = ({ type }) => {
                                     <a
                                         target={"_blank"}
                                         href="https://github.com/KiimDoHyun"
+                                        rel="noreferrer"
                                     >
                                         이동하기
                                     </a>
@@ -61,6 +62,7 @@ const INFOProgramComponent = ({ type }) => {
                                     <a
                                         target={"_blank"}
                                         href="https://velog.io/@kdh123"
+                                        rel="noreferrer"
                                     >
                                         이동하기
                                     </a>
@@ -75,6 +77,7 @@ const INFOProgramComponent = ({ type }) => {
                                     <a
                                         target={"_blank"}
                                         href="https://araonsoft.com/"
+                                        rel="noreferrer"
                                     >
                                         이동하기
                                     </a>
@@ -89,6 +92,7 @@ const INFOProgramComponent = ({ type }) => {
                                     <a
                                         target={"_blank"}
                                         href="https://www.linkedin.com/in/%EB%8F%84%ED%98%84-%EA%B9%80-b4a477252/"
+                                        rel="noreferrer"
                                     >
                                         이동하기
                                     </a>

@@ -1,10 +1,6 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
-import {
-    rc_program_activeProgram,
-    rc_program_programList,
-} from "../store/program";
 import { rc_taskbar_preview_active } from "../store/taskbar";
 
 const Preview = () => {

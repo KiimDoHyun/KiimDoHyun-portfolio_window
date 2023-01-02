@@ -1,6 +1,5 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
-import SimpleArrowUp from "../Program/Icon/SimpleArrowUp";
 import message from "../../asset/images/icons/message.png";
 import folderEmpty from "../../asset/images/icons/folder_empty.png";
 import defaultImage from "../../asset/images/icons/image_default.png";
@@ -39,7 +38,6 @@ const TaskBar = (props) => {
         cur_timeline,
 
         box2Ref,
-        PreViewComponent,
     } = props;
 
     return (
