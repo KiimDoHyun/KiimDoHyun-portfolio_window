@@ -8,7 +8,8 @@
         "esModuleInterop": true,
         "allowSyntheticDefaultImports": true,
         "lib": ["ES2015", "DOM", "DOM.Iterable"],
-        "typeRoots": ["src/types"]
+        "typeRoots": ["src/types"],
+        "jsx": "react"
     },
     "include": ["./src/**/*"],
     "exclude": ["node_modules", "dist"]

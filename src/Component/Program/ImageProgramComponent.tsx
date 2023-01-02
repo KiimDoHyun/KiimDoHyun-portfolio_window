@@ -7,6 +7,7 @@ import image_defaultSize from "../../asset/images/icons/image_defaultSize_line.p
 import collapseArrowLeft from "../../asset/images/icons/collapse-arrow-left-white.png";
 import collapseArrowRight from "../../asset/images/icons/collapse-arrow-right-white.png";
 import styled from "styled-components";
+import React from "react";
 
 const ImageProgramComponent = ({
     type,
@@ -24,7 +25,7 @@ const ImageProgramComponent = ({
     IMG_onClickRight,
 }) => {
     return (
-        <>
+        <React.Fragment>
             <FolderProgramHeaderBlock className={`headerArea2`}>
                 <div
                     className="image_header_controller_btn"
@@ -100,7 +101,7 @@ const ImageProgramComponent = ({
                 {curImageIdx + 1} / {imageArr.length}{" "}
                 {imageArr[curImageIdx] && imageArr[curImageIdx].name}
             </div>
-        </>
+        </React.Fragment>
     );
 };
 const FolderProgramHeaderBlock = styled.div`
