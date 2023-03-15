@@ -3,16 +3,7 @@ import { useEffect } from "react";
 import { useCallback } from "react";
 import { useRecoilValue } from "recoil";
 import TimeBar from "../../Component/TaskBar/TimeBar";
-import {
-    rc_global_date,
-    rc_global_day,
-    rc_global_hour,
-    rc_global_min,
-    rc_global_month,
-    rc_global_sec,
-    rc_global_timeline,
-    rc_global_year,
-} from "../../store/global";
+import useGetCurrentTime from "../../hooks/useGetCurrentTime";
 import { rc_taskbar_timeBar_active } from "../../store/taskbar";
 
 const TimeBarContainer = () => {
@@ -24,14 +15,16 @@ const TimeBarContainer = () => {
     const [month, setMonth] = useState(date.getMonth()); // 월   (가변)
 
     // 현재 날짜 전용 데이터
-    const cur_year = useRecoilValue(rc_global_year);
-    const cur_month = useRecoilValue(rc_global_month);
-    const cur_day = useRecoilValue(rc_global_day);
-    const cur_date = useRecoilValue(rc_global_date);
-    const cur_hour = useRecoilValue(rc_global_hour);
-    const cur_minute = useRecoilValue(rc_global_min);
-    const cur_second = useRecoilValue(rc_global_sec);
-    const cur_timeline = useRecoilValue(rc_global_timeline);
+    const {
+        year: cur_year,
+        month: cur_month,
+        day: cur_day,
+        date: cur_date,
+        hour: cur_hour,
+        min: cur_minute,
+        sec: cur_second,
+        timeLine: cur_timeline,
+    } = useGetCurrentTime();
 
     const [calendarBodyClassName, setCalendarBodyClassName] = useState(""); // 이동모션
 
@@ -41,9 +34,14 @@ const TimeBarContainer = () => {
         const lastDay = new Date(date.getFullYear(), month + 1, 0).getDate();
         const prevLastDay = new Date(date.getFullYear(), month, 0).getDate();
         const curDate = date.getDate();
+
+        console.log("firstDayName", firstDayName);
+        console.log("curDate", curDate);
+        console.log("lastDay", lastDay);
         let data = 1;
         let tempData = [];
         for (let i = 0; i < 42; i++) {
+            // 년도 월이 동일한 날의 날짜는 현재 날짜.
             if (
                 year === date.getFullYear() &&
                 month === date.getMonth() &&
@@ -53,22 +51,33 @@ const TimeBarContainer = () => {
                 data += 1;
                 continue;
             }
+            // 첫째주
             if (i / 7 < 1) {
+                // 달의 시작 요일 보다 작은 인덱스 === 이전달에 해당한다.
                 if (i < firstDayName) {
                     tempData.push({
                         type: "box_prev",
                         data: prevLastDay - firstDayName + i + 1,
                     });
-                } else if (i >= firstDayName) {
+                }
+                // 달의 시작 요일 보다 작은 인덱스 === 현재 달에 해당한다.
+                else if (i >= firstDayName) {
                     tempData.push({ type: "box_curMonth", data: data });
                     data += 1;
                 }
-            } else {
+            }
+            // 그 이후
+            else {
+                // 달의 마지막 일 보다 작은 인덱스 === 현재 달에 해당한다.
                 if (data <= lastDay) {
                     tempData.push({ type: "box_curMonth", data: data });
                     data += 1;
                     // tempData.push(data);
-                } else {
+                }
+                // 달의 마지막 일 보다 작은 인덱스 === 다음 달에 해당한다.
+                // 28일이 마지막인데 29번째 인덱스 -> 마지막 일을 뺀다.
+                // 1 부터 다시 시작하게 된다.
+                else {
                     tempData.push({
                         type: "box_next",
                         data: data - lastDay,

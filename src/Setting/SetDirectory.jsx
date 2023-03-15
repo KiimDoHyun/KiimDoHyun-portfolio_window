@@ -35,6 +35,7 @@ const SetDirectory = () => {
 
             while (dfsList.length !== 0) {
                 const node = dfsList[0];
+                // console.log(node);
 
                 // 방문 여부
                 // 방문한 적이 있다면

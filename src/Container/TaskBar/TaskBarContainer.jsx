@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo, useRef, useState } from "react";
 import TaskBar from "../../Component/Main/TaskBar";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import {
     rc_program_activeProgram,
     rc_program_programList,
@@ -12,14 +12,8 @@ import {
     rc_taskbar_statusBar_active,
     rc_taskbar_timeBar_active,
 } from "../../store/taskbar";
-import {
-    rc_global_date,
-    rc_global_hour,
-    rc_global_min,
-    rc_global_month,
-    rc_global_timeline,
-    rc_global_year,
-} from "../../store/global";
+
+import useGetCurrentTime from "../../hooks/useGetCurrentTime";
 
 const glowLevelArr = [
     "", // none
@@ -29,12 +23,14 @@ const glowLevelArr = [
 ];
 
 const TaskBarContainer = () => {
-    const cur_timeline = useRecoilValue(rc_global_timeline);
-    const cur_hour = useRecoilValue(rc_global_hour);
-    const cur_minute = useRecoilValue(rc_global_min);
-    const cur_year = useRecoilValue(rc_global_year);
-    const cur_month = useRecoilValue(rc_global_month);
-    const cur_date = useRecoilValue(rc_global_date);
+    const {
+        year: cur_year,
+        month: cur_month,
+        date: cur_date,
+        hour: cur_hour,
+        min: cur_minute,
+        timeLine: cur_timeline,
+    } = useGetCurrentTime();
 
     const [hiddenIcon, setHiddenIcon] = useRecoilState(
         rc_taskbar_hiddenIcon_active
