@@ -30,6 +30,7 @@ const TimeBar = (props) => {
 
     return (
         <TimeBarBlock active={active}>
+            {/* 상단 실시간 영역 */}
             <div className="timeArea">
                 <div className="time">
                     {cur_timeline} {cur_hour}:{cur_minute}:{cur_second}
@@ -38,7 +39,10 @@ const TimeBar = (props) => {
                     {cur_year}년 {cur_month}월 {cur_date}일 {cur_day}요일
                 </div>
             </div>
+
+            {/* 달력 영역 */}
             <div className="calendarArea">
+                {/* 달력 상단 */}
                 <div className="calendarHeader">
                     <div className="year_month" onClick={onClickYear}>
                         {year}년 {month + 1}월
@@ -52,6 +56,8 @@ const TimeBar = (props) => {
                         </div>
                     </div>
                 </div>
+
+                {/* 달력 */}
                 <div className={`${calendarBodyClassName} calendarBody`}>
                     {dateArr.map((dateItem) => (
                         <div key={dateItem} className="box box_title">
@@ -68,6 +74,8 @@ const TimeBar = (props) => {
                     ))}
                 </div>
             </div>
+
+            {/* 빈 공간 */}
             <div className="functionArea"></div>
         </TimeBarBlock>
     );
