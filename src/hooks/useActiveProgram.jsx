@@ -5,6 +5,13 @@ import {
     rc_program_programList,
     rc_program_zIndexCnt,
 } from "../store/program";
+/*
+적절한 프로그램을 화면에 띄우기 위해 프로그램 컨테이너를 import 한다.
+
+하위 프로그램 컨테이너에서 훅 사용을 위해 import 한다
+
+상호 참조 중이다.
+*/
 
 /*
 특정 프로그램, 리스트의 클릭을 통해 특정 프로그램의 활성화를 위한 이벤트
