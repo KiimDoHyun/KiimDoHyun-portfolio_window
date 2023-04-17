@@ -22,6 +22,7 @@ const InfoBarContainer = () => {
         [setDisplayLight]
     );
 
+    // 인포 바 활성화시 커밋 조회
     useEffect(() => {
         if (active) {
             getCommit();
