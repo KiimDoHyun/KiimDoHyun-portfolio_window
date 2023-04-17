@@ -15,6 +15,7 @@ const InfoBarContainer = () => {
         rc_global_DisplayLight
     );
 
+    // 화면밝기 조정 이벤트
     const onChange = useCallback(
         ({ target: { value } }) => {
             setDisplayLight(value);
