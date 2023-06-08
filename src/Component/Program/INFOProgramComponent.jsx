@@ -76,7 +76,8 @@ const INFOProgramComponent = ({ type }) => {
                                     <p>Company</p>
                                     <a
                                         target={"_blank"}
-                                        href="https://araonsoft.com/"
+                                        href="https://www.whatap.io/ko/"
+                                        // href="https://araonsoft.com/"
                                         rel="noreferrer"
                                     >
                                         이동하기
@@ -143,7 +144,8 @@ const INFOProgramComponent = ({ type }) => {
                             </div>
                             <div className="myInfoArea">
                                 <p className="title">회사</p>
-                                <p className="desc">{"(주)아라온소프트"}</p>
+                                <p className="desc">{"와탭랩스"}</p>
+                                {/* <p className="desc">{"(주)아라온소프트"}</p> */}
                             </div>
                         </div>
                         <div className="infoItem">

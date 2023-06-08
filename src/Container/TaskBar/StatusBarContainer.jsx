@@ -10,6 +10,7 @@ import imgAraon from "../../asset/images/icons/araon_logo_noText.png";
 import imgKit from "../../asset/images/icons/logo_kit.jpg";
 import imgOne from "../../asset/images/icons/number_one.png";
 import imgUser from "../../asset/images/icons/user.png";
+import imgWhaTap from "../../asset/images/icons/WhaTap_vertical_logo.png";
 import useActiveProgram from "../../hooks/useActiveProgram";
 import { rc_global_Directory_Tree } from "../../store/global";
 
@@ -58,8 +59,8 @@ const StatusBarContainer = () => {
             text: "자바스크립트",
         },
         {
-            img: imgAraon,
-            text: "아라온소프트 재직중",
+            img: imgWhaTap,
+            text: "와탭랩스 재직중",
         },
         {
             img: imgOne,
