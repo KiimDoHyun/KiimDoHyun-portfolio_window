@@ -47,5 +47,8 @@
             "last 1 safari version"
         ]
     },
-    "homepage": "https://kiimdohyun.github.io/KiimDoHyun-portfolio_window"
+    "homepage": "https://kiimdohyun.github.io/KiimDoHyun-portfolio_window",
+    "devDependencies": {
+        "webpack-bundle-analyzer": "^4.10.1"
+    }
 }
