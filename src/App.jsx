@@ -21,3 +21,5 @@ function App() {
 }
 
 export default App;
+
+// npx madge --image graph3.svg ./src/App.tsx
