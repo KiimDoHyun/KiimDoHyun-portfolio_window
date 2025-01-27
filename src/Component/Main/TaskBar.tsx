@@ -12,171 +12,151 @@ import close_white from "../../asset/images/icons/close_white.png";
 
 import Windows from "../Program/Icon/Windows";
 const TaskBar = (props) => {
-    const {
-        onClickStartIcon,
-        onClickTime,
-        onClickInfo,
-        onClickHiddenIcon,
+  const {
+    onClickStartIcon,
+    onClickTime,
+    onClickInfo,
+    onClickHiddenIcon,
 
-        hoverTarget,
-        programList,
-        activeProgram,
-        hiddenIcon,
+    hoverTarget,
+    programList,
+    activeProgram,
+    hiddenIcon,
 
-        onMouseEnter,
-        onMouseLeave,
-        onClickTaskIcon,
-        onClickCloseAll,
-        showPrev,
-        onClick_Close_ShortCut,
+    onMouseEnter,
+    onMouseLeave,
+    onClickTaskIcon,
+    onClickCloseAll,
+    showPrev,
+    onClick_Close_ShortCut,
 
-        cur_year,
-        cur_month,
-        cur_date,
-        cur_hour,
-        cur_minute,
-        cur_timeline,
+    cur_year,
+    cur_month,
+    cur_date,
+    cur_hour,
+    cur_minute,
+    cur_timeline,
 
-        box2Ref,
-    } = props;
+    box2Ref,
+  } = props;
 
-    return (
-        <>
-            <TaskBarBlock hoverTarget={hoverTarget}>
-                {/* 시작 */}
+  return (
+    <>
+      <TaskBarBlock hoverTarget={hoverTarget}>
+        {/* 시작 */}
+        <div className="box1 taskHoverEffect" onClick={onClickStartIcon}>
+          <Windows />
+        </div>
+
+        {/* 작업표시줄 */}
+        <div className="box2" ref={box2Ref}>
+          {/* 프로그램 */}
+          {programList.map((item, idx) => {
+            return (
+              <div
+                key={idx}
+                className={`shortCutIcon ${
+                  activeProgram === item.name && "activeIcon"
+                }`}
+                title={item.name}
+                onMouseEnter={() => onMouseEnter(item, idx)}
+                onMouseLeave={(e) => onMouseLeave(e, idx)}
+              >
                 <div
-                    className="box1 taskHoverEffect"
-                    onClick={onClickStartIcon}
+                  className="shortCut_Img"
+                  onClick={() => onClickTaskIcon(item, idx)}
                 >
-                    <Windows />
+                  {item.type === "IMAGE" && (
+                    <img src={defaultImage} alt={item.name} />
+                  )}
+                  {item.type === "FOLDER" && (
+                    <img src={folderEmpty} alt={item.name} />
+                  )}
+                  {item.type === "DOC" && (
+                    <img src={defaultDocumentImage} alt={item.name} />
+                  )}
+                  {item.type === "INFO" && (
+                    <img src={monitor} alt={item.name} />
+                  )}
+                  {item.type === "BROWSER" && (
+                    <img src={item.icon || folderEmpty} alt={item.name} />
+                  )}
                 </div>
-
-                {/* 작업표시줄 */}
-                <div className="box2" ref={box2Ref}>
-                    {/* 프로그램 */}
-                    {programList.map((item, idx) => {
-                        return (
-                            <div
-                                key={idx}
-                                className={`shortCutIcon ${
-                                    activeProgram === item.name && "activeIcon"
-                                }`}
-                                title={item.name}
-                                onMouseEnter={() => onMouseEnter(item, idx)}
-                                onMouseLeave={(e) => onMouseLeave(e, idx)}
-                            >
-                                <div
-                                    className="shortCut_Img"
-                                    onClick={() => onClickTaskIcon(item, idx)}
-                                >
-                                    {item.type === "IMAGE" && (
-                                        <img
-                                            src={defaultImage}
-                                            alt={item.name}
-                                        />
-                                    )}
-                                    {item.type === "FOLDER" && (
-                                        <img
-                                            src={folderEmpty}
-                                            alt={item.name}
-                                        />
-                                    )}
-                                    {item.type === "DOC" && (
-                                        <img
-                                            src={defaultDocumentImage}
-                                            alt={item.name}
-                                        />
-                                    )}
-                                    {item.type === "INFO" && (
-                                        <img src={monitor} alt={item.name} />
-                                    )}
-                                    {item.type === "BROWSER" && (
-                                        <img
-                                            src={item.icon || folderEmpty}
-                                            alt={item.name}
-                                        />
-                                    )}
-                                </div>
-                                <div className="shortCut_BottomLine" />
-                                <div className="shotCut_Hover">
-                                    <div
-                                        className="buttonCover"
-                                        onClick={onClick_Close_ShortCut}
-                                    />
-                                    <div
-                                        className="bodyCover"
-                                        onClick={() =>
-                                            onClickTaskIcon(item, idx)
-                                        }
-                                    />
-                                </div>
-                            </div>
-                        );
-                    })}
+                <div className="shortCut_BottomLine" />
+                <div className="shotCut_Hover">
+                  <div
+                    className="buttonCover"
+                    onClick={onClick_Close_ShortCut}
+                  />
+                  <div
+                    className="bodyCover"
+                    onClick={() => onClickTaskIcon(item, idx)}
+                  />
                 </div>
+              </div>
+            );
+          })}
+        </div>
 
-                <div className="box3">
-                    {/* 숨겨진 아이콘 */}
+        <div className="box3">
+          {/* 숨겨진 아이콘 */}
 
-                    <div
-                        className="arrowUpIcon taskHoverEffect"
-                        title={
-                            hiddenIcon
-                                ? "숨기기"
-                                : "포트폴리오 제작에 사용된 기술\n숨겨진 아이콘 표시"
-                        }
-                        onClick={onClickHiddenIcon}
-                    >
-                        {hiddenIcon ? (
-                            <img src={arrowDown} alt="arrowDown" />
-                        ) : (
-                            <img src={arrowUp} alt="arrowUp" />
-                        )}
-                    </div>
+          <div
+            className="arrowUpIcon taskHoverEffect"
+            title={
+              hiddenIcon
+                ? "숨기기"
+                : "포트폴리오 제작에 사용된 기술\n숨겨진 아이콘 표시"
+            }
+            onClick={onClickHiddenIcon}
+          >
+            {hiddenIcon ? (
+              <img src={arrowDown} alt="arrowDown" />
+            ) : (
+              <img src={arrowUp} alt="arrowUp" />
+            )}
+          </div>
 
-                    {/* 시간 */}
-                    <div
-                        className="dateInfo taskHoverEffect"
-                        onClick={onClickTime}
-                    >
-                        <div className="time">
-                            {cur_timeline} {cur_hour}:{cur_minute}
-                        </div>
-                        <div className="date">
-                            {cur_year}-{cur_month}-{`0${cur_date}`.slice(-2)}
-                        </div>
-                    </div>
+          {/* 시간 */}
+          <div className="dateInfo taskHoverEffect" onClick={onClickTime}>
+            <div className="time">
+              {cur_timeline} {cur_hour}:{cur_minute}
+            </div>
+            <div className="date">
+              {cur_year}-{cur_month}-{`0${cur_date}`.slice(-2)}
+            </div>
+          </div>
 
-                    {/* 알림 */}
-                    <div
-                        className="info taskHoverEffect"
-                        onClick={onClickInfo}
-                        title="새 알림 없음"
-                    >
-                        <img src={message} alt={"message"} />
-                    </div>
+          {/* 알림 */}
+          <div
+            className="info taskHoverEffect"
+            onClick={onClickInfo}
+            title="새 알림 없음"
+          >
+            <img src={message} alt={"message"} />
+          </div>
 
-                    {/* 모두 닫기 */}
-                    <div
-                        className="closeAllButton taskHoverEffect"
-                        onClick={onClickCloseAll}
-                    ></div>
-                </div>
-                <div className="prevView">
-                    <div className="prevViewHeader">
-                        <div className="text">{hoverTarget.name}</div>
-                        <div
-                            className="button"
-                            // onClick={() => console.log("????????????????????")}
-                        >
-                            <img src={close_white} alt="close_white" />
-                        </div>
-                    </div>
-                    <div className="cover">{showPrev()}</div>
-                </div>
-            </TaskBarBlock>
-        </>
-    );
+          {/* 모두 닫기 */}
+          <div
+            className="closeAllButton taskHoverEffect"
+            onClick={onClickCloseAll}
+          ></div>
+        </div>
+        <div className="prevView">
+          <div className="prevViewHeader">
+            <div className="text">{hoverTarget.name}</div>
+            <div
+              className="button"
+              // onClick={() => console.log("????????????????????")}
+            >
+              <img src={close_white} alt="close_white" />
+            </div>
+          </div>
+          <div className="cover">{showPrev()}</div>
+        </div>
+      </TaskBarBlock>
+    </>
+  );
 };
 
 // 미리보기의 transform 이 늦게 적용되는 현상을 방지함.
@@ -190,7 +170,9 @@ to {
 }
 `;
 
-const TaskBarBlock = styled.div`
+const TaskBarBlock = styled.div<{
+  hoverTarget: { name?: string; idx: number };
+}>`
     display: grid;
     grid-template-columns: 50px auto 200px;
     height: 100%;
@@ -220,26 +202,26 @@ const TaskBarBlock = styled.div`
         background-color: #00000000;
         // top: -225px;
         top: ${(props) => {
-            if (props.hoverTarget.name) {
-                return "-225px;";
-            } else {
-                return "225px;";
-            }
+          if (props.hoverTarget.name) {
+            return "-225px;";
+          } else {
+            return "225px;";
+          }
         }}
         left: ${(props) => {
-            if (props.hoverTarget.idx === 0) {
-                return "-50px;";
-            } else {
-                return "-75px;";
-            }
+          if (props.hoverTarget.idx === 0) {
+            return "-50px;";
+          } else {
+            return "-75px;";
+          }
         }}
 
         pointer-events:  ${(props) => {
-            if (props.hoverTarget.name) {
-                return "all;";
-            } else {
-                return "none;";
-            }
+          if (props.hoverTarget.name) {
+            return "all;";
+          } else {
+            return "none;";
+          }
         }}
     }
 
@@ -325,22 +307,22 @@ const TaskBarBlock = styled.div`
         top: ${(props) => (props.hoverTarget.name ? "-225px;" : "50px;")};
         opacity: ${(props) => (props.hoverTarget.name ? "1;" : "0;")};
         left: ${(props) => {
-            if (props.hoverTarget.name) {
-                if (props.hoverTarget.idx > 0) {
-                    return (props.hoverTarget.idx - 1) * 50 + 25 + "px;";
-                } else {
-                    return "0px;";
-                }
+          if (props.hoverTarget.name) {
+            if (props.hoverTarget.idx > 0) {
+              return (props.hoverTarget.idx - 1) * 50 + 25 + "px;";
             } else {
-                return "0px;";
+              return "0px;";
             }
+          } else {
+            return "0px;";
+          }
         }};
         pointer-events:  ${(props) => {
-            if (props.hoverTarget.name) {
-                return "all;";
-            } else {
-                return "none;";
-            }
+          if (props.hoverTarget.name) {
+            return "all;";
+          } else {
+            return "none;";
+          }
         }}
 
         // Test

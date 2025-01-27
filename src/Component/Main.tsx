@@ -4,11 +4,10 @@ import WindowContainer from "@Container/WindowContainer";
 import TaskBarContainer from "@Container/TaskBar/TaskBarContainer";
 
 const Main = (props) => {
-  const { iconBoxArr } = props;
   return (
     <MainBlock>
       <div className="windowCover">
-        <WindowContainer iconBoxArr={iconBoxArr} />
+        <WindowContainer />
       </div>
       <div className="taskBarCover">
         <TaskBarContainer />
