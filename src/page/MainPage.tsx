@@ -1,20 +1,20 @@
 import React from "react";
 import styled from "styled-components";
-import WindowContainer from "../Container/WindowContainer";
 import wallpaper from "@images/wallpaper/Samsung_wallpaper.jpg";
 import { useSetRecoilState } from "recoil";
-import TimeBarContainer from "../Container/TaskBar/TimeBarContainer";
+import TimeBarContainer from "@Container/TaskBar/TimeBarContainer";
 import {
   rc_taskbar_hiddenIcon_active,
   rc_taskbar_infoBar_active,
   rc_taskbar_statusBar_active,
   rc_taskbar_timeBar_active,
-} from "../store/taskbar";
-import DisplayCover from "../Component/DisplayCover";
-import HiddenIcon from "../Component/TaskBar/HiddenIcon";
-import TaskBarContainer from "../Container/TaskBar/TaskBarContainer";
-import InfoBarContainer from "../Container/TaskBar/InfoBarContainer";
-import StatusBarContainer from "../Container/TaskBar/StatusBarContainer";
+} from "@store/taskbar";
+import DisplayCover from "@Component/DisplayCover";
+import HiddenIcon from "@Component/TaskBar/HiddenIcon";
+import TaskBarContainer from "@Container/TaskBar/TaskBarContainer";
+import InfoBarContainer from "@Container/TaskBar/InfoBarContainer";
+import WindowContainer from "@Container/WindowContainer";
+import StatusBarContainer from "@Container/TaskBar/StatusBarContainer";
 
 const MainPage = () => {
   const setActive_status = useSetRecoilState(rc_taskbar_statusBar_active);
