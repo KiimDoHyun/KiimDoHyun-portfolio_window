@@ -20,7 +20,7 @@
     "allowSyntheticDefaultImports": true,
     "lib": ["ES2015", "DOM", "DOM.Iterable"],
     "typeRoots": ["src/types"],
-    "jsx": "react"
+    "jsx": "react-jsx"
   },
   "include": ["./src/**/*"],
   "exclude": ["node_modules", "dist"]
