@@ -1,23 +1,20 @@
 import "./App.css";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import MainPage from "./page/MainPage";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import SetDirectory from "./Setting/SetDirectory";
+import WindowRouter from "./fsd/window/1_apps/routers/WindowRouter";
 
 function App() {
-    return (
-        <div className="App">
-            <SetDirectory />
-            <BrowserRouter basename={process.env.PUBLIC_URL}>
-                <Routes>
-                    {/* <Route
-                        element={<MainPage />}
-                        path="/KiimDoHyun-portfolio_window"
-                    /> */}
-                    <Route element={<MainPage />} path="/" />
-                </Routes>
-            </BrowserRouter>
-        </div>
-    );
+  return (
+    <div className="App">
+      <SetDirectory />
+      <BrowserRouter basename={process.env.PUBLIC_URL}>
+        <Routes>
+          <Route path="/" element={<Navigate to="/window/login" replace />} />
+          <Route path="/window/*" element={<WindowRouter />} />
+        </Routes>
+      </BrowserRouter>
+    </div>
+  );
 }
 
 export default App;
