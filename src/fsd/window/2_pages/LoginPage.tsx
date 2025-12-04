@@ -1,5 +1,5 @@
-import FullScreenBox from "@fsd/window/6_common/ui/FullScreenBox";
+import { Login } from "@fsd/window/3_widgets/Login";
 
 export default function LoginPage() {
-  return <FullScreenBox>LoginPage</FullScreenBox>;
+  return <Login />;
 }
