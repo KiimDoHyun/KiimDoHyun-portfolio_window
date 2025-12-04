@@ -8,10 +8,6 @@ interface FullScreenBoxProps {
 const fullScreenStyles = css({
   width: "100vw",
   height: "100vh",
-  // 모바일 동적 뷰포트 높이 지원
-  "@supports (height: 100dvh)": {
-    height: "100dvh",
-  },
   position: "relative",
   overflow: "hidden",
 });
