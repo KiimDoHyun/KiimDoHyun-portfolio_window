@@ -16,6 +16,7 @@
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
+    "@pandacss/dev": "^0.40.0",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^16.0.0",
     "@testing-library/user-event": "^13.5.0",
@@ -29,8 +30,9 @@
     "webpack-bundle-analyzer": "^4.10.1"
   },
   "scripts": {
-    "start": "craco start",
-    "build": "craco build",
+    "panda": "panda codegen",
+    "start": "panda codegen && craco start",
+    "build": "panda codegen && craco build",
     "test": "craco test",
     "eject": "craco eject",
     "predeploy": "npm run build",
