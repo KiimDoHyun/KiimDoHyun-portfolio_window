@@ -11,6 +11,9 @@
 # production
 /build
 
+# PandaCSS
+/src/styled-system
+
 # misc
 .DS_Store
 .env.local

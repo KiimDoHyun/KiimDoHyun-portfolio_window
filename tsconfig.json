@@ -10,7 +10,8 @@
       "@Setting/*": ["src/Setting/*"],
       "@Page/*": ["src/page/*"],
       "@store/*": ["src/store/*"],
-      "@fsd/*": ["src/fsd/*"]
+      "@fsd/*": ["src/fsd/*"],
+      "@styled-system/*": ["src/styled-system/*"]
     },
     "allowJs": true,
     "target": "ES5",
