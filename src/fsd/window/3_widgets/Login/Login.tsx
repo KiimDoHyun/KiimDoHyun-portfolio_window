@@ -28,12 +28,12 @@ export default function Login() {
               padding: 8,
             })}
           >
-            <h1>
+            <div className={css({ fontSize: "5rem" })}>
               {hour}:{minute}
-            </h1>
-            <h3>
+            </div>
+            <div className={css({ fontSize: "2rem" })}>
               {month}월 {day}일 일요일
-            </h3>
+            </div>
           </div>
         </div>
         <div
