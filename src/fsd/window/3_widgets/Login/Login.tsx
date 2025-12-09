@@ -1,4 +1,4 @@
-import FullScreenBox from "@fsd/window/6_common/ui/FullScreenBox";
+import { FullScreenBox, Icon } from "@fsd/window/6_common/components";
 import { css } from "@styled-system/css";
 import { flex } from "@styled-system/patterns";
 
@@ -46,15 +46,3 @@ export default function Login() {
     </FullScreenBox>
   );
 }
-
-const Icon = () => {
-  return (
-    <div
-      className={css({
-        width: "20px",
-        height: "20px",
-        backgroundColor: "gray",
-      })}
-    />
-  );
-};
