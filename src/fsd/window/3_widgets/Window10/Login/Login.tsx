@@ -1,10 +1,10 @@
-import { FullScreenBox, Icon } from "@fsd/window/6_common/components";
+import { Icon } from "@fsd/window/6_common/components";
 import { css } from "@styled-system/css";
 import { flex } from "@styled-system/patterns";
 import { useDragUp, useScreenHeight } from "@fsd/window/6_common/hooks";
 import { useRef, useState } from "react";
 
-export default function Login({ wallpaper }: { wallpaper: string }) {
+export default function Login() {
   const hour = 9;
   const minute = 14;
   const month = 9;
@@ -52,74 +52,54 @@ export default function Login({ wallpaper }: { wallpaper: string }) {
   };
 
   return (
-    <FullScreenBox>
-      <div
-        className={css({
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-          zIndex: -1,
-        })}
-      >
-        <img
-          src={wallpaper}
-          alt="wallpaper"
-          className={css({ width: "100%", height: "100%" })}
-        />
-      </div>
+    <div
+      className={flex({
+        direction: "column",
+        width: "100%",
+        height: "100%",
+      })}
+      ref={screenBoxRef}
+      style={{
+        transform: `translateY(${translateY}px)`,
+        transition:
+          translateY === 0 || translateY === -screenHeight
+            ? "transform 0.2s"
+            : "none",
+      }}
+      onMouseDown={handleMouseDown}
+      onMouseMove={dragHandlers.onMouseMove}
+      onMouseUp={dragHandlers.onMouseUp}
+      onMouseLeave={dragHandlers.onMouseLeave}
+    >
       <div
         className={flex({
-          direction: "column",
-          width: "100%",
-          height: "100%",
+          flex: 1,
+          alignItems: "flex-end",
         })}
-        ref={screenBoxRef}
-        style={{
-          transform: `translateY(${translateY}px)`,
-          transition:
-            translateY === 0 || translateY === -screenHeight
-              ? "transform 0.2s"
-              : "none",
-        }}
-        onMouseDown={handleMouseDown}
-        onMouseMove={dragHandlers.onMouseMove}
-        onMouseUp={dragHandlers.onMouseUp}
-        onMouseLeave={dragHandlers.onMouseLeave}
       >
         <div
           className={flex({
-            flex: 1,
-            alignItems: "flex-end",
+            direction: "column",
+            width: "100%",
+            height: "100%",
+            alignItems: "flex-start",
+            justifyContent: "flex-end",
+            padding: 8,
           })}
         >
-          <div
-            className={flex({
-              direction: "column",
-              width: "100%",
-              height: "100%",
-              alignItems: "flex-start",
-              justifyContent: "flex-end",
-              padding: 8,
-            })}
-          >
-            <div className={css({ fontSize: "5rem" })}>
-              {hour}:{minute}
-            </div>
-            <div className={css({ fontSize: "2rem" })}>
-              {month}월 {day}일 일요일
-            </div>
+          <div className={css({ fontSize: "5rem" })}>
+            {hour}:{minute}
+          </div>
+          <div className={css({ fontSize: "2rem" })}>
+            {month}월 {day}일 일요일
           </div>
         </div>
-        <div
-          className={flex({ justifyContent: "flex-end", padding: 4, gap: 2 })}
-        >
-          <Icon />
-          <Icon />
-        </div>
       </div>
-    </FullScreenBox>
+      <div className={flex({ justifyContent: "flex-end", padding: 4, gap: 2 })}>
+        <Icon />
+        <Icon />
+      </div>
+    </div>
   );
 }
 
