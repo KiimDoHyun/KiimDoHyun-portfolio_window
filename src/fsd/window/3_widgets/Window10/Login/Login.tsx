@@ -1,10 +1,14 @@
-import { Icon } from "@fsd/window/6_common/components";
+import { Icon, WallPaperBlurCover } from "@fsd/window/6_common/components";
 import { css } from "@styled-system/css";
 import { flex } from "@styled-system/patterns";
 import { useDragUp, useScreenHeight } from "@fsd/window/6_common/hooks";
 import { useRef, useState } from "react";
 
-export default function Login() {
+interface Props {
+  onDragUpToEnd: VoidFunction;
+}
+
+export default function Login({ onDragUpToEnd }: Props) {
   const hour = 9;
   const minute = 14;
   const month = 9;
@@ -13,13 +17,19 @@ export default function Login() {
   const screenBoxRef = useRef<HTMLDivElement>(null);
   const [translateY, setTranslateY] = useState(0);
   const screenHeight = useScreenHeight();
+
   const isDragEndedRef = useRef(false);
+
+  const dragUpToEnd = () => {
+    setTranslateY(-screenHeight);
+    onDragUpToEnd();
+  };
 
   const handleDragEnd = (dragDistance: number) => {
     isDragEndedRef.current = true;
 
     if (dragDistance >= screenHeight / 2) {
-      setTranslateY(-screenHeight);
+      dragUpToEnd();
     } else {
       setTranslateY(0);
     }
@@ -34,20 +44,15 @@ export default function Login() {
     setTranslateY(Math.max(newTranslateY, -screenHeight));
   };
 
-  const handleClick = () => {
-    setTranslateY(-screenHeight);
-    console.log("onClickLogin");
-  };
-
   const dragHandlers = useDragUp({
     throttleTime: 10,
     onDragUp: handleDragUp,
     onDragEnd: handleDragEnd,
-    onClick: handleClick,
+    onClick: dragUpToEnd,
   });
 
   const handleMouseDown = (e: React.MouseEvent) => {
-    isDragEndedRef.current = false; // 드래그 시작 시 플래그 리셋
+    isDragEndedRef.current = false;
     dragHandlers.onMouseDown(e);
   };
 
