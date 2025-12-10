@@ -17,13 +17,16 @@ export default function Login({ onDragUpToEnd }: Props) {
   const screenBoxRef = useRef<HTMLDivElement>(null);
   const [translateY, setTranslateY] = useState(0);
   const screenHeight = useScreenHeight();
+  const [displayLogin, setDisplayLogin] = useState(false);
 
   const isDragEndedRef = useRef(false);
 
   const dragUpToEnd = () => {
     setTranslateY(-screenHeight);
+    setDisplayLogin(true);
     onDragUpToEnd();
   };
+  console.log("displayLogin", displayLogin);
 
   const handleDragEnd = (dragDistance: number) => {
     isDragEndedRef.current = true;
@@ -55,6 +58,34 @@ export default function Login({ onDragUpToEnd }: Props) {
     isDragEndedRef.current = false;
     dragHandlers.onMouseDown(e);
   };
+
+  if (displayLogin) {
+    return (
+      <div
+        className={flex({
+          position: "absolute",
+          top: 0,
+          left: 0,
+          direction: "column",
+          width: "100%",
+          height: "100%",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 4,
+        })}
+      >
+        <div
+          className={css({
+            width: "100px",
+            height: "100px",
+            backgroundColor: "gray",
+            borderRadius: "10px",
+          })}
+        />
+        <button>login</button>
+      </div>
+    );
+  }
 
   return (
     <div
