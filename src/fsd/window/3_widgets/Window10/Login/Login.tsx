@@ -1,4 +1,4 @@
-import { Icon, WallPaperBlurCover } from "@fsd/window/6_common/components";
+import { Icon } from "@fsd/window/6_common/components";
 import { css } from "@styled-system/css";
 import { flex } from "@styled-system/patterns";
 import { useDragUp, useScreenHeight } from "@fsd/window/6_common/hooks";
