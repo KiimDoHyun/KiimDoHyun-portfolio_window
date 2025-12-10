@@ -1,8 +1,8 @@
 import { FullScreenBox, Icon } from "@fsd/window/6_common/components";
 import { css } from "@styled-system/css";
 import { flex } from "@styled-system/patterns";
-import { useDragUp } from "@fsd/window/6_common/hooks";
-import { useRef, useState, useEffect } from "react";
+import { useDragUp, useScreenHeight } from "@fsd/window/6_common/hooks";
+import { useRef, useState } from "react";
 
 export default function Login({ wallpaper }: { wallpaper: string }) {
   const hour = 9;
@@ -12,17 +12,8 @@ export default function Login({ wallpaper }: { wallpaper: string }) {
 
   const screenBoxRef = useRef<HTMLDivElement>(null);
   const [translateY, setTranslateY] = useState(0);
-  const [screenHeight, setScreenHeight] = useState(0);
+  const screenHeight = useScreenHeight();
   const isDragEndedRef = useRef(false);
-
-  useEffect(() => {
-    const updateScreenHeight = () => {
-      setScreenHeight(window.innerHeight);
-    };
-    updateScreenHeight();
-    window.addEventListener("resize", updateScreenHeight);
-    return () => window.removeEventListener("resize", updateScreenHeight);
-  }, []);
 
   const handleDragEnd = (dragDistance: number) => {
     isDragEndedRef.current = true;
@@ -44,6 +35,7 @@ export default function Login({ wallpaper }: { wallpaper: string }) {
   };
 
   const handleClick = () => {
+    setTranslateY(-screenHeight);
     console.log("onClickLogin");
   };
 
@@ -88,7 +80,7 @@ export default function Login({ wallpaper }: { wallpaper: string }) {
           transform: `translateY(${translateY}px)`,
           transition:
             translateY === 0 || translateY === -screenHeight
-              ? "transform 0.3s ease-out"
+              ? "transform 0.2s"
               : "none",
         }}
         onMouseDown={handleMouseDown}
@@ -130,3 +122,10 @@ export default function Login({ wallpaper }: { wallpaper: string }) {
     </FullScreenBox>
   );
 }
+
+/*
+위로 드래그하면 요소들의 opacity가 0에 수렴되어야 함
+클릭하면 위로 다 올라가야 함
+요소가 위로 전부 올라가면 로그인 화면이 나타나야 함
+로그인 화면이 나타날 때 배경 블러 처리가 필요함 (배경이 z축 위로 약간 뜨는 효과가 나타나야 함)
+*/
