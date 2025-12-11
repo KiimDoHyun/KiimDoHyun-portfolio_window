@@ -3,10 +3,13 @@ import { css } from "@styled-system/css";
 import { flex } from "@styled-system/patterns";
 import { useDragUp, useScreenHeight } from "@fsd/window/6_common/hooks";
 import { useRef, useState } from "react";
+import LoginInput from "./components/LoginInput/LoginInput";
 
 interface Props {
   onDragUpToEnd: VoidFunction;
 }
+
+const ANIMATION_DURATION = 0.2;
 
 export default function Login({ onDragUpToEnd }: Props) {
   const hour = 9;
@@ -23,10 +26,14 @@ export default function Login({ onDragUpToEnd }: Props) {
 
   const dragUpToEnd = () => {
     setTranslateY(-screenHeight);
-    setDisplayLogin(true);
-    onDragUpToEnd();
+
+    console.log("111");
+    setTimeout(() => {
+      setDisplayLogin(true);
+
+      onDragUpToEnd();
+    }, ANIMATION_DURATION * 1000);
   };
-  console.log("displayLogin", displayLogin);
 
   const handleDragEnd = (dragDistance: number) => {
     isDragEndedRef.current = true;
@@ -60,31 +67,7 @@ export default function Login({ onDragUpToEnd }: Props) {
   };
 
   if (displayLogin) {
-    return (
-      <div
-        className={flex({
-          position: "absolute",
-          top: 0,
-          left: 0,
-          direction: "column",
-          width: "100%",
-          height: "100%",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: 4,
-        })}
-      >
-        <div
-          className={css({
-            width: "100px",
-            height: "100px",
-            backgroundColor: "gray",
-            borderRadius: "10px",
-          })}
-        />
-        <button>login</button>
-      </div>
-    );
+    return <LoginInput userName="John Doe" />;
   }
 
   return (
@@ -99,7 +82,7 @@ export default function Login({ onDragUpToEnd }: Props) {
         transform: `translateY(${translateY}px)`,
         transition:
           translateY === 0 || translateY === -screenHeight
-            ? "transform 0.2s"
+            ? `transform ${ANIMATION_DURATION}s`
             : "none",
       }}
       onMouseDown={handleMouseDown}
@@ -138,10 +121,3 @@ export default function Login({ onDragUpToEnd }: Props) {
     </div>
   );
 }
-
-/*
-위로 드래그하면 요소들의 opacity가 0에 수렴되어야 함
-클릭하면 위로 다 올라가야 함
-요소가 위로 전부 올라가면 로그인 화면이 나타나야 함
-로그인 화면이 나타날 때 배경 블러 처리가 필요함 (배경이 z축 위로 약간 뜨는 효과가 나타나야 함)
-*/
