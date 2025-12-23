@@ -4,6 +4,7 @@ import { flex } from "@styled-system/patterns";
 import { useDragUp, useScreenHeight } from "@fsd/window/6_common/hooks";
 import { useRef, useState } from "react";
 import LoginInput from "./components/LoginInput/LoginInput";
+import { LoginBox, TRANSLATE_Y_CSS_VAR } from "./Login.style";
 
 interface Props {
   onDragUpToEnd: VoidFunction;
@@ -71,20 +72,14 @@ export default function Login({ onDragUpToEnd }: Props) {
   }
 
   return (
-    <div
-      className={flex({
-        direction: "column",
-        width: "100%",
-        height: "100%",
-      })}
+    <LoginBox
       ref={screenBoxRef}
-      style={{
-        transform: `translateY(${translateY}px)`,
-        transition:
-          translateY === 0 || translateY === -screenHeight
-            ? `transform ${ANIMATION_DURATION}s`
-            : "none",
-      }}
+      style={
+        {
+          [TRANSLATE_Y_CSS_VAR]: `${translateY}px`,
+        } as React.CSSProperties
+      }
+      animated={translateY === 0 || translateY === -screenHeight}
       onMouseDown={handleMouseDown}
       onMouseMove={dragHandlers.onMouseMove}
       onMouseUp={dragHandlers.onMouseUp}
@@ -118,6 +113,6 @@ export default function Login({ onDragUpToEnd }: Props) {
         <Icon />
         <Icon />
       </div>
-    </div>
+    </LoginBox>
   );
 }
