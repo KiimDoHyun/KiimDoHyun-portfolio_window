@@ -58,8 +58,9 @@ export default function Login({ onDragUpToEnd }: Props) {
         params.dragDistance >= screenHeight / 2
       ) {
         dragUpToEnd();
+      } else {
+        setTranslateY(0);
       }
-      setTranslateY(0);
     },
     [dragUpToEnd, screenHeight]
   );
