@@ -1,8 +1,14 @@
 import { Icon } from "@fsd/window/6_common/components";
 import { css } from "@styled-system/css";
 import { flex } from "@styled-system/patterns";
-import { useDragUp, useScreenHeight } from "@fsd/window/6_common/hooks";
-import { useRef, useState } from "react";
+import {
+  DRAG_DIRECTION,
+  OnDrag,
+  OnDragEnd,
+  useDrag,
+  useScreenHeight,
+} from "@fsd/window/6_common/hooks";
+import { useCallback, useRef, useState } from "react";
 import LoginInput from "./components/LoginInput/LoginInput";
 import { LoginBox, TRANSLATE_Y_CSS_VAR } from "./Login.style";
 
@@ -25,47 +31,44 @@ export default function Login({ onDragUpToEnd }: Props) {
 
   const isDragEndedRef = useRef(false);
 
-  const dragUpToEnd = () => {
+  const dragUpToEnd = useCallback(() => {
     setTranslateY(-screenHeight);
 
-    console.log("111");
     setTimeout(() => {
       setDisplayLogin(true);
 
       onDragUpToEnd();
     }, ANIMATION_DURATION * 1000);
-  };
+  }, [screenHeight, onDragUpToEnd]);
 
-  const handleDragEnd = (dragDistance: number) => {
-    isDragEndedRef.current = true;
-
-    if (dragDistance >= screenHeight / 2) {
-      dragUpToEnd();
-    } else {
-      setTranslateY(0);
-    }
-  };
-
-  const handleDragUp = (dragDistance: number) => {
-    if (isDragEndedRef.current) {
-      return;
-    }
-
-    const newTranslateY = -dragDistance;
-    setTranslateY(Math.max(newTranslateY, -screenHeight));
-  };
-
-  const dragHandlers = useDragUp({
-    throttleTime: 10,
-    onDragUp: handleDragUp,
-    onDragEnd: handleDragEnd,
-    onClick: dragUpToEnd,
-  });
-
-  const handleMouseDown = (e: React.MouseEvent) => {
+  const handleMouseLeave = () => {
     isDragEndedRef.current = false;
-    dragHandlers.onMouseDown(e);
   };
+
+  const handleDrag = useCallback<OnDrag>((params) => {
+    if (params.dragDirection[DRAG_DIRECTION.UP]) {
+      setTranslateY(-params.dragDistance);
+    }
+  }, []);
+
+  const handleDragEnd = useCallback<OnDragEnd>(
+    (params) => {
+      if (
+        params.dragDistance === 0 ||
+        params.dragDistance >= screenHeight / 2
+      ) {
+        dragUpToEnd();
+      }
+      setTranslateY(0);
+    },
+    [dragUpToEnd, screenHeight]
+  );
+
+  const dragHandlers = useDrag({
+    onDrag: handleDrag,
+    onDragEnd: handleDragEnd,
+    onMouseLeave: handleMouseLeave,
+  });
 
   if (displayLogin) {
     return <LoginInput userName="John Doe" />;
@@ -80,10 +83,13 @@ export default function Login({ onDragUpToEnd }: Props) {
         } as React.CSSProperties
       }
       animated={translateY === 0 || translateY === -screenHeight}
-      onMouseDown={handleMouseDown}
+      onMouseDown={dragHandlers.onMouseDown}
       onMouseMove={dragHandlers.onMouseMove}
       onMouseUp={dragHandlers.onMouseUp}
       onMouseLeave={dragHandlers.onMouseLeave}
+      onClick={() => {
+        console.log("click");
+      }}
     >
       <div
         className={flex({
