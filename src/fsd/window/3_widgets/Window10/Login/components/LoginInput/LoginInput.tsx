@@ -1,6 +1,7 @@
-import { css } from "@styled-system/css";
 import { useEffect, useRef, useState } from "react";
-import { LoginInputBox } from "./LoginInput.style";
+import { LoginInputBox, UserIconBox } from "./LoginInput.style";
+
+import defaultUserIcon from "@images/icons/user.png";
 
 const ANIMATION_DURATION = 0.2;
 
@@ -26,14 +27,9 @@ export default function LoginInput({ userIcon, userName }: Props) {
 
   return (
     <LoginInputBox visible={visible}>
-      <div
-        className={css({
-          width: "100px",
-          height: "100px",
-          backgroundColor: "gray",
-          borderRadius: "10px",
-        })}
-      />
+      <UserIconBox>
+        <img src={defaultUserIcon} alt="user icon" />
+      </UserIconBox>
       <h1>{userName}</h1>
       <button>로그인</button>
     </LoginInputBox>

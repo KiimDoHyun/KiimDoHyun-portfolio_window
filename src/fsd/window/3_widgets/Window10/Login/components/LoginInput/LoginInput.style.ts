@@ -27,3 +27,21 @@ const loginInputBoxRecipe = cva({
 });
 
 export const LoginInputBox = styled("div", loginInputBoxRecipe);
+
+const ICON_BOX_SIZE = 100;
+const userIconBoxRecipe = cva({
+  base: {
+    width: `${ICON_BOX_SIZE}px`,
+    height: `${ICON_BOX_SIZE}px`,
+    backgroundColor: "white",
+    borderRadius: "100%",
+    boxShadow: "0 0 16px 4px rgb(0 0 0 /40%)",
+
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: "4px",
+  },
+});
+
+export const UserIconBox = styled("div", userIconBoxRecipe);
