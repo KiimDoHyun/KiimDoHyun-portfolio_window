@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { LoginInputBox, UserIconBox } from "./LoginInput.style";
+import { LoginInputBox, UserIconBox, LoginButton } from "./LoginInput.style";
 
 import defaultUserIcon from "@images/icons/user.png";
 
@@ -31,7 +31,7 @@ export default function LoginInput({ userIcon, userName }: Props) {
         <img src={defaultUserIcon} alt="user icon" />
       </UserIconBox>
       <h1>{userName}</h1>
-      <button>로그인</button>
+      <LoginButton>로그인</LoginButton>
     </LoginInputBox>
   );
 }

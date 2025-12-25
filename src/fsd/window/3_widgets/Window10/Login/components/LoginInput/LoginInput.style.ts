@@ -45,3 +45,29 @@ const userIconBoxRecipe = cva({
 });
 
 export const UserIconBox = styled("div", userIconBoxRecipe);
+
+const loginButtonRecipe = cva({
+  base: {
+    width: "120px",
+    height: "40px",
+    backgroundColor: "white",
+    border: "2px solid white",
+    borderRadius: "4px",
+    color: "#505050",
+    fontSize: "14px",
+    fontWeight: 400,
+    cursor: "pointer",
+    transition: "all 0.2s ease",
+    outline: "none",
+    "&:hover": {
+      borderColor: "#d0d0d0",
+    },
+    "&:focus-visible": {
+      outline: "2px solid black",
+      outlineOffset: "2px",
+      borderColor: "black",
+    },
+  },
+});
+
+export const LoginButton = styled("button", loginButtonRecipe);
