@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { LoginInputBox, UserIconBox, LoginButton } from "./LoginInput.style";
 
 import defaultUserIcon from "@images/icons/user.png";
+import { css } from "@styled-system/css";
 
 const ANIMATION_DURATION = 0.2;
 
@@ -30,7 +31,7 @@ export default function LoginInput({ userIcon, userName }: Props) {
       <UserIconBox>
         <img src={defaultUserIcon} alt="user icon" />
       </UserIconBox>
-      <h1>{userName}</h1>
+      <h1 className={css({ color: "white" })}>{userName}</h1>
       <LoginButton>로그인</LoginButton>
     </LoginInputBox>
   );

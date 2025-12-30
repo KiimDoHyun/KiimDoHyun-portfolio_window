@@ -50,10 +50,10 @@ const loginButtonRecipe = cva({
   base: {
     width: "120px",
     height: "40px",
-    backgroundColor: "white",
+    backgroundColor: "#ffffff00",
     border: "2px solid white",
     borderRadius: "4px",
-    color: "#505050",
+    color: "white",
     fontSize: "14px",
     fontWeight: 400,
     cursor: "pointer",
