@@ -1,4 +1,4 @@
-export { default as Login } from "./Login";
+export { Login } from "./Login";
 export { DisplayCover } from "./DisplayCover";
 export { HiddenIcon } from "./HiddenIcon";
 export { TimeBarContainer } from "./TimeBar";
