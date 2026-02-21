@@ -9,9 +9,10 @@ const ANIMATION_DURATION = 0.2;
 interface Props {
   userIcon?: string;
   userName: string;
+  onLogin: VoidFunction;
 }
 
-export default function LoginInput({ userIcon, userName }: Props) {
+export default function LoginInput({ userIcon, userName, onLogin }: Props) {
   const [visible, setVisible] = useState(false);
   const opacityTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   useEffect(() => {
@@ -32,7 +33,7 @@ export default function LoginInput({ userIcon, userName }: Props) {
         <img src={defaultUserIcon} alt="user icon" />
       </UserIconBox>
       <h1 className={css({ color: "white" })}>{userName}</h1>
-      <LoginButton>로그인</LoginButton>
+      <LoginButton onClick={onLogin}>로그인</LoginButton>
     </LoginInputBox>
   );
 }

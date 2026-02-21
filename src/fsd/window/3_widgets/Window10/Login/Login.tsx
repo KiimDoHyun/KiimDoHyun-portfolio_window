@@ -14,11 +14,12 @@ import { LoginBox, TRANSLATE_Y_CSS_VAR } from "./Login.style";
 interface Props {
   isUnlocked: boolean;
   onUnlock: VoidFunction;
+  onLogin: VoidFunction;
 }
 
 const ANIMATION_DURATION = 0.2;
 
-export default function Login({ isUnlocked, onUnlock }: Props) {
+export default function Login({ isUnlocked, onUnlock, onLogin }: Props) {
   const hour = 9;
   const minute = 14;
   const month = 9;
@@ -68,7 +69,7 @@ export default function Login({ isUnlocked, onUnlock }: Props) {
   });
 
   if (isUnlocked) {
-    return <LoginInput userName="John Doe" />;
+    return <LoginInput userName="John Doe" onLogin={onLogin} />;
   }
 
   return (
