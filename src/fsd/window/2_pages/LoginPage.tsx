@@ -14,13 +14,13 @@ export default function LoginPage() {
   const [isFadingOut, setIsFadingOut] = useState(false);
 
   const handleUnlock = useCallback(() => {
-    setSearchParams({ isUnlocked: "true" });
+    setSearchParams({ isUnlocked: "true" }, { replace: true });
   }, [setSearchParams]);
 
   const handleLogin = useCallback(() => {
     setIsFadingOut(true);
     setTimeout(() => {
-      navigate("/window/desktop");
+      navigate("/window/desktop", { replace: true });
     }, FADE_OUT_DURATION);
   }, [navigate]);
 
