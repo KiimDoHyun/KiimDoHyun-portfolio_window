@@ -1,8 +1,19 @@
+import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { RecoilRoot } from "recoil";
+
+// Recoil 0.7.x는 React 19에서 제거된 구 internal API를 참조함.
+// React 19 호환을 위한 polyfill. Recoil → Jotai 등으로 마이그레이션 시 제거 가능.
+if (
+  !React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED &&
+  React.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE
+) {
+  React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED =
+    React.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
+}
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

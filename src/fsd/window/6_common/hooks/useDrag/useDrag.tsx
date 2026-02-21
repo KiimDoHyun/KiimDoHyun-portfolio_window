@@ -83,7 +83,7 @@ export default function useDrag({
   };
 
   const handleMouseLeave = () => {
-    onMouseLeave();
+    onMouseLeave?.();
   };
 
   return {
