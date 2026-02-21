@@ -1,3 +1,79 @@
+import React from "react";
+import styled from "styled-components";
+import wallpaper from "@images/wallpaper/Samsung_wallpaper.jpg";
+import { useSetRecoilState } from "recoil";
+import {
+  rc_taskbar_hiddenIcon_active,
+  rc_taskbar_infoBar_active,
+  rc_taskbar_statusBar_active,
+  rc_taskbar_timeBar_active,
+} from "@store/taskbar";
+import { DisplayCover } from "@fsd/window/3_widgets/Window10/DisplayCover";
+import { HiddenIcon } from "@fsd/window/3_widgets/Window10/HiddenIcon";
+import { TaskBarContainer } from "@fsd/window/3_widgets/Window10/TaskBar";
+import { InfoBarContainer } from "@fsd/window/3_widgets/Window10/InfoBar";
+import { WindowContainer } from "@fsd/window/3_widgets/Window10/Desktop";
+import { StatusBarContainer } from "@fsd/window/3_widgets/Window10/StatusBar";
+import { TimeBarContainer } from "@fsd/window/3_widgets/Window10/TimeBar";
+
 export default function DesktopPage() {
-  return <div>DesktopPage</div>;
+  const setActive_status = useSetRecoilState(rc_taskbar_statusBar_active);
+  const setActive_time = useSetRecoilState(rc_taskbar_timeBar_active);
+  const setActiveInfoBar = useSetRecoilState(rc_taskbar_infoBar_active);
+  const setHiddenIcon = useSetRecoilState(rc_taskbar_hiddenIcon_active);
+
+  return (
+    <MainPageBlock>
+      <DisplayCover />
+      <div
+        className="windowCover"
+        onMouseDown={() => {
+          setActive_status(false);
+          setActive_time(false);
+          setActiveInfoBar(false);
+          setHiddenIcon(false);
+        }}
+      >
+        <WindowContainer />
+      </div>
+      <div className="taskBarCover">
+        <TaskBarContainer />
+      </div>
+
+      {/* 시작 */}
+      <StatusBarContainer />
+
+      {/* 시간 */}
+      <TimeBarContainer />
+
+      {/* 정보 */}
+      <InfoBarContainer />
+
+      {/* 숨겨진 아이콘 */}
+      <HiddenIcon />
+    </MainPageBlock>
+  );
 }
+
+const MainPageBlock = styled.div`
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  display: grid;
+  grid-template-rows: 1fr 50px;
+  background-image: url(${wallpaper});
+  background-size: cover;
+  background-repeat: no-repeat;
+  overflow: hidden;
+
+  .windowCover {
+    position: relative;
+    padding: 10px;
+  }
+
+  .taskBarCover {
+    position: relative;
+    background-color: #20343b;
+    z-index: 10000;
+  }
+`;
