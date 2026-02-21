@@ -1,4 +1,3 @@
-import { Icon } from "@fsd/window/6_common/components";
 import { css } from "@styled-system/css";
 import { flex } from "@styled-system/patterns";
 import {
@@ -109,10 +108,6 @@ export default function Login({ isUnlocked, onUnlock }: Props) {
             {month}월 {day}일 일요일
           </div>
         </div>
-      </div>
-      <div className={flex({ justifyContent: "flex-end", padding: 4, gap: 2 })}>
-        <Icon />
-        <Icon />
       </div>
     </LoginBox>
   );
