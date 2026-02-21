@@ -4,11 +4,7 @@
     "paths": {
       "@images/*": ["src/asset/images/*"],
       "@Common/*": ["src/Common/*"],
-      "@hook/*": ["src/hooks/*"],
-      "@Container/*": ["src/Container/*"],
-      "@Component/*": ["src/Component/*"],
       "@Setting/*": ["src/Setting/*"],
-      "@Page/*": ["src/page/*"],
       "@store/*": ["src/store/*"],
       "@fsd/*": ["src/fsd/*"],
       "@styled-system/*": ["src/styled-system/*"]
