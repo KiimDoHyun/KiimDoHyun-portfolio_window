@@ -1,8 +1,9 @@
-import { ReactNode } from "react";
+import { CSSProperties, ReactNode } from "react";
 import { css } from "@styled-system/css";
 
 interface FullScreenBoxProps {
   children: ReactNode;
+  style?: CSSProperties;
 }
 
 const fullScreenStyles = css({
@@ -12,6 +13,6 @@ const fullScreenStyles = css({
   overflow: "hidden",
 });
 
-export default function FullScreenBox({ children }: FullScreenBoxProps) {
-  return <div className={fullScreenStyles}>{children}</div>;
+export default function FullScreenBox({ children, style }: FullScreenBoxProps) {
+  return <div className={fullScreenStyles} style={style}>{children}</div>;
 }
