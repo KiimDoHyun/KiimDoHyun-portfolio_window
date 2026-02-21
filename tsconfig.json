@@ -6,6 +6,7 @@
       "@Common/*": ["src/Common/*"],
       "@Setting/*": ["src/Setting/*"],
       "@store/*": ["src/store/*"],
+      "@api/*": ["src/api/*"],
       "@fsd/*": ["src/fsd/*"],
       "@styled-system/*": ["src/styled-system/*"]
     },
