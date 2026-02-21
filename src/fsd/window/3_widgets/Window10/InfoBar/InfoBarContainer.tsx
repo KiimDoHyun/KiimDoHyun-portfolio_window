@@ -2,7 +2,7 @@ import React from "react";
 import { useCallback } from "react";
 import { useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { getCommitApi } from "@api/git";
+import { getCommitApi } from "../../../../../api/git";
 import InfoBar from "./components/InfoBar";
 import { useAxios } from "@fsd/window/6_common/hooks";
 import { rc_global_DisplayLight } from "@store/global";
