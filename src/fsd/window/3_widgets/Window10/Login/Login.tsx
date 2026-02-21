@@ -8,17 +8,18 @@ import {
   useDrag,
   useScreenHeight,
 } from "@fsd/window/6_common/hooks";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import LoginInput from "./components/LoginInput/LoginInput";
 import { LoginBox, TRANSLATE_Y_CSS_VAR } from "./Login.style";
 
 interface Props {
-  onDragUpToEnd: VoidFunction;
+  isUnlocked: boolean;
+  onUnlock: VoidFunction;
 }
 
 const ANIMATION_DURATION = 0.2;
 
-export default function Login({ onDragUpToEnd }: Props) {
+export default function Login({ isUnlocked, onUnlock }: Props) {
   const hour = 9;
   const minute = 14;
   const month = 9;
@@ -27,23 +28,20 @@ export default function Login({ onDragUpToEnd }: Props) {
   const screenBoxRef = useRef<HTMLDivElement>(null);
   const [translateY, setTranslateY] = useState(0);
   const screenHeight = useScreenHeight();
-  const [displayLogin, setDisplayLogin] = useState(false);
 
-  const isDragEndedRef = useRef(false);
+  useEffect(() => {
+    if (!isUnlocked) {
+      setTranslateY(0);
+    }
+  }, [isUnlocked]);
 
   const dragUpToEnd = useCallback(() => {
     setTranslateY(-screenHeight);
 
     setTimeout(() => {
-      setDisplayLogin(true);
-
-      onDragUpToEnd();
+      onUnlock();
     }, ANIMATION_DURATION * 1000);
-  }, [screenHeight, onDragUpToEnd]);
-
-  const handleMouseLeave = () => {
-    isDragEndedRef.current = false;
-  };
+  }, [screenHeight, onUnlock]);
 
   const handleDrag = useCallback<OnDrag>((params) => {
     if (params.dragDirection[DRAG_DIRECTION.UP]) {
@@ -68,10 +66,9 @@ export default function Login({ onDragUpToEnd }: Props) {
   const dragHandlers = useDrag({
     onDrag: handleDrag,
     onDragEnd: handleDragEnd,
-    onMouseLeave: handleMouseLeave,
   });
 
-  if (displayLogin) {
+  if (isUnlocked) {
     return <LoginInput userName="John Doe" />;
   }
 
@@ -88,9 +85,6 @@ export default function Login({ onDragUpToEnd }: Props) {
       onMouseMove={dragHandlers.onMouseMove}
       onMouseUp={dragHandlers.onMouseUp}
       onMouseLeave={dragHandlers.onMouseLeave}
-      onClick={() => {
-        console.log("click");
-      }}
     >
       <div
         className={flex({
