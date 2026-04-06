@@ -6,8 +6,6 @@ import folderFull from "@images/icons/folder_full.png";
 import folderEmpty from "@images/icons/folder_empty.png";
 import defaultImage from "@images/icons/image_default.png";
 
-const DEFAULT_SIZE = 80;
-
 const FolderProgramComponent = ({
     type,
     displayList,
@@ -177,35 +175,35 @@ const contentStyle = css({
   },
 
   "& .BIG_BIG_ICON .folder": {
-    width: `${DEFAULT_SIZE * 2}px`,
+    width: "160px",
   },
   "& .BIG_BIG_ICON img": {
-    width: `${DEFAULT_SIZE * 2}px`,
-    height: `${DEFAULT_SIZE * 2}px`,
+    width: "160px",
+    height: "160px",
   },
 
   "& .BIG_ICON .folder": {
-    width: `${DEFAULT_SIZE * 1.5}px`,
+    width: "120px",
   },
   "& .BIG_ICON img": {
-    width: `${DEFAULT_SIZE * 1.5}px`,
-    height: `${DEFAULT_SIZE * 1.5}px`,
+    width: "120px",
+    height: "120px",
   },
 
   "& .MEDIUM_ICON .folder": {
-    width: `${DEFAULT_SIZE}px`,
+    width: "80px",
   },
   "& .MEDIUM_ICON img": {
-    width: `${DEFAULT_SIZE}px`,
-    height: `${DEFAULT_SIZE}px`,
+    width: "80px",
+    height: "80px",
   },
 
   "& .SMALL_ICON .folder": {
-    width: `${DEFAULT_SIZE * 0.5}px`,
+    width: "40px",
   },
   "& .SMALL_ICON img": {
-    width: `${DEFAULT_SIZE * 0.5}px`,
-    height: `${DEFAULT_SIZE * 0.5}px`,
+    width: "40px",
+    height: "40px",
   },
 
   "& .DETAIL": {
@@ -222,8 +220,8 @@ const contentStyle = css({
     justifyContent: "center",
   },
   "& .DETAIL img": {
-    width: `${DEFAULT_SIZE * 0.25}px`,
-    height: `${DEFAULT_SIZE * 0.25}px`,
+    width: "20px",
+    height: "20px",
   },
 
   "& .folder": {
