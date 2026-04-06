@@ -14,7 +14,7 @@ interface Props {
 
 export default function LoginInput({ userIcon, userName, onLogin }: Props) {
   const [visible, setVisible] = useState(false);
-  const opacityTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const opacityTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   useEffect(() => {
     opacityTimeoutRef.current = setTimeout(() => {
       setVisible(true);

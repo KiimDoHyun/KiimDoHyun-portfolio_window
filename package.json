@@ -33,7 +33,7 @@
     "build": "panda codegen && craco build",
     "test": "craco test",
     "eject": "craco eject",
-    "predeploy": "npm run build",
+    "predeploy": "pnpm build",
     "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
