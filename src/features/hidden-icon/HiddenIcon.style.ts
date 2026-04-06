@@ -12,23 +12,6 @@ const hiddenIconRecipe = cva({
     flexWrap: "wrap",
     padding: "2px",
 
-    "& .skillIcon": {
-      width: "40px",
-      height: "40px",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      transition: "0.1s",
-    },
-
-    "& .skillIcon:hover": {
-      backgroundColor: "#515151",
-    },
-
-    "& .skillIcon img": {
-      width: "60%",
-      height: "60%",
-    },
   },
   variants: {
     active: {
