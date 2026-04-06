@@ -1,11 +1,10 @@
 import React from "react";
-import styled, { keyframes } from "styled-components";
 
 import imgMenu from "@images/icons/hamburger_menu.png";
 import LeftAreaBox from "./LeftAreaBox";
-// import { projectDatas, techStack, techStack_sub } from "../../Common/data";
 import CenterAreaBox from "./CenterAreaBox";
 import RightAreaBox from "./RightAreaBox";
+import { StatusBarBlock } from "./StatusBar.style";
 
 const StatusBar = ({
   active,
@@ -125,135 +124,5 @@ const StatusBar = ({
     </StatusBarBlock>
   );
 };
-const show_from_bottom = keyframes`
-from {
-    scale: 1 1.5;
-    translate: 0 200px;
-}
-to {
-    translate: 0 0px;
-    scale: 1 1.0;
-}
-`;
 
-const StatusBarBlock = styled.div<{ active: boolean }>`
-  p {
-    margin: 0;
-  }
-
-  position: absolute;
-  left: 0;
-  bottom: ${(props) => (props.active ? "50px" : "-150px")};
-  opacity: ${(props) => (props.active ? "1" : "0")};
-  pointer-events: ${(props) => (props.active ? "auto" : "none")};
-  z-index: ${(props) => (props.active ? "999" : "0")};
-  width: 650px;
-  height: 500px;
-  box-shadow: 0px -3px 20px 3px #00000061;
-
-  transition: 0.4s;
-  transition-timing-function: cubic-bezier(0, 0.5, 0, 1);
-  background-color: #393a3b;
-
-  display: flex;
-  gap: 10px;
-
-  padding-top: 5px;
-  box-sizing: border-box;
-
-  .statusBarBoxArea {
-    height: 100%;
-  }
-
-  .statusBox {
-    box-sizing: border-box;
-  }
-
-  .statusBox:hover {
-    background-color: #ffffff24;
-  }
-
-  .leftArea {
-    position: relative;
-    width: 50px;
-  }
-
-  .leftArea_Contents {
-    position: absolute;
-    background-color: #393a3b;
-    width: 100%;
-    height: 100%;
-
-    transition: 0.1s;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-
-  .leftArea_Contents_Wide {
-    width: 220px;
-    z-index: 10;
-
-    box-shadow: 0px 9px 20px 0px #181818;
-  }
-
-  .centerArea {
-    background-color: transparent;
-    width: 270px;
-
-    overflow-y: scroll;
-  }
-
-  .rightArea {
-    width: 330px;
-
-    overflow-y: scroll;
-
-    // display: flex;
-    // flex-direction: column;
-  }
-
-  .rightArea_title {
-    // flex-basis: 5%;
-    height: 10px;
-
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    color: #e8e8e8;
-    cursor: pointer;
-    margin: 10px 0;
-    padding-left: 5px;
-  }
-
-  .rightArea_boxArea {
-    // flex-basis: 95%;
-
-    display: flex;
-    flex-wrap: wrap;
-    align-content: flex-start;
-    gap: 5px;
-
-    padding: 5px;
-    margin-bottom: 30px;
-  }
-
-  .show_animation {
-    animation-duration: 0.4s;
-    animation-timing-function: cubic-bezier(0, 0.65, 0.35, 1);
-    animation-name: ${show_from_bottom};
-  }
-
-  // 스크롤바
-
-  .rightArea::-webkit-scrollbar,
-  .centerArea::-webkit-scrollbar {
-    width: 2px;
-  }
-  .rightArea::-webkit-scrollbar-thumb,
-  .centerArea::-webkit-scrollbar-thumb {
-    background-color: #acacac;
-  }
-`;
 export default React.memo(StatusBar);
