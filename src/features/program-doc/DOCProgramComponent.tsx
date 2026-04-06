@@ -1,13 +1,13 @@
 import React from "react";
-import styled from "styled-components";
+import { css } from "@styled-system/css";
 
 const DOCProgramComponent = ({ type, DOCData }) => {
     return (
         <>
-            <DOCProgramHeaderBlock
+            <div
                 className={`headerArea2 headerArea2_${type}`}
-            ></DOCProgramHeaderBlock>
-            <DOCProgramContentBlock className={`contentsArea_Cover`}>
+            ></div>
+            <div className={`${docProgramContentStyle} contentsArea_Cover`}>
                 <div className="contentsArea_doc">
                     <div className="doc_imageArea">
                         {DOCData.data.projectImages &&
@@ -34,7 +34,7 @@ const DOCProgramComponent = ({ type, DOCData }) => {
                         )}
                     </div>
 
-                    <DOCProgramContentBlock className="doc_contentsArea">
+                    <div className={`${docProgramContentStyle} doc_contentsArea`}>
                         <div className="doc_card">
                             <div className="cardTitle">프로젝트 명</div>
                             <div className="cardContent">
@@ -129,154 +129,151 @@ const DOCProgramComponent = ({ type, DOCData }) => {
                                 {DOCData.data.url || "공개된 URL 없음"}
                             </div>
                         </div>
-                    </DOCProgramContentBlock>
+                    </div>
                 </div>
-            </DOCProgramContentBlock>
+            </div>
         </>
     );
 };
 
-const DOCProgramHeaderBlock = styled.div``;
-const DOCProgramContentBlock = styled.div`
-    .contentsArea_doc {
-        width: 100%;
-        height: 100%;
+const docProgramContentStyle = css({
+    "& .contentsArea_doc": {
+        width: "100%",
+        height: "100%",
 
-        display: flex;
-        gap: 20px;
-        flex-wrap: wrap;
-        align-content: flex-start;
-        box-sizing: border-box;
-        padding: 10px;
+        display: "flex",
+        gap: "20px",
+        flexWrap: "wrap",
+        alignContent: "flex-start",
+        boxSizing: "border-box",
+        padding: "10px",
+    },
 
-        // overflow: hidden;
-    }
+    "& .doc_imageArea": {
+        width: "100%",
+        height: "auto",
+        minHeight: "200px",
+        backgroundColor: "#e7e7e7",
+        display: "inline-block",
+        overflow: "scroll",
 
-    .doc_imageArea {
-        width: 100%;
-        height: auto;
-        min-height: 200px;
-        background-color: #e7e7e7;
-        display: inline-box;
-        overflow: scroll;
+        flexGrow: 1,
+        flexBasis: "500px",
+    },
 
-        flex-grow: 1;
-        flex-basis: 500px;
-    }
+    "& .noProjectImage": {
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
 
-    .noProjectImage {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        color: "#a2a1a1",
+        fontSize: "14px",
+    },
 
-        color: #a2a1a1;
-        font-size: 14px;
-    }
+    "& .projectImageItem": {
+        height: "100%",
 
-    .projectImageItem {
-        height: 100%;
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+    },
 
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
+    "& .projectImageItem img": {
+        width: "100%",
+        height: "100%",
 
-    .projectImageItem img {
-        width: 100%;
-        height: 100%;
+        objectFit: "contain",
+    },
 
-        object-fit: contain;
-    }
+    "& .doc_contentsArea": {
+        flex: 1,
 
-    .doc_contentsArea {
-        flex: 1;
+        overflow: "scroll",
+        height: "100%",
+        width: "100%",
+        flexGrow: 1,
+        flexBasis: "500px",
+    },
 
-        overflow: scroll;
-        height: 100%;
-        width: 100%;
-        flex-grow: 1;
-        flex-basis: 500px;
-    }
+    "& .doc_card": {
+        textAlign: "left",
 
-    .doc_card {
-        text-align: left;
+        boxSizing: "border-box",
+        padding: "20px 0",
+        borderBottom: "1px solid gray",
+    },
 
-        box-sizing: border-box;
-        padding: 20px 0;
-        border-bottom: 1px solid gray;
-    }
+    "& .cardTitle": {
+        fontWeight: "bold",
+        marginBottom: "10px",
+    },
+    "& .cardContent": {
+        fontSize: "12px",
+        color: "#4b4b4b",
+    },
 
-    .cardTitle {
-        font-weight: bold;
-        margin-bottom: 10px;
-    }
-    .cardContent {
-        font-size: 12px;
-        color: #4b4b4b;
-    }
+    "& .doc_stack": {
+        display: "flex",
+        gap: "10px",
+        flexWrap: "wrap",
+    },
+    "& .stackItem": {
+        border: "1px solid gray",
+        padding: "5px 10px",
+        borderRadius: "5px",
+        width: "fit-content",
+        position: "relative",
+        cursor: "pointer",
+        transition: "0.2s",
+    },
 
-    .doc_stack {
-        display: flex;
-        gap: 10px;
-        flex-wrap: wrap;
-    }
-    .stackItem {
-        border: 1px solid gray;
-        padding: 5px 10px;
-        border-radius: 5px;
-        width: fit-content;
-        position: relative;
-        cursor: pointer;
-        transition: 0.2s;
-    }
+    "& .stackItem:hover": {
+        color: "white",
+        backgroundColor: "gray",
+    },
+    "& .stackItem:hover .stackItem_Image": {
+        bottom: "-45px",
+        opacity: 1,
 
-    .stackItem:hover {
-        color: white;
-        background-color: gray;
-    }
-    .stackItem:hover .stackItem_Image {
-        bottom: -45px;
-        opacity: 1;
+        boxShadow: "0px 0px 10px 2px #a1a1a1",
+        scale: 1,
+    },
 
-        box-shadow: 0px 0px 10px 2px #a1a1a1;
-        scale: 1;
-    }
+    "& .stackItem_Image": {
+        position: "absolute",
 
-    .stackItem_Image {
-        position: absolute;
+        left: "calc(50% - 20px)",
+        width: "40px",
+        height: "40px",
+        bottom: "-35px",
 
-        left: calc(50% - 20px);
-        width: 40px;
-        height: 40px;
-        bottom: -35px;
+        backgroundColor: "white",
+        opacity: 0,
+        transition: "0.2s",
 
-        background-color: white;
-        opacity: 0;
-        transition: 0.2s;
+        boxSizing: "border-box",
+        padding: "5px",
 
-        box-sizing: border-box;
-        padding: 5px;
+        scale: 0.4,
+    },
 
-        scale: 0.4;
-    }
+    "& .doc_reulst": {
+        display: "flex",
+        flexDirection: "column",
+        gap: "20px",
+    },
+    "& .stackItem_Image img": {
+        width: "100%",
+        height: "100%",
 
-    .doc_reulst {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-    }
-    .stackItem_Image img {
-        width: 100%;
-        height: 100%;
+        objectFit: "contain",
+    },
 
-        object-fit: contain;
-    }
-
-    .resultTitle {
-        margin-bottom: 5px;
-        font-weight: bold;
-    }
-`;
+    "& .resultTitle": {
+        marginBottom: "5px",
+        fontWeight: "bold",
+    },
+});
 export default DOCProgramComponent;
