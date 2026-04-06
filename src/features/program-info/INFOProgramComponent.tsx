@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import { css } from "@styled-system/css";
 
 import KDH from "@images/김도현.jpg";
 import blogLine from "@images/icons/blog_line.png";
@@ -18,10 +18,10 @@ import companyBlue from "@images/icons/company_line_blue.png";
 const INFOProgramComponent = ({ type }) => {
     return (
         <>
-            <INFOProgramHeaderBlock
+            <div
                 className={`headerArea2 headerArea2_${type}`}
-            ></INFOProgramHeaderBlock>
-            <INFOProgramContentBlock className={`contentsArea_Cover`}>
+            ></div>
+            <div className={`${infoProgramContentStyle} contentsArea_Cover`}>
                 <div className="contentsArea_info">
                     <div className="top">
                         <div className="info1">
@@ -168,146 +168,142 @@ const INFOProgramComponent = ({ type }) => {
                         </div>
                     </div>
                 </div>
-            </INFOProgramContentBlock>
+            </div>
         </>
     );
 };
 
-const INFOProgramHeaderBlock = styled.div``;
-const INFOProgramContentBlock = styled.div`
-    .contentsArea_info {
-        width: 100%;
-        height: 100%;
-    }
+const infoProgramContentStyle = css({
+    "& .contentsArea_info": {
+        width: "100%",
+        height: "100%",
+    },
 
-    .contentsArea_info .top {
-        min-height: 200px;
-        background-color: #f3f3f3;
+    "& .contentsArea_info .top": {
+        minHeight: "200px",
+        backgroundColor: "#f3f3f3",
 
-        display: flex;
-        flex-wrap: wrap;
+        display: "flex",
+        flexWrap: "wrap",
 
-        padding: 50px 10px;
-        box-sizing: border-box;
+        padding: "50px 10px",
+        boxSizing: "border-box",
 
-        row-gap: 50px;
-    }
-    .contentsArea_info .body {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 50px;
+        rowGap: "50px",
+    },
+    "& .contentsArea_info .body": {
+        display: "flex",
+        flexWrap: "wrap",
+        gap: "50px",
 
-        padding: 20px 10px;
-        box-sizing: border-box;
-    }
+        padding: "20px 10px",
+        boxSizing: "border-box",
+    },
 
-    .info1 {
-        display: flex;
-        align-items: center;
-        gap: 50px;
+    "& .info1": {
+        display: "flex",
+        alignItems: "center",
+        gap: "50px",
 
-        flex-grow: 1;
-        flex-basis: 500px;
+        flexGrow: 1,
+        flexBasis: "500px",
 
-        justify-content: center;
-    }
+        justifyContent: "center",
+    },
 
-    .info1 .myImageArea {
-        width: 180px;
-        height: 180px;
+    "& .info1 .myImageArea": {
+        width: "180px",
+        height: "180px",
 
-        padding: 10px;
-        box-sizing: border-box;
-    }
+        padding: "10px",
+        boxSizing: "border-box",
+    },
 
-    .info1 .myImageArea img {
-        width: 100%;
-        height: 100%;
-        border-radius: 100%;
-        object-fit: cover;
-    }
+    "& .info1 .myImageArea img": {
+        width: "100%",
+        height: "100%",
+        borderRadius: "100%",
+        objectFit: "cover",
+    },
 
-    .info1 .myInfoArea {
-        text-align: left;
-    }
+    "& .info1 .myInfoArea": {
+        textAlign: "left",
+    },
 
-    .info1 .myInfoArea h1 {
-        margin: 0 0 10px 0;
-    }
+    "& .info1 .myInfoArea h1": {
+        margin: "0 0 10px 0",
+    },
 
-    .info1 .myInfoArea p {
-        color: gray;
-        margin: 0 0 5px 0;
-    }
+    "& .info1 .myInfoArea p": {
+        color: "gray",
+        margin: "0 0 5px 0",
+    },
 
-    .info2 {
-        display: flex;
-        flex-wrap: wrap;
+    "& .info2": {
+        display: "flex",
+        flexWrap: "wrap",
 
-        column-gap: 100px;
-        row-gap: 30px;
+        columnGap: "100px",
+        rowGap: "30px",
 
-        flex-grow: 1;
-        flex-basis: 500px;
-    }
-    .info2 .infoItem {
-        width: 180px;
-    }
+        flexGrow: 1,
+        flexBasis: "500px",
+    },
+    "& .info2 .infoItem": {
+        width: "180px",
+    },
 
-    .infoItem {
-        display: flex;
-        align-items: center;
-        gap: 30px;
-    }
+    "& .infoItem": {
+        display: "flex",
+        alignItems: "center",
+        gap: "30px",
+    },
 
-    .infoItem .myImageArea {
-        width: 75px;
-        height: 75px;
+    "& .infoItem .myImageArea": {
+        width: "75px",
+        height: "75px",
 
-        box-sizing: border-box;
-        padding: 10px;
-    }
+        boxSizing: "border-box",
+        padding: "10px",
+    },
 
-    .infoItem .myImageArea img {
-        width: 100%;
-        height: 100%;
-    }
+    "& .infoItem .myImageArea img": {
+        width: "100%",
+        height: "100%",
+    },
 
-    .body .myInfoArea,
-    .info2 .myInfoArea {
-        text-align: left;
-    }
+    "& .body .myInfoArea, & .info2 .myInfoArea": {
+        textAlign: "left",
+    },
 
-    .myInfoArea .desc {
-        margin: 0;
-        font-size: 14px;
-        color: #202020;
-    }
+    "& .myInfoArea .desc": {
+        margin: "0",
+        fontSize: "14px",
+        color: "#202020",
+    },
 
-    .body .infoItem {
-        box-sizing: border-box;
-        padding: 0 10px;
-        width: 230px;
-        border: 2px solid #ffffff00;
-        transition: 0.2s;
+    "& .body .infoItem": {
+        boxSizing: "border-box",
+        padding: "0 10px",
+        width: "230px",
+        border: "2px solid #ffffff00",
+        transition: "0.2s",
 
-        gap: 20px;
-    }
-    .body .infoItem:hover {
-        border-color: #dfdfdf;
-    }
+        gap: "20px",
+    },
+    "& .body .infoItem:hover": {
+        borderColor: "#dfdfdf",
+    },
 
-    .body .infoItem .title,
-    .info2 .myInfoArea p {
-        margin: 5px 0;
-        font-weight: bold;
-    }
-    .body .myInfoArea a,
-    .info2 .myInfoArea a {
-        text-decoration: none;
-        color: #76b3e4;
+    "& .body .infoItem .title, & .info2 .myInfoArea p": {
+        margin: "5px 0",
+        fontWeight: "bold",
+    },
+    "& .body .myInfoArea a, & .info2 .myInfoArea a": {
+        textDecoration: "none",
+        color: "#76b3e4",
 
-        font-size: 14px;
-    }
-`;
+        fontSize: "14px",
+    },
+});
 export default INFOProgramComponent;
