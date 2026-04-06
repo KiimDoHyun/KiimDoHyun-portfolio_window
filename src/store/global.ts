@@ -1,5 +1,5 @@
 import { atom } from "recoil";
-import { directory } from "../Common/data";
+import { directory } from "@shared/lib/data";
 
 // 시간정보
 export const rc_global_year = atom({

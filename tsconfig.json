@@ -3,11 +3,11 @@
     "baseUrl": "./",
     "paths": {
       "@images/*": ["src/asset/images/*"],
-      "@Common/*": ["src/Common/*"],
-      "@Setting/*": ["src/Setting/*"],
       "@store/*": ["src/store/*"],
-      "@fsd/*": ["src/fsd/*"],
-      "@styled-system/*": ["src/styled-system/*"]
+      "@styled-system/*": ["src/styled-system/*"],
+      "@app/*": ["src/app/*"],
+      "@features/*": ["src/features/*"],
+      "@shared/*": ["src/shared/*"]
     },
     "allowJs": true,
     "target": "ES5",

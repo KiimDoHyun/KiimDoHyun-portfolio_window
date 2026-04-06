@@ -1,7 +1,7 @@
 import "./App.css";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import SetDirectory from "./Setting/SetDirectory";
-import WindowRouter from "./fsd/window/1_apps/routers/WindowRouter";
+import SetDirectory from "./shared/lib/SetDirectory";
+import WindowRouter from "./app/routers/WindowRouter";
 
 function App() {
   return (
