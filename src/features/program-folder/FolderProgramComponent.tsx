@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import { css } from "@styled-system/css";
 
 import leftArrow from "@images/icons/left-arrow.png";
 import folderFull from "@images/icons/folder_full.png";
@@ -24,8 +24,8 @@ const FolderProgramComponent = ({
 }) => {
     return (
         <>
-            <FolderProgramHeaderBlock
-                className={`headerArea2 headerArea2_${type}`}
+            <div
+                className={`headerArea2 headerArea2_${type} ${headerStyle}`}
             >
                 <div className="arrowBox">
                     <img
@@ -58,8 +58,8 @@ const FolderProgramComponent = ({
                         ))}
                     </select>
                 </div>
-            </FolderProgramHeaderBlock>
-            <FolderProgramContentBlock className={`contentsArea_Cover`}>
+            </div>
+            <div className={`contentsArea_Cover ${contentStyle}`}>
                 <div className="sideFolderArea"></div>
                 <div className={`${displayType} contentsArea_folder`}>
                     {folderContents && folderContents.length > 0 ? (
@@ -124,167 +124,147 @@ const FolderProgramComponent = ({
                         <div className="noContents">비어있습니다.</div>
                     )}
                 </div>
-            </FolderProgramContentBlock>
+            </div>
         </>
     );
 };
 
-const FolderProgramHeaderBlock = styled.div`
-    // 폴더 이동
-    .arrowBox {
-        display: flex;
-        gap: 10px;
-    }
-    .arrowBox img {
-        width: 15px;
-        height: 100%;
-    }
+const headerStyle = css({
+  "& .arrowBox": {
+    display: "flex",
+    gap: "10px",
+  },
+  "& .arrowBox img": {
+    width: "15px",
+    height: "100%",
+  },
 
-    // 폴더 주소
-    .routeBox {
-        flex: 1;
+  "& .routeBox": {
+    flex: 1,
+    textAlign: "left",
+    padding: "0 10px",
+    fontSize: "12px",
+    cursor: "default",
+    display: "flex",
+    alignItems: "center",
+    border: "1px solid #e3e3e3",
+    height: "100%",
+  },
+  "& .routeBox input": {
+    width: "100%",
+    height: "100%",
+    margin: 0,
+    padding: 0,
+    border: "none",
+    outline: "none",
+  },
 
-        text-align: left;
-        padding: 0 10px;
-        font-size: 12px;
-        cursor: default;
+  "& .selectDisplayType": {
+    height: "100%",
+  },
+});
 
-        display: flex;
-        align-items: center;
-        border: 1px solid #e3e3e3;
-        height: 100%;
-    }
-    .routeBox input {
-        width: 100%;
-        height: 100%;
-        margin: 0;
-        padding: 0;
-        border: none;
-        outline: none;
-    }
+const contentStyle = css({
+  "& .contentsArea_folder": {
+    width: "100%",
+    height: "100%",
+    padding: "10px",
+    boxSizing: "border-box",
+    display: "flex",
+    gap: "20px",
+    flexWrap: "wrap",
+    alignContent: "flex-start",
+  },
 
-    // 폴더 보기 형식
-    .selectDisplayType {
-        height: 100%;
-    }
-`;
+  "& .BIG_BIG_ICON .folder": {
+    width: `${DEFAULT_SIZE * 2}px`,
+  },
+  "& .BIG_BIG_ICON img": {
+    width: `${DEFAULT_SIZE * 2}px`,
+    height: `${DEFAULT_SIZE * 2}px`,
+  },
 
-const FolderProgramContentBlock = styled.div`
-    .contentsArea_folder {
-        width: 100%;
-        height: 100%;
+  "& .BIG_ICON .folder": {
+    width: `${DEFAULT_SIZE * 1.5}px`,
+  },
+  "& .BIG_ICON img": {
+    width: `${DEFAULT_SIZE * 1.5}px`,
+    height: `${DEFAULT_SIZE * 1.5}px`,
+  },
 
-        padding: 10px;
-        box-sizing: border-box;
+  "& .MEDIUM_ICON .folder": {
+    width: `${DEFAULT_SIZE}px`,
+  },
+  "& .MEDIUM_ICON img": {
+    width: `${DEFAULT_SIZE}px`,
+    height: `${DEFAULT_SIZE}px`,
+  },
 
-        display: flex;
-        gap: 20px;
-        flex-wrap: wrap;
+  "& .SMALL_ICON .folder": {
+    width: `${DEFAULT_SIZE * 0.5}px`,
+  },
+  "& .SMALL_ICON img": {
+    width: `${DEFAULT_SIZE * 0.5}px`,
+    height: `${DEFAULT_SIZE * 0.5}px`,
+  },
 
-        align-content: flex-start;
-    }
+  "& .DETAIL": {
+    gap: "0px",
+  },
+  "& .DETAIL .folder": {
+    width: "100%",
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr 1fr",
+  },
+  "& .DETAIL .folder div": {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  "& .DETAIL img": {
+    width: `${DEFAULT_SIZE * 0.25}px`,
+    height: `${DEFAULT_SIZE * 0.25}px`,
+  },
 
-    // 아주 큰 아이콘
-    .BIG_BIG_ICON .folder {
-        width: ${DEFAULT_SIZE * 2}px;
-    }
+  "& .folder": {
+    height: "auto",
+    padding: "5px 10px",
+    border: "1px solid #ffffff00",
+  },
+  "& .folder_selected": {
+    backgroundColor: "#cce8ff !important",
+    border: "1px solid #99d1ff",
+  },
+  "& .folder:hover": {
+    backgroundColor: "#e5f3ff",
+  },
+  "& .folder .name": {
+    wordBreak: "break-all",
+    fontSize: "12px",
+    cursor: "default",
+  },
 
-    .BIG_BIG_ICON img {
-        width: ${DEFAULT_SIZE * 2}px;
-        height: ${DEFAULT_SIZE * 2}px;
-    }
+  "& .detailHeader": {
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr 1fr",
+    width: "100%",
+    padding: "5px 10px",
+  },
+  "& .detailHeader .name": {
+    fontSize: "11px",
+    cursor: "default",
+  },
 
-    // 큰 아이콘
-    .BIG_ICON .folder {
-        width: ${DEFAULT_SIZE * 1.5}px;
-    }
+  "& .noContents": {
+    width: "100%",
+    height: "100%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    color: "gray",
+    fontSize: "14px",
+    cursor: "default",
+  },
+});
 
-    .BIG_ICON img {
-        width: ${DEFAULT_SIZE * 1.5}px;
-        height: ${DEFAULT_SIZE * 1.5}px;
-    }
-
-    // 보통 아이콘
-    .MEDIUM_ICON .folder {
-        width: ${DEFAULT_SIZE}px;
-    }
-
-    .MEDIUM_ICON img {
-        width: ${DEFAULT_SIZE}px;
-        height: ${DEFAULT_SIZE}px;
-    }
-
-    // 작은 아이콘
-    .SMALL_ICON .folder {
-        width: ${DEFAULT_SIZE * 0.5}px;
-    }
-
-    .SMALL_ICON img {
-        width: ${DEFAULT_SIZE * 0.5}px;
-        height: ${DEFAULT_SIZE * 0.5}px;
-    }
-
-    // 자세히
-    .DETAIL {
-        gap: 0px;
-    }
-
-    .DETAIL .folder {
-        width: 100%;
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-    }
-    .DETAIL .folder div {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .DETAIL img {
-        width: ${DEFAULT_SIZE * 0.25}px;
-        height: ${DEFAULT_SIZE * 0.25}px;
-    }
-
-    .folder {
-        height: auto;
-        padding: 5px 10px;
-        border: 1px solid #ffffff00;
-    }
-
-    .folder_selected {
-        background-color: #cce8ff !important;
-        border: 1px solid #99d1ff;
-    }
-    .folder:hover {
-        background-color: #e5f3ff;
-    }
-    .folder .name {
-        word-break: break-all;
-        font-size: 12px;
-        cursor: default;
-    }
-
-    .detailHeader {
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        width: 100%;
-        padding: 5px 10px;
-    }
-
-    .detailHeader .name {
-        font-size: 11px;
-        cursor: default;
-    }
-
-    .noContents {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: gray;
-        font-size: 14px;
-        cursor: default;
-    }
-`;
 export default FolderProgramComponent;
