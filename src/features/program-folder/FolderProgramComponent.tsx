@@ -225,6 +225,7 @@ const contentStyle = css({
   },
 
   "& .folder": {
+    boxSizing: "content-box",
     height: "auto",
     padding: "5px 10px",
     border: "1px solid #ffffff00",
