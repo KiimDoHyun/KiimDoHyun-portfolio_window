@@ -9,12 +9,12 @@ const animatedBoxRecipe = cva({
     flexDirection: "column",
     width: "100%",
     height: "100%",
-    transform: `translateY(var(${TRANSLATE_Y_CSS_VAR}, 0))`,
+    transform: "translateY(var(--translate-y, 0))",
   },
   variants: {
     animated: {
       true: {
-        transition: `transform var(--duration, ${ANIMATION_DURATION}s)`,
+        transition: "transform var(--duration, 0.2s)",
       },
       false: {
         transition: "none",

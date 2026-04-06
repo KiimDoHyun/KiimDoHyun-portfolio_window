@@ -1,23 +1,24 @@
 import React from "react";
-import styled from "styled-components";
+import { css } from "@styled-system/css";
+
+const errorBoxBlockStyle = css({
+    width: "100%",
+    height: "100%",
+
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+
+    color: "#a9a9a9",
+    cursor: "default",
+});
 
 const ErrorBox = () => {
     return (
-        <ErrorBoxBlock>
+        <div className={errorBoxBlockStyle}>
             <div>Commit 정보를 가져오는데 실패했습니다.</div>
-        </ErrorBoxBlock>
+        </div>
     );
 };
 
-const ErrorBoxBlock = styled.div`
-    width: 100%;
-    height: 100%;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    color: #a9a9a9;
-    cursor: default;
-`;
 export default React.memo(ErrorBox);

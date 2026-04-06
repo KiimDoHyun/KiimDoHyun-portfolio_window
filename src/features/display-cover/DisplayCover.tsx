@@ -1,39 +1,32 @@
 import React from "react";
 import { useRecoilValue } from "recoil";
-import styled from "styled-components";
+import { css } from "@styled-system/css";
 import { rc_global_DisplayLight } from "@store/global";
+
+const displayCoverStyle = css({
+  width: "100vw",
+  height: "100vh",
+  position: "absolute",
+  left: 0,
+  top: 0,
+  backgroundColor: "black",
+  zIndex: 10000000000,
+  pointerEvents: "none",
+  opacity: "var(--cover-opacity)",
+});
 
 const DisplayCover = () => {
   const displayLight = useRecoilValue(rc_global_DisplayLight);
-  return <DisplayCoverBlock displayLight={displayLight}></DisplayCoverBlock>;
+
+  const computedOpacity =
+    displayLight <= 30 ? 0.7 : 1 - displayLight / 100;
+
+  return (
+    <div
+      className={displayCoverStyle}
+      style={{ "--cover-opacity": computedOpacity } as React.CSSProperties}
+    />
+  );
 };
 
-const DisplayCoverBlock = styled.div<{ displayLight: number }>`
-  width: 100vw;
-  height: 100vh;
-  position: absolute;
-  left: 0;
-  top: 0;
-  background-color: black;
-  z-index: 10000000000;
-  pointer-events: none;
-  opacity: ${(props) => {
-    const { displayLight } = props;
-    if (displayLight <= 30) return 0.7;
-    else {
-      return 1 - props.displayLight / 100;
-    }
-  }};
-`;
 export default DisplayCover;
-
-/*
-0
-1
-
-0   100
-0.3 1
-
-
-
-*/

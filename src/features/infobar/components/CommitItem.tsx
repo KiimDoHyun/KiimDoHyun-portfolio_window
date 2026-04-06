@@ -1,53 +1,52 @@
 import React from "react";
-import styled from "styled-components";
+import { css } from "@styled-system/css";
 import { dateToStr } from "@shared/lib/common";
 
 const CommitItem = ({ item }) => {
     return (
-        <CommitItemBlock>
+        <div className={commitItemStyle}>
             <h4>{item.commit.author.name}</h4>
             <p className="message">{item.commit.message}</p>
             <p className="time">{dateToStr(item.commit.author.date, "min")}</p>
-        </CommitItemBlock>
+        </div>
     );
 };
 
-const CommitItemBlock = styled.div`
-    box-sizing: border-box;
-    padding: 10px;
-    background-color: #292929ad;
-    transition: 0.15s;
-    scale: 1;
-    margin-bottom: 20px;
+const commitItemStyle = css({
+    boxSizing: "border-box",
+    padding: "10px",
+    backgroundColor: "#292929ad",
+    transition: "0.15s",
+    scale: 1,
+    marginBottom: "20px",
 
-    :hover {
-        background-color: #484848;
-    }
-    :active {
-        scale: 0.9;
-    }
+    _hover: {
+        backgroundColor: "#484848",
+    },
+    _active: {
+        scale: 0.9,
+    },
 
-    h4,
-    p {
-        text-align: left;
-        cursor: default;
-    }
+    "& h4, & p": {
+        textAlign: "left",
+        cursor: "default",
+    },
 
-    h4 {
-        color: white;
-    }
+    "& h4": {
+        color: "white",
+    },
 
-    p {
-        color: #a9a9a9;
-    }
-    .message {
-        margin-top: 2px;
-        word-break: break-word;
-    }
+    "& p": {
+        color: "#a9a9a9",
+    },
+    "& .message": {
+        marginTop: "2px",
+        wordBreak: "break-word",
+    },
 
-    .time {
-        margin-top: 10px;
-        font-size: 14px;
-    }
-`;
+    "& .time": {
+        marginTop: "10px",
+        fontSize: "14px",
+    },
+});
 export default React.memo(CommitItem);

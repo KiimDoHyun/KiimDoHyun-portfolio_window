@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import { css } from "@styled-system/css";
 import wallpaper from "@images/wallpaper/Samsung_wallpaper.jpg";
 import { useSetRecoilState } from "recoil";
 import {
@@ -23,7 +23,10 @@ export default function DesktopPage() {
   const setHiddenIcon = useSetRecoilState(rc_taskbar_hiddenIcon_active);
 
   return (
-    <MainPageBlock>
+    <div
+      className={mainPageStyle}
+      style={{ backgroundImage: `url(${wallpaper})` }}
+    >
       <DisplayCover />
       <div
         className="windowCover"
@@ -51,29 +54,28 @@ export default function DesktopPage() {
 
       {/* 숨겨진 아이콘 */}
       <HiddenIcon />
-    </MainPageBlock>
+    </div>
   );
 }
 
-const MainPageBlock = styled.div`
-  width: 100vw;
-  height: 100vh;
-  position: relative;
-  display: grid;
-  grid-template-rows: 1fr 50px;
-  background-image: url(${wallpaper});
-  background-size: cover;
-  background-repeat: no-repeat;
-  overflow: hidden;
+const mainPageStyle = css({
+  width: "100vw",
+  height: "100vh",
+  position: "relative",
+  display: "grid",
+  gridTemplateRows: "1fr 50px",
+  backgroundSize: "cover",
+  backgroundRepeat: "no-repeat",
+  overflow: "hidden",
 
-  .windowCover {
-    position: relative;
-    padding: 10px;
-  }
+  "& .windowCover": {
+    position: "relative",
+    padding: "10px",
+  },
 
-  .taskBarCover {
-    position: relative;
-    background-color: #20343b;
-    z-index: 10000;
-  }
-`;
+  "& .taskBarCover": {
+    position: "relative",
+    backgroundColor: "#20343b",
+    zIndex: 10000,
+  },
+});
