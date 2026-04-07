@@ -20,6 +20,7 @@ const TaskBar = ({
     onClickTaskIcon,
     onCloseProgram,
     onPreviewChange,
+    renderPreviewContent,
 }: TaskBarProps) => {
     const {
         year: cur_year,
@@ -107,7 +108,11 @@ const TaskBar = ({
                 onClickCloseAll={onClickCloseAll}
             />
 
-            <PreviewPopup target={previewTarget} hoverName={hoverTarget.name} />
+            <PreviewPopup
+                target={previewTarget}
+                hoverName={hoverTarget.name}
+                renderContent={renderPreviewContent}
+            />
         </div>
     );
 };

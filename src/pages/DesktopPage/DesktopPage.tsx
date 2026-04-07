@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useRef } from "react";
 import { css } from "@styled-system/css";
 import wallpaper from "@images/wallpaper/Samsung_wallpaper.jpg";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
@@ -16,12 +16,13 @@ import {
 import {
   rc_program_activeProgram,
   rc_program_programList,
+  rc_program_zIndexCnt,
 } from "@store/program";
-import useActiveProgram from "@features/window-shell/useActiveProgram";
 import DisplayCover from "@features/display-cover/DisplayCover";
 import HiddenIcon from "@features/hidden-icon/HiddenIcon";
 import { TaskBar } from "@features/taskbar";
 import type { TaskbarProgramItem } from "@features/taskbar";
+import type { WindowShellItem } from "@features/window-shell";
 import InfoBarContainer from "@features/infobar/InfoBarContainer";
 import WindowContainer from "@features/desktop/WindowContainer";
 import StatusBarContainer from "@features/statusbar/StatusBarContainer";
@@ -32,6 +33,8 @@ import type {
   DirectoryItem,
   DirectoryTree,
 } from "./DesktopDataContext";
+import ProgramWindow from "./ProgramWindow";
+import { renderProgramContent } from "./renderProgramContent";
 
 export default function DesktopPage() {
   const setActive_status = useSetRecoilState(rc_taskbar_statusBar_active);
@@ -44,10 +47,17 @@ export default function DesktopPage() {
 
   const [programList, setProgramList] = useRecoilState(
     rc_program_programList
-  ) as [Array<TaskbarProgramItem>, (updater: (prev: Array<TaskbarProgramItem>) => Array<TaskbarProgramItem>) => void];
+  ) as [
+    Array<WindowShellItem>,
+    (
+      updater: (prev: Array<WindowShellItem>) => Array<WindowShellItem>
+    ) => void,
+  ];
   const [activeProgram, setActiveProgram] = useRecoilState(
     rc_program_activeProgram
   ) as [string, (next: string) => void];
+  const setZIndexCnt = useSetRecoilState(rc_program_zIndexCnt);
+  const zIndexCntRef = useRef(1);
 
   const directory = useRecoilValue(
     rc_global_Directory_List
@@ -55,7 +65,65 @@ export default function DesktopPage() {
   const directoryTree = useRecoilValue(
     rc_global_Directory_Tree
   ) as DirectoryTree;
-  const openProgram = useActiveProgram();
+
+  const openProgram = useCallback(
+    (item: DirectoryItem) => {
+      setProgramList((prev) => {
+        const existing = prev.find((p) => p.name === item.name);
+        if (existing) {
+          if (existing.status === "min") {
+            return prev.map((p) =>
+              p.name === item.name ? { ...p, status: "active" } : p
+            );
+          }
+          return prev;
+        }
+        return [
+          ...prev,
+          {
+            name: item.name,
+            type: item.type,
+            icon: item.icon,
+            parent: item.parent,
+            status: "active",
+          },
+        ];
+      });
+      setActiveProgram(item.name);
+      zIndexCntRef.current += 1;
+      setZIndexCnt(zIndexCntRef.current);
+    },
+    [setProgramList, setActiveProgram, setZIndexCnt]
+  );
+
+  const handleActivateWindow = useCallback(
+    (name: string) => {
+      setActiveProgram(name);
+    },
+    [setActiveProgram]
+  );
+
+  const handleMinimizeWindow = useCallback(
+    (name: string) => {
+      setProgramList((prev) =>
+        prev.map((p) => (p.name === name ? { ...p, status: "min" } : p))
+      );
+    },
+    [setProgramList]
+  );
+
+  const handleCloseWindow = useCallback(
+    (name: string) => {
+      setProgramList((prev) => prev.filter((p) => p.name !== name));
+    },
+    [setProgramList]
+  );
+
+  const handleRequestZIndex = useCallback(() => {
+    zIndexCntRef.current += 1;
+    setZIndexCnt(zIndexCntRef.current);
+    return zIndexCntRef.current;
+  }, [setZIndexCnt]);
 
   const handleClickStartIcon = useCallback(() => {
     setActive_status((prev) => !prev);
@@ -112,7 +180,6 @@ export default function DesktopPage() {
         setActiveProgram(item.name);
         return;
       }
-      // 이미 활성화된 것이 다시 클릭되면 최소화
       if (item.name === activeProgram) {
         setProgramList((prev) =>
           prev.map((p) =>
@@ -163,10 +230,21 @@ export default function DesktopPage() {
           }}
         >
           <WindowContainer />
+          {programList.map((item) => (
+            <ProgramWindow
+              key={item.name}
+              item={item}
+              activeProgram={activeProgram}
+              onActivate={handleActivateWindow}
+              onMinimize={handleMinimizeWindow}
+              onClose={handleCloseWindow}
+              onRequestZIndex={handleRequestZIndex}
+            />
+          ))}
         </div>
         <div className="taskBarCover">
           <TaskBar
-            programList={programList}
+            programList={programList as Array<TaskbarProgramItem>}
             activeProgram={activeProgram}
             hiddenIcon={hiddenIcon}
             onClickStartIcon={handleClickStartIcon}
@@ -177,6 +255,7 @@ export default function DesktopPage() {
             onClickTaskIcon={handleClickTaskIcon}
             onCloseProgram={handleCloseProgram}
             onPreviewChange={handlePreviewChange}
+            renderPreviewContent={renderProgramContent}
           />
         </div>
 

@@ -1,49 +1,25 @@
 import React, { useCallback, useRef } from "react";
 import Window from "./components/Window";
-import { useRecoilValue } from "recoil";
-import { rc_program_programList } from "@store/program";
-import useActiveProgram from "@features/window-shell/useActiveProgram";
-import { rc_global_Directory_Tree } from "@store/global";
+import { useDesktopData } from "@pages/DesktopPage/useDesktopData";
+import type { DirectoryItem } from "@pages/DesktopPage/DesktopDataContext";
 
 const WindowContainer = () => {
-  const windowRef = useRef(null);
+  const windowRef = useRef<HTMLDivElement | null>(null);
+  const { directoryTree, openProgram } = useDesktopData();
 
-  const programList = useRecoilValue(rc_program_programList);
-  const Directory_Tree = useRecoilValue(rc_global_Directory_Tree);
+  const onClickIcon = useCallback((_item: DirectoryItem) => {}, []);
 
-  // 아이콘 클릭
-  const onClickIcon = useCallback((item) => {}, []);
-
-  // 아이콘 더블클릭 (활성화)
-  const onDoubleClickIcon = useActiveProgram();
+  const iconBoxArr =
+    (directoryTree as unknown as { root?: Array<DirectoryItem> }).root || [];
 
   const propDatas = {
     windowRef,
-    iconBoxArr: (Directory_Tree as { root: any }).root || [],
+    iconBoxArr,
     onClickIcon,
-    onDoubleClickIcon,
+    onDoubleClickIcon: openProgram,
   };
 
-  return (
-    <>
-      <Window {...propDatas} />
-      {programList.map((item) => {
-        const Component = item.Component;
-
-        return (
-          <Component
-            key={`${item.name}`}
-            // name={item.name}
-            // type={item.type}
-            // parent={item.parent}
-            // status={item.statue}
-            // contents={item.contents}
-            item={item}
-          />
-        );
-      })}
-    </>
-  );
+  return <Window {...propDatas} />;
 };
 
 export default React.memo(WindowContainer);
