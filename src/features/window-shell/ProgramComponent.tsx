@@ -11,7 +11,7 @@ import minimize from "@images/icons/minimize.png";
 import defaultDocumentImage from "@images/icons/document_default.png";
 
 import ImageProgramContainer from "@features/program-image/ImageProgramContainer";
-import FolderProgramContainer from "@features/program-folder/FolderProgramContainer";
+import { FolderProgram } from "@features/program-folder";
 import { DOCProgram } from "@features/program-doc";
 import INFOProgramContainer from "@features/program-info/INFOProgramContainer";
 
@@ -125,7 +125,7 @@ const FolderComponent = ({
 
       {/* 폴더 */}
       {item.type === "FOLDER" && (
-        <FolderProgramContainer type={item.type} name={item.name} />
+        <FolderProgram type={item.type} name={item.name} />
       )}
 
       {/* 이미지 */}
