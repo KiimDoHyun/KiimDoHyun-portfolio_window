@@ -10,7 +10,7 @@ import minimize from "@images/icons/minimize.png";
 
 import defaultDocumentImage from "@images/icons/document_default.png";
 
-import ImageProgramContainer from "@features/program-image/ImageProgramContainer";
+import { ImageProgram } from "@features/program-image";
 import { FolderProgram } from "@features/program-folder";
 import { DOCProgram } from "@features/program-doc";
 import INFOProgramContainer from "@features/program-info/INFOProgramContainer";
@@ -130,7 +130,7 @@ const FolderComponent = ({
 
       {/* 이미지 */}
       {item.type === "IMAGE" && (
-        <ImageProgramContainer
+        <ImageProgram
           type={item.type}
           parent={item.parent}
           name={item.name}
