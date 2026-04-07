@@ -15,13 +15,13 @@ interface ProjectStack {
 interface ProjectData {
     projectName: string;
     projectDesc: string;
-    projectImages: string[];
-    projectTerm: string[];
+    projectImages: Array<string>;
+    projectTerm: Array<string>;
     projectType: string;
-    projectReulst: ProjectResult[];
-    role: string[];
+    projectReulst: Array<ProjectResult>;
+    role: Array<string>;
     department: string;
-    stack: ProjectStack[];
+    stack: Array<ProjectStack>;
     url: string;
 }
 
