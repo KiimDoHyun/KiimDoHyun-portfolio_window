@@ -95,35 +95,6 @@
 - `test:` 테스트 코드
 - `chore:` 빌드, 패키지 설정 등
 
-## 에이전트 목록
+## 프론트엔드 컨벤션
 
-### 프론트엔드 (`src/`)
-
-| 에이전트                    | 역할                   | 파일                                                                                     |
-| --------------------------- | ---------------------- | ---------------------------------------------------------------------------------------- |
-| **frontend-pm**             | 기능 기획, 명세서 작성 | [`.claude/agents/frontend-pm.md`](.claude/agents/frontend-pm.md)                         |
-| **frontend-implementation** | feature-first 기반 코드 구현 | [`.claude/agents/frontend-implementation.md`](.claude/agents/frontend-implementation.md) |
-| **frontend-reviewer**       | 코드 리뷰, 품질 검증   | [`.claude/agents/frontend-reviewer.md`](.claude/agents/frontend-reviewer.md)             |
-
-## 프론트엔드 규칙 (Feature-First Architecture)
-
-### 폴더 구조 (최상위)
-
-```
-src/
-├── app/        # 앱 설정, 라우터, 프로바이더
-├── pages/      # 라우터에 등록할 페이지
-├── features/   # 기능 단위 모듈 (각 기능별 독립 슬라이스)
-├── shared/     # 도메인 무관 공유 코드 (ui, hooks, utils 등)
-├── store/      # 전역 상태
-└── types/      # 전역 타입
-```
-
-### 핵심 규칙
-
-- **컴포넌트**: 함수형만 사용, PascalCase 파일명
-- **상세 컨벤션**: [`docs/rules/`](docs/rules/) 의 개별 문서를 참조
-  - TypeScript 규칙 → [`docs/rules/typescript.md`](docs/rules/typescript.md)
-  - 컴포넌트 구조 → [`docs/rules/component-structure.md`](docs/rules/component-structure.md)
-  - feature 공개 API → [`docs/rules/feature-public-api.md`](docs/rules/feature-public-api.md)
-  - 전역 상태 경계 → [`docs/rules/global-state-boundary.md`](docs/rules/global-state-boundary.md)
+프론트엔드 작업 시 적용할 컨벤션은 [`docs/rules/`](docs/rules/) 에 토픽별 폴더로 정리되어 있다. Claude Code 는 `frontend-conventions` 스킬이 작업 종류에 따라 적절한 문서를 자동으로 라우팅한다.
