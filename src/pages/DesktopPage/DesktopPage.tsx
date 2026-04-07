@@ -12,7 +12,7 @@ import DisplayCover from "@features/display-cover/DisplayCover";
 import HiddenIcon from "@features/hidden-icon/HiddenIcon";
 import TaskBarContainer from "@features/taskbar/TaskBarContainer";
 import InfoBarContainer from "@features/infobar/InfoBarContainer";
-import WindowContainer from "./WindowContainer";
+import WindowContainer from "@features/desktop/WindowContainer";
 import StatusBarContainer from "@features/statusbar/StatusBarContainer";
 import TimeBarContainer from "@features/timebar/TimeBarContainer";
 
