@@ -12,7 +12,7 @@ import defaultDocumentImage from "@images/icons/document_default.png";
 
 import ImageProgramContainer from "@features/program-image/ImageProgramContainer";
 import FolderProgramContainer from "@features/program-folder/FolderProgramContainer";
-import DOCProgramContainer from "@features/program-doc/DOCProgramContainer";
+import { DOCProgram } from "@features/program-doc";
 import INFOProgramContainer from "@features/program-info/INFOProgramContainer";
 
 import { ProgramComponent } from "./ProgramComponent.style";
@@ -139,7 +139,7 @@ const FolderComponent = ({
 
       {/* 문서 */}
       {item.type === "DOC" && (
-        <DOCProgramContainer type={item.type} name={item.name} />
+        <DOCProgram type={item.type} name={item.name} />
       )}
 
       {/* 내정보 */}
