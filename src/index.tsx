@@ -9,10 +9,11 @@ import { RecoilRoot } from "recoil";
 // React 19는 __SECRET_INTERNALS → __CLIENT_INTERNALS 로 이름을 변경하고
 // ReactCurrentDispatcher → H, ReactCurrentOwner → A 등으로 축약함.
 // Recoil → Jotai 등으로 마이그레이션 시 이 polyfill 제거 가능.
+const ReactAny = React as any;
 const CLIENT_INTERNALS =
-  React.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
-if (CLIENT_INTERNALS && !React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED) {
-  React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = {
+  ReactAny.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
+if (CLIENT_INTERNALS && !ReactAny.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED) {
+  ReactAny.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = {
     ReactCurrentDispatcher: {
       get current() {
         return CLIENT_INTERNALS.H;
@@ -26,7 +27,7 @@ if (CLIENT_INTERNALS && !React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRE
   };
 }
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 root.render(
   // <React.StrictMode>
   <RecoilRoot>
