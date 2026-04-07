@@ -4,3 +4,4 @@
 @import docs/rules/component-structure.md
 @import docs/rules/feature-public-api.md
 @import docs/rules/global-state-boundary.md
+@import docs/rules/collaboration.md

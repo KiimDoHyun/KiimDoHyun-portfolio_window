@@ -1,5 +1,5 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import DesktopPage from "@features/desktop/DesktopPage";
+import { DesktopPage } from "@pages/DesktopPage";
 import LoginPage from "@features/login/LoginPage";
 import ErrorPage from "@app/ErrorPage";
 

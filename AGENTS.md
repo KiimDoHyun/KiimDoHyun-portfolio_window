@@ -24,7 +24,7 @@
 ```
 [단계 1] API 함수 작성
 - 작업 내용: getLoginUser API 함수 생성
-- 영향 범위: 5_entities/user/api/getLoginUser.ts
+- 영향 범위: features/user/api/getLoginUser.ts
 - 완료 조건:
   - [ ] API 함수가 정상 호출됨
   - [ ] 타입이 정의됨
@@ -102,39 +102,28 @@
 | 에이전트                    | 역할                   | 파일                                                                                     |
 | --------------------------- | ---------------------- | ---------------------------------------------------------------------------------------- |
 | **frontend-pm**             | 기능 기획, 명세서 작성 | [`.claude/agents/frontend-pm.md`](.claude/agents/frontend-pm.md)                         |
-| **frontend-implementation** | FSD 기반 코드 구현     | [`.claude/agents/frontend-implementation.md`](.claude/agents/frontend-implementation.md) |
+| **frontend-implementation** | feature-first 기반 코드 구현 | [`.claude/agents/frontend-implementation.md`](.claude/agents/frontend-implementation.md) |
 | **frontend-reviewer**       | 코드 리뷰, 품질 검증   | [`.claude/agents/frontend-reviewer.md`](.claude/agents/frontend-reviewer.md)             |
 
-## 프론트엔드 규칙 (FSD Architecture)
+## 프론트엔드 규칙 (Feature-First Architecture)
 
-### 폴더 구조
+### 폴더 구조 (최상위)
 
 ```
 src/
-├── 1_app/          # 앱 설정, 라우터, 프로바이더
-├── 2_pages/        # 라우터에 등록할 페이지
-├── 3_widgets/      # 복잡한 UI 블록 (기능 조합)
-├── 4_features/     # 단일 비즈니스 기능
-├── 5_entities/     # 비즈니스 엔티티 (데이터, 상태, API)
-└── 6_shared/       # 도메인 무관 공유 코드 (ui, hooks, utils, config, lib)
+├── app/        # 앱 설정, 라우터, 프로바이더
+├── pages/      # 라우터에 등록할 페이지
+├── features/   # 기능 단위 모듈 (각 기능별 독립 슬라이스)
+├── shared/     # 도메인 무관 공유 코드 (ui, hooks, utils 등)
+├── store/      # 전역 상태
+└── types/      # 전역 타입
 ```
 
 ### 핵심 규칙
 
-- **참조 방향**: 하위(숫자 큼) → 상위만 가능. 역방향 금지
-- **Import 경로**: 슬라이스 내부는 상대경로, 다른 레이어는 `@fsd/` 경로
-- **외부 노출**: 모든 슬라이스는 `index.ts`를 통해서만 노출
-- **슬라이스 네이밍**: 4_features, 5_entities, 6_shared는 kebab-case 폴더명
-- **컴포넌트**: 함수형만 사용, PascalCase 파일명, 200줄 이하 권장
-
-### 슬라이스 내부 구조
-
-```
-slice-name/
-├── ComponentName.tsx
-├── ComponentName.type.ts
-├── ComponentName.utils.ts      # 있으면 *.utils.test.ts 필수
-├── ComponentName.hooks.ts
-├── components/                  # 내부 서브 컴포넌트 (외부 노출 X)
-└── index.ts
-```
+- **컴포넌트**: 함수형만 사용, PascalCase 파일명
+- **상세 컨벤션**: [`docs/rules/`](docs/rules/) 의 개별 문서를 참조
+  - TypeScript 규칙 → [`docs/rules/typescript.md`](docs/rules/typescript.md)
+  - 컴포넌트 구조 → [`docs/rules/component-structure.md`](docs/rules/component-structure.md)
+  - feature 공개 API → [`docs/rules/feature-public-api.md`](docs/rules/feature-public-api.md)
+  - 전역 상태 경계 → [`docs/rules/global-state-boundary.md`](docs/rules/global-state-boundary.md)
