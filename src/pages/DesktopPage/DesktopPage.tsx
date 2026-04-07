@@ -1,13 +1,18 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { css } from "@styled-system/css";
 import wallpaper from "@images/wallpaper/Samsung_wallpaper.jpg";
-import { useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import {
   rc_taskbar_hiddenIcon_active,
   rc_taskbar_infoBar_active,
   rc_taskbar_statusBar_active,
   rc_taskbar_timeBar_active,
 } from "@store/taskbar";
+import {
+  rc_global_Directory_List,
+  rc_global_Directory_Tree,
+} from "@store/global";
+import useActiveProgram from "@features/window-shell/useActiveProgram";
 import DisplayCover from "@features/display-cover/DisplayCover";
 import HiddenIcon from "@features/hidden-icon/HiddenIcon";
 import TaskBarContainer from "@features/taskbar/TaskBarContainer";
@@ -15,6 +20,12 @@ import InfoBarContainer from "@features/infobar/InfoBarContainer";
 import WindowContainer from "@features/desktop/WindowContainer";
 import StatusBarContainer from "@features/statusbar/StatusBarContainer";
 import TimeBarContainer from "@features/timebar/TimeBarContainer";
+import { DesktopDataContext } from "./DesktopDataContext";
+import type {
+  DesktopDataValue,
+  DirectoryItem,
+  DirectoryTree,
+} from "./DesktopDataContext";
 
 export default function DesktopPage() {
   const setActive_status = useSetRecoilState(rc_taskbar_statusBar_active);
@@ -22,39 +33,54 @@ export default function DesktopPage() {
   const setActiveInfoBar = useSetRecoilState(rc_taskbar_infoBar_active);
   const setHiddenIcon = useSetRecoilState(rc_taskbar_hiddenIcon_active);
 
+  const directory = useRecoilValue(
+    rc_global_Directory_List
+  ) as Array<DirectoryItem>;
+  const directoryTree = useRecoilValue(
+    rc_global_Directory_Tree
+  ) as DirectoryTree;
+  const openProgram = useActiveProgram();
+
+  const desktopData = useMemo<DesktopDataValue>(
+    () => ({ directory, directoryTree, openProgram }),
+    [directory, directoryTree, openProgram]
+  );
+
   return (
-    <div
-      className={mainPageStyle}
-      style={{ backgroundImage: `url(${wallpaper})` }}
-    >
-      <DisplayCover />
+    <DesktopDataContext.Provider value={desktopData}>
       <div
-        className="windowCover"
-        onMouseDown={() => {
-          setActive_status(false);
-          setActive_time(false);
-          setActiveInfoBar(false);
-          setHiddenIcon(false);
-        }}
+        className={mainPageStyle}
+        style={{ backgroundImage: `url(${wallpaper})` }}
       >
-        <WindowContainer />
+        <DisplayCover />
+        <div
+          className="windowCover"
+          onMouseDown={() => {
+            setActive_status(false);
+            setActive_time(false);
+            setActiveInfoBar(false);
+            setHiddenIcon(false);
+          }}
+        >
+          <WindowContainer />
+        </div>
+        <div className="taskBarCover">
+          <TaskBarContainer />
+        </div>
+
+        {/* 시작 */}
+        <StatusBarContainer />
+
+        {/* 시간 */}
+        <TimeBarContainer />
+
+        {/* 정보 */}
+        <InfoBarContainer />
+
+        {/* 숨겨진 아이콘 */}
+        <HiddenIcon />
       </div>
-      <div className="taskBarCover">
-        <TaskBarContainer />
-      </div>
-
-      {/* 시작 */}
-      <StatusBarContainer />
-
-      {/* 시간 */}
-      <TimeBarContainer />
-
-      {/* 정보 */}
-      <InfoBarContainer />
-
-      {/* 숨겨진 아이콘 */}
-      <HiddenIcon />
-    </div>
+    </DesktopDataContext.Provider>
   );
 }
 
