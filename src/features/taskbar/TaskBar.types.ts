@@ -1,4 +1,4 @@
-import type { ComponentType } from "react";
+import type { ComponentType, ReactNode } from "react";
 
 export type ProgramStatus = "active" | "min";
 
@@ -39,4 +39,6 @@ export interface TaskBarProps {
     onCloseProgram: (name: string) => void;
     /** hover 상태 변경 통지 (true=진입, false=이탈) */
     onPreviewChange: (active: boolean) => void;
+    /** 미리보기 팝업에 표시할 content 렌더러 */
+    renderPreviewContent: (item: TaskbarProgramItem) => ReactNode;
 }

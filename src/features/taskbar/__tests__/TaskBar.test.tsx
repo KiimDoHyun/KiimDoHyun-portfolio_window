@@ -28,6 +28,7 @@ const buildProps = (overrides: Partial<TaskBarProps> = {}): TaskBarProps => ({
     onClickTaskIcon: jest.fn(),
     onCloseProgram: jest.fn(),
     onPreviewChange: jest.fn(),
+    renderPreviewContent: jest.fn(() => null),
     ...overrides,
 });
 

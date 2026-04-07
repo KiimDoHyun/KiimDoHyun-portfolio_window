@@ -11,7 +11,7 @@ import imgKit from "@images/icons/logo_kit.jpg";
 import imgOne from "@images/icons/number_one.png";
 import imgUser from "@images/icons/user.png";
 import imgWhaTap from "@images/icons/WhaTap_vertical_logo.png";
-import useActiveProgram from "@features/window-shell/useActiveProgram";
+import { useDesktopData } from "@pages/DesktopPage/useDesktopData";
 import { rc_global_Directory_Tree } from "@store/global";
 
 const StatusBarContainer = () => {
@@ -93,7 +93,7 @@ const StatusBarContainer = () => {
     }, [activeLeftArea_timer]);
 
     // 소개 영역 아이템 클릭 (활성화)
-    const activeProgram = useActiveProgram();
+    const { openProgram: activeProgram } = useDesktopData();
 
     const onClickBox = useCallback(
         (item) => {
