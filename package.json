@@ -36,6 +36,17 @@
     "predeploy": "pnpm build",
     "deploy": "gh-pages -d build"
   },
+  "jest": {
+    "moduleNameMapper": {
+      "^@shared/(.*)$": "<rootDir>/src/shared/$1",
+      "^@features/(.*)$": "<rootDir>/src/features/$1",
+      "^@app/(.*)$": "<rootDir>/src/app/$1",
+      "^@store/(.*)$": "<rootDir>/src/store/$1",
+      "^@images/(.*)$": "<rootDir>/src/asset/images/$1",
+      "^@styled-system/css$": "<rootDir>/src/__mocks__/styledSystemCss.js",
+      "^@styled-system/(.*)$": "<rootDir>/src/styled-system/$1"
+    }
+  },
   "eslintConfig": {
     "extends": [
       "react-app",
