@@ -35,14 +35,14 @@ interface DocCardProps {
     children: React.ReactNode;
 }
 
-const DocCard: React.FC<DocCardProps> = ({ title, children }) => (
+const DocCard = ({ title, children }: DocCardProps) => (
     <div className="doc_card">
         <div className="cardTitle">{title}</div>
         <div className="cardContent">{children}</div>
     </div>
 );
 
-const DOCProgram: React.FC<DOCProgramProps> = ({ type, name }) => {
+const DOCProgram = ({ type, name }: DOCProgramProps) => {
     const DOCData = useMemo(() => {
         if (type !== "DOC") return null;
 
