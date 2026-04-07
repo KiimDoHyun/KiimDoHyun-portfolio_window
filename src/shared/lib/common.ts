@@ -1,9 +1,12 @@
 export const dateToStr = (
-  date: Date | number,
+  date: Date | number | string,
   format = "d",
   isHyphen = true
 ) => {
-  const d = typeof date === "number" ? new Date(date) : date;
+  const d =
+    typeof date === "number" || typeof date === "string"
+      ? new Date(date)
+      : date;
   const _year = d.getFullYear();
   const _month = ("0" + (d.getMonth() + 1)).slice(-2);
   const _date = ("0" + d.getDate()).slice(-2);
