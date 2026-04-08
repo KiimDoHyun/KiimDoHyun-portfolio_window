@@ -4,8 +4,24 @@ import ErrorBox from "./ErrorBox";
 import sum from "@images/icons/sun.png";
 import { InfoBarBlock } from "./InfoBar.style";
 
-const InfoBar = (props) => {
-  const { active, commit, displayLight, onChange } = props;
+interface CommitData {
+  commit: {
+    author: { name: string; date: string };
+    message: string;
+  };
+}
+
+interface InfoBarViewProps {
+  active: boolean;
+  commit: {
+    data: Array<CommitData> | null;
+    error: unknown;
+  };
+  displayLight: number;
+  onChange: (e: { target: { value: string } }) => void;
+}
+
+const InfoBar = ({ active, commit, displayLight, onChange }: InfoBarViewProps) => {
   const { data, error } = commit;
 
   return (

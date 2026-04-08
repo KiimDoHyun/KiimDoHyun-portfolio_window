@@ -5,28 +5,54 @@ import { TimeBarBlock } from "./TimeBar.style";
 
 const dateArr = ["일", "월", "화", "수", "목", "금", "토"];
 
-const TimeBar = (props) => {
-  const {
-    calendarData,
-    month,
-    year,
-    calendarBodyClassName,
-    active,
+interface CalendarCell {
+  type: string;
+  data: number;
+}
 
-    cur_year,
-    cur_month,
-    cur_day,
-    cur_date,
-    cur_hour,
-    cur_minute,
-    cur_second,
-    cur_timeline,
+interface TimeBarViewProps {
+  calendarData: Array<CalendarCell>;
+  month: number;
+  year: number;
+  calendarBodyClassName: string;
+  active: boolean;
 
-    onClickDateText,
-    onClickYear,
-    onClickUp,
-    onClickDown,
-  } = props;
+  cur_year: number | string;
+  cur_month: number | string;
+  cur_day: number | string;
+  cur_date: number | string;
+  cur_hour: number | string;
+  cur_minute: number | string;
+  cur_second: number | string;
+  cur_timeline: string;
+
+  onClickDateText: () => void;
+  onClickYear: () => void;
+  onClickUp: () => void;
+  onClickDown: () => void;
+}
+
+const TimeBar = ({
+  calendarData,
+  month,
+  year,
+  calendarBodyClassName,
+  active,
+
+  cur_year,
+  cur_month,
+  cur_day,
+  cur_date,
+  cur_hour,
+  cur_minute,
+  cur_second,
+  cur_timeline,
+
+  onClickDateText,
+  onClickYear,
+  onClickUp,
+  onClickDown,
+}: TimeBarViewProps) => {
 
   return (
     <TimeBarBlock active={active}>

@@ -1,7 +1,11 @@
 import React from "react";
 import InfoProgramView from "./InfoProgram.view";
 
-const InfoProgram = ({ type }) => {
+interface InfoProgramProps {
+    type: string;
+}
+
+const InfoProgram = ({ type }: InfoProgramProps) => {
     const propDatas = { type };
     return <InfoProgramView {...propDatas} />;
 };

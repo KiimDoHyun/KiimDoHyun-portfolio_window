@@ -15,7 +15,11 @@ import gear from "@images/icons/gear_line_blue.png";
 import web from "@images/icons/web_line_blue.png";
 import companyBlue from "@images/icons/company_line_blue.png";
 
-const InfoProgramView = ({ type }) => {
+interface InfoProgramViewProps {
+    type: string;
+}
+
+const InfoProgramView = ({ type }: InfoProgramViewProps) => {
     return (
         <>
             <div
