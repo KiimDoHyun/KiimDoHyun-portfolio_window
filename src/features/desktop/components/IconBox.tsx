@@ -1,8 +1,15 @@
 import React from "react";
 import defaultImg from "../../../logo.svg";
 import { css } from "@styled-system/css";
+import type { DirectoryItem } from "@pages/DesktopPage/DesktopDataContext";
 
-const IconBox = ({ item, onClick, onDoubleClick }) => {
+interface IconBoxProps {
+    item: DirectoryItem;
+    onClick: (item: DirectoryItem) => void;
+    onDoubleClick: (item: DirectoryItem) => void;
+}
+
+const IconBox = ({ item, onClick, onDoubleClick }: IconBoxProps) => {
     const { name, icon } = item;
     return (
         <div

@@ -19,7 +19,12 @@ const skillIconBlockStyle = css({
     },
 });
 
-const SkillIcon = ({ src, text }) => {
+interface SkillIconProps {
+    src: string;
+    text: string;
+}
+
+const SkillIcon = ({ src, text }: SkillIconProps) => {
     return (
         <div className={skillIconBlockStyle} title={text}>
             <img src={src} alt={text} />

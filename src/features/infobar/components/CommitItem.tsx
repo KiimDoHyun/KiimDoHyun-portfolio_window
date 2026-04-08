@@ -2,7 +2,16 @@ import React from "react";
 import { css } from "@styled-system/css";
 import { dateToStr } from "@shared/lib/common";
 
-const CommitItem = ({ item }) => {
+interface CommitItemProps {
+    item: {
+        commit: {
+            author: { name: string; date: string };
+            message: string;
+        };
+    };
+}
+
+const CommitItem = ({ item }: CommitItemProps) => {
     return (
         <div className={commitItemStyle}>
             <h4>{item.commit.author.name}</h4>

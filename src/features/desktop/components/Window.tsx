@@ -1,6 +1,7 @@
-import React from "react";
+import React, { RefObject } from "react";
 import { css } from "@styled-system/css";
 import IconBox from "./IconBox";
+import type { DirectoryItem } from "@pages/DesktopPage/DesktopDataContext";
 
 const windowBlockStyle = css({
     width: "100%",
@@ -10,8 +11,19 @@ const windowBlockStyle = css({
     gridTemplateRows: "repeat(auto-fill, 100px)",
 });
 
-const Window = (props) => {
-    const { windowRef, iconBoxArr, onClickIcon, onDoubleClickIcon } = props;
+interface WindowProps {
+    windowRef: RefObject<HTMLDivElement | null>;
+    iconBoxArr: Array<DirectoryItem>;
+    onClickIcon: (item: DirectoryItem) => void;
+    onDoubleClickIcon: (item: DirectoryItem) => void;
+}
+
+const Window = ({
+    windowRef,
+    iconBoxArr,
+    onClickIcon,
+    onDoubleClickIcon,
+}: WindowProps) => {
     return (
         <div className={windowBlockStyle} ref={windowRef}>
             {iconBoxArr.map((item) => (
