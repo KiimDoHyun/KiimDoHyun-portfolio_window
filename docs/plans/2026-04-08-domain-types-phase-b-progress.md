@@ -5,9 +5,9 @@
 ## 현재 상태
 
 - **브랜치:** `feat/phase-b-domain-types` (master 기반)
-- **완료:** Task 0 ~ Task 17 (Stage B-1 + B-2 + B-3 Recoil dead-code 정리)
-- **다음:** Task 18 ~ 20 (어댑터·legacy 타입·Recoil 의존성 제거 → **한 세션에서 묶어 진행**)
-- **남은:** Task 18 ~ 20
+- **완료:** Task 0 ~ Task 20 (Phase B 전부)
+- **다음:** Phase C (에셋 manifest로 아이콘 이슈 해결)
+- **남은:** 없음
 
 ## 완료된 커밋 (master → HEAD, 17개)
 
@@ -69,6 +69,11 @@ c609af7 feat(file-system): add getRoute helper for ancestor path strings
 
 ### 6. 아이콘 전반 깨짐 — 무시 (Phase C)
 - DesktopPage/feature들이 `portfolio.json` 기반으로 아이콘을 읽는데, JSON에는 icon 필드가 전부 `""`. Phase C의 manifest로 해결.
+
+### 7. Task 19 후 ESLint `no-restricted-imports` 규칙 충돌 → 규칙 완화
+- 이유: Recoil 시대의 "features/shared는 `@store/*` import 금지, pages/에서만 접근" 규칙이 zustand 전환 후에도 `package.json` eslintConfig에 남아있었다. Phase B에서 features/desktop, program-folder, program-doc, statusbar 등을 의도적으로 zustand 스토어 직접 구독으로 전환했기 때문에 `craco start`(webpack dev eslint) 단계에서 전부 error. `tsc`/`jest`는 eslint를 돌리지 않아 Task 19 커밋 시점까지 못 잡음.
+- 조치: `package.json` eslintConfig의 `@store/*` + `**/store/*` 패턴 제거, `recoil` 금지는 재유입 가드로 유지. 별도 커밋 `9b05539 chore(lint): allow zustand store imports in features`.
+- 영향: Phase B의 "features가 스토어를 직접 구독" 의도와 ESLint 규칙이 일치. uiStore는 여전히 features 접근 0건(자연 유지).
 
 ## 도구 주의사항
 
