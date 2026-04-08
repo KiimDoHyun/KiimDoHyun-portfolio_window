@@ -1,7 +1,5 @@
 import React from "react";
-import { useRecoilValue } from "recoil";
 import { css } from "@styled-system/css";
-import { rc_global_DisplayLight } from "@store/global";
 
 const displayCoverStyle = css({
   width: "100vw",
@@ -15,9 +13,7 @@ const displayCoverStyle = css({
   opacity: "var(--cover-opacity)",
 });
 
-const DisplayCover = () => {
-  const displayLight = useRecoilValue(rc_global_DisplayLight);
-
+const DisplayCover = ({ displayLight }: { displayLight: number }) => {
   const computedOpacity =
     displayLight <= 30 ? 0.7 : 1 - displayLight / 100;
 

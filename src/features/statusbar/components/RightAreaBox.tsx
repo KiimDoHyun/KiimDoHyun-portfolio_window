@@ -1,7 +1,5 @@
 import React from "react";
-import { useRecoilValue } from "recoil";
 import { css } from "@styled-system/css";
-import { rc_global_Directory_List } from "@store/global";
 
 const rightAreaBoxBlockStyle = css({
     flexBasis: "32%",
@@ -38,18 +36,20 @@ const rightAreaBoxBlockStyle = css({
     },
 });
 
-const RightAreaBox = ({ item, img, name, onClick }) => {
-    const directory = useRecoilValue(rc_global_Directory_List);
+type RightAreaBoxProps = {
+    item?: { parent: string };
+    img: string;
+    name: string;
+    onClick: (parentName: string) => void;
+};
+
+const RightAreaBox = ({ item, img, name, onClick }: RightAreaBoxProps) => {
     return (
         <div
             className={`statusBox ${rightAreaBoxBlockStyle}`}
             onClick={() => {
                 if (item) {
-                    onClick(
-                        directory.find(
-                            (findItem) => findItem.name === item.parent
-                        )
-                    );
+                    onClick(item.parent);
                 }
             }}
         >

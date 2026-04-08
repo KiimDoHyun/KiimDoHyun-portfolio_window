@@ -12,6 +12,7 @@ import {
 import {
   rc_global_Directory_List,
   rc_global_Directory_Tree,
+  rc_global_DisplayLight,
 } from "@store/global";
 import {
   rc_program_activeProgram,
@@ -37,13 +38,22 @@ import ProgramWindow from "./ProgramWindow";
 import { renderProgramContent } from "./renderProgramContent";
 
 export default function DesktopPage() {
-  const setActive_status = useSetRecoilState(rc_taskbar_statusBar_active);
-  const setActive_time = useSetRecoilState(rc_taskbar_timeBar_active);
-  const setActiveInfoBar = useSetRecoilState(rc_taskbar_infoBar_active);
+  const [activeStatus, setActive_status] = useRecoilState(
+    rc_taskbar_statusBar_active
+  ) as [boolean, (updater: boolean | ((prev: boolean) => boolean)) => void];
+  const [activeTime, setActive_time] = useRecoilState(
+    rc_taskbar_timeBar_active
+  ) as [boolean, (updater: boolean | ((prev: boolean) => boolean)) => void];
+  const [activeInfoBar, setActiveInfoBar] = useRecoilState(
+    rc_taskbar_infoBar_active
+  ) as [boolean, (updater: boolean | ((prev: boolean) => boolean)) => void];
   const [hiddenIcon, setHiddenIcon] = useRecoilState(
     rc_taskbar_hiddenIcon_active
   );
   const setPreview = useSetRecoilState(rc_taskbar_preview_active);
+  const [displayLight, setDisplayLight] = useRecoilState(
+    rc_global_DisplayLight
+  ) as [number, (next: number) => void];
 
   const [programList, setProgramList] = useRecoilState(
     rc_program_programList
@@ -201,6 +211,17 @@ export default function DesktopPage() {
     [setProgramList]
   );
 
+  const handleCloseStatusBar = useCallback(() => {
+    setActive_status(false);
+  }, [setActive_status]);
+
+  const handleChangeDisplayLight = useCallback(
+    (next: number) => {
+      setDisplayLight(next);
+    },
+    [setDisplayLight]
+  );
+
   const handlePreviewChange = useCallback(
     (active: boolean) => {
       setPreview(active);
@@ -219,7 +240,7 @@ export default function DesktopPage() {
         className={mainPageStyle}
         style={{ backgroundImage: `url(${wallpaper})` }}
       >
-        <DisplayCover />
+        <DisplayCover displayLight={displayLight} />
         <div
           className="windowCover"
           onMouseDown={() => {
@@ -260,16 +281,23 @@ export default function DesktopPage() {
         </div>
 
         {/* 시작 */}
-        <StatusBarContainer />
+        <StatusBarContainer
+          active={activeStatus}
+          onClose={handleCloseStatusBar}
+        />
 
         {/* 시간 */}
-        <TimeBarContainer />
+        <TimeBarContainer active={activeTime} />
 
         {/* 정보 */}
-        <InfoBarContainer />
+        <InfoBarContainer
+          active={activeInfoBar}
+          displayLight={displayLight}
+          onChangeDisplayLight={handleChangeDisplayLight}
+        />
 
         {/* 숨겨진 아이콘 */}
-        <HiddenIcon />
+        <HiddenIcon active={hiddenIcon} />
       </div>
     </DesktopDataContext.Provider>
   );

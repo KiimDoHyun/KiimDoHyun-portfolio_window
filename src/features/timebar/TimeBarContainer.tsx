@@ -1,16 +1,13 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { useCallback } from "react";
-import { useRecoilValue } from "recoil";
 import TimeBar from "./components/TimeBar";
 import useGetCurrentTime from "@shared/hooks/useGetCurrentTime";
-import { rc_taskbar_timeBar_active } from "@store/taskbar";
 
-const TimeBarContainer = () => {
+const TimeBarContainer = ({ active }: { active: boolean }) => {
   const [date] = useState(new Date());
 
   // 실제 달력 영역
-  const active = useRecoilValue(rc_taskbar_timeBar_active); // 바 활성화 상태
   const [calendarData, setCalendarData] = useState([]); // 달력 데이터
   const [year, setYear] = useState(date.getFullYear()); // 년도 (가변)
   const [month, setMonth] = useState(date.getMonth()); // 월   (가변)

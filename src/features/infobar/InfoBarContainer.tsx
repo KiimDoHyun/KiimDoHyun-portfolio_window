@@ -1,27 +1,26 @@
 import React from "react";
-import { useCallback } from "react";
 import { useEffect } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
 import { getCommitApi } from "@shared/api/git";
 import InfoBar from "./components/InfoBar";
 import useAxios from "@shared/hooks/useAxios";
-import { rc_global_DisplayLight } from "@store/global";
-import { rc_taskbar_infoBar_active } from "@store/taskbar";
 
-const InfoBarContainer = () => {
-    const active = useRecoilValue(rc_taskbar_infoBar_active);
+type InfoBarContainerProps = {
+    active: boolean;
+    displayLight: number;
+    onChangeDisplayLight: (next: number) => void;
+};
+
+const InfoBarContainer = ({
+    active,
+    displayLight,
+    onChangeDisplayLight,
+}: InfoBarContainerProps) => {
     const [commit, getCommit] = useAxios(getCommitApi);
-    const [displayLight, setDisplayLight] = useRecoilState(
-        rc_global_DisplayLight
-    );
 
     // 화면밝기 조정 이벤트
-    const onChange = useCallback(
-        ({ target: { value } }) => {
-            setDisplayLight(value);
-        },
-        [setDisplayLight]
-    );
+    const onChange = ({ target: { value } }: { target: { value: string } }) => {
+        onChangeDisplayLight(Number(value));
+    };
 
     // 인포 바 활성화시 커밋 조회
     useEffect(() => {
