@@ -1,16 +1,21 @@
 import React from "react";
 import defaultImg from "../../../logo.svg";
 import { css } from "@styled-system/css";
-import type { DirectoryItem } from "@pages/DesktopPage/DesktopDataContext";
+import type { ProgramNode } from "@shared/types/program";
 
 interface IconBoxProps {
-    item: DirectoryItem;
-    onClick: (item: DirectoryItem) => void;
-    onDoubleClick: (item: DirectoryItem) => void;
+    item: ProgramNode;
+    onClick: (item: ProgramNode) => void;
+    onDoubleClick: (item: ProgramNode) => void;
+}
+
+function nodeIcon(node: ProgramNode): string {
+    return (node as unknown as { icon?: string }).icon ?? "";
 }
 
 const IconBox = ({ item, onClick, onDoubleClick }: IconBoxProps) => {
-    const { name, icon } = item;
+    const { name } = item;
+    const icon = nodeIcon(item);
     return (
         <div
             className={iconBoxStyle}

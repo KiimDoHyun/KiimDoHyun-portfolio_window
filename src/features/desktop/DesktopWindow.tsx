@@ -1,25 +1,35 @@
-import React, { useCallback, useRef } from "react";
+import React, { useCallback, useMemo, useRef } from "react";
 import Window from "./components/Window";
-import { useDesktopData } from "@pages/DesktopPage/useDesktopData";
-import type { DirectoryItem } from "@pages/DesktopPage/DesktopDataContext";
+import { useFileSystemStore } from "@store/fileSystemStore";
+import { useRunningProgramsStore } from "@store/runningProgramsStore";
+import type { ProgramNode } from "@shared/types/program";
 
 const DesktopWindow = () => {
-  const windowRef = useRef<HTMLDivElement | null>(null);
-  const { directoryTree, openProgram } = useDesktopData();
+    const windowRef = useRef<HTMLDivElement | null>(null);
+    const rootId = useFileSystemStore((s) => s.rootId);
+    const nodes = useFileSystemStore((s) => s.nodes);
+    const childrenByParent = useFileSystemStore((s) => s.childrenByParent);
 
-  const onClickIcon = useCallback((_item: DirectoryItem) => {}, []);
+    const iconBoxArr = useMemo<Array<ProgramNode>>(() => {
+        if (!rootId) return [];
+        return (childrenByParent[rootId] ?? [])
+            .map((id) => nodes[id])
+            .filter((n): n is ProgramNode => !!n);
+    }, [rootId, nodes, childrenByParent]);
 
-  const iconBoxArr =
-    (directoryTree as unknown as { root?: Array<DirectoryItem> }).root || [];
+    const onClickIcon = useCallback((_item: ProgramNode) => {}, []);
+    const onDoubleClickIcon = useCallback((item: ProgramNode) => {
+        useRunningProgramsStore.getState().open(item.id);
+    }, []);
 
-  const propDatas = {
-    windowRef,
-    iconBoxArr,
-    onClickIcon,
-    onDoubleClickIcon: openProgram,
-  };
-
-  return <Window {...propDatas} />;
+    return (
+        <Window
+            windowRef={windowRef}
+            iconBoxArr={iconBoxArr}
+            onClickIcon={onClickIcon}
+            onDoubleClickIcon={onDoubleClickIcon}
+        />
+    );
 };
 
 export default React.memo(DesktopWindow);
