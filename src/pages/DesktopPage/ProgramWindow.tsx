@@ -1,45 +1,52 @@
 import { WindowShell } from "@features/window-shell";
-import type { WindowShellItem } from "@features/window-shell";
+import type {
+    ProgramId,
+    ProgramNode,
+    RunningProgram,
+} from "@shared/types/program";
 import { renderProgramContent } from "./renderProgramContent";
 import { resolveProgramTitle, resolveProgramIcon } from "./resolveProgramMeta";
 
 interface ProgramWindowProps {
-  item: WindowShellItem;
-  activeProgram: string;
-  onActivate: (name: string) => void;
-  onMinimize: (name: string) => void;
-  onClose: (name: string) => void;
-  onRequestZIndex: () => number;
+    node: ProgramNode;
+    running: RunningProgram;
+    activeId: ProgramId | null;
+    onActivate: (id: ProgramId) => void;
+    onMinimize: (id: ProgramId) => void;
+    onClose: (id: ProgramId) => void;
+    onRequestZIndex: () => number;
 }
 
 const ProgramWindow = ({
-  item,
-  activeProgram,
-  onActivate,
-  onMinimize,
-  onClose,
-  onRequestZIndex,
+    node,
+    running,
+    activeId,
+    onActivate,
+    onMinimize,
+    onClose,
+    onRequestZIndex,
 }: ProgramWindowProps) => {
-  const subHeader =
-    item.type === "BROWSER" ? (
-      <div className={`headerArea2 headerArea2_${item.type}`} />
-    ) : undefined;
+    const subHeader =
+        node.type === "BROWSER" ? (
+            <div className={`headerArea2 headerArea2_${node.type}`} />
+        ) : undefined;
 
-  return (
-    <WindowShell
-      item={item}
-      title={resolveProgramTitle(item)}
-      iconSrc={resolveProgramIcon(item)}
-      activeProgram={activeProgram}
-      subHeader={subHeader}
-      onActivate={onActivate}
-      onMinimize={onMinimize}
-      onClose={onClose}
-      onRequestZIndex={onRequestZIndex}
-    >
-      {renderProgramContent(item)}
-    </WindowShell>
-  );
+    return (
+        <WindowShell
+            node={node}
+            running={running}
+            title={resolveProgramTitle(node)}
+            iconSrc={resolveProgramIcon(node)}
+            activeId={activeId}
+            subHeader={subHeader}
+            onActivate={onActivate}
+            onMinimize={onMinimize}
+            onClose={onClose}
+            onRequestZIndex={onRequestZIndex}
+        >
+            {renderProgramContent(node)}
+        </WindowShell>
+    );
 };
 
 export default ProgramWindow;

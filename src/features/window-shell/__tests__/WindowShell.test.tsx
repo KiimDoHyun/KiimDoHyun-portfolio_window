@@ -16,25 +16,37 @@ jest.mock("../ProgramComponent.style", () => {
                 >,
                 ref: React.Ref<HTMLDivElement>
             ) =>
-                React.createElement(
-                    "div",
-                    { ref, ...rest },
-                    children
-                )
+                React.createElement("div", { ref, ...rest }, children),
         ),
     };
 });
 
 import WindowShell from "../WindowShell";
 import type { WindowShellProps } from "../WindowShell.types";
+import type { ProgramNode, RunningProgram } from "@shared/types/program";
+
+const node: ProgramNode = {
+    id: "node-1",
+    parentId: null,
+    name: "내문서",
+    icon: "icon.png",
+    type: "FOLDER",
+};
+
+const running: RunningProgram = {
+    id: "node-1",
+    status: "active",
+    zIndex: 1,
+};
 
 const buildProps = (
     overrides: Partial<WindowShellProps> = {}
 ): WindowShellProps => ({
-    item: { name: "내문서", type: "FOLDER", status: "active" },
+    node,
+    running,
     title: "내문서",
     iconSrc: "icon.png",
-    activeProgram: "내문서",
+    activeId: "node-1",
     onActivate: jest.fn(),
     onMinimize: jest.fn(),
     onClose: jest.fn(),
@@ -58,18 +70,18 @@ describe("WindowShell (characterization)", () => {
         expect(screen.getByAltText("내문서")).toHaveAttribute("src", "icon.png");
     });
 
-    it("창 영역 mouseDown 시 onActivate 가 호출된다", () => {
+    it("창 영역 mouseDown 시 onActivate 가 node.id 로 호출된다", () => {
         const onActivate = jest.fn();
         render(<WindowShell {...buildProps({ onActivate })} />);
         fireEvent.mouseDown(screen.getByText("내문서").parentElement!);
-        expect(onActivate).toHaveBeenCalledWith("내문서");
+        expect(onActivate).toHaveBeenCalledWith("node-1");
     });
 
-    it("최소화 버튼 클릭 시 onMinimize 가 호출된다", () => {
+    it("최소화 버튼 클릭 시 onMinimize 가 node.id 로 호출된다", () => {
         const onMinimize = jest.fn();
         render(<WindowShell {...buildProps({ onMinimize })} />);
         fireEvent.click(screen.getByAltText("minimize").parentElement!);
-        expect(onMinimize).toHaveBeenCalledWith("내문서");
+        expect(onMinimize).toHaveBeenCalledWith("node-1");
     });
 
     it("최대화 버튼 클릭 시 isMaxSize 가 true 로 변경되어 normal 버튼이 노출된다", () => {
@@ -78,7 +90,7 @@ describe("WindowShell (characterization)", () => {
         expect(screen.getByAltText("normal size")).toBeInTheDocument();
     });
 
-    it("닫기 버튼 클릭 시 애니메이션 종료 후 onClose 가 호출된다", () => {
+    it("닫기 버튼 클릭 시 애니메이션 종료 후 onClose 가 node.id 로 호출된다", () => {
         const onClose = jest.fn();
         render(<WindowShell {...buildProps({ onClose })} />);
         fireEvent.click(screen.getByAltText("close").parentElement!);
@@ -86,10 +98,10 @@ describe("WindowShell (characterization)", () => {
         act(() => {
             jest.advanceTimersByTime(300);
         });
-        expect(onClose).toHaveBeenCalledWith("내문서");
+        expect(onClose).toHaveBeenCalledWith("node-1");
     });
 
-    it("활성 상태가 되면 onRequestZIndex 가 호출된다", () => {
+    it("activeId === node.id 일 때 onRequestZIndex 가 호출된다", () => {
         const onRequestZIndex = jest.fn(() => 7);
         render(<WindowShell {...buildProps({ onRequestZIndex })} />);
         expect(onRequestZIndex).toHaveBeenCalled();
