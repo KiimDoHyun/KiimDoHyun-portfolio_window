@@ -4,6 +4,9 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { RecoilRoot } from "recoil";
+import portfolio from "./data/portfolio.json";
+import { useFileSystemStore } from "./store/fileSystemStore";
+import type { PortfolioSchema } from "./shared/types/portfolio-schema";
 
 // Recoil 0.7.x는 React 19에서 제거된 구 internal API를 참조함.
 // React 19는 __SECRET_INTERNALS → __CLIENT_INTERNALS 로 이름을 변경하고
@@ -26,6 +29,8 @@ if (CLIENT_INTERNALS && !ReactAny.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_F
     ReactCurrentOwner: CLIENT_INTERNALS.A,
   };
 }
+
+useFileSystemStore.getState().hydrate(portfolio as PortfolioSchema);
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 root.render(
