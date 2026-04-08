@@ -1,24 +1,34 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import TaskBar from "../TaskBar";
-import { TaskBarProps, TaskbarProgramItem } from "../TaskBar.types";
+import type { TaskBarProps, TaskbarEntry } from "../TaskBar.types";
 
-const programList: Array<TaskbarProgramItem> = [
+const entries: Array<TaskbarEntry> = [
     {
-        name: "내문서",
-        type: "FOLDER",
-        status: "active",
+        node: {
+            id: "n1",
+            parentId: null,
+            type: "FOLDER",
+            name: "내문서",
+            icon: "",
+        },
+        running: { id: "n1", status: "active", zIndex: 2 },
     },
     {
-        name: "프로젝트",
-        type: "FOLDER",
-        status: "min",
+        node: {
+            id: "n2",
+            parentId: null,
+            type: "FOLDER",
+            name: "프로젝트",
+            icon: "",
+        },
+        running: { id: "n2", status: "min", zIndex: 3 },
     },
 ];
 
 const buildProps = (overrides: Partial<TaskBarProps> = {}): TaskBarProps => ({
-    programList,
-    activeProgram: "내문서",
+    entries,
+    activeId: "n1",
     hiddenIcon: false,
     onClickStartIcon: jest.fn(),
     onClickTime: jest.fn(),
@@ -33,7 +43,7 @@ const buildProps = (overrides: Partial<TaskBarProps> = {}): TaskBarProps => ({
 });
 
 describe("TaskBar (characterization)", () => {
-    it("programList 의 각 항목을 아이콘으로 렌더링한다", () => {
+    it("entries 의 각 항목을 아이콘으로 렌더링한다", () => {
         render(<TaskBar {...buildProps()} />);
         expect(screen.getByAltText("내문서")).toBeInTheDocument();
         expect(screen.getByAltText("프로젝트")).toBeInTheDocument();
@@ -49,15 +59,13 @@ describe("TaskBar (characterization)", () => {
         expect(onClickStartIcon).toHaveBeenCalledTimes(1);
     });
 
-    it("아이콘 클릭 시 해당 item 으로 onClickTaskIcon 이 호출된다", () => {
+    it("아이콘 클릭 시 해당 entry 로 onClickTaskIcon 이 호출된다", () => {
         const onClickTaskIcon = jest.fn();
         render(<TaskBar {...buildProps({ onClickTaskIcon })} />);
         fireEvent.click(screen.getByAltText("프로젝트"));
         expect(onClickTaskIcon).toHaveBeenCalledTimes(1);
-        expect(onClickTaskIcon.mock.calls[0][0]).toMatchObject({
-            name: "프로젝트",
-            status: "min",
-        });
+        expect(onClickTaskIcon.mock.calls[0][0].node.name).toBe("프로젝트");
+        expect(onClickTaskIcon.mock.calls[0][0].running.status).toBe("min");
     });
 
     it("아이콘에 mouseEnter 시 onPreviewChange(true) 가 호출되고, leave 시 false", () => {
@@ -70,8 +78,8 @@ describe("TaskBar (characterization)", () => {
         expect(onPreviewChange).toHaveBeenLastCalledWith(false);
     });
 
-    it("activeProgram 에 해당하는 아이콘은 activeIcon 클래스를 가진다", () => {
-        render(<TaskBar {...buildProps({ activeProgram: "프로젝트" })} />);
+    it("activeId 에 해당하는 아이콘은 activeIcon 클래스를 가진다", () => {
+        render(<TaskBar {...buildProps({ activeId: "n2" })} />);
         const icon = screen
             .getByAltText("프로젝트")
             .closest(".shortCutIcon") as HTMLElement;
@@ -88,14 +96,14 @@ describe("TaskBar (characterization)", () => {
         expect(screen.getByAltText("arrowDown")).toBeInTheDocument();
     });
 
-    it("hover 중 미리보기 X 버튼 클릭 시 onCloseProgram(hoverName) 호출", () => {
+    it("hover 중 미리보기 X 버튼 클릭 시 onCloseProgram(hoverId) 호출", () => {
         const onCloseProgram = jest.fn();
         render(<TaskBar {...buildProps({ onCloseProgram })} />);
         const icon = screen.getByAltText("프로젝트").closest(".shortCutIcon")!;
         fireEvent.mouseEnter(icon);
         const closeCover = icon.querySelector(".buttonCover") as HTMLElement;
         fireEvent.click(closeCover);
-        expect(onCloseProgram).toHaveBeenCalledWith("프로젝트");
+        expect(onCloseProgram).toHaveBeenCalledWith("n2");
     });
 
     it("시계 영역 클릭 시 onClickTime, 알림 영역 클릭 시 onClickInfo", () => {

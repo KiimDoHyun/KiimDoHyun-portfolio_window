@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef } from "react";
 
 interface UseWindowResizeParams {
   boxRef: React.RefObject<HTMLDivElement | null>;
-  name: string;
+  id: string;
 }
 
 const MIN_WIDTH = 300;
@@ -13,7 +13,7 @@ const MIN_HEIGHT = 60;
  * 기존 ProgramContainer 의 9방향 분기 로직을 단일 핸들러로 정리해 옮긴 버전.
  * 보존 목적상 동작은 bottom-right 확장/축소 중심이며, 최소 크기 제약을 적용한다.
  */
-export function useWindowResize({ boxRef, name }: UseWindowResizeParams) {
+export function useWindowResize({ boxRef, id }: UseWindowResizeParams) {
   const isResizingRef = useRef(false);
   const prevPosRef = useRef<{ X: number; Y: number } | null>(null);
 
@@ -41,11 +41,11 @@ export function useWindowResize({ boxRef, name }: UseWindowResizeParams) {
       const nextHeight = box.offsetHeight + deltaY;
 
       if (nextWidth >= MIN_WIDTH) {
-        localStorage.setItem(`${name}width`, `${nextWidth}px`);
+        localStorage.setItem(`${id}width`, `${nextWidth}px`);
         box.style.width = `${nextWidth}px`;
       }
       if (nextHeight >= MIN_HEIGHT) {
-        localStorage.setItem(`${name}height`, `${nextHeight}px`);
+        localStorage.setItem(`${id}height`, `${nextHeight}px`);
         box.style.height = `${nextHeight}px`;
       }
 
@@ -62,7 +62,7 @@ export function useWindowResize({ boxRef, name }: UseWindowResizeParams) {
       document.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mouseup", handleMouseUp);
     };
-  }, [boxRef, name]);
+  }, [boxRef, id]);
 
   return { onMouseDown, onMouseUp };
 }

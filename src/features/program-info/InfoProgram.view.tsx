@@ -1,4 +1,3 @@
-import React from "react";
 import { css } from "@styled-system/css";
 
 import KDH from "@images/김도현.jpg";
@@ -15,16 +14,10 @@ import gear from "@images/icons/gear_line_blue.png";
 import web from "@images/icons/web_line_blue.png";
 import companyBlue from "@images/icons/company_line_blue.png";
 
-interface InfoProgramViewProps {
-    type: string;
-}
-
-const InfoProgramView = ({ type }: InfoProgramViewProps) => {
+const InfoProgramView = () => {
     return (
         <>
-            <div
-                className={`headerArea2 headerArea2_${type}`}
-            ></div>
+            <div className="headerArea2 headerArea2_INFO"></div>
             <div className={`${infoProgramContentStyle} contentsArea_Cover`}>
                 <div className="contentsArea_info">
                     <div className="top">

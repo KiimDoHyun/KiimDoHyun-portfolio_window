@@ -2,14 +2,14 @@ import { useCallback, useEffect, useRef } from "react";
 
 interface UseWindowDragParams {
   boxRef: React.RefObject<HTMLDivElement | null>;
-  name: string;
+  id: string;
 }
 
 /**
  * 창 헤더 드래그로 위치를 이동시키는 훅.
  * 성능 이유로 DOM 을 직접 mutation 하고 localStorage 에 마지막 위치를 저장한다.
  */
-export function useWindowDrag({ boxRef, name }: UseWindowDragParams) {
+export function useWindowDrag({ boxRef, id }: UseWindowDragParams) {
   const isMovableRef = useRef(false);
   const prevPosRef = useRef<{ X: number; Y: number } | null>(null);
 
@@ -37,8 +37,8 @@ export function useWindowDrag({ boxRef, name }: UseWindowDragParams) {
       const nextLeft = box.offsetLeft - posX;
       const nextTop = box.offsetTop - posY;
 
-      localStorage.setItem(`${name}Left`, String(nextLeft));
-      localStorage.setItem(`${name}Top`, String(nextTop));
+      localStorage.setItem(`${id}Left`, String(nextLeft));
+      localStorage.setItem(`${id}Top`, String(nextTop));
 
       box.style.left = `${nextLeft}px`;
       box.style.top = `${nextTop}px`;
@@ -54,7 +54,7 @@ export function useWindowDrag({ boxRef, name }: UseWindowDragParams) {
       document.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mouseup", handleMouseUp);
     };
-  }, [boxRef, name]);
+  }, [boxRef, id]);
 
   return { onMouseDown, onMouseUp };
 }

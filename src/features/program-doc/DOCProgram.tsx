@@ -1,28 +1,21 @@
-import { useMemo } from "react";
-import { projectDatas } from "@shared/lib/data";
+import { useFileSystemStore } from "@store/fileSystemStore";
+import type { ProgramId } from "@shared/types/program";
 import { docProgramContentStyle } from "./DOCProgram.style";
-import type { ProjectData } from "./DOCProgram.types";
 import DocCard from "./ui/DocCard";
 
 interface DOCProgramProps {
-    type: string;
-    name: string;
+    id: ProgramId;
 }
 
-const DOCProgram = ({ type, name }: DOCProgramProps) => {
-    const docData = useMemo<ProjectData | null>(() => {
-        if (type !== "DOC") return null;
-        const target = projectDatas.find(
-            (item: ProjectData) => item.projectName === name
-        ) as ProjectData | undefined;
-        return target ?? null;
-    }, [type, name]);
+const DOCProgram = ({ id }: DOCProgramProps) => {
+    const node = useFileSystemStore((s) => s.nodes[id]);
 
-    if (!docData) return null;
+    if (!node || node.type !== "DOC") return null;
+    const docData = node.contents;
 
     return (
         <>
-            <div className={`headerArea2 headerArea2_${type}`}></div>
+            <div className={`headerArea2 headerArea2_${node.type}`}></div>
             <div className={`${docProgramContentStyle} contentsArea_Cover`}>
                 <div className="contentsArea_doc">
                     <div className="doc_imageArea">

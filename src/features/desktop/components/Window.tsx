@@ -1,7 +1,7 @@
-import React, { RefObject } from "react";
+import { RefObject } from "react";
 import { css } from "@styled-system/css";
 import IconBox from "./IconBox";
-import type { DirectoryItem } from "@pages/DesktopPage/DesktopDataContext";
+import type { ProgramNode } from "@shared/types/program";
 
 const windowBlockStyle = css({
     width: "100%",
@@ -13,9 +13,9 @@ const windowBlockStyle = css({
 
 interface WindowProps {
     windowRef: RefObject<HTMLDivElement | null>;
-    iconBoxArr: Array<DirectoryItem>;
-    onClickIcon: (item: DirectoryItem) => void;
-    onDoubleClickIcon: (item: DirectoryItem) => void;
+    iconBoxArr: Array<ProgramNode>;
+    onClickIcon: (item: ProgramNode) => void;
+    onDoubleClickIcon: (item: ProgramNode) => void;
 }
 
 const Window = ({
@@ -31,7 +31,7 @@ const Window = ({
                     item={item}
                     onClick={onClickIcon}
                     onDoubleClick={onDoubleClickIcon}
-                    key={`${item.name}`}
+                    key={item.id}
                 />
             ))}
         </div>

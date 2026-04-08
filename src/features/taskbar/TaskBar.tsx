@@ -6,11 +6,11 @@ import StartButton from "./ui/StartButton";
 import ProgramIcons from "./ui/ProgramIcons";
 import SystemTray from "./ui/SystemTray";
 import PreviewPopup from "./ui/PreviewPopup";
-import type { TaskBarProps, TaskbarProgramItem } from "./TaskBar.types";
+import type { TaskBarProps, TaskbarEntry } from "./TaskBar.types";
 
 const TaskBar = ({
-    programList,
-    activeProgram,
+    entries,
+    activeId,
     hiddenIcon,
     onClickStartIcon,
     onClickTime,
@@ -38,37 +38,38 @@ const TaskBar = ({
         onMouseLeave,
         highlightActive,
         clearHover,
-    } = useTaskbarHover({ activeProgram, onPreviewChange });
+    } = useTaskbarHover({ activeId, onPreviewChange });
 
-    const handleClickIcon = (item: TaskbarProgramItem, idx: number) => {
+    const handleClickIcon = (entry: TaskbarEntry, idx: number) => {
         // 최소화 → 활성화 전환 시, 클릭 직후 hover 글로우 유지
-        if (item.status === "min" || item.name !== activeProgram) {
+        if (entry.running.status === "min" || entry.node.id !== activeId) {
             highlightActive(idx);
         }
-        onClickTaskIcon(item);
+        onClickTaskIcon(entry);
     };
 
     const handleCloseShortcut = () => {
-        if (!hoverTarget.name) return;
-        onCloseProgram(hoverTarget.name);
+        if (!hoverTarget.id) return;
+        onCloseProgram(hoverTarget.id);
         clearHover();
     };
 
-    const previewTarget = programList.find(
-        (item) => item.name === hoverTarget.name
+    const previewTarget = entries.find(
+        (entry) => entry.node.id === hoverTarget.id
     );
 
-    const shotcutHoverTop = hoverTarget.name ? "-225px" : "225px";
+    const hovering = hoverTarget.id !== null;
+    const shotcutHoverTop = hovering ? "-225px" : "225px";
     const shotcutHoverLeft = hoverTarget.idx === 0 ? "-50px" : "-75px";
-    const shotcutHoverPointerEvents = hoverTarget.name ? "all" : "none";
-    const prevviewTop = hoverTarget.name ? "-225px" : "50px";
-    const prevviewOpacity = hoverTarget.name ? "1" : "0";
-    const prevviewLeft = hoverTarget.name
+    const shotcutHoverPointerEvents = hovering ? "all" : "none";
+    const prevviewTop = hovering ? "-225px" : "50px";
+    const prevviewOpacity = hovering ? "1" : "0";
+    const prevviewLeft = hovering
         ? hoverTarget.idx > 0
             ? `${(hoverTarget.idx - 1) * 50 + 25}px`
             : "0px"
         : "0px";
-    const prevviewPointerEvents = hoverTarget.name ? "all" : "none";
+    const prevviewPointerEvents = hovering ? "all" : "none";
 
     const cssVars = {
         "--shotcut-hover-top": shotcutHoverTop,
@@ -86,8 +87,8 @@ const TaskBar = ({
 
             <ProgramIcons
                 ref={iconContainerRef}
-                programList={programList}
-                activeProgram={activeProgram}
+                entries={entries}
+                activeId={activeId}
                 onMouseEnter={onMouseEnter}
                 onMouseLeave={onMouseLeave}
                 onClickIcon={handleClickIcon}
@@ -110,7 +111,6 @@ const TaskBar = ({
 
             <PreviewPopup
                 target={previewTarget}
-                hoverName={hoverTarget.name}
                 renderContent={renderPreviewContent}
             />
         </div>

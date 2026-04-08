@@ -1,6 +1,6 @@
 export { default as TaskBar } from "./TaskBar";
 export type {
     TaskBarProps,
-    TaskbarProgramItem,
+    TaskbarEntry,
     HoverTarget,
 } from "./TaskBar.types";

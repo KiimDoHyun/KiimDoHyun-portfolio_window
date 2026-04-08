@@ -3,36 +3,16 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { RecoilRoot } from "recoil";
+import portfolio from "./data/portfolio.json";
+import { useFileSystemStore } from "./store/fileSystemStore";
+import type { PortfolioSchema } from "./shared/types/portfolio-schema";
 
-// Recoil 0.7.x는 React 19에서 제거된 구 internal API를 참조함.
-// React 19는 __SECRET_INTERNALS → __CLIENT_INTERNALS 로 이름을 변경하고
-// ReactCurrentDispatcher → H, ReactCurrentOwner → A 등으로 축약함.
-// Recoil → Jotai 등으로 마이그레이션 시 이 polyfill 제거 가능.
-const ReactAny = React as any;
-const CLIENT_INTERNALS =
-  ReactAny.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
-if (CLIENT_INTERNALS && !ReactAny.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED) {
-  ReactAny.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = {
-    ReactCurrentDispatcher: {
-      get current() {
-        return CLIENT_INTERNALS.H;
-      },
-      set current(v) {
-        CLIENT_INTERNALS.H = v;
-      },
-    },
-    ReactCurrentBatchConfig: CLIENT_INTERNALS.T,
-    ReactCurrentOwner: CLIENT_INTERNALS.A,
-  };
-}
+useFileSystemStore.getState().hydrate(portfolio as PortfolioSchema);
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 root.render(
   // <React.StrictMode>
-  <RecoilRoot>
-    <App />
-  </RecoilRoot>
+  <App />
   // </React.StrictMode>
 );
 
