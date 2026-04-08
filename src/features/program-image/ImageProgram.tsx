@@ -1,12 +1,10 @@
 import { Fragment } from "react";
-import { useDesktopData } from "@pages/DesktopPage/useDesktopData";
 import { useImageNavigation } from "./hooks/useImageNavigation";
 import ImageHeader from "./ui/ImageHeader";
 import ImageViewer from "./ui/ImageViewer";
 import type { ImageProgramProps } from "./ImageProgram.types";
 
-const ImageProgram = ({ parent, name }: ImageProgramProps) => {
-    const { directoryTree } = useDesktopData();
+const ImageProgram = ({ id }: ImageProgramProps) => {
     const {
         imageArr,
         curImageIdx,
@@ -19,7 +17,7 @@ const ImageProgram = ({ parent, name }: ImageProgramProps) => {
         onClickRotateLeft,
         onClickRotateRight,
         onClickDefault,
-    } = useImageNavigation({ parent, name, directoryTree });
+    } = useImageNavigation({ id });
 
     const currentImage = imageArr[curImageIdx];
 

@@ -1,9 +1,5 @@
-import type { DirectoryItem } from "@pages/DesktopPage/DesktopDataContext";
+import type { ProgramId } from "@shared/types/program";
 
 export interface ImageProgramProps {
-    type: string;
-    parent: string;
-    name: string;
+    id: ProgramId;
 }
-
-export type ImageItem = DirectoryItem;

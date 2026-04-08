@@ -1,15 +1,19 @@
 import collapseArrowLeft from "@images/icons/collapse-arrow-left-white.png";
 import collapseArrowRight from "@images/icons/collapse-arrow-right-white.png";
-import type { DirectoryItem } from "@pages/DesktopPage/DesktopDataContext";
+import type { ProgramNode } from "@shared/types/program";
 import { contentStyle } from "../ImageProgram.style";
 
 interface ImageViewerProps {
-    imageArr: Array<DirectoryItem>;
+    imageArr: Array<ProgramNode>;
     curImageIdx: number;
     currentImage_sizeRate: number;
     currentImage_rotate: number;
     onClickLeft: () => void;
     onClickRight: () => void;
+}
+
+function imageSrc(node: ProgramNode): string {
+    return node.type === "IMAGE" ? node.src : "";
 }
 
 const ImageViewer = ({
@@ -42,7 +46,7 @@ const ImageViewer = ({
                 {imageArr.length > 0 && currentImage && (
                     <img
                         className="imageContent"
-                        src={currentImage.icon}
+                        src={imageSrc(currentImage)}
                         alt={currentImage.name}
                         style={{
                             scale: String(currentImage_sizeRate),

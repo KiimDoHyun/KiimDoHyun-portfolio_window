@@ -1,17 +1,13 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import type {
-    DirectoryItem,
-    DirectoryTree,
-} from "@pages/DesktopPage/DesktopDataContext";
+import { useFileSystemStore } from "@store/fileSystemStore";
+import type { ProgramId, ProgramNode } from "@shared/types/program";
 
 export interface UseImageNavigationParams {
-    parent: string;
-    name: string;
-    directoryTree: DirectoryTree;
+    id: ProgramId;
 }
 
 export interface UseImageNavigationResult {
-    imageArr: Array<DirectoryItem>;
+    imageArr: Array<ProgramNode>;
     curImageIdx: number;
     currentImage_sizeRate: number;
     currentImage_rotate: number;
@@ -25,14 +21,19 @@ export interface UseImageNavigationResult {
 }
 
 export const useImageNavigation = ({
-    parent,
-    name,
-    directoryTree,
+    id,
 }: UseImageNavigationParams): UseImageNavigationResult => {
-    const imageArr = useMemo<Array<DirectoryItem>>(() => {
-        const parentContents = directoryTree[parent] ?? [];
-        return parentContents.filter((item) => item.type === "IMAGE");
-    }, [directoryTree, parent]);
+    const nodes = useFileSystemStore((s) => s.nodes);
+    const childrenByParent = useFileSystemStore((s) => s.childrenByParent);
+    const self = nodes[id];
+    const parentId = self?.parentId ?? null;
+
+    const imageArr = useMemo<Array<ProgramNode>>(() => {
+        if (!parentId) return [];
+        return (childrenByParent[parentId] ?? [])
+            .map((cid) => nodes[cid])
+            .filter((n): n is ProgramNode => !!n && n.type === "IMAGE");
+    }, [childrenByParent, nodes, parentId]);
 
     const [curImageIdx, setCurImageIdx] = useState<number>(0);
     const [currentImage_sizeRate, setCurrentImage_sizeRate] =
@@ -40,9 +41,9 @@ export const useImageNavigation = ({
     const [currentImage_rotate, setCurrentImage_rotate] = useState<number>(0);
 
     useEffect(() => {
-        const idx = imageArr.findIndex((item) => item.name === name);
+        const idx = imageArr.findIndex((item) => item.id === id);
         setCurImageIdx(idx >= 0 ? idx : 0);
-    }, [imageArr, name]);
+    }, [imageArr, id]);
 
     const onClickLeft = useCallback(() => {
         setCurImageIdx((prev) => (prev - 1 >= 0 ? prev - 1 : 0));

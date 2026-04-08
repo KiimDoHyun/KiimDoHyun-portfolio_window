@@ -36,14 +36,10 @@ export const renderProgramContent = (item: WindowShellItem): ReactNode => {
             const id = findIdByName(item.name);
             return id ? <FolderProgram id={id} /> : null;
         }
-        case "IMAGE":
-            return (
-                <ImageProgram
-                    type={item.type}
-                    parent={item.parent ?? ""}
-                    name={item.name}
-                />
-            );
+        case "IMAGE": {
+            const id = findIdByName(item.name);
+            return id ? <ImageProgram id={id} /> : null;
+        }
         case "DOC":
             return <DOCProgram type={item.type} name={item.name} />;
         case "INFO":
