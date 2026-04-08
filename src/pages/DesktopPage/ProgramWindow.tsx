@@ -1,11 +1,7 @@
-import folderEmpty from "@images/icons/folder_empty.png";
-import defaultImage from "@images/icons/image_default.png";
-import monitor from "@images/icons/monitor.png";
-import defaultDocumentImage from "@images/icons/document_default.png";
-
 import { WindowShell } from "@features/window-shell";
 import type { WindowShellItem } from "@features/window-shell";
 import { renderProgramContent } from "./renderProgramContent";
+import { resolveProgramTitle, resolveProgramIcon } from "./resolveProgramMeta";
 
 interface ProgramWindowProps {
   item: WindowShellItem;
@@ -15,24 +11,6 @@ interface ProgramWindowProps {
   onClose: (name: string) => void;
   onRequestZIndex: () => number;
 }
-
-const resolveTitle = (item: WindowShellItem): string => {
-  if (item.type === "IMAGE") return "이미지";
-  return item.name;
-};
-
-const resolveIcon = (item: WindowShellItem): string => {
-  switch (item.type) {
-    case "IMAGE":
-      return defaultImage;
-    case "DOC":
-      return defaultDocumentImage;
-    case "INFO":
-      return monitor;
-    default:
-      return item.icon || folderEmpty;
-  }
-};
 
 const ProgramWindow = ({
   item,
@@ -50,8 +28,8 @@ const ProgramWindow = ({
   return (
     <WindowShell
       item={item}
-      title={resolveTitle(item)}
-      iconSrc={resolveIcon(item)}
+      title={resolveProgramTitle(item)}
+      iconSrc={resolveProgramIcon(item)}
       activeProgram={activeProgram}
       subHeader={subHeader}
       onActivate={onActivate}

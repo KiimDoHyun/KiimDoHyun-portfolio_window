@@ -1,6 +1,11 @@
 import type { ReactNode } from "react";
 import close_white from "@images/icons/close_white.png";
+import {
+    resolveProgramTitle,
+    resolveProgramIcon,
+} from "@pages/DesktopPage/resolveProgramMeta";
 import type { TaskbarProgramItem } from "../TaskBar.types";
+import PreviewWindowFrame from "./PreviewWindowFrame";
 
 interface PreviewPopupProps {
     target: TaskbarProgramItem | undefined;
@@ -23,18 +28,12 @@ const PreviewPopup = ({
             </div>
             <div className="cover">
                 {target ? (
-                    <div
-                        style={{
-                            position: "absolute",
-                            width: "500px",
-                            height: "500px",
-                            left: 0,
-                            top: 0,
-                            backgroundColor: "white",
-                        }}
+                    <PreviewWindowFrame
+                        title={resolveProgramTitle(target)}
+                        iconSrc={resolveProgramIcon(target)}
                     >
                         {renderContent({ ...target, status: "active" })}
-                    </div>
+                    </PreviewWindowFrame>
                 ) : null}
             </div>
         </div>
