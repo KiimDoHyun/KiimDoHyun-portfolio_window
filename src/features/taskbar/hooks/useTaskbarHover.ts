@@ -1,5 +1,6 @@
 import { useCallback, useRef, useState } from "react";
-import type { HoverTarget, TaskbarProgramItem } from "../TaskBar.types";
+import type { ProgramId } from "@shared/types/program";
+import type { HoverTarget, TaskbarEntry } from "../TaskBar.types";
 
 const glowLevelArr = [
     "", // none
@@ -9,14 +10,14 @@ const glowLevelArr = [
 ];
 
 export interface UseTaskbarHoverParams {
-    activeProgram: string;
+    activeId: ProgramId | null;
     onPreviewChange: (active: boolean) => void;
 }
 
 export interface UseTaskbarHoverResult {
     hoverTarget: HoverTarget;
     iconContainerRef: React.MutableRefObject<HTMLDivElement | null>;
-    onMouseEnter: (item: TaskbarProgramItem, idx: number) => void;
+    onMouseEnter: (entry: TaskbarEntry, idx: number) => void;
     onMouseLeave: (idx: number) => void;
     /** 클릭 직후 아이콘을 active glow 로 표시 */
     highlightActive: (idx: number) => void;
@@ -25,11 +26,11 @@ export interface UseTaskbarHoverResult {
 }
 
 export const useTaskbarHover = ({
-    activeProgram,
+    activeId,
     onPreviewChange,
 }: UseTaskbarHoverParams): UseTaskbarHoverResult => {
     const [hoverTarget, setHoverTarget] = useState<HoverTarget>({
-        name: "",
+        id: null,
         idx: -1,
     });
     const iconContainerRef = useRef<HTMLDivElement | null>(null);
@@ -43,26 +44,26 @@ export const useTaskbarHover = ({
     }, []);
 
     const onMouseEnter = useCallback(
-        (item: TaskbarProgramItem, idx: number) => {
+        (entry: TaskbarEntry, idx: number) => {
             onPreviewChange(true);
             const container = iconContainerRef.current;
             const child = container?.children[idx] as HTMLElement | undefined;
             if (child) {
                 child.style.backgroundColor =
-                    child.title === activeProgram
+                    entry.node.id === activeId
                         ? glowLevelArr[3]
                         : glowLevelArr[1];
             }
-            setHoverTarget({ name: item.name, idx });
+            setHoverTarget({ id: entry.node.id, idx });
         },
-        [activeProgram, onPreviewChange]
+        [activeId, onPreviewChange]
     );
 
     const onMouseLeave = useCallback(
         (idx: number) => {
             onPreviewChange(false);
             setIconBg(idx, glowLevelArr[0]);
-            setHoverTarget({ name: "", idx: -1 });
+            setHoverTarget({ id: null, idx: -1 });
         },
         [onPreviewChange, setIconBg]
     );
@@ -75,7 +76,7 @@ export const useTaskbarHover = ({
     );
 
     const clearHover = useCallback(() => {
-        setHoverTarget({ name: "", idx: -1 });
+        setHoverTarget({ id: null, idx: -1 });
     }, []);
 
     return {

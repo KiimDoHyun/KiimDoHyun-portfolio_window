@@ -4,7 +4,7 @@ import wallpaper from "@images/wallpaper/Samsung_wallpaper.jpg";
 import DisplayCover from "@features/display-cover/DisplayCover";
 import HiddenIcon from "@features/hidden-icon/HiddenIcon";
 import { TaskBar } from "@features/taskbar";
-import type { TaskbarProgramItem } from "@features/taskbar";
+import type { TaskbarEntry } from "@features/taskbar";
 import type { WindowShellItem } from "@features/window-shell";
 import InfoBar from "@features/infobar/InfoBar";
 import DesktopWindow from "@features/desktop/DesktopWindow";
@@ -39,6 +39,18 @@ export default function DesktopPage() {
 
   // activeProgram: name string (legacy shim for TaskBar/WindowShell)
   const activeProgram = activeId && nodes[activeId] ? nodes[activeId].name : "";
+
+  // entries: ProgramNode/RunningProgram pairs for TaskBar
+  const entries = useMemo<Array<TaskbarEntry>>(() => {
+    return order
+      .map((id) => {
+        const node = nodes[id];
+        const running = byId[id];
+        if (!node || !running) return null;
+        return { node, running };
+      })
+      .filter((x): x is TaskbarEntry => x !== null);
+  }, [order, byId, nodes]);
 
   // programList: legacy WindowShellItem shim built from order+byId+nodes
   const programList = useMemo<Array<WindowShellItem>>(() => {
@@ -118,21 +130,13 @@ export default function DesktopPage() {
     useRunningProgramsStore.getState().closeAll();
   }, []);
 
-  const handleClickTaskIcon = useCallback(
-    (item: TaskbarProgramItem) => {
-      const id = findIdByName(item.name);
-      if (id) useRunningProgramsStore.getState().toggleFromTaskbar(id);
-    },
-    [findIdByName]
-  );
+  const handleClickTaskIcon = useCallback((entry: TaskbarEntry) => {
+    useRunningProgramsStore.getState().toggleFromTaskbar(entry.node.id);
+  }, []);
 
-  const handleCloseProgram = useCallback(
-    (name: string) => {
-      const id = findIdByName(name);
-      if (id) useRunningProgramsStore.getState().close(id);
-    },
-    [findIdByName]
-  );
+  const handleCloseProgram = useCallback((id: ProgramId) => {
+    useRunningProgramsStore.getState().close(id);
+  }, []);
 
   const handleCloseStatusBar = useCallback(() => {
     useUiStore.setState({ statusBarOpen: false });
@@ -173,8 +177,8 @@ export default function DesktopPage() {
       </div>
       <div className="taskBarCover">
         <TaskBar
-          programList={programList as Array<TaskbarProgramItem>}
-          activeProgram={activeProgram}
+          entries={entries}
+          activeId={activeId}
           hiddenIcon={hiddenIconOpen}
           onClickStartIcon={handleClickStartIcon}
           onClickTime={handleClickTime}
@@ -184,7 +188,19 @@ export default function DesktopPage() {
           onClickTaskIcon={handleClickTaskIcon}
           onCloseProgram={handleCloseProgram}
           onPreviewChange={handlePreviewChange}
-          renderPreviewContent={renderProgramContent}
+          renderPreviewContent={(entry) => {
+            // Task 14에서 renderProgramContent 가 ProgramNode 기반으로 바뀌면 제거
+            const parentNode = entry.node.parentId
+              ? nodes[entry.node.parentId]
+              : null;
+            return renderProgramContent({
+              name: entry.node.name,
+              type: entry.node.type,
+              icon: nodeIcon(entry.node),
+              parent: parentNode ? parentNode.name : "",
+              status: entry.running.status,
+            } as WindowShellItem);
+          }}
         />
       </div>
 

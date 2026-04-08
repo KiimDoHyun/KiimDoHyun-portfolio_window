@@ -3,29 +3,31 @@ import folderEmpty from "@images/icons/folder_empty.png";
 import defaultImage from "@images/icons/image_default.png";
 import monitor from "@images/icons/monitor.png";
 import defaultDocumentImage from "@images/icons/document_default.png";
-import type { TaskbarProgramItem } from "../TaskBar.types";
+import type { ProgramId } from "@shared/types/program";
+import type { TaskbarEntry } from "../TaskBar.types";
 
 interface ProgramIconsProps {
-    programList: Array<TaskbarProgramItem>;
-    activeProgram: string;
-    onMouseEnter: (item: TaskbarProgramItem, idx: number) => void;
+    entries: Array<TaskbarEntry>;
+    activeId: ProgramId | null;
+    onMouseEnter: (entry: TaskbarEntry, idx: number) => void;
     onMouseLeave: (idx: number) => void;
-    onClickIcon: (item: TaskbarProgramItem, idx: number) => void;
+    onClickIcon: (entry: TaskbarEntry, idx: number) => void;
     onClickClose: () => void;
 }
 
-const renderIconImage = (item: TaskbarProgramItem) => {
-    switch (item.type) {
+const renderIconImage = (entry: TaskbarEntry) => {
+    const { node } = entry;
+    switch (node.type) {
         case "IMAGE":
-            return <img src={defaultImage} alt={item.name} />;
+            return <img src={defaultImage} alt={node.name} />;
         case "FOLDER":
-            return <img src={folderEmpty} alt={item.name} />;
+            return <img src={folderEmpty} alt={node.name} />;
         case "DOC":
-            return <img src={defaultDocumentImage} alt={item.name} />;
+            return <img src={defaultDocumentImage} alt={node.name} />;
         case "INFO":
-            return <img src={monitor} alt={item.name} />;
+            return <img src={monitor} alt={node.name} />;
         case "BROWSER":
-            return <img src={item.icon || folderEmpty} alt={item.name} />;
+            return <img src={node.icon || folderEmpty} alt={node.name} />;
         default:
             return null;
     }
@@ -34,8 +36,8 @@ const renderIconImage = (item: TaskbarProgramItem) => {
 const ProgramIcons = forwardRef<HTMLDivElement, ProgramIconsProps>(
     (
         {
-            programList,
-            activeProgram,
+            entries,
+            activeId,
             onMouseEnter,
             onMouseLeave,
             onClickIcon,
@@ -45,21 +47,21 @@ const ProgramIcons = forwardRef<HTMLDivElement, ProgramIconsProps>(
     ) => {
         return (
             <div className="box2" ref={ref}>
-                {programList.map((item, idx) => (
+                {entries.map((entry, idx) => (
                     <div
-                        key={idx}
+                        key={entry.node.id}
                         className={`shortCutIcon ${
-                            activeProgram === item.name ? "activeIcon" : ""
+                            activeId === entry.node.id ? "activeIcon" : ""
                         }`}
-                        title={item.name}
-                        onMouseEnter={() => onMouseEnter(item, idx)}
+                        title={entry.node.name}
+                        onMouseEnter={() => onMouseEnter(entry, idx)}
                         onMouseLeave={() => onMouseLeave(idx)}
                     >
                         <div
                             className="shortCut_Img"
-                            onClick={() => onClickIcon(item, idx)}
+                            onClick={() => onClickIcon(entry, idx)}
                         >
-                            {renderIconImage(item)}
+                            {renderIconImage(entry)}
                         </div>
                         <div className="shortCut_BottomLine" />
                         <div className="shotCut_Hover">
@@ -69,7 +71,7 @@ const ProgramIcons = forwardRef<HTMLDivElement, ProgramIconsProps>(
                             />
                             <div
                                 className="bodyCover"
-                                onClick={() => onClickIcon(item, idx)}
+                                onClick={() => onClickIcon(entry, idx)}
                             />
                         </div>
                     </div>
