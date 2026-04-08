@@ -15,7 +15,7 @@ import gear from "@images/icons/gear_line_blue.png";
 import web from "@images/icons/web_line_blue.png";
 import companyBlue from "@images/icons/company_line_blue.png";
 
-const INFOProgramComponent = ({ type }) => {
+const InfoProgramView = ({ type }) => {
     return (
         <>
             <div
@@ -306,4 +306,4 @@ const infoProgramContentStyle = css({
         fontSize: "14px",
     },
 });
-export default INFOProgramComponent;
+export default InfoProgramView;

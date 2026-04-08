@@ -1,1 +1,1 @@
-export { default as WindowContainer } from "./WindowContainer";
+export { default as DesktopWindow } from "./DesktopWindow";

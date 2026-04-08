@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { useCallback } from "react";
 import { useRef } from "react";
-import StatusBar from "./components/StatusBar";
+import StatusBarView from "./components/StatusBar";
 import imgReact from "@images/icons/react.png";
 import imgJS from "@images/icons/javascript.png";
 import imgKit from "@images/icons/logo_kit.jpg";
@@ -10,12 +10,12 @@ import imgUser from "@images/icons/user.png";
 import imgWhaTap from "@images/icons/WhaTap_vertical_logo.png";
 import { useDesktopData } from "@pages/DesktopPage/useDesktopData";
 
-type StatusBarContainerProps = {
+type StatusBarProps = {
     active: boolean;
     onClose: () => void;
 };
 
-const StatusBarContainer = ({ active, onClose }: StatusBarContainerProps) => {
+const StatusBar = ({ active, onClose }: StatusBarProps) => {
     const { directory, directoryTree: Directory_Tree } = useDesktopData();
 
     const projectDatas = useMemo(() => {
@@ -114,7 +114,7 @@ const StatusBarContainer = ({ active, onClose }: StatusBarContainerProps) => {
         onMouseLeave,
         onClickBox,
     };
-    return <StatusBar {...propDatas} />;
+    return <StatusBarView {...propDatas} />;
 };
 
-export default StatusBarContainer;
+export default StatusBar;
