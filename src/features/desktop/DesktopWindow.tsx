@@ -3,7 +3,7 @@ import Window from "./components/Window";
 import { useDesktopData } from "@pages/DesktopPage/useDesktopData";
 import type { DirectoryItem } from "@pages/DesktopPage/DesktopDataContext";
 
-const WindowContainer = () => {
+const DesktopWindow = () => {
   const windowRef = useRef<HTMLDivElement | null>(null);
   const { directoryTree, openProgram } = useDesktopData();
 
@@ -22,4 +22,4 @@ const WindowContainer = () => {
   return <Window {...propDatas} />;
 };
 
-export default React.memo(WindowContainer);
+export default React.memo(DesktopWindow);

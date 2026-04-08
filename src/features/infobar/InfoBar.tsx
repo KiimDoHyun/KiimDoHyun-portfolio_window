@@ -1,20 +1,20 @@
 import React from "react";
 import { useEffect } from "react";
 import { getCommitApi } from "@shared/api/git";
-import InfoBar from "./components/InfoBar";
+import InfoBarView from "./components/InfoBar";
 import useAxios from "@shared/hooks/useAxios";
 
-type InfoBarContainerProps = {
+type InfoBarProps = {
     active: boolean;
     displayLight: number;
     onChangeDisplayLight: (next: number) => void;
 };
 
-const InfoBarContainer = ({
+const InfoBar = ({
     active,
     displayLight,
     onChangeDisplayLight,
-}: InfoBarContainerProps) => {
+}: InfoBarProps) => {
     const [commit, getCommit] = useAxios(getCommitApi);
 
     // 화면밝기 조정 이벤트
@@ -35,7 +35,7 @@ const InfoBarContainer = ({
         displayLight,
         onChange,
     };
-    return <InfoBar {...propDatas} />;
+    return <InfoBarView {...propDatas} />;
 };
 
-export default InfoBarContainer;
+export default InfoBar;

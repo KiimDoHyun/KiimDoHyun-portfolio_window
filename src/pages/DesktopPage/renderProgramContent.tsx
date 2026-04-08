@@ -3,7 +3,7 @@ import type { WindowShellItem } from "@features/window-shell";
 import { ImageProgram } from "@features/program-image";
 import { FolderProgram } from "@features/program-folder";
 import { DOCProgram } from "@features/program-doc";
-import INFOProgramContainer from "@features/program-info/INFOProgramContainer";
+import InfoProgram from "@features/program-info/InfoProgram";
 
 /**
  * programList 항목 하나에 대한 content 영역(헤더 제외)을 렌더한다.
@@ -35,7 +35,7 @@ export const renderProgramContent = (item: WindowShellItem): ReactNode => {
         case "DOC":
             return <DOCProgram type={item.type} name={item.name} />;
         case "INFO":
-            return <INFOProgramContainer type={item.type} />;
+            return <InfoProgram type={item.type} />;
         default:
             return null;
     }

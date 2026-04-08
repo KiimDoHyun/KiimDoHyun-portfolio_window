@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { useCallback } from "react";
-import TimeBar from "./components/TimeBar";
+import TimeBarView from "./components/TimeBar";
 import useGetCurrentTime from "@shared/hooks/useGetCurrentTime";
 
-const TimeBarContainer = ({ active }: { active: boolean }) => {
+const TimeBar = ({ active }: { active: boolean }) => {
   const [date] = useState(new Date());
 
   // 실제 달력 영역
@@ -161,7 +161,7 @@ const TimeBarContainer = ({ active }: { active: boolean }) => {
     onClickUp,
     onClickDown,
   };
-  return <TimeBar {...propDatas} />;
+  return <TimeBarView {...propDatas} />;
 };
 
-export default TimeBarContainer;
+export default TimeBar;

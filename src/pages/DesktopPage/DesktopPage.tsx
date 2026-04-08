@@ -24,10 +24,10 @@ import HiddenIcon from "@features/hidden-icon/HiddenIcon";
 import { TaskBar } from "@features/taskbar";
 import type { TaskbarProgramItem } from "@features/taskbar";
 import type { WindowShellItem } from "@features/window-shell";
-import InfoBarContainer from "@features/infobar/InfoBarContainer";
-import WindowContainer from "@features/desktop/WindowContainer";
-import StatusBarContainer from "@features/statusbar/StatusBarContainer";
-import TimeBarContainer from "@features/timebar/TimeBarContainer";
+import InfoBar from "@features/infobar/InfoBar";
+import DesktopWindow from "@features/desktop/DesktopWindow";
+import StatusBar from "@features/statusbar/StatusBar";
+import TimeBar from "@features/timebar/TimeBar";
 import { DesktopDataContext } from "./DesktopDataContext";
 import type {
   DesktopDataValue,
@@ -250,7 +250,7 @@ export default function DesktopPage() {
             setHiddenIcon(false);
           }}
         >
-          <WindowContainer />
+          <DesktopWindow />
           {programList.map((item) => (
             <ProgramWindow
               key={item.name}
@@ -281,16 +281,16 @@ export default function DesktopPage() {
         </div>
 
         {/* 시작 */}
-        <StatusBarContainer
+        <StatusBar
           active={activeStatus}
           onClose={handleCloseStatusBar}
         />
 
         {/* 시간 */}
-        <TimeBarContainer active={activeTime} />
+        <TimeBar active={activeTime} />
 
         {/* 정보 */}
-        <InfoBarContainer
+        <InfoBar
           active={activeInfoBar}
           displayLight={displayLight}
           onChangeDisplayLight={handleChangeDisplayLight}

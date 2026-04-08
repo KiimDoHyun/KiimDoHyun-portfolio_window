@@ -1,1 +1,1 @@
-export { default as InfoBarContainer } from "./InfoBarContainer";
+export { default as InfoBar } from "./InfoBar";

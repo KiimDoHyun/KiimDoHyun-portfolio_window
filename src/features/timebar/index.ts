@@ -1,1 +1,1 @@
-export { default as TimeBarContainer } from "./TimeBarContainer";
+export { default as TimeBar } from "./TimeBar";
