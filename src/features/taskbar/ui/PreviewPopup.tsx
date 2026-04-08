@@ -29,6 +29,7 @@ const PreviewPopup = ({
             <div className="cover">
                 {target ? (
                     <PreviewWindowFrame
+                        key={target.name}
                         title={resolveProgramTitle(target)}
                         iconSrc={resolveProgramIcon(target)}
                     >
