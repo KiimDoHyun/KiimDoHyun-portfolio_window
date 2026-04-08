@@ -1,38 +1,33 @@
 import { useState } from "react";
-import { useDesktopData } from "@pages/DesktopPage/useDesktopData";
+import { useFileSystemStore } from "@store/fileSystemStore";
 import { useFolderNavigation } from "./hooks/useFolderNavigation";
 import { DISPLAY_LIST, DEFAULT_DISPLAY_TYPE } from "./FolderProgram.types";
 import FolderHeader from "./ui/FolderHeader";
 import FolderGrid from "./ui/FolderGrid";
+import type { ProgramId } from "@shared/types/program";
 
 interface FolderProgramProps {
-    type: string;
-    name: string;
+    id: ProgramId;
 }
 
-const FolderProgram = ({ type, name }: FolderProgramProps) => {
-    const { directory, directoryTree, openProgram } = useDesktopData();
+const FolderProgram = ({ id }: FolderProgramProps) => {
+    const node = useFileSystemStore((s) => s.nodes[id]);
     const [displayType, setDisplayType] = useState(DEFAULT_DISPLAY_TYPE);
 
     const {
-        selectedItem,
+        selectedId,
         folderContents,
-        currentFolder,
+        route,
         onClickItem,
         onClickLeft,
         onDoubleClickItem,
-    } = useFolderNavigation({
-        initialFolderName: name,
-        directory,
-        directoryTree,
-        onOpenProgram: openProgram,
-    });
+    } = useFolderNavigation({ initialFolderId: id });
 
     return (
         <>
             <FolderHeader
-                type={type}
-                route={currentFolder.route || "/ [error]"}
+                type={node?.type ?? "FOLDER"}
+                route={route || "/ [error]"}
                 displayType={displayType}
                 displayList={DISPLAY_LIST}
                 onClickLeft={onClickLeft}
@@ -40,9 +35,8 @@ const FolderProgram = ({ type, name }: FolderProgramProps) => {
             />
             <FolderGrid
                 items={folderContents}
-                directoryTree={directoryTree}
                 displayType={displayType}
-                selectedItem={selectedItem}
+                selectedId={selectedId}
                 onClickItem={onClickItem}
                 onDoubleClickItem={onDoubleClickItem}
             />

@@ -1,68 +1,69 @@
-import { useState, useCallback } from "react";
-import type {
-    DirectoryItem,
-    DirectoryTree,
-} from "@pages/DesktopPage/DesktopDataContext";
+import { useState, useCallback, useMemo } from "react";
+import { useFileSystemStore } from "@store/fileSystemStore";
+import { useRunningProgramsStore } from "@store/runningProgramsStore";
+import { getRoute } from "@shared/lib/file-system/getRoute";
+import type { ProgramId, ProgramNode } from "@shared/types/program";
 
 export interface UseFolderNavigationParams {
-    initialFolderName: string;
-    directory: Array<DirectoryItem>;
-    directoryTree: DirectoryTree;
-    onOpenProgram: (item: DirectoryItem) => void;
+    initialFolderId: ProgramId;
 }
 
 export const useFolderNavigation = ({
-    initialFolderName,
-    directory,
-    directoryTree,
-    onOpenProgram,
+    initialFolderId,
 }: UseFolderNavigationParams) => {
-    const [selectedItem, setSelectedItem] = useState("");
-    const [folderContents, setFolderContents] = useState<Array<DirectoryItem>>(
-        directoryTree[initialFolderName] ?? []
-    );
-    const [currentFolder, setCurrentFolder] = useState<Partial<DirectoryItem>>(
-        directory.find((item) => item.name === initialFolderName) ?? {}
+    const nodes = useFileSystemStore((s) => s.nodes);
+    const childrenByParent = useFileSystemStore((s) => s.childrenByParent);
+    const rootId = useFileSystemStore((s) => s.rootId);
+
+    const [selectedId, setSelectedId] = useState<ProgramId | null>(null);
+    const [currentFolderId, setCurrentFolderId] =
+        useState<ProgramId>(initialFolderId);
+
+    const currentFolder = useMemo<ProgramNode | null>(
+        () => nodes[currentFolderId] ?? null,
+        [nodes, currentFolderId]
     );
 
-    const onClickItem = useCallback((name: string) => {
-        setSelectedItem(name);
+    const folderContents = useMemo<Array<ProgramNode>>(() => {
+        const ids = childrenByParent[currentFolderId] ?? [];
+        return ids
+            .map((id) => nodes[id])
+            .filter((n): n is ProgramNode => !!n);
+    }, [childrenByParent, nodes, currentFolderId]);
+
+    const route = useMemo(
+        () => getRoute({ rootId, nodes, childrenByParent }, currentFolderId),
+        [rootId, nodes, childrenByParent, currentFolderId]
+    );
+
+    const onClickItem = useCallback((id: ProgramId) => {
+        setSelectedId(id);
     }, []);
 
     const onClickLeft = useCallback(() => {
-        if (!currentFolder.parent) return;
-        setFolderContents(directoryTree[currentFolder.parent] ?? []);
-        if (currentFolder.parent === "KDH") {
-            setCurrentFolder({ route: "/ KDH" });
-        } else {
-            setCurrentFolder(
-                directory.find(
-                    (item) => item.name === currentFolder.parent
-                ) ?? {}
-            );
-        }
-    }, [currentFolder, directory, directoryTree]);
+        const self = nodes[currentFolderId];
+        if (!self || !self.parentId) return;
+        setCurrentFolderId(self.parentId);
+        setSelectedId(null);
+    }, [nodes, currentFolderId]);
 
     const onDoubleClickItem = useCallback(
-        (clickedItem: DirectoryItem) => {
-            if (clickedItem.type === "FOLDER") {
-                setCurrentFolder(
-                    directory.find(
-                        (item) => item.name === clickedItem.name
-                    ) ?? {}
-                );
-                setFolderContents(directoryTree[clickedItem.name] ?? []);
+        (item: ProgramNode) => {
+            if (item.type === "FOLDER") {
+                setCurrentFolderId(item.id);
+                setSelectedId(null);
             } else {
-                onOpenProgram(clickedItem);
+                useRunningProgramsStore.getState().open(item.id);
             }
         },
-        [directory, directoryTree, onOpenProgram]
+        []
     );
 
     return {
-        selectedItem,
+        selectedId,
         folderContents,
         currentFolder,
+        route,
         onClickItem,
         onClickLeft,
         onDoubleClickItem,

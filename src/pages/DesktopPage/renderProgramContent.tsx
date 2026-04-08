@@ -4,6 +4,16 @@ import { ImageProgram } from "@features/program-image";
 import { FolderProgram } from "@features/program-folder";
 import { DOCProgram } from "@features/program-doc";
 import InfoProgram from "@features/program-info/InfoProgram";
+import { useFileSystemStore } from "@store/fileSystemStore";
+
+// name → id 조회 (Task 14에서 renderProgramContent 전체를 ProgramNode 기반으로 바꾸면 제거)
+function findIdByName(name: string): string | null {
+    const nodes = useFileSystemStore.getState().nodes;
+    for (const id of Object.keys(nodes)) {
+        if (nodes[id].name === name) return id;
+    }
+    return null;
+}
 
 /**
  * programList 항목 하나에 대한 content 영역(헤더 제외)을 렌더한다.
@@ -22,8 +32,10 @@ export const renderProgramContent = (item: WindowShellItem): ReactNode => {
                     />
                 </div>
             );
-        case "FOLDER":
-            return <FolderProgram type={item.type} name={item.name} />;
+        case "FOLDER": {
+            const id = findIdByName(item.name);
+            return id ? <FolderProgram id={id} /> : null;
+        }
         case "IMAGE":
             return (
                 <ImageProgram
