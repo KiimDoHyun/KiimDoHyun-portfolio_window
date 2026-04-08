@@ -75,14 +75,7 @@
                   "group": [
                     "recoil"
                   ],
-                  "message": "전역 상태(Recoil)는 pages/ 에서만 접근하세요. features/shared 는 props/context 로 받아 쓰세요."
-                },
-                {
-                  "group": [
-                    "@store/*",
-                    "**/store/*"
-                  ],
-                  "message": "atom/selector 는 pages/ 에서만 import 하세요. features/shared 는 props/context 로 받아 쓰세요."
+                  "message": "Recoil 은 제거되었습니다. zustand 스토어(@store/*)를 사용하세요."
                 }
               ]
             }
