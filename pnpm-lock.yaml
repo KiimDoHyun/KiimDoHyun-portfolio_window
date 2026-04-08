@@ -63,6 +63,9 @@ importers:
       '@testing-library/user-event':
         specifier: ^14.6.1
         version: 14.6.1(@testing-library/dom@10.4.1)
+      '@types/jest':
+        specifier: ^30.0.0
+        version: 30.0.0
       '@types/node':
         specifier: ^18.11.18
         version: 18.19.130
@@ -72,6 +75,9 @@ importers:
       '@types/react-dom':
         specifier: ^19.0.0
         version: 19.2.3(@types/react@19.2.14)
+      '@types/testing-library__jest-dom':
+        specifier: ^5.14.9
+        version: 5.14.9
       tsconfig-paths-webpack-plugin:
         specifier: ^4.2.0
         version: 4.2.0
