@@ -1,8 +1,6 @@
 import React from "react";
-import { useRecoilValue } from "recoil";
 import { css } from "@styled-system/css";
 import defaultImg from "@images/icons/project_default_1.png";
-import { rc_global_Directory_List } from "@store/global";
 
 const centerAreaBoxBlockStyle = css({
   width: "100%",
@@ -34,26 +32,18 @@ const CenterAreaBox = ({
   showImg = true,
   onClick,
 }: {
-  item?: any;
-  img: string;
+  item?: { parent: string };
+  img: string | null;
   name: string;
   showImg?: boolean;
-  onClick?: (directory: {
-    name: string;
-    type: string;
-    icon: any;
-    parent: string;
-  }) => void;
+  onClick?: (parentName: string) => void;
 }) => {
-  const directory = useRecoilValue(rc_global_Directory_List);
   return (
     <div
       className={`statusBox ${centerAreaBoxBlockStyle}`}
       onClick={() => {
         if (item) {
-          onClick?.(
-            directory.find((findItem) => findItem.name === item.parent)
-          );
+          onClick?.(item.parent);
         }
       }}
     >

@@ -1,22 +1,22 @@
 import React, { useMemo, useState } from "react";
 import { useCallback } from "react";
 import { useRef } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
 import StatusBar from "./components/StatusBar";
-import { rc_taskbar_statusBar_active } from "@store/taskbar";
 import imgReact from "@images/icons/react.png";
 import imgJS from "@images/icons/javascript.png";
-import imgAraon from "@images/icons/araon_logo_noText.png";
 import imgKit from "@images/icons/logo_kit.jpg";
 import imgOne from "@images/icons/number_one.png";
 import imgUser from "@images/icons/user.png";
 import imgWhaTap from "@images/icons/WhaTap_vertical_logo.png";
 import { useDesktopData } from "@pages/DesktopPage/useDesktopData";
-import { rc_global_Directory_Tree } from "@store/global";
 
-const StatusBarContainer = () => {
-    const [active, setActive] = useRecoilState(rc_taskbar_statusBar_active);
-    const Directory_Tree = useRecoilValue(rc_global_Directory_Tree);
+type StatusBarContainerProps = {
+    active: boolean;
+    onClose: () => void;
+};
+
+const StatusBarContainer = ({ active, onClose }: StatusBarContainerProps) => {
+    const { directory, directoryTree: Directory_Tree } = useDesktopData();
 
     const projectDatas = useMemo(() => {
         if (Object.keys(Directory_Tree).length < 1) {
@@ -72,12 +72,6 @@ const StatusBarContainer = () => {
         },
     ]);
 
-    // const [programList, setProgramList] = useRecoilState(
-    //     rc_program_programList
-    // );
-    // const setZIndexCnt = useSetRecoilState(rc_program_zIndexCnt);
-    // const setActiveProgram = useSetRecoilState(rc_program_activeProgram);
-
     // 마우스 왼쪽 영역 hover in
     const onMouseEnter = useCallback(() => {
         activeLeftArea_timer.current = setTimeout(
@@ -96,11 +90,15 @@ const StatusBarContainer = () => {
     const { openProgram: activeProgram } = useDesktopData();
 
     const onClickBox = useCallback(
-        (item) => {
-            activeProgram(item);
-            setActive(false);
+        (parentName: string) => {
+            const found = directory.find(
+                (findItem) => findItem.name === parentName
+            );
+            if (!found) return;
+            activeProgram(found);
+            onClose();
         },
-        [activeProgram, setActive]
+        [directory, activeProgram, onClose]
     );
 
     const propDatas = {

@@ -1,7 +1,5 @@
 import React from "react";
-import { useRecoilValue } from "recoil";
 import { css } from "@styled-system/css";
-import { rc_global_Directory_List } from "@store/global";
 
 const leftAreaBoxBlockStyle = css({
     width: "100%",
@@ -38,15 +36,18 @@ const leftAreaBoxBlockStyle = css({
     },
 });
 
-const LeftAreaBox = ({ img, name, onClick }) => {
-    const directory = useRecoilValue(rc_global_Directory_List);
+type LeftAreaBoxProps = {
+    img: string;
+    name: string;
+    onClick: (parentName: string) => void;
+};
+
+const LeftAreaBox = ({ img, name, onClick }: LeftAreaBoxProps) => {
     return (
         <div
             className={`statusBox ${leftAreaBoxBlockStyle}`}
             onClick={() => {
-                onClick(
-                    directory.find((findItem) => findItem.name === "내컴퓨터")
-                );
+                onClick("내컴퓨터");
             }}
         >
             <div className="icon">

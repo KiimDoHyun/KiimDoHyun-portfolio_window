@@ -1,6 +1,4 @@
 import React from "react";
-import { useRecoilValue } from "recoil";
-import { rc_taskbar_hiddenIcon_active } from "@store/taskbar";
 import react from "@images/icons/react.png";
 import javascript from "@images/icons/javascript.png";
 import recoil from "@images/icons/recoil.png";
@@ -10,8 +8,7 @@ import styledcomponent from "@images/icons/styledcomponent.png";
 import SkillIcon from "./components/SkillIcon";
 import { HiddenIconBlock } from "./HiddenIcon.style";
 
-const HiddenIcon = () => {
-  const active = useRecoilValue(rc_taskbar_hiddenIcon_active);
+const HiddenIcon = ({ active }: { active: boolean }) => {
   const skillList = [
     {
       src: react,
