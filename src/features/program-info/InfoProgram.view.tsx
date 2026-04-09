@@ -1,20 +1,12 @@
 import { css } from "@styled-system/css";
+import { resolveAsset } from "@shared/lib/assetManifest";
+import type { ResumeData } from "@shared/types/content";
 
-import KDH from "@images/김도현.jpg";
-import blogLine from "@images/icons/blog_line.png";
-import githubLine from "@images/icons/github_line.png";
-import companyLine from "@images/icons/company_line.png";
-import linkedin from "@images/icons/linkedin_line.png";
+interface InfoProgramViewProps {
+    data: ResumeData;
+}
 
-import campus from "@images/icons/campus_line_blue.png";
-import book from "@images/icons/book_line_blue.png";
-import coding from "@images/icons/coding_line_blue.png";
-import business from "@images/icons/business_line_blue.png";
-import gear from "@images/icons/gear_line_blue.png";
-import web from "@images/icons/web_line_blue.png";
-import companyBlue from "@images/icons/company_line_blue.png";
-
-const InfoProgramView = () => {
+const InfoProgramView = ({ data }: InfoProgramViewProps) => {
     return (
         <>
             <div className="headerArea2 headerArea2_INFO"></div>
@@ -23,146 +15,43 @@ const InfoProgramView = () => {
                     <div className="top">
                         <div className="info1">
                             <div className="myImageArea">
-                                <img src={KDH} alt="김도현" />
+                                <img src={resolveAsset(data.photo) ?? ""} alt={data.name} />
                             </div>
                             <div className="myInfoArea">
-                                <h1>김도현</h1>
-                                <p style={{ userSelect: "text" }}>
-                                    bzidol@naver.com
-                                </p>
-                                <p>010-7793-5630</p>
-                                <p>{"남자 / 27 세"}</p>
+                                <h1>{data.name}</h1>
+                                <p style={{ userSelect: "text" }}>{data.email}</p>
+                                <p>{data.phone}</p>
+                                <p>{data.summary}</p>
                             </div>
                         </div>
                         <div className="info2">
-                            <div className="infoItem">
-                                <div className="myImageArea">
-                                    <img src={githubLine} alt="Git" />
+                            {data.links.map((link) => (
+                                <div className="infoItem" key={link.label}>
+                                    <div className="myImageArea">
+                                        <img src={resolveAsset(link.icon) ?? ""} alt={link.label} />
+                                    </div>
+                                    <div className="myInfoArea">
+                                        <p>{link.label}</p>
+                                        <a target="_blank" href={link.url} rel="noreferrer">
+                                            이동하기
+                                        </a>
+                                    </div>
                                 </div>
-                                <div className="myInfoArea">
-                                    <p>Git</p>
-                                    <a
-                                        target={"_blank"}
-                                        href="https://github.com/KiimDoHyun"
-                                        rel="noreferrer"
-                                    >
-                                        이동하기
-                                    </a>
-                                </div>
-                            </div>
-                            <div className="infoItem">
-                                <div className="myImageArea">
-                                    <img src={blogLine} alt="Blog" />
-                                </div>
-                                <div className="myInfoArea">
-                                    <p>Blog</p>
-                                    <a
-                                        target={"_blank"}
-                                        href="https://velog.io/@kdh123"
-                                        rel="noreferrer"
-                                    >
-                                        이동하기
-                                    </a>
-                                </div>
-                            </div>
-                            <div className="infoItem">
-                                <div className="myImageArea">
-                                    <img src={companyLine} alt="Company" />
-                                </div>
-                                <div className="myInfoArea">
-                                    <p>Company</p>
-                                    <a
-                                        target={"_blank"}
-                                        href="https://www.whatap.io/ko/"
-                                        // href="https://araonsoft.com/"
-                                        rel="noreferrer"
-                                    >
-                                        이동하기
-                                    </a>
-                                </div>
-                            </div>
-                            <div className="infoItem">
-                                <div className="myImageArea">
-                                    <img src={linkedin} alt="linkedin" />
-                                </div>
-                                <div className="myInfoArea">
-                                    <p>linkedin</p>
-                                    <a
-                                        target={"_blank"}
-                                        href="https://www.linkedin.com/in/%EB%8F%84%ED%98%84-%EA%B9%80-b4a477252/"
-                                        rel="noreferrer"
-                                    >
-                                        이동하기
-                                    </a>
-                                </div>
-                            </div>
+                            ))}
                         </div>
                     </div>
                     <div className="body">
-                        <div className="infoItem">
-                            <div className="myImageArea">
-                                <img src={campus} alt="campus" />
+                        {data.details.map((item) => (
+                            <div className="infoItem" key={item.label}>
+                                <div className="myImageArea">
+                                    <img src={resolveAsset(item.icon) ?? ""} alt={item.label} />
+                                </div>
+                                <div className="myInfoArea">
+                                    <p className="title">{item.label}</p>
+                                    <p className="desc">{item.value}</p>
+                                </div>
                             </div>
-                            <div className="myInfoArea">
-                                <p className="title">대학교</p>
-                                <p className="desc">금오공과대학교</p>
-                            </div>
-                        </div>
-                        <div className="infoItem">
-                            <div className="myImageArea">
-                                <img src={book} alt="book" />
-                            </div>
-                            <div className="myInfoArea">
-                                <p className="title">학과</p>
-                                <p className="desc">컴퓨터공학과</p>
-                            </div>
-                        </div>
-                        <div className="infoItem">
-                            <div className="myImageArea">
-                                <img src={business} alt="business" />
-                            </div>
-                            <div className="myInfoArea">
-                                <p className="title">경력</p>
-                                <p className="desc">{"1 년(주니어)"}</p>
-                            </div>
-                        </div>
-                        <div className="infoItem">
-                            <div className="myImageArea">
-                                <img src={web} alt="web" />
-                            </div>
-                            <div className="myInfoArea">
-                                <p className="title">분야</p>
-                                <p className="desc">Front-end</p>
-                            </div>
-                        </div>
-                        <div className="infoItem">
-                            <div className="myImageArea">
-                                <img src={companyBlue} alt="Company" />
-                            </div>
-                            <div className="myInfoArea">
-                                <p className="title">회사</p>
-                                <p className="desc">{"와탭랩스"}</p>
-                                {/* <p className="desc">{"(주)아라온소프트"}</p> */}
-                            </div>
-                        </div>
-                        <div className="infoItem">
-                            <div className="myImageArea">
-                                <img src={gear} alt="gear" />
-                            </div>
-                            <div className="myInfoArea">
-                                <p className="title">주 스택</p>
-                                <p className="desc">React</p>
-                            </div>
-                        </div>
-                        <div className="infoItem">
-                            <div className="myImageArea">
-                                <img src={coding} alt="coding" />
-                            </div>
-                            <div className="myInfoArea">
-                                <p className="title">주 언어</p>
-                                <p className="desc">자바스크립트</p>
-                            </div>
-                        </div>
+                        ))}
                     </div>
                 </div>
             </div>
