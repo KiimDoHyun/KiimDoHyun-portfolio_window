@@ -14,7 +14,7 @@ export interface ProjectData {
     projectImages: Array<string>;
     projectTerm: Array<string>;
     projectType: string;
-    projectReulst: Array<ProjectResult>;
+    projectResult: Array<ProjectResult>;
     role: Array<string>;
     department: string;
     stack: Array<ProjectStack>;

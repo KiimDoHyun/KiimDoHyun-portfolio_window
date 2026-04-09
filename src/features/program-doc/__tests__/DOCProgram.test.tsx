@@ -9,7 +9,7 @@ const richProject: ProjectData = {
     projectImages: ["a.png", "b.png"],
     projectTerm: ["2024.01 ~ 2024.06"],
     projectType: "개인",
-    projectReulst: [
+    projectResult: [
         { title: "성과1", content: "내용1" },
         { title: "성과2", content: "내용2" },
     ],
@@ -49,7 +49,7 @@ describe("DOCProgram", () => {
 
     it("프로젝트 성과 항목들을 렌더한다", () => {
         render(<DOCProgram contents={richProject} />);
-        richProject.projectReulst.forEach((r) => {
+        richProject.projectResult.forEach((r) => {
             expect(screen.getByText(r.content)).toBeInTheDocument();
         });
     });

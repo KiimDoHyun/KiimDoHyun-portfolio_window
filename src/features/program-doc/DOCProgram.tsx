@@ -35,8 +35,8 @@ const DOCProgram = ({ contents }: DOCProgramProps) => {
                         <div className="doc_card">
                             <div className="cardTitle">프로젝트 성과</div>
                             <div className="cardContent doc_reulst">
-                                {docData.projectReulst &&
-                                    docData.projectReulst.map((resultItem, idx) => (
+                                {docData.projectResult &&
+                                    docData.projectResult.map((resultItem, idx) => (
                                         <div key={idx} className="cardResult">
                                             <div className="resultTitle">
                                                 {`${idx + 1}. `} {resultItem.title}
