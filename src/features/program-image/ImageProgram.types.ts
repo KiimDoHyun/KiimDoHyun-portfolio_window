@@ -1,5 +1,6 @@
-import type { ProgramId } from "@shared/types/program";
+import type { ProgramId, ProgramNode } from "@shared/types/program";
 
 export interface ImageProgramProps {
-    id: ProgramId;
+    images: Array<ProgramNode>;
+    currentId: ProgramId;
 }
