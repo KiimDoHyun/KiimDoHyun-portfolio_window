@@ -1,6 +1,7 @@
 import React from "react";
 import { css } from "@styled-system/css";
 import defaultImg from "@images/icons/project_default_1.png";
+import type { ProgramId } from "@shared/types/program";
 
 const centerAreaBoxBlockStyle = css({
   width: "100%",
@@ -25,32 +26,34 @@ const centerAreaBoxBlockStyle = css({
   },
 });
 
+type CenterAreaBoxProps = {
+    parentId?: ProgramId;
+    img: string | null;
+    name: string;
+    showImg?: boolean;
+    onClick?: (id: ProgramId) => void;
+};
+
 const CenterAreaBox = ({
-  item,
-  img,
-  name,
-  showImg = true,
-  onClick,
-}: {
-  item?: { parent: string };
-  img: string | null;
-  name: string;
-  showImg?: boolean;
-  onClick?: (parentName: string) => void;
-}) => {
-  return (
-    <div
-      className={`statusBox ${centerAreaBoxBlockStyle}`}
-      onClick={() => {
-        if (item) {
-          onClick?.(item.parent);
-        }
-      }}
-    >
-      {showImg && <img src={img ? img : defaultImg} alt="name" />}
-      <div className="text">{name}</div>
-    </div>
-  );
+    parentId,
+    img,
+    name,
+    showImg = true,
+    onClick,
+}: CenterAreaBoxProps) => {
+    return (
+        <div
+            className={`statusBox ${centerAreaBoxBlockStyle}`}
+            onClick={() => {
+                if (parentId) {
+                    onClick?.(parentId);
+                }
+            }}
+        >
+            {showImg && <img src={img ? img : defaultImg} alt="name" />}
+            <div className="text">{name}</div>
+        </div>
+    );
 };
 
 export default React.memo(CenterAreaBox);
