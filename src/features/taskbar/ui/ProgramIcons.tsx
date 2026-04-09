@@ -5,6 +5,7 @@ import monitor from "@images/icons/monitor.png";
 import defaultDocumentImage from "@images/icons/document_default.png";
 import type { ProgramId } from "@shared/types/program";
 import type { TaskbarEntry } from "../TaskBar.types";
+import { resolveAsset } from "@shared/lib/assetManifest";
 
 interface ProgramIconsProps {
     entries: Array<TaskbarEntry>;
@@ -17,6 +18,9 @@ interface ProgramIconsProps {
 
 const renderIconImage = (entry: TaskbarEntry) => {
     const { node } = entry;
+    const custom = resolveAsset(node.icon);
+    if (custom) return <img src={custom} alt={node.name} />;
+
     switch (node.type) {
         case "IMAGE":
             return <img src={defaultImage} alt={node.name} />;
@@ -27,7 +31,7 @@ const renderIconImage = (entry: TaskbarEntry) => {
         case "INFO":
             return <img src={monitor} alt={node.name} />;
         case "BROWSER":
-            return <img src={node.icon || folderEmpty} alt={node.name} />;
+            return <img src={folderEmpty} alt={node.name} />;
         default:
             return null;
     }
