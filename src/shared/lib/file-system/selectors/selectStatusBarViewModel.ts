@@ -1,4 +1,5 @@
 import type { FileSystemState, ProgramId, ProgramNode } from "@shared/types/program";
+import { resolveAsset } from "@shared/lib/assetManifest";
 
 export interface StatusBarViewItem {
     name: string;
@@ -50,7 +51,7 @@ function childrenOf(
         .filter((n): n is ProgramNode => !!n)
         .map((n) => ({
             name: n.name,
-            icon: (n as unknown as { icon?: string }).icon ?? "",
+            icon: resolveAsset(n.icon) ?? "",
             parentName,
             parentId,
             type: n.type,
