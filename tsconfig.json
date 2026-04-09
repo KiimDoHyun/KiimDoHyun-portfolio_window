@@ -1,6 +1,8 @@
 {
   "compilerOptions": {
+    "ignoreDeprecations": "6.0",
     "baseUrl": "./",
+    "rootDir": "./src",
     "paths": {
       "@images/*": ["src/asset/images/*"],
       "@store/*": ["src/store/*"],
@@ -11,7 +13,7 @@
       "@shared/*": ["src/shared/*"]
     },
     "allowJs": true,
-    "target": "ES5",
+    "target": "ES2015",
     "outDir": "./dist",
     "moduleResolution": "Node",
     "module": "commonjs",

@@ -4,7 +4,7 @@ import ImageHeader from "./ui/ImageHeader";
 import ImageViewer from "./ui/ImageViewer";
 import type { ImageProgramProps } from "./ImageProgram.types";
 
-const ImageProgram = ({ id }: ImageProgramProps) => {
+const ImageProgram = ({ images, currentId }: ImageProgramProps) => {
     const {
         imageArr,
         curImageIdx,
@@ -17,7 +17,7 @@ const ImageProgram = ({ id }: ImageProgramProps) => {
         onClickRotateLeft,
         onClickRotateRight,
         onClickDefault,
-    } = useImageNavigation({ id });
+    } = useImageNavigation({ images, currentId });
 
     const currentImage = imageArr[curImageIdx];
 

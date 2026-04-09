@@ -1,5 +1,6 @@
 import React from "react";
 import { css } from "@styled-system/css";
+import type { ProgramId } from "@shared/types/program";
 
 const rightAreaBoxBlockStyle = css({
     flexBasis: "32%",
@@ -37,21 +38,17 @@ const rightAreaBoxBlockStyle = css({
 });
 
 type RightAreaBoxProps = {
-    item?: { parent: string };
+    parentId: ProgramId;
     img: string;
     name: string;
-    onClick: (parentName: string) => void;
+    onClick: (id: ProgramId) => void;
 };
 
-const RightAreaBox = ({ item, img, name, onClick }: RightAreaBoxProps) => {
+const RightAreaBox = ({ parentId, img, name, onClick }: RightAreaBoxProps) => {
     return (
         <div
             className={`statusBox ${rightAreaBoxBlockStyle}`}
-            onClick={() => {
-                if (item) {
-                    onClick(item.parent);
-                }
-            }}
+            onClick={() => onClick(parentId)}
         >
             <img src={img} alt="name" />
             <div className="text">{name}</div>

@@ -1,9 +1,9 @@
 import type { ReactNode } from "react";
 import type { ProgramNode } from "@shared/types/program";
-import { ImageProgram } from "@features/program-image";
-import { FolderProgram } from "@features/program-folder";
-import { DOCProgram } from "@features/program-doc";
 import InfoProgram from "@features/program-info/InfoProgram";
+import DOCProgramShell from "./shells/DOCProgramShell";
+import FolderProgramShell from "./shells/FolderProgramShell";
+import ImageProgramShell from "./shells/ImageProgramShell";
 
 /**
  * 한 프로그램 노드에 대한 content 영역(헤더 제외)을 렌더한다.
@@ -23,11 +23,11 @@ export const renderProgramContent = (node: ProgramNode): ReactNode => {
                 </div>
             );
         case "FOLDER":
-            return <FolderProgram id={node.id} />;
+            return <FolderProgramShell id={node.id} />;
         case "IMAGE":
-            return <ImageProgram id={node.id} />;
+            return <ImageProgramShell id={node.id} />;
         case "DOC":
-            return <DOCProgram id={node.id} />;
+            return <DOCProgramShell id={node.id} />;
         case "INFO":
             return <InfoProgram />;
         default:

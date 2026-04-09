@@ -1,32 +1,38 @@
 import { useState } from "react";
-import { useFileSystemStore } from "@store/fileSystemStore";
 import { useFolderNavigation } from "./hooks/useFolderNavigation";
 import { DISPLAY_LIST, DEFAULT_DISPLAY_TYPE } from "./FolderProgram.types";
 import FolderHeader from "./ui/FolderHeader";
 import FolderGrid from "./ui/FolderGrid";
-import type { ProgramId } from "@shared/types/program";
+import type { FileSystemState, ProgramId } from "@shared/types/program";
 
 interface FolderProgramProps {
-    id: ProgramId;
+    fsState: FileSystemState;
+    initialFolderId: ProgramId;
+    onOpenProgram: (id: ProgramId) => void;
 }
 
-const FolderProgram = ({ id }: FolderProgramProps) => {
-    const node = useFileSystemStore((s) => s.nodes[id]);
+const FolderProgram = ({
+    fsState,
+    initialFolderId,
+    onOpenProgram,
+}: FolderProgramProps) => {
     const [displayType, setDisplayType] = useState(DEFAULT_DISPLAY_TYPE);
 
     const {
         selectedId,
         folderContents,
         route,
+        nodeType,
+        hasChildren,
         onClickItem,
         onClickLeft,
         onDoubleClickItem,
-    } = useFolderNavigation({ initialFolderId: id });
+    } = useFolderNavigation({ fsState, initialFolderId, onOpenProgram });
 
     return (
         <>
             <FolderHeader
-                type={node?.type ?? "FOLDER"}
+                type={nodeType}
                 route={route || "/ [error]"}
                 displayType={displayType}
                 displayList={DISPLAY_LIST}
@@ -37,6 +43,7 @@ const FolderProgram = ({ id }: FolderProgramProps) => {
                 items={folderContents}
                 displayType={displayType}
                 selectedId={selectedId}
+                hasChildren={hasChildren}
                 onClickItem={onClickItem}
                 onDoubleClickItem={onDoubleClickItem}
             />

@@ -39,16 +39,14 @@ const leftAreaBoxBlockStyle = css({
 type LeftAreaBoxProps = {
     img: string;
     name: string;
-    onClick: (parentName: string) => void;
+    onClick: () => void;
 };
 
 const LeftAreaBox = ({ img, name, onClick }: LeftAreaBoxProps) => {
     return (
         <div
             className={`statusBox ${leftAreaBoxBlockStyle}`}
-            onClick={() => {
-                onClick("내컴퓨터");
-            }}
+            onClick={onClick}
         >
             <div className="icon">
                 <img src={img} alt={name} />

@@ -34,7 +34,7 @@
     "panda": "panda codegen",
     "start": "panda codegen && craco start",
     "build": "panda codegen && craco build",
-    "test": "craco test",
+    "test": "react-scripts test",
     "eject": "craco eject",
     "predeploy": "pnpm build",
     "deploy": "gh-pages -d build"
@@ -76,6 +76,12 @@
                     "recoil"
                   ],
                   "message": "Recoil 은 제거되었습니다. zustand 스토어(@store/*)를 사용하세요."
+                },
+                {
+                  "group": [
+                    "@store/*"
+                  ],
+                  "message": "Feature/Shared 레이어에서 store 직접 접근은 금지됩니다. Shell(src/pages/**/shells/)을 통해 props로 주입하세요."
                 }
               ]
             }

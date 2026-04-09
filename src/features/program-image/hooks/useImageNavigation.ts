@@ -1,9 +1,9 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { useFileSystemStore } from "@store/fileSystemStore";
+import { useCallback, useEffect, useState } from "react";
 import type { ProgramId, ProgramNode } from "@shared/types/program";
 
 export interface UseImageNavigationParams {
-    id: ProgramId;
+    images: Array<ProgramNode>;
+    currentId: ProgramId;
 }
 
 export interface UseImageNavigationResult {
@@ -21,29 +21,18 @@ export interface UseImageNavigationResult {
 }
 
 export const useImageNavigation = ({
-    id,
+    images,
+    currentId,
 }: UseImageNavigationParams): UseImageNavigationResult => {
-    const nodes = useFileSystemStore((s) => s.nodes);
-    const childrenByParent = useFileSystemStore((s) => s.childrenByParent);
-    const self = nodes[id];
-    const parentId = self?.parentId ?? null;
-
-    const imageArr = useMemo<Array<ProgramNode>>(() => {
-        if (!parentId) return [];
-        return (childrenByParent[parentId] ?? [])
-            .map((cid) => nodes[cid])
-            .filter((n): n is ProgramNode => !!n && n.type === "IMAGE");
-    }, [childrenByParent, nodes, parentId]);
-
     const [curImageIdx, setCurImageIdx] = useState<number>(0);
     const [currentImage_sizeRate, setCurrentImage_sizeRate] =
         useState<number>(1);
     const [currentImage_rotate, setCurrentImage_rotate] = useState<number>(0);
 
     useEffect(() => {
-        const idx = imageArr.findIndex((item) => item.id === id);
+        const idx = images.findIndex((item) => item.id === currentId);
         setCurImageIdx(idx >= 0 ? idx : 0);
-    }, [imageArr, id]);
+    }, [images, currentId]);
 
     const onClickLeft = useCallback(() => {
         setCurImageIdx((prev) => (prev - 1 >= 0 ? prev - 1 : 0));
@@ -52,10 +41,10 @@ export const useImageNavigation = ({
 
     const onClickRight = useCallback(() => {
         setCurImageIdx((prev) =>
-            prev + 1 < imageArr.length ? prev + 1 : imageArr.length - 1
+            prev + 1 < images.length ? prev + 1 : images.length - 1
         );
         setCurrentImage_sizeRate(1);
-    }, [imageArr.length]);
+    }, [images.length]);
 
     const onClickScaleUp = useCallback(() => {
         setCurrentImage_sizeRate((prev) => prev + 0.2);
@@ -79,7 +68,7 @@ export const useImageNavigation = ({
     }, []);
 
     return {
-        imageArr,
+        imageArr: images,
         curImageIdx,
         currentImage_sizeRate,
         currentImage_rotate,

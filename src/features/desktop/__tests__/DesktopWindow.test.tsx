@@ -1,48 +1,48 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import {
-    hydrateTestFileSystem,
-    findIdByName,
-} from "../../../test-utils/hydrateFileSystem";
 import DesktopWindow from "../DesktopWindow";
-import { useRunningProgramsStore } from "@store/runningProgramsStore";
-import type { PortfolioSchema } from "@shared/types/portfolio-schema";
+import type { ProgramNode } from "@shared/types/program";
 
-const schema: PortfolioSchema = {
-    version: 1,
-    root: {
-        type: "FOLDER",
-        name: "root",
+const icons: Array<ProgramNode> = [
+    { id: "1", parentId: "root", name: "프로젝트", icon: "", type: "FOLDER" },
+    { id: "2", parentId: "root", name: "기술스택", icon: "", type: "FOLDER" },
+    {
+        id: "3",
+        parentId: "root",
+        name: "구글",
         icon: "",
-        children: [
-            { type: "FOLDER", name: "프로젝트", icon: "", children: [] },
-            { type: "FOLDER", name: "기술스택", icon: "", children: [] },
-            {
-                type: "BROWSER",
-                name: "구글",
-                icon: "",
-                url: "https://www.google.com",
-            },
-        ],
+        type: "BROWSER",
+        url: "https://www.google.com",
     },
-};
+];
 
 describe("DesktopWindow", () => {
-    beforeEach(() => hydrateTestFileSystem(schema));
-
-    it("루트 폴더의 자식들이 아이콘으로 렌더된다", () => {
-        render(<DesktopWindow />);
+    it("iconBoxArr의 노드들이 아이콘으로 렌더된다", () => {
+        render(
+            <DesktopWindow iconBoxArr={icons} onDoubleClickIcon={jest.fn()} />,
+        );
         expect(screen.getByText("프로젝트")).toBeInTheDocument();
         expect(screen.getByText("기술스택")).toBeInTheDocument();
         expect(screen.getByText("구글")).toBeInTheDocument();
         expect(screen.getAllByAltText("iconImg")).toHaveLength(3);
     });
 
-    it("아이콘 더블클릭 시 runningProgramsStore.open 이 호출된다", () => {
-        render(<DesktopWindow />);
-        fireEvent.doubleClick(screen.getByText("프로젝트").parentElement!);
-        expect(useRunningProgramsStore.getState().activeId).toBe(
-            findIdByName("프로젝트")
+    it("아이콘 더블클릭 시 onDoubleClickIcon이 호출된다", () => {
+        const handleDoubleClick = jest.fn();
+        render(
+            <DesktopWindow
+                iconBoxArr={icons}
+                onDoubleClickIcon={handleDoubleClick}
+            />,
         );
+        fireEvent.doubleClick(screen.getByText("프로젝트").parentElement!);
+        expect(handleDoubleClick).toHaveBeenCalledWith(icons[0]);
+    });
+
+    it("빈 배열이면 아이콘이 렌더되지 않는다", () => {
+        render(
+            <DesktopWindow iconBoxArr={[]} onDoubleClickIcon={jest.fn()} />,
+        );
+        expect(screen.queryAllByAltText("iconImg")).toHaveLength(0);
     });
 });

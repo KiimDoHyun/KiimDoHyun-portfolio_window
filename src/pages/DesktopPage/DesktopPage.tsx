@@ -6,8 +6,8 @@ import HiddenIcon from "@features/hidden-icon/HiddenIcon";
 import { TaskBar } from "@features/taskbar";
 import type { TaskbarEntry } from "@features/taskbar";
 import InfoBar from "@features/infobar/InfoBar";
-import DesktopWindow from "@features/desktop/DesktopWindow";
-import StatusBar from "@features/statusbar/StatusBar";
+import DesktopWindowShell from "./shells/DesktopWindowShell";
+import StatusBarShell from "./shells/StatusBarShell";
 import TimeBar from "@features/timebar/TimeBar";
 import { useFileSystemStore } from "@store/fileSystemStore";
 import { useRunningProgramsStore } from "@store/runningProgramsStore";
@@ -26,7 +26,6 @@ export default function DesktopPage() {
     const activeId = useRunningProgramsStore((s) => s.activeId);
 
     // === UI toggles ===
-    const statusBarOpen = useUiStore((s) => s.statusBarOpen);
     const timeBarOpen = useUiStore((s) => s.timeBarOpen);
     const infoBarOpen = useUiStore((s) => s.infoBarOpen);
     const hiddenIconOpen = useUiStore((s) => s.hiddenIconOpen);
@@ -88,10 +87,6 @@ export default function DesktopPage() {
         useRunningProgramsStore.getState().close(id);
     }, []);
 
-    const handleCloseStatusBar = useCallback(() => {
-        useUiStore.setState({ statusBarOpen: false });
-    }, []);
-
     const handleChangeDisplayLight = useCallback((next: number) => {
         useUiStore.getState().setDisplayLight(next);
     }, []);
@@ -112,7 +107,7 @@ export default function DesktopPage() {
                     useUiStore.getState().closeAllMenus();
                 }}
             >
-                <DesktopWindow />
+                <DesktopWindowShell />
                 {entries.map((entry) => (
                     <ProgramWindow
                         key={entry.node.id}
@@ -146,7 +141,7 @@ export default function DesktopPage() {
             </div>
 
             {/* 시작 */}
-            <StatusBar active={statusBarOpen} onClose={handleCloseStatusBar} />
+            <StatusBarShell />
 
             {/* 시간 */}
             <TimeBar active={timeBarOpen} />
