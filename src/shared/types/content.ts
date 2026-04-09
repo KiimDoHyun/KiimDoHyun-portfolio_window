@@ -14,12 +14,31 @@ export interface ProjectData {
     projectImages: Array<string>;
     projectTerm: Array<string>;
     projectType: string;
-    projectReulst: Array<ProjectResult>;
+    projectResult: Array<ProjectResult>;
     role: Array<string>;
     department: string;
     stack: Array<ProjectStack>;
     url: string;
 }
 
-// Placeholder — final shape decided in Phase B/C when INFO program is built out.
-export type ResumeData = Record<string, unknown>;
+export interface ResumeLink {
+    label: string;
+    url: string;
+    icon: string;
+}
+
+export interface ResumeInfoItem {
+    label: string;
+    value: string;
+    icon: string;
+}
+
+export interface ResumeData {
+    name: string;
+    email: string;
+    phone: string;
+    photo: string;
+    summary: string;
+    links: Array<ResumeLink>;
+    details: Array<ResumeInfoItem>;
+}
