@@ -8,7 +8,7 @@
             {
                 "type": "INFO",
                 "name": "내컴퓨터",
-                "icon": "",
+                "icon": "monitor",
                 "contents": {}
             },
             {
@@ -197,15 +197,15 @@
                         "name": "MAIN_TECH",
                         "icon": "",
                         "children": [
-                            { "type": "IMAGE", "name": "React.js", "icon": "", "src": "" },
-                            { "type": "IMAGE", "name": "자바스크립트", "icon": "", "src": "" },
-                            { "type": "IMAGE", "name": "리덕스", "icon": "", "src": "" },
-                            { "type": "IMAGE", "name": "리코일", "icon": "", "src": "" },
-                            { "type": "IMAGE", "name": "노드js", "icon": "", "src": "" },
-                            { "type": "IMAGE", "name": "HTML", "icon": "", "src": "" },
-                            { "type": "IMAGE", "name": "CSS", "icon": "", "src": "" },
-                            { "type": "IMAGE", "name": "styled-component", "icon": "", "src": "" },
-                            { "type": "IMAGE", "name": "Github", "icon": "", "src": "" }
+                            { "type": "IMAGE", "name": "React.js", "icon": "react", "src": "react" },
+                            { "type": "IMAGE", "name": "자바스크립트", "icon": "javascript", "src": "javascript" },
+                            { "type": "IMAGE", "name": "리덕스", "icon": "redux", "src": "redux" },
+                            { "type": "IMAGE", "name": "리코일", "icon": "recoil", "src": "recoil" },
+                            { "type": "IMAGE", "name": "노드js", "icon": "nodejs", "src": "nodejs" },
+                            { "type": "IMAGE", "name": "HTML", "icon": "html", "src": "html" },
+                            { "type": "IMAGE", "name": "CSS", "icon": "css", "src": "css" },
+                            { "type": "IMAGE", "name": "styled-component", "icon": "styledcomponent", "src": "styledcomponent" },
+                            { "type": "IMAGE", "name": "Github", "icon": "github", "src": "github" }
                         ]
                     },
                     {
@@ -213,10 +213,10 @@
                         "name": "SUB_TECH",
                         "icon": "",
                         "children": [
-                            { "type": "IMAGE", "name": "Vue.js", "icon": "", "src": "" },
-                            { "type": "IMAGE", "name": "파이썬", "icon": "", "src": "" },
-                            { "type": "IMAGE", "name": "부트스트랩", "icon": "", "src": "" },
-                            { "type": "IMAGE", "name": "tailwind-css", "icon": "", "src": "" }
+                            { "type": "IMAGE", "name": "Vue.js", "icon": "vue", "src": "vue" },
+                            { "type": "IMAGE", "name": "파이썬", "icon": "python", "src": "python" },
+                            { "type": "IMAGE", "name": "부트스트랩", "icon": "bootstrap", "src": "bootstrap" },
+                            { "type": "IMAGE", "name": "tailwind-css", "icon": "tailwind_css", "src": "tailwind_css" }
                         ]
                     }
                 ]
@@ -224,7 +224,7 @@
             {
                 "type": "BROWSER",
                 "name": "구글",
-                "icon": "",
+                "icon": "chrome",
                 "url": "https://www.google.com"
             }
         ]
