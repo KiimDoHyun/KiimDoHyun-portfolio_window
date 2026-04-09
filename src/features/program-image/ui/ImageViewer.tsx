@@ -1,7 +1,9 @@
 import collapseArrowLeft from "@images/icons/collapse-arrow-left-white.png";
 import collapseArrowRight from "@images/icons/collapse-arrow-right-white.png";
+import imageDefault from "@images/icons/image_default.png";
 import type { ProgramNode } from "@shared/types/program";
 import { contentStyle } from "../ImageProgram.style";
+import { resolveAsset } from "@shared/lib/assetManifest";
 
 interface ImageViewerProps {
     imageArr: Array<ProgramNode>;
@@ -13,7 +15,8 @@ interface ImageViewerProps {
 }
 
 function imageSrc(node: ProgramNode): string {
-    return node.type === "IMAGE" ? node.src : "";
+    if (node.type !== "IMAGE") return "";
+    return resolveAsset(node.src) ?? imageDefault;
 }
 
 const ImageViewer = ({

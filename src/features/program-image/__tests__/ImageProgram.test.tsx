@@ -13,9 +13,9 @@ const makeImage = (id: string, name: string, src: string): ProgramNode => ({
 });
 
 const images: Array<ProgramNode> = [
-    makeImage("img1", "사진1", "img1.png"),
-    makeImage("img2", "사진2", "img2.png"),
-    makeImage("img3", "사진3", "img3.png"),
+    makeImage("img1", "사진1", "react"),
+    makeImage("img2", "사진2", "javascript"),
+    makeImage("img3", "사진3", "redux"),
 ];
 
 describe("ImageProgram", () => {
@@ -23,7 +23,7 @@ describe("ImageProgram", () => {
         render(<ImageProgram images={images} currentId="img2" />);
         const img = screen.getByAltText("사진2") as HTMLImageElement;
         expect(img).toBeInTheDocument();
-        expect(img.src).toContain("img2.png");
+        expect(img.src).toContain("javascript");
         expect(screen.getByText(/2 \/ 3/)).toBeInTheDocument();
     });
 

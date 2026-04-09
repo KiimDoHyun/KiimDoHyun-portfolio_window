@@ -3,6 +3,7 @@ import folderEmpty from "@images/icons/folder_empty.png";
 import defaultImage from "@images/icons/image_default.png";
 import { contentStyle } from "../FolderProgram.style";
 import type { ProgramId, ProgramNode } from "@shared/types/program";
+import { resolveAsset } from "@shared/lib/assetManifest";
 
 interface FolderGridProps {
     items: Array<ProgramNode>;
@@ -11,10 +12,6 @@ interface FolderGridProps {
     hasChildren: (id: ProgramId) => boolean;
     onClickItem: (id: ProgramId) => void;
     onDoubleClickItem: (item: ProgramNode) => void;
-}
-
-function nodeIcon(node: ProgramNode): string {
-    return (node as unknown as { icon?: string }).icon ?? "";
 }
 
 const FolderGrid = ({
@@ -62,7 +59,7 @@ const FolderGrid = ({
                                         />
                                     ) : (
                                         <img
-                                            src={nodeIcon(item) || defaultImage}
+                                            src={resolveAsset(item.icon) ?? defaultImage}
                                             alt={item.name}
                                         />
                                     )}
