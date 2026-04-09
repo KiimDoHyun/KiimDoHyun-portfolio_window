@@ -1,7 +1,11 @@
 import React from "react";
-import defaultImg from "../../../logo.svg";
 import { css } from "@styled-system/css";
 import type { ProgramNode } from "@shared/types/program";
+import { resolveAsset } from "@shared/lib/assetManifest";
+import folderEmpty from "@images/icons/folder_empty.png";
+import imageDefault from "@images/icons/image_default.png";
+import documentDefault from "@images/icons/document_default.png";
+import monitor from "@images/icons/monitor.png";
 
 interface IconBoxProps {
     item: ProgramNode;
@@ -9,13 +13,18 @@ interface IconBoxProps {
     onDoubleClick: (item: ProgramNode) => void;
 }
 
-function nodeIcon(node: ProgramNode): string {
-    return (node as unknown as { icon?: string }).icon ?? "";
+function fallbackIcon(node: ProgramNode): string {
+    switch (node.type) {
+        case "IMAGE": return imageDefault;
+        case "DOC": return documentDefault;
+        case "INFO": return monitor;
+        default: return folderEmpty;
+    }
 }
 
 const IconBox = ({ item, onClick, onDoubleClick }: IconBoxProps) => {
     const { name } = item;
-    const icon = nodeIcon(item);
+    const icon = resolveAsset(item.icon) ?? fallbackIcon(item);
     return (
         <div
             className={iconBoxStyle}
@@ -23,7 +32,7 @@ const IconBox = ({ item, onClick, onDoubleClick }: IconBoxProps) => {
             onDoubleClick={() => onDoubleClick(item)}
         >
             <div className="iconImgBox">
-                <img src={icon ? icon : defaultImg} alt="iconImg" />
+                <img src={icon} alt="iconImg" />
             </div>
             <div className="name">{name ? name : "Icon"}</div>
         </div>
