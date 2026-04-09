@@ -1,39 +1,25 @@
 import { useState, useCallback, useMemo } from "react";
-import { useFileSystemStore } from "@store/fileSystemStore";
-import { useRunningProgramsStore } from "@store/runningProgramsStore";
-import { getRoute } from "@shared/lib/file-system/getRoute";
-import type { ProgramId, ProgramNode } from "@shared/types/program";
+import { selectFolderViewModel } from "@shared/lib/file-system/selectors/selectFolderViewModel";
+import type { FileSystemState, ProgramId, ProgramNode } from "@shared/types/program";
 
 export interface UseFolderNavigationParams {
+    fsState: FileSystemState;
     initialFolderId: ProgramId;
+    onOpenProgram: (id: ProgramId) => void;
 }
 
 export const useFolderNavigation = ({
+    fsState,
     initialFolderId,
+    onOpenProgram,
 }: UseFolderNavigationParams) => {
-    const nodes = useFileSystemStore((s) => s.nodes);
-    const childrenByParent = useFileSystemStore((s) => s.childrenByParent);
-    const rootId = useFileSystemStore((s) => s.rootId);
-
     const [selectedId, setSelectedId] = useState<ProgramId | null>(null);
     const [currentFolderId, setCurrentFolderId] =
         useState<ProgramId>(initialFolderId);
 
-    const currentFolder = useMemo<ProgramNode | null>(
-        () => nodes[currentFolderId] ?? null,
-        [nodes, currentFolderId]
-    );
-
-    const folderContents = useMemo<Array<ProgramNode>>(() => {
-        const ids = childrenByParent[currentFolderId] ?? [];
-        return ids
-            .map((id) => nodes[id])
-            .filter((n): n is ProgramNode => !!n);
-    }, [childrenByParent, nodes, currentFolderId]);
-
-    const route = useMemo(
-        () => getRoute({ rootId, nodes, childrenByParent }, currentFolderId),
-        [rootId, nodes, childrenByParent, currentFolderId]
+    const viewModel = useMemo(
+        () => selectFolderViewModel(fsState, currentFolderId),
+        [fsState, currentFolderId],
     );
 
     const onClickItem = useCallback((id: ProgramId) => {
@@ -41,11 +27,10 @@ export const useFolderNavigation = ({
     }, []);
 
     const onClickLeft = useCallback(() => {
-        const self = nodes[currentFolderId];
-        if (!self || !self.parentId) return;
-        setCurrentFolderId(self.parentId);
+        if (!viewModel.parentId) return;
+        setCurrentFolderId(viewModel.parentId);
         setSelectedId(null);
-    }, [nodes, currentFolderId]);
+    }, [viewModel.parentId]);
 
     const onDoubleClickItem = useCallback(
         (item: ProgramNode) => {
@@ -53,17 +38,18 @@ export const useFolderNavigation = ({
                 setCurrentFolderId(item.id);
                 setSelectedId(null);
             } else {
-                useRunningProgramsStore.getState().open(item.id);
+                onOpenProgram(item.id);
             }
         },
-        []
+        [onOpenProgram],
     );
 
     return {
         selectedId,
-        folderContents,
-        currentFolder,
-        route,
+        folderContents: viewModel.folderContents,
+        route: viewModel.route,
+        nodeType: viewModel.nodeType,
+        hasChildren: viewModel.hasChildren,
         onClickItem,
         onClickLeft,
         onDoubleClickItem,

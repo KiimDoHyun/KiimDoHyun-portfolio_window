@@ -1,8 +1,8 @@
 import type { ReactNode } from "react";
 import type { ProgramNode } from "@shared/types/program";
-import { FolderProgram } from "@features/program-folder";
 import InfoProgram from "@features/program-info/InfoProgram";
 import DOCProgramShell from "./shells/DOCProgramShell";
+import FolderProgramShell from "./shells/FolderProgramShell";
 import ImageProgramShell from "./shells/ImageProgramShell";
 
 /**
@@ -23,7 +23,7 @@ export const renderProgramContent = (node: ProgramNode): ReactNode => {
                 </div>
             );
         case "FOLDER":
-            return <FolderProgram id={node.id} />;
+            return <FolderProgramShell id={node.id} />;
         case "IMAGE":
             return <ImageProgramShell id={node.id} />;
         case "DOC":

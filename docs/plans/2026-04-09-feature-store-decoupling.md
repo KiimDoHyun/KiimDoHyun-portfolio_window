@@ -1,7 +1,7 @@
 # Feature ↔ Store Decoupling Plan
 
 작성일: 2026-04-09
-상태: In Progress (Phase 0–1 진행 중)
+상태: In Progress (Phase 0–3 완료, Phase 4 대기)
 
 ---
 
@@ -188,13 +188,13 @@ export const renderProgramContent = (node: ProgramNode): ReactNode => {
 - [ ] `ImageProgramShell` 생성: 형제 노드 계산을 selector로 묶어 View에 주입
 - [ ] `useImageNavigation` 단위 테스트: 순수 입력 → 출력 계약 검증
 
-### Phase 3 — 폴더 도메인 (가장 큰 한 덩어리)
-- [ ] `selectFolderViewModel(fs, folderId)` selector 작성 + 단위 테스트
-- [ ] `useFolderNavigation` 리팩터: store 구독 제거, `(viewModel, onOpenProgram)` 입력으로 변경
-- [ ] `FolderProgramView`: store import 제거, props 기반으로 변경
-- [ ] `FolderProgramShell` 생성: `selectFolderViewModel` 구독 + `open` 핸들러 wiring
-- [ ] DesktopPage가 `<FolderProgramShell folderId=… />`를 렌더하도록 변경
-- [ ] `FolderProgram.test.tsx` 재작성: store hydrate 제거, fixtures only
+### Phase 3 — 폴더 도메인 (가장 큰 한 덩어리) ✅
+- [x] `selectFolderViewModel(fs, folderId)` selector 작성 + 단위 테스트
+- [x] `useFolderNavigation` 리팩터: store 구독 제거, `(fsState, initialFolderId, onOpenProgram)` 입력으로 변경
+- [x] `FolderProgram`: store import 제거, props 기반으로 변경 (`fsState`, `initialFolderId`, `onOpenProgram`)
+- [x] `FolderProgramShell` 생성: fileSystemStore 구독 + `open` 핸들러 wiring
+- [x] `renderProgramContent`가 `<FolderProgramShell id=… />`를 렌더하도록 변경
+- [x] `FolderProgram.test.tsx` 재작성: store hydrate 제거, fixtures only (`buildFileSystem` + `jest.fn()`)
 
 ### Phase 4 — Desktop 본체
 - [ ] `selectDesktopRootIcons(fs)` selector
