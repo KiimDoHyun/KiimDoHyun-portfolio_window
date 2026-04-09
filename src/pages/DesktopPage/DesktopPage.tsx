@@ -6,7 +6,7 @@ import HiddenIcon from "@features/hidden-icon/HiddenIcon";
 import { TaskBar } from "@features/taskbar";
 import type { TaskbarEntry } from "@features/taskbar";
 import InfoBar from "@features/infobar/InfoBar";
-import DesktopWindow from "@features/desktop/DesktopWindow";
+import DesktopWindowShell from "./shells/DesktopWindowShell";
 import StatusBar from "@features/statusbar/StatusBar";
 import TimeBar from "@features/timebar/TimeBar";
 import { useFileSystemStore } from "@store/fileSystemStore";
@@ -112,7 +112,7 @@ export default function DesktopPage() {
                     useUiStore.getState().closeAllMenus();
                 }}
             >
-                <DesktopWindow />
+                <DesktopWindowShell />
                 {entries.map((entry) => (
                     <ProgramWindow
                         key={entry.node.id}

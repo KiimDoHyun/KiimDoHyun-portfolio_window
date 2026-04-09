@@ -1,7 +1,7 @@
 # Feature ↔ Store Decoupling Plan
 
 작성일: 2026-04-09
-상태: In Progress (Phase 0–3 완료, Phase 4 대기)
+상태: In Progress (Phase 0–4 완료, Phase 5 대기)
 
 ---
 
@@ -196,11 +196,11 @@ export const renderProgramContent = (node: ProgramNode): ReactNode => {
 - [x] `renderProgramContent`가 `<FolderProgramShell id=… />`를 렌더하도록 변경
 - [x] `FolderProgram.test.tsx` 재작성: store hydrate 제거, fixtures only (`buildFileSystem` + `jest.fn()`)
 
-### Phase 4 — Desktop 본체
-- [ ] `selectDesktopRootIcons(fs)` selector
-- [ ] `DesktopWindowView`: `iconBoxArr` + `onOpenProgram` props로 받기
-- [ ] `DesktopWindowShell` 생성 + DesktopPage가 shell을 렌더
-- [ ] `DesktopWindow.test.tsx` 재작성: store hydrate 제거
+### Phase 4 — Desktop 본체 ✅
+- [x] `selectDesktopRootIcons(fs)` selector 작성 + 단위 테스트
+- [x] `DesktopWindow`: `iconBoxArr` + `onDoubleClickIcon` props로 받기, store import 제거
+- [x] `DesktopWindowShell` 생성 + DesktopPage가 shell을 렌더
+- [x] `DesktopWindow.test.tsx` 재작성: store hydrate 제거, fixtures only
 
 ### Phase 5 — StatusBar (가장 도메인 결합도 높음)
 - [ ] 안티패턴 정리: "이름으로 노드 검색" 제거. 데이터 모델에 명시적인 카테고리 키 도입을 검토하거나, shell에서 hard-coded 이름 → id 매핑을 한 곳에 모은다
