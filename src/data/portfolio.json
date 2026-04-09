@@ -9,7 +9,28 @@
                 "type": "INFO",
                 "name": "내컴퓨터",
                 "icon": "",
-                "contents": {}
+                "contents": {
+                    "name": "김도현",
+                    "email": "bzidol@naver.com",
+                    "phone": "010-7793-5630",
+                    "photo": "kdh_profile",
+                    "summary": "남자 / 27 세",
+                    "links": [
+                        { "label": "Git", "url": "https://github.com/KiimDoHyun", "icon": "github_line" },
+                        { "label": "Blog", "url": "https://velog.io/@kdh123", "icon": "blog_line" },
+                        { "label": "Company", "url": "https://www.whatap.io/ko/", "icon": "company_line" },
+                        { "label": "linkedin", "url": "https://www.linkedin.com/in/%EB%8F%84%ED%98%84-%EA%B9%80-b4a477252/", "icon": "linkedin_line" }
+                    ],
+                    "details": [
+                        { "label": "대학교", "value": "금오공과대학교", "icon": "campus_line_blue" },
+                        { "label": "학과", "value": "컴퓨터공학과", "icon": "book_line_blue" },
+                        { "label": "경력", "value": "1 년(주니어)", "icon": "business_line_blue" },
+                        { "label": "분야", "value": "Front-end", "icon": "web_line_blue" },
+                        { "label": "회사", "value": "와탭랩스", "icon": "company_line_blue" },
+                        { "label": "주 스택", "value": "React", "icon": "gear_line_blue" },
+                        { "label": "주 언어", "value": "자바스크립트", "icon": "coding_line_blue" }
+                    ]
+                }
             },
             {
                 "type": "FOLDER",
