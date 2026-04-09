@@ -34,7 +34,7 @@
     "panda": "panda codegen",
     "start": "panda codegen && craco start",
     "build": "panda codegen && craco build",
-    "test": "craco test",
+    "test": "react-scripts test",
     "eject": "craco eject",
     "predeploy": "pnpm build",
     "deploy": "gh-pages -d build"
