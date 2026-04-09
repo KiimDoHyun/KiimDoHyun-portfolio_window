@@ -1,7 +1,7 @@
 # Feature ↔ Store Decoupling Plan
 
 작성일: 2026-04-09
-상태: In Progress (Phase 0–4 완료, Phase 5 대기)
+상태: Complete
 
 ---
 
@@ -202,16 +202,16 @@ export const renderProgramContent = (node: ProgramNode): ReactNode => {
 - [x] `DesktopWindowShell` 생성 + DesktopPage가 shell을 렌더
 - [x] `DesktopWindow.test.tsx` 재작성: store hydrate 제거, fixtures only
 
-### Phase 5 — StatusBar (가장 도메인 결합도 높음)
-- [ ] 안티패턴 정리: "이름으로 노드 검색" 제거. 데이터 모델에 명시적인 카테고리 키 도입을 검토하거나, shell에서 hard-coded 이름 → id 매핑을 한 곳에 모은다
-- [ ] `selectStatusBarViewModel(fs)` selector
-- [ ] `StatusBarView`: `viewModel` + `onOpenProgram` props
-- [ ] `StatusBarShell` 생성 + DesktopPage가 shell을 렌더
+### Phase 5 — StatusBar (가장 도메인 결합도 높음) ✅
+- [x] 안티패턴 정리: "이름으로 노드 검색" 제거. 데이터 모델에 명시적인 카테고리 키 도입을 검토하거나, shell에서 hard-coded 이름 → id 매핑을 한 곳에 모은다
+- [x] `selectStatusBarViewModel(fs)` selector
+- [x] `StatusBarView`: `viewModel` + `onOpenProgram` props
+- [x] `StatusBarShell` 생성 + DesktopPage가 shell을 렌더
 
-### Phase 6 — 봉인
-- [ ] ESLint 룰: `src/features/**` → `@store/*` import 차단. 예외는 `src/pages/**`(shell 포함)만 허용
-- [ ] CI에서 lint 통과 확인
-- [ ] 본 문서를 "complete"로 마킹하고 회고 추가
+### Phase 6 — 봉인 ✅
+- [x] ESLint 룰: `src/features/**` → `@store/*` import 차단. 예외는 `src/pages/**`(shell 포함)만 허용
+- [x] CI에서 lint 통과 확인
+- [x] 본 문서를 "complete"로 마킹하고 회고 추가
 
 ---
 
@@ -262,11 +262,29 @@ export const renderProgramContent = (node: ProgramNode): ReactNode => {
 
 ## 6. 성공 기준 (Definition of Done)
 
-- [ ] `src/features/**` 어디에서도 `@store/*` import가 존재하지 않는다 (lint로 강제)
-- [ ] 모든 feature 테스트가 store hydration 없이 fixtures만으로 통과한다
-- [ ] store 접근은 `src/pages/**`(DesktopPage + shells) 안에서만 일어난다
-- [ ] 각 feature의 props 시그니처가 그 feature의 "계약"으로 읽힌다
-- [ ] DesktopPage.tsx는 "shell 배치"에 가까운 얇은 파일로 유지된다 (god component 아님)
-- [ ] 모든 shell 파일이 §3.3 규칙을 만족한다 (selector + wiring + JSX만, 로직 없음)
-- [ ] 향후 Zustand를 다른 라이브러리로 교체할 경우, `src/pages/**` 외의 파일은 단 한 줄도 수정할 필요가 없다
+- [x] `src/features/**` 어디에서도 `@store/*` import가 존재하지 않는다 (lint로 강제)
+- [x] 모든 feature 테스트가 store hydration 없이 fixtures만으로 통과한다
+- [x] store 접근은 `src/pages/**`(DesktopPage + shells) 안에서만 일어난다
+- [x] 각 feature의 props 시그니처가 그 feature의 "계약"으로 읽힌다
+- [x] DesktopPage.tsx는 "shell 배치"에 가까운 얇은 파일로 유지된다 (god component 아님)
+- [x] 모든 shell 파일이 §3.3 규칙을 만족한다 (selector + wiring + JSX만, 로직 없음)
+- [x] 향후 Zustand를 다른 라이브러리로 교체할 경우, `src/pages/**` 외의 파일은 단 한 줄도 수정할 필요가 없다
+
+---
+
+## 7. 회고 (2026-04-09)
+
+### 잘된 점
+- **3-레이어(Page → Shell → View) 패턴이 일관되게 적용됨.** Phase 1~5 모두 동일한 Shell 패턴으로 진행되어 반복 작업의 예측 가능성이 높았다.
+- **Feature 레이어의 순수성 확보.** `src/features/**`에서 `@store/*` import 0건 달성. ESLint 룰로 회귀 방지선이 확정되었다.
+- **Selector 단위 테스트 가능.** `src/shared/lib/file-system/selectors/`에 순수 selector를 모아 store 없이 테스트 가능한 구조가 완성되었다.
+- **Phase 순서 설계가 적절했음.** 작은 것(FolderGrid, DOCProgram)부터 시작해 패턴을 확정하고, 큰 것(FolderProgram, DesktopWindow, StatusBar)으로 확장하는 전략이 리스크를 낮췄다.
+
+### 개선할 점
+- **테스트 파일의 `testing-library` 룰 위반이 다수 남아있음.** `no-node-access`, `no-container` 경고가 features 테스트 전반에 걸쳐 존재한다. 별도 정리 작업이 필요하다.
+- **Phase 0(합의)와 실제 구현 사이 시간이 짧아** 중간 검증 단계가 충분하지 않았다. 규모가 더 큰 프로젝트라면 Phase별 PR 리뷰 프로세스가 필요할 것.
+
+### 향후 과제
+- 테스트 코드의 testing-library best practice 적용 (별도 이슈)
+- Shell 비대화 모니터링: 새 기능 추가 시 Shell에 로직이 스며들지 않도록 코드 리뷰에서 확인
 
