@@ -18,6 +18,18 @@
                 "children": [
                     {
                         "type": "FOLDER",
+                        "name": "빈폴더",
+                        "icon": "",
+                        "children": []
+                    },
+                    {
+                        "type": "FOLDER",
+                        "name": "테스트폴더",
+                        "icon": "",
+                        "children": []
+                    },
+                    {
+                        "type": "FOLDER",
                         "name": "(주)아라온소프트",
                         "icon": "",
                         "children": [
