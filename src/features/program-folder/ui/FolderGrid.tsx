@@ -2,13 +2,13 @@ import folderFull from "@images/icons/folder_full.png";
 import folderEmpty from "@images/icons/folder_empty.png";
 import defaultImage from "@images/icons/image_default.png";
 import { contentStyle } from "../FolderProgram.style";
-import { useFileSystemStore } from "@store/fileSystemStore";
 import type { ProgramId, ProgramNode } from "@shared/types/program";
 
 interface FolderGridProps {
     items: Array<ProgramNode>;
     displayType: string;
     selectedId: ProgramId | null;
+    hasChildren: (id: ProgramId) => boolean;
     onClickItem: (id: ProgramId) => void;
     onDoubleClickItem: (item: ProgramNode) => void;
 }
@@ -21,12 +21,10 @@ const FolderGrid = ({
     items,
     displayType,
     selectedId,
+    hasChildren,
     onClickItem,
     onDoubleClickItem,
 }: FolderGridProps) => {
-    const childrenByParent = useFileSystemStore((s) => s.childrenByParent);
-    const hasChildren = (id: ProgramId) =>
-        (childrenByParent[id] ?? []).length > 0;
 
     return (
         <div className={`contentsArea_Cover ${contentStyle}`}>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useFileSystemStore } from "@store/fileSystemStore";
 import { useFolderNavigation } from "./hooks/useFolderNavigation";
 import { DISPLAY_LIST, DEFAULT_DISPLAY_TYPE } from "./FolderProgram.types";
@@ -12,7 +12,13 @@ interface FolderProgramProps {
 
 const FolderProgram = ({ id }: FolderProgramProps) => {
     const node = useFileSystemStore((s) => s.nodes[id]);
+    const childrenByParent = useFileSystemStore((s) => s.childrenByParent);
     const [displayType, setDisplayType] = useState(DEFAULT_DISPLAY_TYPE);
+
+    const hasChildren = useCallback(
+        (targetId: ProgramId) => (childrenByParent[targetId] ?? []).length > 0,
+        [childrenByParent],
+    );
 
     const {
         selectedId,
@@ -37,6 +43,7 @@ const FolderProgram = ({ id }: FolderProgramProps) => {
                 items={folderContents}
                 displayType={displayType}
                 selectedId={selectedId}
+                hasChildren={hasChildren}
                 onClickItem={onClickItem}
                 onDoubleClickItem={onDoubleClickItem}
             />

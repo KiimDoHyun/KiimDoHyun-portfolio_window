@@ -1,11 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import DOCProgram from "../DOCProgram";
-import {
-    hydrateTestFileSystem,
-    findIdByName,
-} from "../../../test-utils/hydrateFileSystem";
-import type { PortfolioSchema } from "@shared/types/portfolio-schema";
 import type { ProjectData } from "@shared/types/content";
 
 const richProject: ProjectData = {
@@ -39,73 +34,42 @@ const noUrlProject: ProjectData = {
     url: "",
 };
 
-const schema: PortfolioSchema = {
-    version: 1,
-    root: {
-        type: "FOLDER",
-        name: "root",
-        icon: "",
-        children: [
-            {
-                type: "DOC",
-                name: richProject.projectName,
-                icon: "",
-                contents: richProject,
-            },
-            {
-                type: "DOC",
-                name: noImageProject.projectName,
-                icon: "",
-                contents: noImageProject,
-            },
-            {
-                type: "DOC",
-                name: noUrlProject.projectName,
-                icon: "",
-                contents: noUrlProject,
-            },
-        ],
-    },
-};
-
 describe("DOCProgram", () => {
-    beforeEach(() => hydrateTestFileSystem(schema));
-
     it("프로젝트명을 렌더한다", () => {
-        render(<DOCProgram id={findIdByName(richProject.projectName)} />);
+        render(<DOCProgram contents={richProject} />);
         expect(
             screen.getAllByText(richProject.projectName).length
         ).toBeGreaterThan(0);
     });
 
     it("프로젝트 설명을 렌더한다", () => {
-        render(<DOCProgram id={findIdByName(richProject.projectName)} />);
+        render(<DOCProgram contents={richProject} />);
         expect(screen.getByText(richProject.projectDesc)).toBeInTheDocument();
     });
 
     it("프로젝트 성과 항목들을 렌더한다", () => {
-        render(<DOCProgram id={findIdByName(richProject.projectName)} />);
+        render(<DOCProgram contents={richProject} />);
         richProject.projectReulst.forEach((r) => {
             expect(screen.getByText(r.content)).toBeInTheDocument();
         });
     });
 
     it("스택 아이템 이름들을 렌더한다", () => {
-        render(<DOCProgram id={findIdByName(richProject.projectName)} />);
+        render(<DOCProgram contents={richProject} />);
         richProject.stack.forEach((s) => {
             expect(screen.getByText(s.name)).toBeInTheDocument();
         });
     });
 
     it("프로젝트 이미지가 없을 때 안내 문구를 표시한다", () => {
-        render(<DOCProgram id={findIdByName(noImageProject.projectName)} />);
+        render(<DOCProgram contents={noImageProject} />);
         expect(
             screen.getByText("프로젝트 이미지가 없습니다.")
         ).toBeInTheDocument();
     });
 
     it("url이 비어있을 때 '공개된 URL 없음'을 표시한다", () => {
-        render(<DOCProgram id={findIdByName(noUrlProject.projectName)} />);
+        render(<DOCProgram contents={noUrlProject} />);
         expect(screen.getByText("공개된 URL 없음")).toBeInTheDocument();
     });
 });

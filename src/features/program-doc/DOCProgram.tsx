@@ -1,21 +1,17 @@
-import { useFileSystemStore } from "@store/fileSystemStore";
-import type { ProgramId } from "@shared/types/program";
+import type { ProjectData } from "@shared/types/content";
 import { docProgramContentStyle } from "./DOCProgram.style";
 import DocCard from "./ui/DocCard";
 
 interface DOCProgramProps {
-    id: ProgramId;
+    contents: ProjectData;
 }
 
-const DOCProgram = ({ id }: DOCProgramProps) => {
-    const node = useFileSystemStore((s) => s.nodes[id]);
-
-    if (!node || node.type !== "DOC") return null;
-    const docData = node.contents;
+const DOCProgram = ({ contents }: DOCProgramProps) => {
+    const docData = contents;
 
     return (
         <>
-            <div className={`headerArea2 headerArea2_${node.type}`}></div>
+            <div className="headerArea2 headerArea2_DOC"></div>
             <div className={`${docProgramContentStyle} contentsArea_Cover`}>
                 <div className="contentsArea_doc">
                     <div className="doc_imageArea">
