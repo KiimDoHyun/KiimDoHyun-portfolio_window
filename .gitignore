@@ -31,8 +31,6 @@ yarn-error.log*
 .worktrees
 
 # claude
-.claude/settings.local.json
-.claude/skills/*
-!.claude/skills/frontend-conventions/
+.claude/
 .agents/
 skills-lock.json
