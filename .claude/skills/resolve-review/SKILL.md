@@ -12,8 +12,7 @@ description: >
 
 ## 입력 소스
 
-- **독립 실행**: PR에 달린 코멘트에서 가장 최근 `## 🔍 Review Round` 코멘트의 지적 목록을 수집
-- **루프 실행**: 오케스트레이터가 프롬프트로 지적 목록을 직접 전달
+독립 실행이든 루프 실행이든 동일한 방식으로 `gh api`를 통해 review comment를 수집한다.
 
 ## 최우선 원칙: 기능 보존
 
@@ -38,17 +37,19 @@ digraph resolve_flow {
 
 ## Step 1: 지적 목록 수집
 
-### 독립 실행 시
+`gh api`로 가장 최근 `CHANGES_REQUESTED` review의 comment 목록을 수집한다.
 
 ```bash
-gh pr view <PR_NUMBER> --comments
+# 가장 최근 review의 ID 가져오기
+gh api repos/{owner}/{repo}/pulls/{pr}/reviews \
+  --jq 'map(select(.state == "CHANGES_REQUESTED")) | last | .id'
+
+# 해당 review의 comment 목록
+gh api repos/{owner}/{repo}/pulls/{pr}/comments \
+  --jq '[.[] | select(.pull_request_review_id == REVIEW_ID) | {id, path, line, body}]'
 ```
 
-가장 최근 `## 🔍 Review Round` 코멘트에서 지적 테이블을 파싱한다.
-
-### 루프 실행 시
-
-오케스트레이터가 프롬프트로 전달한 지적 목록을 그대로 사용한다.
+각 comment의 `body`에서 심각도, 제목, 내용, Basis, Suggest를 파싱한다.
 
 ## Step 2: 각 지적 타당성 판단
 
@@ -88,27 +89,59 @@ gh pr view <PR_NUMBER> --comments
 pnpm exec tsc --noEmit
 ```
 
-## Step 5: 커밋 + PR 코멘트
+## Step 5: Reply + 커밋 + 요약 코멘트
 
-수정이 있으면 커밋한다 (amend 하지 않음).
+### 각 review comment에 reply
+
+각 지적에 대한 처리 결과를 해당 review comment 스레드에 reply로 남긴다.
+
+**수정:**
+```
+✅ 수정
+
+{수정 내용 요약}
+
+커밋: `{hash}`
+```
+
+**기각:**
+```
+❌ 기각
+
+**Reason:** {기각 사유 + 출처}
+```
+
+**판단 필요:**
+```
+❓ 판단 필요
+
+- 수정 근거: ...
+- 유지 근거: ...
+```
+
+```bash
+gh api repos/{owner}/{repo}/pulls/{pr}/comments/{comment_id}/replies \
+  --method POST \
+  -f body="✅ 수정 — ..."
+```
+
+### 검증 + 커밋
+
+수정이 있으면:
+```bash
+pnpm exec tsc --noEmit
+git commit
+```
+
+### 요약 코멘트
 
 라운드 번호는 PR의 기존 `## 🔧 Resolve Round` 코멘트 수를 세어 결정한다.
-
-**Review 코멘트 permalink**: 오케스트레이터(또는 독립 실행 시 Step 1)에서 받은 Review comment URL을 `📎` 링크로 포함한다.
 
 ```bash
 gh pr comment <PR_NUMBER> --body "$(cat <<'EOF'
 ## 🔧 Resolve Round N
-> 📎 [Review Round N](<REVIEW_COMMENT_URL>) 에 대한 응답
 
-### 1. ✅ `src/foo.ts:42` — Array<T> 미적용
-컨벤션 위반. `string[]` → `Array<string>` 수정 완료.
-
-### 2. ❌ `src/bar.tsx:8` — 불필요한 리렌더
-리렌더 횟수 측정 결과 차이 없음. 복잡성 증가 대비 이점 부족.
-
----
-**요약:** ✅ 수정 1건 · ❌ 기각 1건 · ❓ 판단 필요 0건
+**요약:** ✅ 수정 a건 · ❌ 기각 b건 · ❓ 판단 필요 c건 · Must Fix 잔여 d건
 EOF
 )"
 ```
