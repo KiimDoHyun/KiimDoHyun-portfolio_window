@@ -60,7 +60,7 @@ loop:
     diff = git diff HEAD~1                     // 직전 resolve가 수정한 delta만
 
   // 리뷰 — 훅이 카운팅 ([review-cycle] 마커 필수)
-  // review 서브에이전트는 지적 목록 + comment URL을 반환
+  // review 서브에이전트는 "LGTM" 또는 "REVIEW_ID:{id}" + 건수를 반환
   reviewResult = Agent(
     description="[review-cycle] PR #N 리뷰",
     prompt=reviewSkillContent + PR메타정보 + diff
@@ -70,10 +70,10 @@ loop:
     break → Step 4
 
   // 수정 — 훅이 카운팅하지 않음 ([review-cycle] 마커 없음)
-  // review comment URL을 resolve에 전달하여 permalink 참조
+  // resolve는 PR 번호만 받아 gh api로 직접 review comment 수집
   resolveResult = Agent(
     description="PR #N 리뷰 반영",
-    prompt=resolveSkillContent + reviewResult (지적 목록 + comment URL 포함)
+    prompt=resolveSkillContent + PR번호
   )
 
   round++
@@ -111,7 +111,10 @@ loop:
 ## PR 타임라인 예시
 
 ```
-🔍 Review Round 1        ← review 서브에이전트
-🔧 Resolve Round 1        ← resolve 서브에이전트 (📎 Review Round 1 permalink 포함)
-🔍 Review Round 2 (LGTM) ← review 서브에이전트 (루프 종료)
+📝 PR Review (REQUEST_CHANGES)     ← review: 라인별 comment 포함
+💬 🔍 Review Round 1               ← review: 요약 (DoD, 카운트)
+💬 replies on each comment          ← resolve: 각 스레드에 응답
+💬 🔧 Resolve Round 1              ← resolve: 요약
+📝 PR Review (APPROVE)             ← review: LGTM
+💬 🔍 Review Round 2               ← review: 요약 (DoD)
 ```
