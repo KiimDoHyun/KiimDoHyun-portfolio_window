@@ -1,11 +1,7 @@
 import React from "react";
 import { css } from "@styled-system/css";
 import type { ProgramNode } from "@shared/types/program";
-import { resolveAsset } from "@shared/lib/assetManifest";
-import folderEmpty from "@images/icons/folder_empty.png";
-import imageDefault from "@images/icons/image_default.png";
-import documentDefault from "@images/icons/document_default.png";
-import monitor from "@images/icons/monitor.png";
+import { resolveProgramIcon } from "@shared/lib";
 
 interface IconBoxProps {
     item: ProgramNode;
@@ -13,18 +9,9 @@ interface IconBoxProps {
     onDoubleClick: (item: ProgramNode) => void;
 }
 
-function fallbackIcon(node: ProgramNode): string {
-    switch (node.type) {
-        case "IMAGE": return imageDefault;
-        case "DOC": return documentDefault;
-        case "INFO": return monitor;
-        default: return folderEmpty;
-    }
-}
-
 const IconBox = ({ item, onClick, onDoubleClick }: IconBoxProps) => {
     const { name } = item;
-    const icon = resolveAsset(item.icon) ?? fallbackIcon(item);
+    const icon = resolveProgramIcon(item);
     return (
         <div
             className={iconBoxStyle}

@@ -1,11 +1,7 @@
 import { forwardRef } from "react";
-import folderEmpty from "@images/icons/folder_empty.png";
-import defaultImage from "@images/icons/image_default.png";
-import monitor from "@images/icons/monitor.png";
-import defaultDocumentImage from "@images/icons/document_default.png";
 import type { ProgramId } from "@shared/types/program";
 import type { TaskbarEntry } from "../TaskBar.types";
-import { resolveAsset } from "@shared/lib/assetManifest";
+import { resolveProgramIcon } from "@shared/lib";
 
 interface ProgramIconsProps {
     entries: Array<TaskbarEntry>;
@@ -17,24 +13,8 @@ interface ProgramIconsProps {
 }
 
 const renderIconImage = (entry: TaskbarEntry) => {
-    const { node } = entry;
-    const custom = resolveAsset(node.icon);
-    if (custom) return <img src={custom} alt={node.name} />;
-
-    switch (node.type) {
-        case "IMAGE":
-            return <img src={defaultImage} alt={node.name} />;
-        case "FOLDER":
-            return <img src={folderEmpty} alt={node.name} />;
-        case "DOC":
-            return <img src={defaultDocumentImage} alt={node.name} />;
-        case "INFO":
-            return <img src={monitor} alt={node.name} />;
-        case "BROWSER":
-            return <img src={folderEmpty} alt={node.name} />;
-        default:
-            return null;
-    }
+    const icon = resolveProgramIcon(entry.node);
+    return <img src={icon} alt={entry.node.name} />;
 };
 
 const ProgramIcons = forwardRef<HTMLDivElement, ProgramIconsProps>(
