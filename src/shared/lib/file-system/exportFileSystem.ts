@@ -1,5 +1,6 @@
 import type { FileSystemState, ProgramId, ProgramNode } from "@shared/types/program";
 import type { AuthoringNode, PortfolioSchema } from "@shared/types/portfolio-schema";
+import { programMeta } from "@shared/lib/programMeta";
 
 export function exportFileSystem(state: FileSystemState): PortfolioSchema {
     function visit(id: ProgramId): AuthoringNode {
@@ -15,16 +16,12 @@ export function exportFileSystem(state: FileSystemState): PortfolioSchema {
             };
         }
 
-        switch (node.type) {
-            case "DOC":
-                return { type: "DOC", name: node.name, icon: node.icon, contents: node.contents };
-            case "IMAGE":
-                return { type: "IMAGE", name: node.name, icon: node.icon, src: node.src };
-            case "INFO":
-                return { type: "INFO", name: node.name, icon: node.icon, contents: node.contents };
-            case "BROWSER":
-                return { type: "BROWSER", name: node.name, icon: node.icon, url: node.url };
+        const base = { type: node.type, name: node.name, icon: node.icon };
+        const extra: Record<string, unknown> = {};
+        for (const key of programMeta[node.type].extraFields) {
+            extra[key] = (node as unknown as Record<string, unknown>)[key];
         }
+        return { ...base, ...extra } as AuthoringNode;
     }
 
     return { version: 1, root: visit(state.rootId) };
