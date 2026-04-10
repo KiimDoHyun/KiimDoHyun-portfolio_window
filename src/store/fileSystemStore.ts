@@ -5,16 +5,15 @@ import type {
     ProgramId,
     ProgramNode,
 } from "@shared/types/program";
+import type { AuthoringNode } from "@shared/types/portfolio-schema";
 import type { PortfolioSchema } from "@shared/types/portfolio-schema";
 import { buildFileSystem } from "@shared/lib/file-system/buildFileSystem";
 import { exportFileSystem } from "@shared/lib/file-system/exportFileSystem";
+import { pickExtraFields } from "@shared/lib/programMeta";
 
 export type NewNodeInput =
     | { type: "FOLDER"; name: string; icon: string }
-    | { type: "DOC"; name: string; icon: string; contents: ProgramNode extends { type: "DOC"; contents: infer C } ? C : never }
-    | { type: "IMAGE"; name: string; icon: string; src: string }
-    | { type: "INFO"; name: string; icon: string; contents: ProgramNode extends { type: "INFO"; contents: infer C } ? C : never }
-    | { type: "BROWSER"; name: string; icon: string; url: string };
+    | Exclude<AuthoringNode, { type: "FOLDER" }>;
 
 export type UpdateNodeInput = Partial<Omit<ProgramNode, "id" | "parentId" | "type">>;
 
@@ -57,26 +56,15 @@ export const useFileSystemStore = create<FileSystemStore>()(
             const id = nextRuntimeId();
             set((draft) => {
                 const base = { id, parentId, name: input.name, icon: input.icon };
-                let node: ProgramNode;
-                switch (input.type) {
-                    case "FOLDER":
-                        node = { ...base, type: "FOLDER" };
-                        draft.childrenByParent[id] = [];
-                        break;
-                    case "DOC":
-                        node = { ...base, type: "DOC", contents: input.contents };
-                        break;
-                    case "IMAGE":
-                        node = { ...base, type: "IMAGE", src: input.src };
-                        break;
-                    case "INFO":
-                        node = { ...base, type: "INFO", contents: input.contents };
-                        break;
-                    case "BROWSER":
-                        node = { ...base, type: "BROWSER", url: input.url };
-                        break;
+
+                if (input.type === "FOLDER") {
+                    draft.nodes[id] = { ...base, type: "FOLDER" };
+                    draft.childrenByParent[id] = [];
+                } else {
+                    const extra = pickExtraFields(input.type, input as Record<string, unknown>);
+                    draft.nodes[id] = { ...base, type: input.type, ...extra } as ProgramNode;
                 }
-                draft.nodes[id] = node;
+
                 if (!draft.childrenByParent[parentId]) {
                     draft.childrenByParent[parentId] = [];
                 }

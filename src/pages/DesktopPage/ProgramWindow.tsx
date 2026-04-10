@@ -4,6 +4,7 @@ import type {
     ProgramNode,
     RunningProgram,
 } from "@shared/types/program";
+import { programMeta } from "@shared/lib";
 import { renderProgramContent } from "./renderProgramContent";
 import { resolveProgramTitle, resolveProgramIcon } from "./resolveProgramMeta";
 
@@ -26,10 +27,9 @@ const ProgramWindow = ({
     onClose,
     onRequestZIndex,
 }: ProgramWindowProps) => {
-    const subHeader =
-        node.type === "BROWSER" ? (
-            <div className={`headerArea2 headerArea2_${node.type}`} />
-        ) : undefined;
+    const subHeader = programMeta[node.type].hasSubHeader ? (
+        <div className={`headerArea2 headerArea2_${node.type}`} />
+    ) : undefined;
 
     return (
         <WindowShell

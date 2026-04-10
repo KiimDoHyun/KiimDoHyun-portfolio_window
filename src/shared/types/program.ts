@@ -2,13 +2,6 @@ import type { ProjectData, ResumeData } from "./content";
 
 export type ProgramId = string;
 
-export type ProgramType =
-    | "FOLDER"
-    | "DOC"
-    | "IMAGE"
-    | "INFO"
-    | "BROWSER";
-
 export type ProgramStatus = "active" | "min";
 
 interface ProgramBase {
@@ -24,6 +17,8 @@ export type ProgramNode =
     | (ProgramBase & { type: "IMAGE"; src: string })
     | (ProgramBase & { type: "INFO"; contents: ResumeData })
     | (ProgramBase & { type: "BROWSER"; url: string });
+
+export type ProgramType = ProgramNode["type"];
 
 export interface RunningProgram {
     id: ProgramId;
