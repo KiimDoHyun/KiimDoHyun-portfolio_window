@@ -1,6 +1,6 @@
 import type { FileSystemState, ProgramId, ProgramNode } from "@shared/types/program";
 import type { AuthoringNode, PortfolioSchema } from "@shared/types/portfolio-schema";
-import { programMeta } from "@shared/lib/programMeta";
+import { pickExtraFields } from "@shared/lib/programMeta";
 
 let counter = 0;
 function nextId(): ProgramId {
@@ -34,10 +34,7 @@ export function buildFileSystem(schema: PortfolioSchema): FileSystemState {
         }
 
         const base = { id, parentId, type: authoring.type, name: authoring.name, icon: authoring.icon };
-        const extra: Record<string, unknown> = {};
-        for (const key of programMeta[authoring.type].extraFields) {
-            extra[key] = (authoring as Record<string, unknown>)[key];
-        }
+        const extra = pickExtraFields(authoring.type, authoring as Record<string, unknown>);
         nodes[id] = { ...base, ...extra } as ProgramNode;
         return id;
     }

@@ -18,6 +18,21 @@ export interface ProgramMetaEntry {
     extraFields: Array<string>;
 }
 
+/**
+ * registry의 extraFields를 사용하여 소스 객체에서 동적 필드를 추출한다.
+ * buildFileSystem, exportFileSystem, fileSystemStore의 중복 로직을 통합.
+ */
+export function pickExtraFields(
+    type: ProgramType,
+    source: Record<string, unknown>,
+): Record<string, unknown> {
+    const extra: Record<string, unknown> = {};
+    for (const key of programMeta[type].extraFields) {
+        extra[key] = source[key];
+    }
+    return extra;
+}
+
 export const programMeta: Record<ProgramType, ProgramMetaEntry> = {
     FOLDER: {
         defaultIcon: folderEmpty,
@@ -29,7 +44,7 @@ export const programMeta: Record<ProgramType, ProgramMetaEntry> = {
     },
     IMAGE: {
         defaultIcon: defaultImage,
-        resolveTitle: () => "이미지",
+        resolveTitle: (_name) => "이미지",
         extraFields: ["src"],
     },
     INFO: {

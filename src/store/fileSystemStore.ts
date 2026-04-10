@@ -9,7 +9,7 @@ import type { AuthoringNode } from "@shared/types/portfolio-schema";
 import type { PortfolioSchema } from "@shared/types/portfolio-schema";
 import { buildFileSystem } from "@shared/lib/file-system/buildFileSystem";
 import { exportFileSystem } from "@shared/lib/file-system/exportFileSystem";
-import { programMeta } from "@shared/lib/programMeta";
+import { pickExtraFields } from "@shared/lib/programMeta";
 
 export type NewNodeInput =
     | { type: "FOLDER"; name: string; icon: string }
@@ -61,10 +61,7 @@ export const useFileSystemStore = create<FileSystemStore>()(
                     draft.nodes[id] = { ...base, type: "FOLDER" };
                     draft.childrenByParent[id] = [];
                 } else {
-                    const extra: Record<string, unknown> = {};
-                    for (const key of programMeta[input.type].extraFields) {
-                        extra[key] = (input as Record<string, unknown>)[key];
-                    }
+                    const extra = pickExtraFields(input.type, input as Record<string, unknown>);
                     draft.nodes[id] = { ...base, type: input.type, ...extra } as ProgramNode;
                 }
 

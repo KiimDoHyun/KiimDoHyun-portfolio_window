@@ -1,6 +1,6 @@
 import type { FileSystemState, ProgramId, ProgramNode } from "@shared/types/program";
 import type { AuthoringNode, PortfolioSchema } from "@shared/types/portfolio-schema";
-import { programMeta } from "@shared/lib/programMeta";
+import { pickExtraFields } from "@shared/lib/programMeta";
 
 export function exportFileSystem(state: FileSystemState): PortfolioSchema {
     function visit(id: ProgramId): AuthoringNode {
@@ -17,10 +17,7 @@ export function exportFileSystem(state: FileSystemState): PortfolioSchema {
         }
 
         const base = { type: node.type, name: node.name, icon: node.icon };
-        const extra: Record<string, unknown> = {};
-        for (const key of programMeta[node.type].extraFields) {
-            extra[key] = (node as unknown as Record<string, unknown>)[key];
-        }
+        const extra = pickExtraFields(node.type, node as unknown as Record<string, unknown>);
         return { ...base, ...extra } as AuthoringNode;
     }
 
