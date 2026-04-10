@@ -125,13 +125,9 @@ gh api repos/{owner}/{repo}/pulls/{pr}/comments/{comment_id}/replies \
   -f body="✅ 수정 — ..."
 ```
 
-### 검증 + 커밋
+### 커밋
 
-수정이 있으면:
-```bash
-pnpm exec tsc --noEmit
-git commit
-```
+수정이 있으면 커밋한다 (amend 하지 않음).
 
 ### 요약 코멘트
 
