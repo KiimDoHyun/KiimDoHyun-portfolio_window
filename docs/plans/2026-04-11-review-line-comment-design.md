@@ -1,5 +1,13 @@
 # PR 리뷰 라인별 코멘트 전환 설계
 
+> **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
+
+**Goal:** review/resolve 스킬의 출력을 GitHub PR Review 라인별 코멘트로 전환하여 이슈 추적성을 개선한다.
+
+**Architecture:** 3개 스킬 파일(.md) 수정. review는 `gh api`로 PR Review 제출 + 요약 코멘트, resolve는 review comment에 reply + 요약 코멘트, review-loop은 반환값 형태만 조정.
+
+**Tech Stack:** GitHub REST API (`gh api`), Markdown
+
 ## 배경
 
 현재 review / resolve 스킬은 `gh pr comment`로 **하나의 큰 코멘트**에 모든 지적과 응답을 담는다.
@@ -188,3 +196,137 @@ git commit
 | 이슈 추적 | 번호 매칭 필요 | 스레드 단위로 완결 |
 | API 복잡도 | `gh pr comment` 1회 | `gh api` 다수 호출 |
 | diff 밖 라인 | 해당 없음 | 422 에러 가능 → file fallback |
+
+---
+
+## 구현 계획
+
+### Task 1: Review 스킬 — Step 3 (PR 코멘트 작성) 재작성
+
+**Files:**
+- Modify: `.claude/skills/review/SKILL.md`
+
+**Step 1: Step 3 전체를 설계 문서 기준으로 교체**
+
+기존 Step 3 "PR에 코멘트 작성" 섹션을 다음으로 교체:
+
+- 라운드 번호 결정 방식: 기존 `## 🔍 Review Round` 코멘트 수 세기 → 유지
+- 코멘트 작성: `gh pr comment` 단일 호출 → `gh api`로 PR Review 제출 + `gh pr comment`로 요약
+- 라인별 comment 포맷: 설계 문서의 "라인별 comment 포맷" 섹션 그대로 적용
+- 요약 코멘트 포맷: 설계 문서의 "요약 코멘트" 섹션 그대로 적용
+- diff 범위 밖 fallback: 422 에러 시 `subject_type: "file"` 사용 안내 추가
+- LGTM 케이스: `gh api`로 `event: "APPROVE"` 제출 + 요약 코멘트
+
+**Step 2: Step 4 (결과 반환) 반환값 변경**
+
+- 지적 있음: `"REVIEW_ID:{id}"` + 지적 건수 반환으로 변경
+- LGTM: `"LGTM"` 유지
+
+**Step 3: "리뷰하지 않는 것" / "최우선 원칙" 등 나머지 섹션**
+
+변경 없음. 리뷰 기준과 카테고리는 그대로 유지.
+
+**Step 4: 커밋**
+
+```bash
+git add .claude/skills/review/SKILL.md
+git commit -m "refactor(skill): review 스킬 라인별 PR Review comment 전환"
+```
+
+---
+
+### Task 2: Resolve 스킬 — 입력 수집 + Reply 방식 전환
+
+**Files:**
+- Modify: `.claude/skills/resolve-review/SKILL.md`
+
+**Step 1: Step 1 (지적 목록 수집) 재작성**
+
+기존: `gh pr view --comments`에서 텍스트 파싱
+변경: `gh api`로 최근 CHANGES_REQUESTED review의 comment 목록 수집
+
+```bash
+# 가장 최근 review ID
+gh api repos/{owner}/{repo}/pulls/{pr}/reviews \
+  --jq 'map(select(.state == "CHANGES_REQUESTED")) | last | .id'
+
+# 해당 review의 comment 목록
+gh api repos/{owner}/{repo}/pulls/{pr}/comments \
+  --jq '[.[] | select(.pull_request_review_id == REVIEW_ID) | {id, path, line, body}]'
+```
+
+- 독립 실행 / 루프 실행 모두 동일한 수집 방식
+- 각 comment `body`에서 심각도, 제목, Basis, Suggest 파싱
+
+**Step 2: Step 5 (커밋 + PR 코멘트) 재작성**
+
+기존: `gh pr comment`로 전체 응답 코멘트
+변경:
+1. 각 review comment에 `gh api` reply (설계 문서의 Reply 포맷 적용)
+2. `gh pr comment`로 라운드 요약만 남김
+
+```bash
+# 각 comment에 reply
+gh api repos/{owner}/{repo}/pulls/{pr}/comments/{comment_id}/replies \
+  --method POST -f body="✅ 수정 — ..."
+
+# 요약 코멘트
+gh pr comment {pr} --body "## 🔧 Resolve Round N ..."
+```
+
+**Step 3: 나머지 섹션 (타당성 판단 기준, 검증 등)**
+
+변경 없음. 판단 로직은 그대로 유지.
+
+**Step 4: 커밋**
+
+```bash
+git add .claude/skills/resolve-review/SKILL.md
+git commit -m "refactor(skill): resolve 스킬 review comment reply 방식 전환"
+```
+
+---
+
+### Task 3: Review Loop 오케스트레이터 — 반환값 핸들링 조정
+
+**Files:**
+- Modify: `.claude/skills/review-loop/SKILL.md`
+
+**Step 1: Step 3 루프 내 review 결과 처리 조정**
+
+- review 서브에이전트 반환값: `"LGTM"` 또는 `"REVIEW_ID:{id}"` + 건수
+- LGTM 판단 로직: `reviewResult == "LGTM"` → 유지
+- resolve에 전달하는 정보: comment URL 대신 PR 번호만 전달 (resolve가 API로 직접 수집)
+
+**Step 2: PR 타임라인 예시 업데이트**
+
+설계 문서의 타임라인 예시로 교체.
+
+**Step 3: 커밋**
+
+```bash
+git add .claude/skills/review-loop/SKILL.md
+git commit -m "refactor(skill): review-loop 반환값 핸들링 조정"
+```
+
+---
+
+### Task 4: 수동 검증
+
+테스트 PR을 대상으로 실제 동작 확인.
+
+- [ ] `review` 스킬 독립 실행 → PR에 라인별 review comment가 붙는지 확인
+- [ ] `resolve-review` 스킬 독립 실행 → 각 review comment 스레드에 reply가 달리는지 확인
+- [ ] `review-loop` 실행 → 라운드 순환이 정상 동작하는지 확인
+- [ ] diff 범위 밖 라인 지적 시 file fallback이 동작하는지 확인
+- [ ] LGTM 시 APPROVE review가 제출되는지 확인
+
+---
+
+## 완료 조건 (Definition of Done)
+
+- [ ] review 스킬이 `gh api`로 PR Review를 제출하고 라인별 comment가 코드 위치에 표시된다
+- [ ] resolve 스킬이 각 review comment 스레드에 reply로 응답한다
+- [ ] 요약 코멘트(DoD, 카운트)가 라운드별로 별도 남는다
+- [ ] review-loop 오케스트레이터가 정상 순환한다
+- [ ] 기존 독립 실행 경로(`"PR #N 리뷰해"`, `"리뷰 반영해"`)가 정상 동작한다
