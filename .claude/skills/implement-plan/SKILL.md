@@ -68,11 +68,4 @@ digraph implement_flow {
 
 사용자가 승인하면 `create-pr` 스킬을 사용하여 PR을 생성한다.
 
-PR URL을 출력하고 다음 안내를 한다:
-
-```
-PR이 생성되었습니다: {PR_URL}
-
-코드 리뷰를 실행하려면:
-→ "PR #N 리뷰 해줘" (review-implementation 스킬이 자동 품질 루프를 실행합니다)
-```
+생성된 PR URL을 사용자에게 출력한다.
