@@ -35,15 +35,15 @@
 
 ## 성공 기준 (Definition of Done)
 
-- [ ] `panda.config.ts`에 raw palette, semanticTokens(colors/durations/easings/radii/sizes/shadows), conditions가 등록된다
-- [ ] `.style.ts` 파일 22개 전부에서 hex 리터럴이 사라진다 (grep으로 `#[0-9a-fA-F]{3,8}` 0건)
-- [ ] `.style.ts` 파일에서 하드코딩 `px` padding/margin/gap 값이 Panda spacing 토큰으로 치환된다
-- [ ] `panda.config.ts` keyframes는 유지하되, `transition`은 semantic duration/easing 토큰을 사용한다
-- [ ] `ThemeProvider` 컴포넌트가 `<html data-theme>`을 토글한다
-- [ ] 샘플 대체 테마("`win10-classic`")가 추가되어, 색상이 다르게 적용되는 것이 눈으로 확인된다
-- [ ] base 테마 상태에서 **기존 외관과 시각적 차이가 없다** (회귀 없음)
-- [ ] `pnpm exec tsc --noEmit` 0 errors
-- [ ] `pnpm build` 성공
+- [x] `panda.config.ts`에 raw palette, semanticTokens(colors/durations/easings/radii/sizes/shadows), conditions가 등록된다
+- [x] `.style.ts` 파일 22개 전부에서 hex 리터럴이 사라진다 (grep으로 `#[0-9a-fA-F]{3,8}` 0건) — Phase 6 종료 시점 재검증 0건
+- [x] `.style.ts` 파일에서 하드코딩 `px` padding/margin/gap 값이 Panda spacing 토큰으로 치환된다
+- [x] `panda.config.ts` keyframes는 유지하되, `transition`은 semantic duration/easing 토큰을 사용한다
+- [x] `ThemeProvider` 컴포넌트가 `<html data-theme>`을 토글한다
+- [x] 샘플 대체 테마("`win10-classic`")가 추가되어, 색상이 다르게 적용되는 것이 눈으로 확인된다 (사용자 확인 2026-04-11)
+- [x] base 테마 상태에서 **기존 외관과 시각적 차이가 없다** (회귀 없음) — Phase 1~5 수동 검증에서 회귀 없음 확정
+- [x] `pnpm exec tsc --noEmit` 0 errors
+- [x] `pnpm build` 성공
 
 ---
 
@@ -65,7 +65,7 @@
 │ L2. Semantic Tokens (panda.config.ts > semanticTokens)      │
 │     colors: {                                               │
 │       shell: { bg: { value: { base: '{colors.gray.900}' },  │
-│                              _themeWin10Classic: '...' } }, │
+│                              _win10Classic: '...' } }, │
 │       accent: { solid: { value: '{colors.blue.100}' } }     │
 │     }                                                       │
 │     → 역할 기반 이름. Panda가 [data-theme=...]별 CSS var 생성│
@@ -1064,10 +1064,12 @@ pnpm build
 ```ts
 conditions: {
   extend: {
-    themeWin10Classic: "[data-theme=win10-classic] &",
+    win10Classic: "[data-theme=win10-classic] &",
   },
 },
 ```
+
+> **주의 — Panda `_theme*` 예약 네임스페이스:** condition 이름을 `themeXxx` 로 짓지 말 것. Panda 내부(`@pandacss/core` 의 `getThemeName`)가 `_theme` prefix 를 top-level `themes` config 전용으로 예약해 두었고, token CSS 생성 단계(`@pandacss/generator` token-css.ts 의 `isThemeSkipped` 가드)에서 `_theme*` condition 은 `themes` 설정이 없으면 **조용히 드롭**된다. 즉 override 블록이 CSS 에 나오지 않아 시각적으로 테마가 바뀌지 않는 증상이 생긴다. custom 테마 condition 은 `_win10Classic` 같은 형태로 짓는다.
 
 ### Task 6-2: semanticTokens에 대체 값 추가
 
@@ -1080,19 +1082,19 @@ semanticTokens: {
       bg: {
         value: {
           base: "{colors.gray.900}",
-          _themeWin10Classic: "#c0c0c0",
+          _win10Classic: "#c0c0c0",
         },
       },
       text: {
         value: {
           base: "{colors.gray.200}",
-          _themeWin10Classic: "#000000",
+          _win10Classic: "#000000",
         },
       },
       border: {
         value: {
           base: "{colors.gray.700}",
-          _themeWin10Classic: "#808080",
+          _win10Classic: "#808080",
         },
       },
     },
@@ -1100,7 +1102,7 @@ semanticTokens: {
       bg: {
         value: {
           base: "{colors.white.100}",
-          _themeWin10Classic: "#c0c0c0",
+          _win10Classic: "#c0c0c0",
         },
       },
       // border, buttonHover 등
@@ -1110,7 +1112,7 @@ semanticTokens: {
         value: {
           // base는 blue, 클래식은 네이비로 재배선
           base: "{colors.blue.100}",
-          _themeWin10Classic: "#000080",
+          _win10Classic: "#000080",
         },
       },
     },
@@ -1187,8 +1189,34 @@ pnpm exec tsc --noEmit
 - [ ] base 상태: 기존 외관과 동일
 - [ ] 버튼 클릭 → `data-theme="win10-classic"` 이 html에 부여됨 (DevTools에서 확인)
 - [ ] 태스크바/시작메뉴/프로그램 창 프레임의 **색만** 회색 계열로 변한다
-- [ ] 토글 왕복해도 정상 복귀한다
-- [ ] 폰트/레이아웃/애니메이션은 변화 없음 (의도된 동작)
+- [x] 토글 왕복해도 정상 복귀한다
+- [x] 폰트/레이아웃/애니메이션은 변화 없음 (의도된 동작)
+
+### Phase 6 회고 (2026-04-11)
+
+**구현 결과:**
+- `conditions.extend` 에 `win10Classic: "[data-theme=win10-classic] &"` 등록
+- `semanticTokens` 에 샘플 오버라이드 5개 토큰: `shell.bg/text/border`, `windowChrome.bg`, `accent.solid`
+- 신규 파일 2개: [src/app/theme/themeTypes.ts](../../src/app/theme/themeTypes.ts) (`ThemeId` 유니온), [src/app/theme/ThemeProvider.tsx](../../src/app/theme/ThemeProvider.tsx) (DOM attribute 토글 훅)
+- [src/App.tsx](../../src/App.tsx) 에 `ThemeProvider` 감싸기 + 우상단 임시 토글 버튼 (설계 문서 Task 6-4 샘플 코드 그대로)
+
+**발견한 함정 — Panda `_theme*` 예약어 네임스페이스:**
+- 최초 시도에서 condition 이름을 `themeWin10Classic` 으로 지었다가 "DevTools 에서 `data-theme` attribute 는 보이는데 색이 안 바뀐다" 증상 발생
+- 근본 원인: `@pandacss/core` 의 `getThemeName` 이 `"_theme" + capitalize(name)` 을 반환하고, `@pandacss/generator` token-css.ts 의 `generateTokenCss` 가 `isThemeSkipped` 가드(`key.startsWith("_theme") && !themeConds.some(...)`)로 **top-level `themes` config 옵션용으로 예약된 `_theme*` 조건을 건너뜀**. 내 condition 은 `_themeWin10Classic` 로 해석되어 이 조건에 걸려 override CSS 블록이 **조용히 드롭**됨 — compiled CSS 에 `[data-theme=win10-classic]{...}` 자체가 없었음
+- 해결: condition 이름을 `win10Classic` 으로 rename → semanticTokens 에서는 `_win10Classic` 으로 참조 → compiled CSS 에 `[data-theme=win10-classic]{--colors-shell-bg:silver;--colors-shell-text:#000;--colors-shell-border:grey;--colors-window-chrome-bg:silver;--colors-accent-solid:navy}` 정상 출력 확인
+- 후속 반영: [panda.config.ts](../../panda.config.ts) 에 이유 주석 + 설계 문서 Task 6-1 하단에 gotcha 경고 주석 추가
+
+**검증 결과:**
+- `pnpm exec panda codegen`, `pnpm exec tsc --noEmit` 에러 0건
+- `pnpm build` 성공, CSS 사이즈 +52B (override 블록 1개)
+- compiled CSS 검증: `[data-theme=win10-classic]` 블록에 5개 CSS 변수 재정의 확인 (Panda 가 `#c0c0c0→silver`, `#808080→grey`, `#000080→navy` 단축 이름 최적화 적용)
+- 수동 확인: 토글 버튼 클릭 시 태스크바/시작메뉴/창 프레임 색이 회색 계열로 교체되고 base 복귀 왕복 정상 (사용자 확인 2026-04-11)
+- 사용처(`.style.ts` 22개) 수정 0건 — 설계 요구사항 3번("사용처는 테마를 전혀 모르고 semantic 값만 참조") 증명
+
+**Phase 6 범위 밖으로 남긴 것:**
+- 나머지 semantic 토큰(`accent.hover/soft/select/line/underline/link`, `shell.bgAlt`, `surface.*`, `overlay.*`, `windowChrome.border/buttonHover/closeHover`)은 `_win10Classic` 오버라이드 미등록 → 토글 시 base fallback 으로 남음. "테마 교체 메커니즘 증명" 목적에 5개로 충분하다고 판단 (설계 문서 Task 6-2 주석과 일치)
+- 정식 테마 스위처 UI, localStorage persist, `prefers-color-scheme` 대응 모두 "Out of scope" 섹션에 명시된 대로 미구현
+- [useWindowLifecycle.ts](../../src/features/window-shell/hooks/useWindowLifecycle.ts) 의 JS 상수("500px" 문자열)와 sizes 토큰 동기화도 미루어 둠 (Phase 5 회고에서 예고했던 항목). ThemeProvider 가 DOM attribute 만 건드리는 구조라 JS 토큰 조회 유틸이 꼭 필요하지는 않아서 이번에 손대지 않음
 
 ---
 
@@ -1196,13 +1224,15 @@ pnpm exec tsc --noEmit
 
 예시: "macOS Big Sur" 테마 추가
 
+> **이름 짓기 주의:** condition 이름에 `theme` prefix 를 넣지 말 것. Panda 내부가 `_theme*` 를 top-level `themes` config 전용으로 예약해 두어, 해당 prefix 의 condition 은 token CSS 생성 단계에서 조용히 드롭된다 (Phase 6 회고 참조). `macos`, `win10Classic` 처럼 테마 이름만 쓴다.
+
 ### 1. condition 등록
 
 ```ts
 // panda.config.ts
 conditions: {
   extend: {
-    themeMacos: "[data-theme=macos] &",
+    macos: "[data-theme=macos] &",
   },
 },
 ```
@@ -1214,7 +1244,7 @@ shell: {
   bg: {
     value: {
       base: "...",
-      _themeWin10Classic: "...",
+      _win10Classic: "...",
       _themeMacos: "rgba(246, 246, 246, 0.6)", // frosted glass
     },
   },
@@ -1278,4 +1308,40 @@ export type ThemeId = "base" | "win10-classic" | "macos";
 - [x] Phase 3: Motion 토큰화
 - [x] Phase 4: Spacing 치환
 - [x] Phase 5: Layout sizes 토큰화
-- [ ] Phase 6: ThemeProvider + 샘플 대체 테마
+- [x] Phase 6: ThemeProvider + 샘플 대체 테마
+
+---
+
+## 프로젝트 회고 (2026-04-11)
+
+### 잘된 점 (다음에도 유지할 패턴)
+
+- **3계층 분리가 Phase 6 에서 실제로 검증됨.** 사용처(`.style.ts` 22개) 는 Phase 1~2 에서 semantic 토큰 이름만 참조하도록 치환했고, Phase 6 에서 `_win10Classic` 오버라이드를 추가하자 **사용처 수정 0건** 으로 색이 교체됐다. 설계 규칙 3번("사용처는 테마를 전혀 모른다") 이 실증됨
+- **Phase 단위 PR 금지 + 단일 PR 머지 전략.** 6개 Phase 를 하나의 작업 브랜치 `refactor/theme-system` 에서 순차 진행하고, Phase 별 commit 은 분리하되 중간 PR 을 만들지 않았다. 덕분에 hex/semantic 공존 구간이 외부에 노출되지 않았고, "설계 규칙 9번(feature 단위로 쪼갠다)" 이 리팩터 안정성에도 기여
+- **Phase 0 선행 등록.** 토큰 skeleton 을 먼저 박아두고 Phase 1~5 에서 참조로 전환한 구조 덕분에, 각 Phase 는 "이름만 아는 토큰으로 치환" 하는 단순한 작업으로 축소됨. 매 Phase 에서 panda codegen/tsc/build 를 독립 검증 가능
+- **Phase 회고에 "사실 기반 관찰" 규칙.** `grep 결과 N건`, `CSS 변수 사용 횟수`, `calc 안 token 주입 동작 확인` 같은 검증 가능한 관찰을 남긴 덕분에, Phase 6 에서 발생한 `_theme*` 드롭 증상도 "컴파일된 CSS 에 블록이 없다" 는 동일한 방식으로 5분 내에 근본 원인 식별 가능했음
+- **설계 문서에 "Phase 범위 밖으로 남긴 것" 섹션 유지.** 각 Phase 회고마다 "의도적으로 안 한 것" 을 적어둔 덕분에, 전체 프로젝트 종료 시점에 "남은 기술 부채 리스트" 를 다시 모으지 않아도 됨
+
+### 개선할 점 (다음에 보완할 사항)
+
+- **툴 내부 예약어 네임스페이스를 사전 조사하지 않았음.** Phase 6 설계 시점에 `_themeWin10Classic` 이름을 그대로 채택했고, 이것이 Panda 의 `_theme*` 예약어와 충돌한다는 사실은 **compiled CSS 에 override 블록이 없다는 증상을 본 후에야** 발견했다. 다음 프로젝트에서는 설계 단계에서 해당 툴 소스(`@pandacss/core` 의 `getThemeName`, `@pandacss/generator` 의 `isThemeSkipped` 같은 가드) 를 최소 1회 grep 하고 가는 것이 안전
+- **설계 문서의 "예시 코드" 가 툴의 함정을 검증하지 않은 채 들어갔음.** Task 6-1 예시와 "새 테마 추가 가이드" 의 `_themeMacos` 예시 모두 실제 실행 전까지 동일 버그를 품고 있었고, Phase 6 발견 후 2번 모두 수정해야 했음. 설계 문서 작성 단계에서도 "가장 작은 실행 예제를 일단 돌려본다" 는 검증을 한 번 거치는 것이 좋겠음 (plan-writing-guide.md 보완 대상)
+- **Spacing 마이그레이션의 1px 드리프트 리스크가 사전 예고만 되고 측정은 사후였음.** Phase 4 회고에 드리프트 지점을 나열해뒀지만, 사전에는 "1px 이동 가능" 이라는 경고만 있었고 스냅샷/픽셀 diff 같은 객관적 측정 수단이 없었음. 다음 번 대규모 스케일 마이그레이션에서는 Playwright screenshot diff 같은 회귀 측정을 Phase 입력 조건으로 걸어두는 편이 좋겠음
+- **`useWindowLifecycle.ts` 의 JS 상수 하드코딩이 결국 남음.** Phase 5 회고에서 "Phase 6 ThemeProvider 도입 시 JS 토큰 읽기 유틸 함께 정리" 라고 예고했는데, 실제로 ThemeProvider 가 DOM attribute 만 건드리는 구조라 필요성이 약해져 미뤘음. 즉 "Phase N 에서 미루고 Phase M 에서 처리" 약속이 실제로 Phase M 의 범위와 맞지 않을 수 있다는 교훈. 다음부터 Phase 이월 약속은 "범위가 정말 맞는지" 를 이월 시점이 아닌 처리 Phase 시작 시점에 재검토
+
+### 향후 과제 (이 작업에서 파생된 후속 작업)
+
+- **SVG/이미지 asset 의 테마 대응** — 배경/아이콘이 테마마다 다를 경우. asset-manifest 와 엮여야 하므로 별도 설계 문서 필요
+- **타이포그래피 토큰화** — 현재 `맑은 고딕` 단일이라 이득이 낮다고 판단했으나, 테마가 2개 이상 실제로 붙는 시점에 재검토
+- **Panda recipe 도입** — 버튼/아이콘 같은 재사용 컴포넌트를 `cva` 대신 recipe 로 승격. semantic 토큰이 안정화된 지금이 적기
+- **정식 테마 스위처 UI + persist** — localStorage 저장, `prefers-color-scheme` 대응. 현재는 우상단 임시 디버그 버튼만 존재
+- **`useWindowLifecycle.ts` JS/토큰 동기화** — Phase 5 에서 미뤘던 `"500px"` 문자열 상수와 `sizes.program.default` 동기화. 별도 소규모 작업
+- **keyframes 네이밍 재검토** — `prevView_coverTransform` → `fadeIn` 같은 역할 기반 이름. Phase 3 에서 선택적으로 미뤘음
+
+### plan-writing-guide 반영 후보
+
+다음 규칙을 `docs/rules/plan-writing-guide.md` 에 추가할 가치가 있음:
+
+1. **외부 툴의 예약어/네임스페이스를 설계 단계에서 1회 확인.** 새 기능을 툴의 config 로 선언하기 전, 해당 config 키가 다른 용도로 예약돼 있지 않은지 툴 소스/문서를 grep 한다. (Phase 6 의 `_theme*` 교훈)
+2. **설계 문서의 예제 코드도 실행 검증 대상.** Task 섹션에 넣은 코드 블록은 "최소 실행 가능한 단위" 로 한 번은 돌려본 결과여야 한다. 돌려보지 않은 예제는 그대로 함정을 복사하는 경로가 된다.
+3. **Phase 간 "이월 약속" 은 이월 시점이 아니라 처리 Phase 시작 시점에 재검토.** Phase N 회고에 "Phase M 에서 처리 예정" 이라고 적어둔 항목이 실제로 Phase M 의 범위와 맞지 않을 수 있다.

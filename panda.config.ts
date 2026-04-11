@@ -19,6 +19,20 @@ export default defineConfig({
   // Enable CSS variables for better theming
   cssVarRoot: ":root",
 
+  // Theme condition. `<html data-theme="win10-classic">` 범위 내에서 semantic token
+  // 오버라이드가 적용된다. 추가 테마가 생기면 여기에 condition을 더한다.
+  //
+  // NOTE: condition 이름에 `theme` prefix 를 쓰지 않는다.
+  // Panda 는 `_theme*` 를 top-level `themes` config 옵션용으로 예약해 두었고,
+  // 해당 prefix 의 condition 은 `themes` 설정이 없으면 token CSS 생성 단계에서
+  // 조용히 드롭된다 (@pandacss/generator token-css.ts 의 `isThemeSkipped` 가드).
+  // 따라서 custom 테마 condition 은 `_themeXxx` 대신 `_xxx` 형태로 짓는다.
+  conditions: {
+    extend: {
+      win10Classic: "[data-theme=win10-classic] &",
+    },
+  },
+
   // L2+ motion shorthand. 사용처는 `transition: "fast" | "medium" | "slow"` 한 줄만 본다.
   // transform 결과가 transitionProperty/Duration/TimingFunction 3개로 전개된다.
   utilities: {
@@ -140,16 +154,37 @@ export default defineConfig({
       },
       semanticTokens: {
         // L2. Semantic tokens — 역할/의미. 사용처는 이 층만 참조한다.
-        // base 값만 등록. 대체 테마의 condition 오버라이드는 Phase 6에서 추가.
+        // base 는 현재 외관. `_win10Classic` 은 `<html data-theme="win10-classic">`
+        // 범위에서 덮어쓰는 값이며, 샘플 테마 교체 동작을 증명하기 위한 최소 오버라이드만 건다.
         colors: {
           shell: {
-            bg: { value: { base: "{colors.gray.900}" } },
+            bg: {
+              value: {
+                base: "{colors.gray.900}",
+                _win10Classic: "#c0c0c0",
+              },
+            },
             bgAlt: { value: { base: "{colors.slate.100/61}" } },
-            text: { value: { base: "{colors.gray.200}" } },
-            border: { value: { base: "{colors.gray.700}" } },
+            text: {
+              value: {
+                base: "{colors.gray.200}",
+                _win10Classic: "#000000",
+              },
+            },
+            border: {
+              value: {
+                base: "{colors.gray.700}",
+                _win10Classic: "#808080",
+              },
+            },
           },
           windowChrome: {
-            bg: { value: { base: "{colors.white.100}" } },
+            bg: {
+              value: {
+                base: "{colors.white.100}",
+                _win10Classic: "#c0c0c0",
+              },
+            },
             border: { value: { base: "{colors.black.100}" } },
             // 근사 대상 제외: #dddddd는 raw에 없어 이동 리스크 회피 위해 rgba 유지
             buttonHover: { value: { base: "rgba(221, 221, 221, 0.7)" } },
@@ -168,7 +203,12 @@ export default defineConfig({
           },
           accent: {
             // "강조" 역할. base 테마에서는 blue/skyblue로 연결된다.
-            solid: { value: { base: "{colors.blue.100}" } }, // active / 진한 강조
+            solid: {
+              value: {
+                base: "{colors.blue.100}",
+                _win10Classic: "#000080", // classic 네이비
+              },
+            }, // active / 진한 강조
             hover: { value: { base: "{colors.skyblue.400}" } }, // taskbar 아이콘 hover
             soft: { value: { base: "{colors.skyblue.100}" } }, // folder hover
             select: { value: { base: "{colors.skyblue.200}" } }, // folder 선택

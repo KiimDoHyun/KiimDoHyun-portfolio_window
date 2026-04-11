@@ -1,17 +1,22 @@
 import "./App.css";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import WindowRouter from "./app/routers/WindowRouter";
+import { ThemeProvider } from "./app/theme/ThemeProvider";
 
 function App() {
+  // 정식 테마 스위처 UI / persist 는 out of scope. 지금은 base 고정.
+  // 나중에 스위처를 붙일 때 themeId 만 state 로 끌어올리면 된다.
   return (
-    <div className="App">
-      <BrowserRouter basename={process.env.PUBLIC_URL}>
-        <Routes>
-          <Route path="/" element={<Navigate to="/window/login" replace />} />
-          <Route path="/window/*" element={<WindowRouter />} />
-        </Routes>
-      </BrowserRouter>
-    </div>
+    <ThemeProvider themeId="base">
+      <div className="App">
+        <BrowserRouter basename={process.env.PUBLIC_URL}>
+          <Routes>
+            <Route path="/" element={<Navigate to="/window/login" replace />} />
+            <Route path="/window/*" element={<WindowRouter />} />
+          </Routes>
+        </BrowserRouter>
+      </div>
+    </ThemeProvider>
   );
 }
 
