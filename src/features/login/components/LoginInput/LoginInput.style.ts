@@ -49,7 +49,7 @@ const loginButtonRecipe = cva({
   base: {
     width: "120px",
     height: "40px",
-    backgroundColor: "#ffffff00",
+    backgroundColor: "transparent",
     border: "2px solid white",
     borderRadius: "4px",
     color: "white",
@@ -59,7 +59,7 @@ const loginButtonRecipe = cva({
     transition: "all 0.2s ease",
     outline: "none",
     "&:hover": {
-      borderColor: "#d0d0d0",
+      borderColor: "surface.borderDim",
     },
     "&:focus-visible": {
       outline: "2px solid black",

@@ -38,15 +38,15 @@ const iconBoxStyle = css({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "space-between",
-    border: "2px solid #ffffff00",
+    border: "2px solid transparent",
 
     _hover: {
-        backgroundColor: "#bbbbbb47",
-        border: "2px solid #ffffff2e",
+        backgroundColor: "overlay.weak",
+        border: "2px solid token(colors.overlay.active)",
     },
 
     _active: {
-        backgroundColor: "red",
+        backgroundColor: "overlay.activeHover",
     },
 
     "& .iconImgBox": {

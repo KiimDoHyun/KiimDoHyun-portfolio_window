@@ -17,7 +17,7 @@ export const docProgramContentStyle = css({
         width: "100%",
         height: "auto",
         minHeight: "200px",
-        backgroundColor: "#e7e7e7",
+        backgroundColor: "surface.content",
         display: "inline-block",
         overflow: "scroll",
 
@@ -32,7 +32,7 @@ export const docProgramContentStyle = css({
         alignItems: "center",
         justifyContent: "center",
 
-        color: "#a2a1a1",
+        color: "surface.textMuted",
         fontSize: "14px",
     },
 
@@ -75,7 +75,7 @@ export const docProgramContentStyle = css({
     },
     "& .cardContent": {
         fontSize: "12px",
-        color: "#4b4b4b",
+        color: "surface.textPrimary",
     },
 
     "& .doc_stack": {
@@ -101,7 +101,7 @@ export const docProgramContentStyle = css({
         bottom: "-45px",
         opacity: 1,
 
-        boxShadow: "0px 0px 10px 2px #a1a1a1",
+        boxShadow: "stackItem",
         scale: 1,
     },
 

@@ -13,7 +13,7 @@ export const headerStyle = css({
     },
 
     "& .image_header_controller_btn:hover": {
-        backgroundColor: "#e6e6e6",
+        backgroundColor: "surface.content",
     },
 
     "& .image_header_controller_btn img": {
@@ -30,7 +30,7 @@ export const contentStyle = css({
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: "#20343b",
+        backgroundColor: "surface.dark",
     },
 
     "& .image_arrow": {
@@ -54,12 +54,12 @@ export const contentStyle = css({
     },
 
     "& .image_arrowLeft": {
-        background: "linear-gradient(to right, #00000029, #ffffff00)",
+        background: "linear-gradient(to right, token(colors.overlay.fadeEdge), transparent)",
         left: 0,
     },
 
     "& .image_arrowRight": {
-        background: "linear-gradient(to right, #ffffff00, #00000029)",
+        background: "linear-gradient(to right, transparent, token(colors.overlay.fadeEdge))",
         right: 0,
     },
 

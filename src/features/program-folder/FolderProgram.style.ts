@@ -18,7 +18,7 @@ export const headerStyle = css({
         cursor: "default",
         display: "flex",
         alignItems: "center",
-        border: "1px solid #e3e3e3",
+        border: "1px solid token(colors.surface.border)",
         height: "100%",
     },
     "& .routeBox input": {
@@ -101,14 +101,14 @@ export const contentStyle = css({
         boxSizing: "content-box",
         height: "auto",
         padding: "5px 10px",
-        border: "1px solid #ffffff00",
+        border: "1px solid transparent",
     },
     "& .folder_selected": {
-        backgroundColor: "#cce8ff !important",
-        border: "1px solid #99d1ff",
+        backgroundColor: "token(colors.accent.select) !important",
+        border: "1px solid token(colors.accent.line)",
     },
     "& .folder:hover": {
-        backgroundColor: "#e5f3ff",
+        backgroundColor: "accent.soft",
     },
     "& .folder .name": {
         wordBreak: "break-all",

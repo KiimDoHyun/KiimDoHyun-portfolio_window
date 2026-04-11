@@ -645,13 +645,50 @@ grep -rnE "#[0-9a-fA-F]{3,8}" src --include="*.style.ts" --include="*.tsx"
 
 **예외 허용:** SVG 파일 내부 fill / mask 속성, 아이콘 asset — 이건 별도 처리(Phase Out of scope).
 
+### Task 2-5: IconBox desktop shell 보완 (2026-04-11 추가)
+
+**배경:** Phase 1/2 타겟 리스트에 누락됐던 `src/features/desktop/components/IconBox.tsx` 에 hex 3건 + `backgroundColor: "red"` 하드코딩이 남아 있었다. desktop 아이콘 클릭 시 배경이 빨간색으로 나와 사용자 피드백으로 발견.
+
+**치환:**
+
+```
+border "2px solid #ffffff00"  → "2px solid transparent"
+_hover.backgroundColor #bbbbbb47 → overlay.weak (white 8% alpha)
+_hover.border "2px solid #ffffff2e" → "2px solid token(colors.overlay.active)" (white 14% alpha)
+_active.backgroundColor "red" → overlay.activeHover (white 17% alpha)
+```
+
+### Task 2-6: Login 버튼 hover 복원 (2026-04-11 추가)
+
+**배경:** Phase 2 초기 치환에서 `#d0d0d0 → surface.border(gray.400 #e7e7e7)` 로 근사했더니 흰 배경과의 명도 차이가 47 → 24 로 줄어 hover 체감이 사라짐.
+
+**치환:**
+- semantic `surface.borderDim: {colors.gray.500}` 신규 추가 (#c7c7c7, 명도 차 56 — 원본보다 살짝 더 진함)
+- `LoginInput.style.ts` hover borderColor → `surface.borderDim`
+
 **완료 조건:**
-- [ ] `.style.ts` / `.tsx` 에서 인라인 스타일 hex 0건
-- [ ] `pnpm build` 성공
+- [x] `.style.ts` / `.tsx` 에서 Phase 2 타겟 파일(program-doc/folder/image/info, login) + IconBox 인라인 hex 0건
+- [x] `src/features/` 전역 hex 0건 (예외: `src/shared/ui/icons/` 의 SVG fill / 아이콘 asset)
+- [x] `pnpm build` 성공
+- [x] `pnpm exec tsc --noEmit` 0 errors
 
 **수동 검증:**
 - [ ] 각 프로그램(DOC/FOLDER/IMAGE/INFO) 창이 기존과 동일한 배경/텍스트 색으로 렌더
 - [ ] folder에서 항목 hover/선택 시 기존과 동일한 파랑 계열 강조
+- [ ] image viewer 좌우 엣지 그라데이션이 기존과 동일하게 보임
+- [ ] login 버튼 hover 시 테두리 dim이 체감될 것
+- [ ] 바탕화면 아이콘 hover/클릭 시 빨간 배경 없이 Windows 스타일 반투명 피드백
+
+### Phase 2 회고 (2026-04-11)
+
+- `surface.content` 신규 semantic 추가 — `surface.border`와 raw(gray.400)는 같지만 의미가 "배경"과 "테두리"로 나뉘므로 AI 수정 지점 분리를 위해 둘 다 유지
+- `gray.950(#202020)`, `skyblue.500(#76b3e4)` 2개 raw 신규 — InfoProgram desc 텍스트/링크용. 기존 팔레트로는 시각 차이가 커서 근사 이동 불가
+- `shadows.stackItem` 토큰 추가 — boxShadow 내 색상 리터럴(`#a1a1a1`) 제거 방법으로 semantic shadow 토큰이 깔끔 (string 내부 `token()` 보다 전용 토큰이 향후 테마 전환 시 유리)
+- gradient 내 반투명 색은 `overlay.fadeEdge` semantic + `token(colors.overlay.fadeEdge)` 형태로 해결. panda codegen이 gradient string 내 `token()` 함수를 CSS 변수로 치환해 줌 (Phase 1의 `token(colors.shell.border)` 패턴 재활용)
+- `!important` 를 가진 folder_selected 배경색은 `"token(colors.accent.select) !important"` 형태로 치환 — panda의 semantic 프로퍼티 값에 `!important` 직접 붙이는 대신 `token()` 함수로 안전 우회
+- **근사 치환의 회귀 리스크** — `#d0d0d0 → surface.border(gray.400)` 로 "팔레트에 흡수" 했는데 hover 체감이 사라지는 회귀 발생. 사용자 피드백으로 발견. 교훈: 근사 이동 시 "raw와 몇 단계 차이인지" 만 보지 말고 **사용처 주변 배경과의 명도 차**를 함께 고려해야 한다. Phase 3~5에서도 근사 이동 시 동일 리스크 체크 필요
+- **설계 문서 타겟 리스트의 빈틈** — `IconBox.tsx`(desktop shell) 는 Phase 1 shell 타겟, Phase 2 program 콘텐츠 타겟 어디에도 안 들어 있어 누락. `_active: "red"` 같은 하드코딩 오류까지 섞여 있었다. 교훈: Phase 분할 시 **"feature/ 전역 hex grep = 0" 을 DoD로 걸어 두는** 게 누락 방지에 효과적. Phase 2에서 `src/features/` 전역 DoD로 강화
+- 테스트는 jest 설정 이슈로 전체 실패(known issue, commit 4f6d60e). `pnpm build` 와 `tsc --noEmit` 으로 품질 게이트 대체
 
 ---
 
@@ -1094,9 +1131,9 @@ export type ThemeId = "base" | "win10-classic" | "macos";
 
 ## 진행 상태
 
-- [ ] Phase 0: 토큰 skeleton 등록
-- [ ] Phase 1: 색상 (shell / windowChrome)
-- [ ] Phase 2: 색상 (프로그램 콘텐츠)
+- [x] Phase 0: 토큰 skeleton 등록
+- [x] Phase 1: 색상 (shell / windowChrome)
+- [x] Phase 2: 색상 (프로그램 콘텐츠)
 - [ ] Phase 3: Motion 토큰화
 - [ ] Phase 4: Spacing 치환
 - [ ] Phase 5: Layout sizes 토큰화

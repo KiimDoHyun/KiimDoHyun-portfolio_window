@@ -41,6 +41,7 @@ export default defineConfig({
             700: { value: "#4d4d4d" }, // 테두리
             800: { value: "#4b4b4b" }, // 어두운 본문
             900: { value: "#393a3b" }, // 섀시 다크 배경 (거의 중성)
+            950: { value: "#202020" }, // 강조용 짙은 본문 (program-info desc)
           },
           slate: {
             100: { value: "#20343b" }, // 푸른빛 도는 다크
@@ -50,6 +51,7 @@ export default defineConfig({
             200: { value: "#cce8ff" }, // folder 선택
             300: { value: "#99d1ff" }, // folder border
             400: { value: "#00adef" }, // taskbar 아이콘 hover
+            500: { value: "#76b3e4" }, // info 링크 텍스트
           },
           blue: {
             100: { value: "#0078d7" }, // Windows 파랑 solid
@@ -71,6 +73,7 @@ export default defineConfig({
         shadows: {
           windowFrame: { value: "0 0 20px 3px {colors.black.100/38}" },
           panelUp: { value: "0 -3px 20px 3px {colors.black.100/38}" },
+          stackItem: { value: "0 0 10px 2px {colors.gray.600}" }, // doc stackItem hover drop
         },
         durations: {
           fast: { value: "0.2s" },
@@ -101,9 +104,12 @@ export default defineConfig({
           surface: {
             light: { value: { base: "{colors.gray.100}" } },
             dark: { value: { base: "{colors.slate.100}" } },
+            content: { value: { base: "{colors.gray.400}" } }, // 프로그램 콘텐츠 영역 배경 (doc/image)
             textPrimary: { value: { base: "{colors.gray.800}" } },
             textMuted: { value: { base: "{colors.gray.600}" } },
+            textStrong: { value: { base: "{colors.gray.950}" } }, // 짙은 강조 본문 (info desc)
             border: { value: { base: "{colors.gray.400}" } }, // 프로그램 콘텐츠 영역의 옅은 border
+            borderDim: { value: { base: "{colors.gray.500}" } }, // 흰 배경 위 hover 시 dim된 테두리 (login 버튼)
             raised: { value: { base: "{colors.gray.800}" } }, // 다크 배경 위 떠있는 블록
           },
           accent: {
@@ -114,6 +120,7 @@ export default defineConfig({
             select: { value: { base: "{colors.skyblue.200}" } }, // folder 선택
             line: { value: { base: "{colors.skyblue.300}" } }, // folder border
             underline: { value: { base: "{colors.skyblue.300}" } }, // taskbar 선택 밑줄 (원래 #aac5ff, 근사 이동)
+            link: { value: { base: "{colors.skyblue.500}" } }, // info 링크 텍스트
           },
           overlay: {
             // 근사 대상 제외: #dfdfdf는 raw에 없어 이동 리스크 회피 위해 rgba 유지
@@ -121,6 +128,7 @@ export default defineConfig({
             weak: { value: { base: "{colors.white.100/8}" } }, // 약한 반투명 배경
             active: { value: { base: "{colors.white.100/14}" } },
             activeHover: { value: { base: "{colors.white.100/17}" } }, // active + hover 중첩
+            fadeEdge: { value: { base: "{colors.black.100/16}" } }, // image viewer 좌우 엣지 그라데이션
           },
         },
       },
