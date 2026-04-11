@@ -28,9 +28,15 @@ digraph implement_flow {
 
 **REQUIRED SUB-SKILL:** `superpowers:executing-plans` 를 사용하여 설계 문서의 작업 항목을 순차 실행한다.
 
-구현 중 참조할 스킬:
-- `frontend-conventions` — 프로젝트 코딩 컨벤션 라우팅
-- `superpowers:verification-before-completion` — 완료 전 검증
+### 각 작업 항목마다
+
+1. **작업 시작 전** — `frontend-conventions` 스킬을 호출하여, 해당 작업이 건드리는 영역(`typescript` / `component-structure` / `feature-public-api` / `global-state-boundary` / `folder-structure`)에 해당하는 규칙 문서를 읽는다. 작업마다 영역이 다를 수 있으므로 **매 항목마다 반복** 호출한다.
+2. **코드 수정** — 읽은 규칙을 따라 구현한다.
+3. **자기 검증 보고** — 적용한 규칙을 한 줄로 메모한다 (예: `typescript/README.md 의 배열 표기 규칙 적용`).
+
+### 모든 작업 항목 완료 후
+
+`superpowers:verification-before-completion` 스킬을 호출하여 "구현 완료" 를 주장하기 전 최종 검증을 수행한다. 이 게이트를 통과하지 못하면 Step 3 으로 넘어가지 않는다.
 
 ## Step 3: 사용자 확인 대기
 
