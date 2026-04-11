@@ -164,6 +164,14 @@ export default defineConfig({
                 _win10Classic: "#c0c0c0",
               },
             },
+            // gray.900 의 반투명 변형. HiddenIcon 처럼 섀시 위에 겹쳐지는 패널 배경용.
+            // alpha syntax 방식 B (Phase 0-6 검증) 로 raw 연결 유지.
+            bgMuted: {
+              value: {
+                base: "{colors.gray.900/88}",
+                _win10Classic: "{colors.gray.500/88}",
+              },
+            },
             bgAlt: { value: { base: "{colors.slate.100/61}" } },
             text: {
               value: {
@@ -196,6 +204,14 @@ export default defineConfig({
             content: { value: { base: "{colors.gray.400}" } }, // 프로그램 콘텐츠 영역 배경 (doc/image)
             textPrimary: { value: { base: "{colors.gray.800}" } },
             textMuted: { value: { base: "{colors.gray.600}" } },
+            // 섀시/패널 위에서 약간 dim 된 본문 텍스트 (TimeBar year/month 등).
+            // gray.500 자체가 다른 용도(화살표 아이콘) 와 구분되도록 semantic 으로 경유한다.
+            textSubtle: {
+              value: {
+                base: "{colors.gray.500}",
+                _win10Classic: "#404040",
+              },
+            },
             textStrong: { value: { base: "{colors.gray.950}" } }, // 짙은 강조 본문 (info desc)
             border: { value: { base: "{colors.gray.400}" } }, // 프로그램 콘텐츠 영역의 옅은 border
             borderDim: { value: { base: "{colors.gray.500}" } }, // 흰 배경 위 hover 시 dim된 테두리 (login 버튼)

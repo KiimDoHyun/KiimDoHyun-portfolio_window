@@ -590,9 +590,12 @@ grep -rE "#[0-9a-fA-F]{3,8}" src/features/window-shell src/features/taskbar \
 - Panda runtime `token.var()` 를 처음으로 사용함 (useTaskbarHover). DOM `.style.backgroundColor` 에 runtime 주입되는 값을 CSS variable 문자열로 변환하여 테마 전환 반응성 확보. 빌드 성공.
 - 설계 문서 Task 1-1~1-4 매핑 표가 파일 내 모든 hex 를 커버하지 못함. 현장에서 11개 값을 추가 매핑함. 주요 사례:
   - taskbar 선택 밑줄 `#aac5ff` → 문서에 없던 `accent.underline` semantic 신규 등록 (raw: `skyblue.300` 근사)
-  - TimeBar date `#90b8da` → `shell.text` 로 흡수 (옅은 청색 → 흰색, 사용자 수용)
+  - taskbar `.box1:active` `#0076ff` → `accent.solid` (raw: `blue.100` = `#0078d7`, 2bit 근사 이동). `#00adef` 근사와 동일한 "Windows 파랑 3종 → 2종으로 수렴" 의 한 축이나 drift 기록 누락 → Round 1 리뷰에서 지적되어 이 줄로 보강
+  - TimeBar date `#90b8da` → `shell.text` 로 흡수 (옅은 청색 → 흰색, 사용자 수용) ※ Round 1 리뷰 지적 후 hover tone shift 회귀가 확인되어, `.date` 기본값을 `surface.textMuted` 로 내리고 hover 시 `shell.text` 로 밝아지는 방향으로 재배선 (방향 반전, 기능 복원)
+  - TimeBar `.year_month` `gray.500` → Round 1 리뷰에서 L1 raw 직접 참조 지적 후 `surface.textSubtle` semantic 신설하여 경유
+  - TimeBar `.box_prev/.box_next` CSS named `gray`(#808080) → `shell.text` 로 흡수했으나 Round 1 리뷰에서 "이전/다음 달 명도 구분 상실" 회귀 지적. `surface.textMuted` 로 재배선해 명도 차 복원
   - StatusBar `0px 9px 20px 0px #181818` shadow → rgba 리터럴로 형태만 변환, 후속 Phase 에서 shadow 토큰 정비 시 재처리 예정
-  - HiddenIcon `#393a3be0` → rgba 유지 (gray.900 반투명 변형, 전용 semantic 필요 시 Phase 6)
+  - HiddenIcon `#393a3be0` → rgba 유지 → Round 1 리뷰 후속으로 `shell.bgMuted` (`{colors.gray.900/88}`, alpha syntax 방식 B) semantic 신설하여 경유. 테마 재배선 자동 반영 확보
 - Phase 1 범위 밖으로 남겨둔 `.tsx` inline hex: `taskbar/hooks/useTaskbarHover.ts`, `taskbar/ui/PreviewWindowFrame.tsx`, `statusbar/components/{Left,Center,Right}AreaBox.tsx`, `infobar/components/{ErrorBox,CommitItem}.tsx`, `hidden-icon/components/SkillIcon.tsx`. 후속 Phase 에서 범위 보완 필요.
 - `pnpm test` 는 34/34 실패하지만 master 에서도 동일하게 재현되는 기존 인프라 문제 (jest/babel `import type` 처리 + `.claude/worktrees/` 경로 포함). Phase 0+1 변경과 무관.
 

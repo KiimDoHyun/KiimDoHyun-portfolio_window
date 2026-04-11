@@ -38,8 +38,9 @@ const timeBarRecipe = cva({
     "& .date": {
       flex: 1,
       fontSize: "1rem",
-      // 원래 옅은 청색. 가까운 raw 없어 shell.text로 흡수 — 수동 검증 포인트
-      color: "shell.text",
+      // 원래 옅은 청색(#90b8da). 가까운 raw 가 없어 surface.textMuted 로 dim 시키고
+      // hover 시 shell.text 로 밝아지는 방향으로 tone shift 를 유지한다.
+      color: "surface.textMuted",
       cursor: "pointer",
     },
 
@@ -69,7 +70,7 @@ const timeBarRecipe = cva({
     },
 
     "& .year_month": {
-      color: "gray.500",
+      color: "surface.textSubtle",
       cursor: "default",
     },
 
@@ -118,7 +119,9 @@ const timeBarRecipe = cva({
     },
 
     "& .box_prev, & .box_next": {
-      color: "shell.text",
+      // 이전/다음 달 셀은 현재 달(shell.text) 보다 한 단계 어둡게 (#a9a9a9 계열)
+      // — 기존 CSS named `gray` (#808080) 의 "다른 달 = 더 어둡다" 관습을 유지
+      color: "surface.textMuted",
     },
 
     "& .box_title, & .box_cur, & .box_curMonth": {
