@@ -10,7 +10,7 @@ const skillIconBlockStyle = css({
     transition: "0.1s",
 
     _hover: {
-        backgroundColor: "#515151",
+        backgroundColor: "shell.border",
     },
 
     "& img": {

@@ -1,12 +1,15 @@
 import { useCallback, useRef, useState } from "react";
+import { token } from "@styled-system/tokens";
 import type { ProgramId } from "@shared/types/program";
 import type { HoverTarget, TaskbarEntry } from "../TaskBar.types";
 
+// DOM.style 에 runtime 주입되는 값이라 css() 를 쓸 수 없다.
+// token.var 로 CSS variable 문자열을 얻어 테마 전환에 반응하도록 한다.
 const glowLevelArr = [
     "", // none
-    "#ffffff0d", // 호버
-    "#ffffff24", // active
-    "#ffffff2b", // 호버 + active
+    token.var("colors.overlay.hover"), // 호버
+    token.var("colors.overlay.active"), // active
+    token.var("colors.overlay.activeHover"), // 호버 + active
 ];
 
 export interface UseTaskbarHoverParams {

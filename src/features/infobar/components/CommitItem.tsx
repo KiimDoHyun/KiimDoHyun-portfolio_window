@@ -24,13 +24,14 @@ const CommitItem = ({ item }: CommitItemProps) => {
 const commitItemStyle = css({
     boxSizing: "border-box",
     padding: "10px",
-    backgroundColor: "#292929ad",
+    // raw 에 대응 없는 어두운 회색 반투명. Phase 6 에서 전용 semantic 정비 시 재처리
+    backgroundColor: "rgba(41, 41, 41, 0.68)",
     transition: "0.15s",
     scale: 1,
     marginBottom: "20px",
 
     _hover: {
-        backgroundColor: "#484848",
+        backgroundColor: "surface.raised",
     },
     _active: {
         scale: 0.9,
@@ -42,11 +43,11 @@ const commitItemStyle = css({
     },
 
     "& h4": {
-        color: "white",
+        color: "shell.text",
     },
 
     "& p": {
-        color: "#a9a9a9",
+        color: "surface.textMuted",
     },
     "& .message": {
         marginTop: "2px",

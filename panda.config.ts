@@ -103,6 +103,8 @@ export default defineConfig({
             dark: { value: { base: "{colors.slate.100}" } },
             textPrimary: { value: { base: "{colors.gray.800}" } },
             textMuted: { value: { base: "{colors.gray.600}" } },
+            border: { value: { base: "{colors.gray.400}" } }, // 프로그램 콘텐츠 영역의 옅은 border
+            raised: { value: { base: "{colors.gray.800}" } }, // 다크 배경 위 떠있는 블록
           },
           accent: {
             // "강조" 역할. base 테마에서는 blue/skyblue로 연결된다.
@@ -116,7 +118,9 @@ export default defineConfig({
           overlay: {
             // 근사 대상 제외: #dfdfdf는 raw에 없어 이동 리스크 회피 위해 rgba 유지
             hover: { value: { base: "rgba(223, 223, 223, 0.07)" } },
+            weak: { value: { base: "{colors.white.100/8}" } }, // 약한 반투명 배경
             active: { value: { base: "{colors.white.100/14}" } },
+            activeHover: { value: { base: "{colors.white.100/17}" } }, // active + hover 중첩
           },
         },
       },

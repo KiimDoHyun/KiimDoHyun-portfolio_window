@@ -516,10 +516,78 @@ grep -rE "#[0-9a-fA-F]{3,8}" src/features/window-shell src/features/taskbar \
 - [x] 시작메뉴가 `shell.bg` 색으로 보인다
 - [x] 프로그램 창 닫기 버튼 hover 시 빨강으로 변한다
 
+### Task 1-6 ~ 1-8: Phase 1 보완 (2026-04-11 추가)
+
+**배경:** Task 1-1~1-4 에서 대상 7개 파일의 hex 를 모두 치환했으나, 같은 feature 폴더 안의 `.tsx` / hook 파일에 inline hex 가 남아있음이 후속 검증에서 드러남. Phase 2(프로그램 콘텐츠) 로 넘어가기 전에 shell/chrome 영역의 hex 0 건을 완전히 달성하기 위해 보완 작업을 추가한다.
+
+**선행 작업 — panda.config.ts 에 신규 semantic token 추가:**
+- `overlay.weak`: `{colors.white.100/8}` — 약한 반투명 배경
+- `overlay.activeHover`: `{colors.white.100/17}` — active + hover 중첩 glow
+- `surface.border`: `{colors.gray.400}` — 프로그램 콘텐츠 영역의 옅은 border
+- `surface.raised`: `{colors.gray.800}` — 다크 배경 위 떠있는 블록 (CommitItem hover 등)
+
+### Task 1-6: taskbar 영역 보강
+
+**대상 파일:**
+- [src/features/taskbar/hooks/useTaskbarHover.ts](src/features/taskbar/hooks/useTaskbarHover.ts)
+- [src/features/taskbar/ui/PreviewWindowFrame.tsx](src/features/taskbar/ui/PreviewWindowFrame.tsx)
+
+**매핑:**
+- `useTaskbarHover.ts`: `#ffffff0d` → `token('colors.overlay.hover')`, `#ffffff24` → `token('colors.overlay.active')`, `#ffffff2b` → `token('colors.overlay.activeHover')`. Panda `token()` runtime helper 를 `@styled-system/tokens` 에서 import. DOM `.style.backgroundColor` 에 runtime 주입되는 값이라 `css()` 대신 `var(--colors-*)` 문자열 반환이 필요하기 때문.
+- `PreviewWindowFrame.tsx`: inline `style={{}}` 을 `css()` 로 리팩터하여 `windowChrome.bg`, `windowChrome.border`, `surface.border`(신규) 참조.
+
+### Task 1-7: statusbar 영역 보강
+
+**대상 파일:**
+- [src/features/statusbar/components/LeftAreaBox.tsx](src/features/statusbar/components/LeftAreaBox.tsx)
+- [src/features/statusbar/components/CenterAreaBox.tsx](src/features/statusbar/components/CenterAreaBox.tsx)
+- [src/features/statusbar/components/RightAreaBox.tsx](src/features/statusbar/components/RightAreaBox.tsx)
+
+**매핑:**
+- `LeftAreaBox` / `CenterAreaBox`: `#e8e8e8` (text) → `shell.text` (gray.200 근사)
+- `RightAreaBox`:
+  - `#ffffff14` (bg) → `overlay.weak` (신규)
+  - `#9b9b9b00` (border, alpha 0) → `transparent`
+  - `#9b9b9b` (hover border) → `token(colors.shell.border)` (gray.700, 색 이동: 더 어두워짐)
+  - `#e8e8e8` (text) → `shell.text`
+
+### Task 1-8: infobar / hidden-icon 영역 보강
+
+**대상 파일:**
+- [src/features/infobar/components/ErrorBox.tsx](src/features/infobar/components/ErrorBox.tsx)
+- [src/features/infobar/components/CommitItem.tsx](src/features/infobar/components/CommitItem.tsx)
+- [src/features/hidden-icon/components/SkillIcon.tsx](src/features/hidden-icon/components/SkillIcon.tsx)
+
+**매핑:**
+- `ErrorBox`: `#a9a9a9` → `surface.textMuted` (gray.600 정확 매칭)
+- `CommitItem`:
+  - `#292929ad` (bg) → **rgba 리터럴로 형태만 변환** `rgba(41, 41, 41, 0.68)`. raw 에 대응 없음. Phase 6 에서 재처리.
+  - `#484848` (hover bg) → `surface.raised` (신규, gray.800=#4b4b4b 거의 정확)
+  - `"white"` (h4) → `shell.text`
+  - `#a9a9a9` (p) → `surface.textMuted`
+- `SkillIcon`: `#515151` (hover bg) → `token(colors.shell.border)` (gray.700=#4d4d4d 근사)
+
+### Task 1-6~1-8 완료 조건:
+
+- [x] 위 8 개 파일에서 hex 리터럴 0 건
+- [x] `pnpm exec tsc --noEmit` 0 errors
+- [x] `pnpm build` 성공
+- [ ] Panda `token.var()` runtime helper 가 useTaskbarHover 에서 정상 동작 (하나 이상의 태스크바 아이콘 hover 시 glow 색 변화) — 사용자 수동 검증 필요
+
+**수동 검증:**
+- [ ] 태스크바 아이콘 hover 시 5% 흰색 glow, active 시 14%, active 상태에서 hover 시 17% — 기존과 동일
+- [ ] 태스크바 프리뷰 창 (box1 hover 프리뷰) 의 프레임/헤더 구분선이 기존과 같은 톤
+- [ ] 시작메뉴 좌/중/우 박스의 텍스트 색이 기존과 동일
+- [ ] 시작메뉴 우측 박스 hover 시 옅은 회색 border 가 나타남
+- [ ] 정보바의 Commit 항목 hover 시 조금 더 밝은 회색 배경
+- [ ] 숨김 아이콘 hover 시 어두운 회색 배경
+
 ### Phase 0+1 회고 (2026-04-11)
 
 - Panda 0.40.0 에서 alpha syntax 방식 B 동작 확인. `_debug.alphaTest` 가 `color-mix(in srgb, var(--colors-slate-100) 50%, transparent)` 로 컴파일됨.
-- Phase 1 대상 파일 7개 (`.style.ts` 6개 + `DesktopPage.tsx`) 에서 hex 리터럴 0건 달성.
+- Phase 1 대상 파일 7개 (`.style.ts` 6개 + `DesktopPage.tsx`) 에서 hex 리터럴 0건 달성. Task 1-6~1-8 보완으로 8개 .tsx/hook 파일 추가 치환 후 shell/chrome 영역(taskbar/statusbar/timebar/infobar/hidden-icon/window-shell) 전체 hex 0건 달성.
+- 신규 semantic token 5 종 추가: `accent.underline` (Task 1-2), `overlay.weak`, `overlay.activeHover`, `surface.border`, `surface.raised` (Task 1-6~1-8). 사용하며 네이밍이 맞는지 Phase 2+ 에서 재평가.
+- Panda runtime `token.var()` 를 처음으로 사용함 (useTaskbarHover). DOM `.style.backgroundColor` 에 runtime 주입되는 값을 CSS variable 문자열로 변환하여 테마 전환 반응성 확보. 빌드 성공.
 - 설계 문서 Task 1-1~1-4 매핑 표가 파일 내 모든 hex 를 커버하지 못함. 현장에서 11개 값을 추가 매핑함. 주요 사례:
   - taskbar 선택 밑줄 `#aac5ff` → 문서에 없던 `accent.underline` semantic 신규 등록 (raw: `skyblue.300` 근사)
   - TimeBar date `#90b8da` → `shell.text` 로 흡수 (옅은 청색 → 흰색, 사용자 수용)

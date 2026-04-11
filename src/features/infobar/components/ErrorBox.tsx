@@ -9,7 +9,7 @@ const errorBoxBlockStyle = css({
     justifyContent: "center",
     alignItems: "center",
 
-    color: "#a9a9a9",
+    color: "surface.textMuted",
     cursor: "default",
 });
 
