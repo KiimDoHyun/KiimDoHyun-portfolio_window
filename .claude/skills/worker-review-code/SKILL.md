@@ -1,5 +1,5 @@
 ---
-name: review
+name: worker-review-code
 description: >
   Use when a PR has been created and needs code review.
   Trigger on "리뷰 해줘", "코드 리뷰", "PR 리뷰", "PR #N 리뷰 해줘".

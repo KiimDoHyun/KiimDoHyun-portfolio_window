@@ -1,9 +1,9 @@
 ---
-name: create-pr
+name: worker-create-pr
 description: Use whenever the user asks to create a pull request, open a PR, "PR 만들어줘", "PR 올려줘", or wants to draft PR body/description text. Generates a consistent PR body using this project's standard template (배경 / 변경 사항 / 동작 방식 / 테스트 / 영향 범위) and creates the PR via gh CLI.
 ---
 
-# create-pr
+# worker-create-pr
 
 이 프로젝트의 모든 PR은 아래 템플릿을 따른다. 리뷰어가 빠르게 맥락을 잡고, 작성자가 빠뜨리는 항목이 없도록 하기 위함이다.
 
