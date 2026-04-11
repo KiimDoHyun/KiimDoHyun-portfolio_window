@@ -10,11 +10,11 @@ const timeBarRecipe = cva({
     right: 0,
     width: "360px",
     height: "720px",
-    boxShadow: "0px -3px 20px 3px #00000061",
+    boxShadow: "panelUp",
 
     transition: "0.25s",
 
-    backgroundColor: "#393a3b",
+    backgroundColor: "shell.bg",
 
     "& .timeArea, & .calendarArea, & .functionArea": {
       padding: "20px",
@@ -22,7 +22,7 @@ const timeBarRecipe = cva({
     },
 
     "& .timeArea": {
-      color: "white",
+      color: "shell.text",
       display: "flex",
       flexDirection: "column",
       alignItems: "flex-start",
@@ -38,12 +38,13 @@ const timeBarRecipe = cva({
     "& .date": {
       flex: 1,
       fontSize: "1rem",
-      color: "#90b8da",
+      // 원래 옅은 청색. 가까운 raw 없어 shell.text로 흡수 — 수동 검증 포인트
+      color: "shell.text",
       cursor: "pointer",
     },
 
     "& .date:hover": {
-      color: "#aaaaaa",
+      color: "shell.text",
     },
 
     "& .time, & .date": {
@@ -54,8 +55,8 @@ const timeBarRecipe = cva({
     },
 
     "& .calendarArea": {
-      borderTop: "1px solid #707070",
-      borderBottom: "1px solid #707070",
+      borderTop: "1px solid token(colors.shell.border)",
+      borderBottom: "1px solid token(colors.shell.border)",
       display: "grid",
       gridTemplateRows: "20px 1fr",
       gap: "10px",
@@ -68,12 +69,12 @@ const timeBarRecipe = cva({
     },
 
     "& .year_month": {
-      color: "#c7c7c7",
+      color: "gray.500",
       cursor: "default",
     },
 
     "& .year_month:hover": {
-      color: "#ededed",
+      color: "shell.text",
     },
 
     "& .calendarArrowArea": {
@@ -105,7 +106,7 @@ const timeBarRecipe = cva({
     },
 
     "& .box": {
-      border: "2px solid #ffffff00",
+      border: "2px solid transparent",
       width: "100%",
       height: "100%",
       boxSizing: "border-box",
@@ -116,30 +117,30 @@ const timeBarRecipe = cva({
     },
 
     "& .box_prev, & .box_next": {
-      color: "gray",
+      color: "shell.text",
     },
 
     "& .box_title, & .box_cur, & .box_curMonth": {
-      color: "#ededed",
+      color: "shell.text",
     },
 
     "& .box_curDate": {
-      color: "#ededed",
+      color: "shell.text",
       position: "relative",
-      backgroundColor: "#0078d7",
+      backgroundColor: "accent.solid",
     },
 
     "& .box_curDate:after": {
       content: '""',
       width: "100%",
       height: "100%",
-      border: "2px solid black",
+      border: "2px solid token(colors.windowChrome.border)",
       position: "absolute",
       boxSizing: "border-box",
     },
 
     "& .box_content:hover": {
-      borderColor: "#797979",
+      borderColor: "shell.border",
     },
   },
   variants: {

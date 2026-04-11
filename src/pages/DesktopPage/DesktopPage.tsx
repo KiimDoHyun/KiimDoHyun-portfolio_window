@@ -176,7 +176,7 @@ const mainPageStyle = css({
 
     "& .taskBarCover": {
         position: "relative",
-        backgroundColor: "#20343b",
+        backgroundColor: "shell.bg",
         zIndex: 10000,
     },
 });

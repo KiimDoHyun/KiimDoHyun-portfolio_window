@@ -8,13 +8,13 @@ const programComponentRecipe = cva({
     height: "500px",
     width: "500px",
 
-    boxShadow: "0px 0px 20px 3px #00000061",
+    boxShadow: "windowFrame",
     position: "absolute",
 
-    border: "1px solid black",
+    border: "1px solid token(colors.windowChrome.border)",
     boxSizing: "border-box",
 
-    backgroundColor: "white",
+    backgroundColor: "windowChrome.bg",
 
     display: "grid",
     gridTemplateRows: "32px 25px 1fr 20px",
@@ -106,19 +106,19 @@ const programComponentRecipe = cva({
     "& .min div": {
       width: "11px",
       height: "1px",
-      backgroundColor: "black",
+      backgroundColor: "windowChrome.border",
     },
 
     "& .max div": {
       width: "8px",
       height: "8px",
-      border: "1px solid black",
+      border: "1px solid token(colors.windowChrome.border)",
     },
 
     "& .close div": {
       width: "14px",
       height: "1px",
-      backgroundColor: "black",
+      backgroundColor: "windowChrome.border",
     },
 
     "& .close div:nth-child(1)": {
@@ -145,11 +145,11 @@ const programComponentRecipe = cva({
     },
 
     "& .buttonArea .buttonIcon:hover": {
-      backgroundColor: "#ddddddb3",
+      backgroundColor: "windowChrome.buttonHover",
     },
 
     "& .buttonArea > .close:hover": {
-      backgroundColor: "#ff1010",
+      backgroundColor: "windowChrome.closeHover",
     },
 
     "& .contentsArea_Cover": {

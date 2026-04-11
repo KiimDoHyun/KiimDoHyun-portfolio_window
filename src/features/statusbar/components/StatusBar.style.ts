@@ -11,11 +11,11 @@ const statusBarRecipe = cva({
     left: 0,
     width: "650px",
     height: "500px",
-    boxShadow: "0px -3px 20px 3px #00000061",
+    boxShadow: "panelUp",
 
     transition: "0.4s",
     transitionTimingFunction: "cubic-bezier(0, 0.5, 0, 1)",
-    backgroundColor: "#393a3b",
+    backgroundColor: "shell.bg",
 
     display: "flex",
     gap: "10px",
@@ -32,7 +32,7 @@ const statusBarRecipe = cva({
     },
 
     "& .statusBox:hover": {
-      backgroundColor: "#ffffff24",
+      backgroundColor: "overlay.active",
     },
 
     "& .leftArea": {
@@ -42,7 +42,7 @@ const statusBarRecipe = cva({
 
     "& .leftArea_Contents": {
       position: "absolute",
-      backgroundColor: "#393a3b",
+      backgroundColor: "shell.bg",
       width: "100%",
       height: "100%",
       transition: "0.1s",
@@ -54,7 +54,8 @@ const statusBarRecipe = cva({
     "& .leftArea_Contents_Wide": {
       width: "220px",
       zIndex: 10,
-      boxShadow: "0px 9px 20px 0px #181818",
+      // 특이 shadow: 현재 토큰에 대응 없음. Phase 3/6에서 shadow 토큰 정비 시 재처리.
+      boxShadow: "0px 9px 20px 0px rgba(24, 24, 24, 1)",
     },
 
     "& .centerArea": {
@@ -73,7 +74,7 @@ const statusBarRecipe = cva({
       display: "flex",
       alignItems: "center",
       justifyContent: "flex-start",
-      color: "#e8e8e8",
+      color: "shell.text",
       cursor: "pointer",
       margin: "10px 0",
       paddingLeft: "5px",
@@ -100,7 +101,7 @@ const statusBarRecipe = cva({
 
     "& .rightArea::-webkit-scrollbar-thumb, & .centerArea::-webkit-scrollbar-thumb":
       {
-        backgroundColor: "#acacac",
+        backgroundColor: "shell.border",
       },
   },
   variants: {

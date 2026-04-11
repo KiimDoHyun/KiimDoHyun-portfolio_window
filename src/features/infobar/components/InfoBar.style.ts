@@ -9,7 +9,7 @@ const infoBarRecipe = cva({
 
     display: "grid",
     gridTemplateRows: "1fr 100px",
-    borderLeft: "1px solid #4d4d4d",
+    borderLeft: "1px solid token(colors.shell.border)",
 
     position: "absolute",
     bottom: "50px",
@@ -18,7 +18,7 @@ const infoBarRecipe = cva({
 
     transition: "0.4s",
     transitionTimingFunction: "cubic-bezier(0, 0.5, 0, 1)",
-    backgroundColor: "#393a3b",
+    backgroundColor: "shell.bg",
 
     "& > div": {
       boxSizing: "border-box",

@@ -21,7 +21,7 @@ export const taskBarStyle = css({
     position: "absolute",
     width: "200px",
     height: "0px",
-    backgroundColor: "#00000000",
+    backgroundColor: "transparent",
     top: "var(--shotcut-hover-top)",
     left: "var(--shotcut-hover-left)",
     pointerEvents: "var(--shotcut-hover-pointer-events)",
@@ -36,7 +36,7 @@ export const taskBarStyle = css({
     right: 0,
     width: "40px",
     height: "40px",
-    backgroundColor: "#00000000",
+    backgroundColor: "transparent",
   },
 
   "& .bodyCover": {
@@ -59,17 +59,17 @@ export const taskBarStyle = css({
   },
 
   "& .box1:hover path": {
-    fill: "#00adef",
+    fill: "accent.hover",
   },
   "& .box1:active path": {
-    fill: "#0076ff",
+    fill: "accent.solid",
   },
   "& .box1 svg": {
     width: "100%",
     height: "100%",
   },
   "& .box1 path": {
-    fill: "white",
+    fill: "shell.text",
   },
 
   "& .box2": {
@@ -78,14 +78,14 @@ export const taskBarStyle = css({
   },
 
   "& .activeIcon": {
-    backgroundColor: "#ffffff24",
+    backgroundColor: "overlay.active",
   },
   "& .activeIcon .shortCut_BottomLine": {
     width: "95%",
   },
 
   "& .activeShortCutIcon": {
-    backgroundColor: "#dfdfdf12",
+    backgroundColor: "overlay.hover",
   },
 
   "& .shortCutIcon:hover .shortCut_BottomLine": {
@@ -99,7 +99,7 @@ export const taskBarStyle = css({
     position: "absolute",
     width: "200px",
     height: "225px",
-    backgroundColor: "#20343b9c",
+    backgroundColor: "shell.bgAlt",
     zIndex: 1,
     top: "var(--prevview-top)",
     opacity: "var(--prevview-opacity)",
@@ -117,7 +117,7 @@ export const taskBarStyle = css({
   },
 
   "& .prevViewHeader .text": {
-    color: "white",
+    color: "shell.text",
     fontSize: "14px",
   },
   "& .prevViewHeader .button": {
@@ -165,7 +165,7 @@ export const taskBarStyle = css({
     transition: "0.2s",
     width: "80%",
     height: "3px",
-    backgroundColor: "#aac5ff",
+    backgroundColor: "accent.underline",
   },
 
   "& .box3": {
@@ -178,7 +178,7 @@ export const taskBarStyle = css({
     transition: "0.2s",
   },
   "& .taskHoverEffect:hover": {
-    backgroundColor: "#dfdfdf12",
+    backgroundColor: "overlay.hover",
   },
 
   "& .arrowUpIcon": {
@@ -194,7 +194,7 @@ export const taskBarStyle = css({
   "& .dateInfo": {
     padding: "3px",
     fontSize: "13px",
-    color: "white",
+    color: "shell.text",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -206,7 +206,7 @@ export const taskBarStyle = css({
   },
 
   "& .closeAllButton": {
-    borderLeft: "1px solid gray",
+    borderLeft: "1px solid token(colors.shell.border)",
   },
 
   "& .info": {
