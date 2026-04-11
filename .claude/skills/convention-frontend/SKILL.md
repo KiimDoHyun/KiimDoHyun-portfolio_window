@@ -1,5 +1,5 @@
 ---
-name: frontend-conventions
+name: convention-frontend
 description: Use when writing, modifying, reviewing, or planning any frontend code in this project's src/ folder (React/TypeScript, feature-first architecture). Routes to the appropriate convention document(s) under docs/rules/ based on the task type. Invoke before touching .tsx/.ts files in src/.
 ---
 

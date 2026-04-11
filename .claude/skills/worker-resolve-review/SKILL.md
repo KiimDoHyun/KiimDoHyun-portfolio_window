@@ -1,9 +1,8 @@
 ---
-name: resolve-review
+name: worker-resolve-review
 description: >
   Use when PR review comments exist and need to be triaged and resolved.
   Trigger on "PR #N 리뷰 확인하고 수정해", "리뷰 반영해", "리뷰 처리해".
-  Reads each review comment, judges validity, fixes valid ones, and dismisses invalid ones with reasoning.
 ---
 
 # Resolve Review

@@ -13,12 +13,17 @@
 - [global-state-boundary/](./global-state-boundary/) — 전역 상태 접근 경계
 - [collaboration/](./collaboration/) — 추천 옵션 제시 시의 자체 검증 기준 등 협업 규칙
 
+## 메타 규칙
+
+- [plan-writing-guide.md](./plan-writing-guide.md) — 설계 문서 작성 가이드
+- [skill-naming.md](./skill-naming.md) — 커스텀 스킬 네이밍 컨벤션 (`worker-` / `orchestrator-` / `convention-` prefix)
+
 ## Claude Code 에서의 사용
 
-`docs/rules/` 의 토픽 문서들은 CLAUDE.md 에 자동 import 되지 않는다. 대신 `.claude/skills/frontend-conventions/` 스킬이 작업 종류에 따라 필요한 문서만 골라 읽는다. 협업 규칙(`collaboration/`)만 항상 컨텍스트에 로드된다.
+`docs/rules/` 의 토픽 문서들은 CLAUDE.md 에 자동 import 되지 않는다. 대신 `.claude/skills/convention-frontend/` 스킬이 작업 종류에 따라 필요한 문서만 골라 읽는다. 협업 규칙(`collaboration/`)만 항상 컨텍스트에 로드된다.
 
 ## 새 규칙 추가 시
 
 1. `docs/rules/<topic>/` 폴더 생성, 그 안에 `README.md` 작성
 2. 위 토픽 목록에 추가
-3. 필요하면 `.claude/skills/frontend-conventions/SKILL.md` 의 라우팅 매핑에도 추가
+3. 필요하면 `.claude/skills/convention-frontend/SKILL.md` 의 라우팅 매핑에도 추가

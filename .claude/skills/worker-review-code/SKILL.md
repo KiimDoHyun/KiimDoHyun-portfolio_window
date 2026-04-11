@@ -1,5 +1,5 @@
 ---
-name: review-implementation
+name: worker-review-code
 description: >
   Use when a PR has been created and needs code review.
   Trigger on "리뷰 해줘", "코드 리뷰", "PR 리뷰", "PR #N 리뷰 해줘".
@@ -135,6 +135,7 @@ EOF
 ## 독립 실행 경로
 
 "PR #N 리뷰해" 입력 시:
+
 1. Step 1~3을 실행하여 PR에 코멘트를 남긴다
 2. 사용자에게 리뷰 결과를 요약하여 보고한다
 
