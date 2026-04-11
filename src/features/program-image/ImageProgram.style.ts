@@ -2,12 +2,14 @@ import { css } from "@styled-system/css";
 
 export const headerStyle = css({
     justifyContent: "center !important",
-    gap: "30px !important",
+    // 30px → spacing.32 (=32px)로 2px 드리프트 감수 (이미지 갤러리 여백)
+    gap: "token(spacing.32) !important",
 
     "& .image_header_controller_btn": {
         width: "20px",
         height: "20px",
-        padding: "1px",
+        // 원본 1px padding → 아이콘 크기 예약용이므로 transparent border로 치환
+        border: "1px solid transparent",
         boxSizing: "border-box",
         transition: "fast",
     },

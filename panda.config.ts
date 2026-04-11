@@ -84,6 +84,21 @@ export default defineConfig({
             100: { value: "#ff1010" }, // 위험/닫기
           },
         },
+        // Custom spacing scale — key 자체가 px 값, value는 rem(접근성).
+        // Panda default의 `1 = 0.25rem = 4px` 관계를 가독성 위해 덮어쓴다.
+        // Panda extend 모드이므로 default 키 중 여기에 없는 것(`0.5`, `1.5` 등)은 그대로 남아있지만,
+        // 사용처에서는 아래 스케일만 사용한다. 최소 단위는 4, 1px/2px 같은 값은 border로 처리.
+        spacing: {
+          "0": { value: "0" },
+          "4": { value: "0.25rem" }, // 4px
+          "8": { value: "0.5rem" }, // 8px
+          "12": { value: "0.75rem" }, // 12px
+          "16": { value: "1rem" }, // 16px
+          "20": { value: "1.25rem" }, // 20px
+          "24": { value: "1.5rem" }, // 24px
+          "32": { value: "2rem" }, // 32px
+          "40": { value: "2.5rem" }, // 40px
+        },
         sizes: {
           taskbar: { value: "50px" },
           windowHeader: { value: "32px" },

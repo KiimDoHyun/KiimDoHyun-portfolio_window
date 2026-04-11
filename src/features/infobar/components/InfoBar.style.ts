@@ -21,7 +21,7 @@ const infoBarRecipe = cva({
 
     "& > div": {
       boxSizing: "border-box",
-      padding: "20px",
+      padding: "20",
     },
 
     "& .commitArea": {

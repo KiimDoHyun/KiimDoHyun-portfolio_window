@@ -17,9 +17,9 @@ const statusBarRecipe = cva({
     backgroundColor: "shell.bg",
 
     display: "flex",
-    gap: "10px",
+    gap: "8",
 
-    paddingTop: "5px",
+    paddingTop: "4",
     boxSizing: "border-box",
 
     "& .statusBarBoxArea": {
@@ -76,17 +76,18 @@ const statusBarRecipe = cva({
       justifyContent: "flex-start",
       color: "shell.text",
       cursor: "pointer",
-      margin: "10px 0",
-      paddingLeft: "5px",
+      my: "8",
+      mx: "0",
+      paddingLeft: "4",
     },
 
     "& .rightArea_boxArea": {
       display: "flex",
       flexWrap: "wrap",
       alignContent: "flex-start",
-      gap: "5px",
-      padding: "5px",
-      marginBottom: "30px",
+      gap: "4",
+      padding: "4",
+      marginBottom: "32",
     },
 
     "& .show_animation": {

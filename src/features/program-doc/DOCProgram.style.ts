@@ -6,11 +6,11 @@ export const docProgramContentStyle = css({
         height: "100%",
 
         display: "flex",
-        gap: "20px",
+        gap: "20",
         flexWrap: "wrap",
         alignContent: "flex-start",
         boxSizing: "border-box",
-        padding: "10px",
+        padding: "8",
     },
 
     "& .doc_imageArea": {
@@ -65,13 +65,14 @@ export const docProgramContentStyle = css({
         textAlign: "left",
 
         boxSizing: "border-box",
-        padding: "20px 0",
+        py: "20",
+        px: "0",
         borderBottom: "1px solid gray",
     },
 
     "& .cardTitle": {
         fontWeight: "bold",
-        marginBottom: "10px",
+        marginBottom: "8",
     },
     "& .cardContent": {
         fontSize: "12px",
@@ -80,12 +81,13 @@ export const docProgramContentStyle = css({
 
     "& .doc_stack": {
         display: "flex",
-        gap: "10px",
+        gap: "8",
         flexWrap: "wrap",
     },
     "& .stackItem": {
         border: "1px solid gray",
-        padding: "5px 10px",
+        py: "4",
+        px: "8",
         borderRadius: "5px",
         width: "fit-content",
         position: "relative",
@@ -118,7 +120,7 @@ export const docProgramContentStyle = css({
         transition: "fast",
 
         boxSizing: "border-box",
-        padding: "5px",
+        padding: "4",
 
         scale: 0.4,
     },
@@ -126,7 +128,7 @@ export const docProgramContentStyle = css({
     "& .doc_reulst": {
         display: "flex",
         flexDirection: "column",
-        gap: "20px",
+        gap: "20",
     },
     "& .stackItem_Image img": {
         width: "100%",
@@ -136,7 +138,7 @@ export const docProgramContentStyle = css({
     },
 
     "& .resultTitle": {
-        marginBottom: "5px",
+        marginBottom: "4",
         fontWeight: "bold",
     },
 });

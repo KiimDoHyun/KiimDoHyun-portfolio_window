@@ -55,9 +55,9 @@ const programComponentRecipe = cva({
     "& .infoArea": {
       display: "flex",
       alignItems: "center",
-      gap: "5px",
+      gap: "4",
       height: "100%",
-      marginLeft: "10px",
+      marginLeft: "8",
     },
 
     "& .infoArea img": {
@@ -77,13 +77,13 @@ const programComponentRecipe = cva({
       justifyContent: "space-between",
       alignItems: "center",
 
-      padding: "1px 1px 0 1px",
       boxSizing: "border-box",
     },
 
     "& .headerArea2": {
-      gap: "10px",
-      padding: "0 10px",
+      gap: "8",
+      py: "0",
+      px: "8",
 
       display: "flex",
       justifyContent: "space-between",
@@ -100,7 +100,6 @@ const programComponentRecipe = cva({
     "& .buttonArea": {
       height: "100%",
       display: "flex",
-      gap: "1px",
     },
 
     "& .min div": {
@@ -165,7 +164,8 @@ const programComponentRecipe = cva({
       alignItems: "center",
       justifyContent: "flex-start",
       fontSize: "12px",
-      padding: "0 10px",
+      py: "0",
+      px: "8",
     },
   },
   variants: {

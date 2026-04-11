@@ -861,12 +861,92 @@ grep -rnE "(padding|margin|gap)[^A-Za-z]*['\"]?[0-9]+px" src --include="*.style.
 ```
 
 **완료 조건:**
-- [ ] 대상 그룹의 padding/margin/gap 리터럴 0건
-- [ ] `pnpm build` 성공
+- [x] 대상 그룹의 padding/margin/gap px 리터럴 **0건** (`grep` 결과 0 매치)
+- [x] `pnpm build` 성공
 
 **수동 검증:**
 - [ ] 각 화면에서 간격이 육안으로 기존과 동일/거의 동일
 - [ ] 특히 태스크바 아이콘 간격, folder 파일 목록 줄간격 확인
+
+### Phase 4 회고 (2026-04-11)
+
+#### 커스텀 spacing 스케일 도입
+
+Panda default 스케일(`1=4px, 2.5=10px, 5=20px`)은 "키에 4를 곱해야 px가 보임" 구조라 가독성이 떨어진다는 피드백을 반영, `panda.config.ts` 에 **key 자체가 px 값**인 커스텀 스케일을 정의:
+
+```ts
+spacing: {
+  "0":  { value: "0" },
+  "4":  { value: "0.25rem" },  // 4px
+  "8":  { value: "0.5rem" },   // 8px
+  "12": { value: "0.75rem" },  // 12px
+  "16": { value: "1rem" },     // 16px
+  "20": { value: "1.25rem" },  // 20px
+  "24": { value: "1.5rem" },   // 24px
+  "32": { value: "2rem" },     // 32px
+  "40": { value: "2.5rem" },   // 40px
+},
+```
+
+- 사용처: `padding: "16"` → 16px (가독성 ↑)
+- `value` 는 rem 유지 → 브라우저 글자 크기 확대 시 spacing 도 같이 커짐 (접근성 유지)
+- `extend` 모드이지만 같은 key는 커스텀 값이 덮어씀 (`src/styled-system/tokens/index.mjs` 에서 `spacing.16 = 1rem` 확인됨)
+- **제거된 값**: `10px` 은 스케일에 포함하지 않음. 기존 10px 사용처는 8px 로 수렴 (`5→4` 드리프트와 동일 정책).
+
+#### 매핑 정책 (4px 배수 엄격 적용)
+
+| 원본 | 토큰 | 실제 | 드리프트 |
+|---|---|---|---|
+| `0px` | `"0"` | 0px | 0 |
+| `2px` | `"4"` | 4px | +2px |
+| `4px` | `"4"` | 4px | 0 |
+| `5px` | `"4"` | 4px | −1px |
+| `10px` | `"8"` | 8px | −2px |
+| `12px` | `"12"` | 12px | 0 |
+| `15px` | `"16"` | 16px | +1px |
+| `16px` | `"16"` | 16px | 0 |
+| `20px` | `"20"` | 20px | 0 |
+| `24px` | `"24"` | 24px | 0 |
+| `30px` | `"32"` | 32px | +2px |
+| `32px` | `"32"` | 32px | 0 |
+| `40px` | `"40"` | 40px | 0 |
+
+1px / 3px 은 토큰화하지 않고 **구조적으로 제거 또는 border 로 치환** (아래 참고).
+
+#### 1px 제거 / border 치환 (예외 0건)
+
+| 파일 | 위치 | 변경 |
+|---|---|---|
+| `ProgramComponent.style.ts` | `.headerArea` padding | **제거** (창 테두리와 버튼 영역이 직접 닿음, 1px 여유 사라짐) |
+| `ProgramComponent.style.ts` | `.buttonArea` gap | **제거** (최소/최대/닫기 버튼이 서로 붙음, 토글 그룹 인상) |
+| `ImageProgram.style.ts` | `.image_header_controller_btn` padding | **`border: "1px solid transparent"` 로 치환** (20x20 박스 안에 18x18 이미지 영역 예약은 동일) |
+
+#### 2px 제거
+
+| 파일 | 위치 | 변경 |
+|---|---|---|
+| `HiddenIcon.style.ts` | padding (원본 2px) | `"4"` (+2px 드리프트) |
+| `TimeBar.style.ts` | `.calendarBody` gap (원본 2px) | `"0"` (각 셀이 내부 2px transparent border 를 예약하고 있어 시각적 구분 유지) |
+
+#### 주요 드리프트 지점 (수동 검증 대상)
+
+- `5→4` (−1px): taskbar box3 gap, arrowUpIcon padding, StatusBar rightArea_title/boxArea 등
+- `10→8` (−2px): ProgramComponent infoArea marginLeft / headerArea2 gap·px / bottomArea px, TaskBar prevView pt, StatusBar gap·rightArea_title my·rightArea_boxArea, TimeBar calendarArea gap, DOCProgram 여러 곳, FolderProgram arrowBox gap·routeBox px·folder py·detailHeader
+- `15→16` (+1px): taskbar .box1 padding, .prevView 좌/우/하 padding
+- `30→32` (+2px): image gallery header gap (`token(spacing.32) !important`)
+
+#### 기타 결정
+
+- **compound 값 분해**: `padding: "5px 10px"` 같은 축 혼합은 `py`/`px` shortcut 으로 분리
+- `!important` 값은 `gap: "token(spacing.32) !important"` 형태로 명시 — shorthand key + !important 조합은 panda 가 raw CSS로 흘려보낼 위험이 있음
+- `margin: 0` / `padding: 0` (숫자 리터럴)은 `spacing.0` 으로 resolve 되므로 그대로 유지
+
+#### 검증
+
+- `tsc --noEmit` 0 error
+- `pnpm build` 성공 (CSS −84B, JS −17B — 1px/gap 제거로 오히려 감소)
+- 생성된 `tokens/index.mjs` 에서 `spacing.16 = 1rem` 등 커스텀 스케일 반영 확인
+- 테스트 실행은 [`docs/known-issues/jest-setup.md`](../known-issues/jest-setup.md) 의 기존 이슈로 0건 실행
 
 ---
 
@@ -1151,7 +1231,7 @@ export type ThemeId = "base" | "win10-classic" | "macos";
 - [x] Phase 0: 토큰 skeleton 등록
 - [x] Phase 1: 색상 (shell / windowChrome)
 - [x] Phase 2: 색상 (프로그램 콘텐츠)
-- [ ] Phase 3: Motion 토큰화
-- [ ] Phase 4: Spacing 치환
+- [x] Phase 3: Motion 토큰화
+- [x] Phase 4: Spacing 치환
 - [ ] Phase 5: Layout sizes 토큰화
 - [ ] Phase 6: ThemeProvider + 샘플 대체 테마

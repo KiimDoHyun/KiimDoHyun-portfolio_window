@@ -11,7 +11,7 @@ const hiddenIconRecipe = cva({
     border: "1px solid token(colors.shell.border)",
     display: "flex",
     flexWrap: "wrap",
-    padding: "2px",
+    padding: "4",
 
   },
   variants: {

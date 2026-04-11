@@ -10,7 +10,7 @@ const loginInputBoxRecipe = cva({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    gap: 4,
+    gap: "16",
     width: "100%",
     height: "100%",
     transition: "slow",
@@ -39,7 +39,7 @@ const userIconBoxRecipe = cva({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    padding: "4px",
+    padding: "4",
   },
 });
 

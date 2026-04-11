@@ -50,7 +50,7 @@ export const taskBarStyle = css({
   "& .box1": {
     width: "50px",
     height: "50px",
-    padding: "15px",
+    padding: "16",
     boxSizing: "border-box",
     display: "flex",
     alignItems: "center",
@@ -105,7 +105,9 @@ export const taskBarStyle = css({
     opacity: "var(--prevview-opacity)",
     left: "var(--prevview-left)",
     pointerEvents: "var(--prevview-pointer-events)",
-    padding: "10px 15px 15px 15px",
+    pt: "8",
+    px: "16",
+    pb: "16",
     boxSizing: "border-box",
     transition: "fast",
   },
@@ -171,7 +173,7 @@ export const taskBarStyle = css({
   "& .box3": {
     display: "grid",
     gridTemplateColumns: "1fr 4fr 50px 5px",
-    gap: "5px",
+    gap: "4",
   },
 
   "& .taskHoverEffect": {
@@ -182,7 +184,7 @@ export const taskBarStyle = css({
   },
 
   "& .arrowUpIcon": {
-    padding: "5px",
+    padding: "4",
     display: "flex",
     alignItems: "center",
   },
@@ -192,7 +194,7 @@ export const taskBarStyle = css({
   },
 
   "& .dateInfo": {
-    padding: "3px",
+    padding: "4",
     fontSize: "13px",
     color: "shell.text",
     display: "flex",

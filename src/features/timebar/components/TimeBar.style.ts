@@ -17,7 +17,7 @@ const timeBarRecipe = cva({
     backgroundColor: "shell.bg",
 
     "& .timeArea, & .calendarArea, & .functionArea": {
-      padding: "20px",
+      padding: "20",
       boxSizing: "border-box",
     },
 
@@ -59,7 +59,7 @@ const timeBarRecipe = cva({
       borderBottom: "1px solid token(colors.shell.border)",
       display: "grid",
       gridTemplateRows: "20px 1fr",
-      gap: "10px",
+      gap: "8",
     },
 
     "& .calendarHeader": {
@@ -97,7 +97,8 @@ const timeBarRecipe = cva({
       display: "grid",
       gridTemplateColumns: "repeat(7, 1fr)",
       gridTemplateRows: "repeat(7, 1fr)",
-      gap: "2px",
+      // 각 .box가 내부에 2px transparent border를 예약하므로 gap 0으로도 셀 구분 유지
+      gap: "0",
     },
 
     "& .active_calendarBody": {
