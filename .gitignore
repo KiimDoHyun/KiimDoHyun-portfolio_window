@@ -31,10 +31,11 @@ yarn-error.log*
 .worktrees
 
 # claude
-.claude/
+.claude/*
 !.claude/skills/
 !.claude/skills/**
 !.claude/hooks/
 !.claude/hooks/**
+!.claude/settings.json
 .agents/
 skills-lock.json
