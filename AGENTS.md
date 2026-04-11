@@ -97,4 +97,4 @@
 
 ## 프론트엔드 컨벤션
 
-프론트엔드 작업 시 적용할 컨벤션은 [`docs/rules/`](docs/rules/) 에 토픽별 폴더로 정리되어 있다. Claude Code 는 `frontend-conventions` 스킬이 작업 종류에 따라 적절한 문서를 자동으로 라우팅한다.
+프론트엔드 작업 시 적용할 컨벤션은 [`docs/rules/`](docs/rules/) 에 토픽별 폴더로 정리되어 있다. Claude Code 는 `convention-frontend` 스킬이 작업 종류에 따라 적절한 문서를 자동으로 라우팅한다.

@@ -1,6 +1,6 @@
 ---
-name: implement-plan
-description: Use when the user wants to implement a design document end-to-end. Trigger on "설계 문서대로 구현해", "구현 시작", "/implement-plan", or when pointing to a docs/plans/ file for implementation.
+name: worker-implement-plan
+description: Use when the user wants to implement a design document end-to-end. Trigger on "설계 문서대로 구현해", "구현 시작", "/worker-implement-plan", or when pointing to a docs/plans/ file for implementation.
 ---
 
 # Implement Plan
@@ -38,7 +38,7 @@ digraph implement_flow {
 
 ### 각 작업 항목마다
 
-1. **작업 시작 전** — `frontend-conventions` 스킬을 호출하여, 해당 작업이 건드리는 영역(`typescript` / `component-structure` / `feature-public-api` / `global-state-boundary` / `folder-structure`)에 해당하는 규칙 문서를 읽는다. 작업마다 영역이 다를 수 있으므로 **매 항목마다 반복** 호출한다.
+1. **작업 시작 전** — `convention-frontend` 스킬을 호출하여, 해당 작업이 건드리는 영역(`typescript` / `component-structure` / `feature-public-api` / `global-state-boundary` / `folder-structure`)에 해당하는 규칙 문서를 읽는다. 작업마다 영역이 다를 수 있으므로 **매 항목마다 반복** 호출한다.
 2. **코드 수정** — 읽은 규칙을 따라 구현한다.
 3. **자기 검증 보고** — 적용한 규칙을 한 줄로 메모한다 (예: `typescript/README.md 의 배열 표기 규칙 적용`).
 
@@ -92,6 +92,6 @@ flowchart 상 "tsc + 테스트 검증" 단계에 해당하며, 다음 명령을 
 
 ## Step 4: PR 생성
 
-사용자가 승인하면 `create-pr` 스킬을 사용하여 PR을 생성한다.
+사용자가 승인하면 `worker-create-pr` 스킬을 사용하여 PR을 생성한다.
 
 생성된 PR URL을 사용자에게 출력한다.

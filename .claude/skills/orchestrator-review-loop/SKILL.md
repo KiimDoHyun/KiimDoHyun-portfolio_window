@@ -1,5 +1,5 @@
 ---
-name: review-loop
+name: orchestrator-review-loop
 description: >
   Use when a PR needs automated review-fix loop.
   Trigger on "PR #N 리뷰 루프", "리뷰 루프 돌려줘".
@@ -20,12 +20,12 @@ review → resolve → 재리뷰 루프를 서브에이전트로 자동 실행�
 digraph review_loop {
     "PR 컨텍스트 수집" -> "스킬 파일 Read";
     "스킬 파일 Read" -> "diff 수집 (Round 1: 전체, 2+: delta)";
-    "diff 수집 (Round 1: 전체, 2+: delta)" -> "Agent: review [review-cycle]";
-    "Agent: review [review-cycle]" -> "Must Fix 0건?";
+    "diff 수집 (Round 1: 전체, 2+: delta)" -> "Agent: worker-review-code [review-cycle]";
+    "Agent: worker-review-code [review-cycle]" -> "Must Fix 0건?";
     "Must Fix 0건?" -> "사용자에게 결과 요약" [label="yes → LGTM"];
-    "Must Fix 0건?" -> "Agent: resolve-review" [label="no"];
-    "Agent: resolve-review" -> "diff 수집 (Round 1: 전체, 2+: delta)" [label="다음 라운드"];
-    "Agent: review [review-cycle]" -> "사용자에게 중단 보고" [label="훅 deny"];
+    "Must Fix 0건?" -> "Agent: worker-resolve-review" [label="no"];
+    "Agent: worker-resolve-review" -> "diff 수집 (Round 1: 전체, 2+: delta)" [label="다음 라운드"];
+    "Agent: worker-review-code [review-cycle]" -> "사용자에게 중단 보고" [label="훅 deny"];
 }
 ```
 
@@ -42,8 +42,8 @@ gh pr diff <PR_NUMBER> --name-only
 ## Step 2: 스킬 파일 Read
 
 ```
-Read .claude/skills/review/SKILL.md → reviewSkillContent
-Read .claude/skills/resolve-review/SKILL.md → resolveSkillContent
+Read .claude/skills/worker-review-code/SKILL.md → reviewSkillContent
+Read .claude/skills/worker-resolve-review/SKILL.md → resolveSkillContent
 ```
 
 두 스킬의 내용을 변수로 보관한다. 서브에이전트에 프롬프트로 주입하기 위함.

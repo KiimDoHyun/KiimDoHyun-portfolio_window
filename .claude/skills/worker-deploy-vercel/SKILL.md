@@ -1,5 +1,5 @@
 ---
-name: deploy-to-vercel
+name: worker-deploy-vercel
 description: Deploy applications and websites to Vercel. Use when the user requests deployment actions like "deploy my app", "deploy and give me the link", "push this live", or "create a preview deployment".
 metadata:
   author: vercel
@@ -164,7 +164,7 @@ The Vercel CLI isn't set up at all.
 **When to use:** Last resort when the CLI can't be installed or authenticated in the claude.ai sandbox. This requires no authentication — it returns a **Preview URL** (live site) and a **Claim URL** (transfer to your Vercel account).
 
 ```bash
-bash /mnt/skills/user/deploy-to-vercel/resources/deploy.sh [path]
+bash /mnt/skills/user/worker-deploy-vercel/resources/deploy.sh [path]
 ```
 
 **Arguments:**
@@ -173,13 +173,13 @@ bash /mnt/skills/user/deploy-to-vercel/resources/deploy.sh [path]
 **Examples:**
 ```bash
 # Deploy current directory
-bash /mnt/skills/user/deploy-to-vercel/resources/deploy.sh
+bash /mnt/skills/user/worker-deploy-vercel/resources/deploy.sh
 
 # Deploy specific project
-bash /mnt/skills/user/deploy-to-vercel/resources/deploy.sh /path/to/project
+bash /mnt/skills/user/worker-deploy-vercel/resources/deploy.sh /path/to/project
 
 # Deploy existing tarball
-bash /mnt/skills/user/deploy-to-vercel/resources/deploy.sh /path/to/project.tgz
+bash /mnt/skills/user/worker-deploy-vercel/resources/deploy.sh /path/to/project.tgz
 ```
 
 The script auto-detects the framework from `package.json`, packages the project (excluding `node_modules`, `.git`, `.env`), uploads it, and waits for the build to complete.
@@ -232,7 +232,7 @@ You have full shell access. Do NOT use the `/mnt/skills/` path. Follow the decis
 
 For the no-auth fallback, run the deploy script from the skill's installed location:
 ```bash
-bash ~/.claude/skills/deploy-to-vercel/resources/deploy.sh [path]
+bash ~/.claude/skills/worker-deploy-vercel/resources/deploy.sh [path]
 ```
 The path may vary depending on where the user installed the skill.
 
