@@ -3,10 +3,10 @@ import { styled } from "@styled-system/jsx";
 
 const programComponentRecipe = cva({
   base: {
-    left: "calc(50% - 250px)",
-    top: "calc(50% - 250px)",
-    height: "500px",
-    width: "500px",
+    left: "calc(50% - token(sizes.program.default) / 2)",
+    top: "calc(50% - token(sizes.program.default) / 2)",
+    height: "program.default",
+    width: "program.default",
 
     boxShadow: "windowFrame",
     position: "absolute",
@@ -17,7 +17,8 @@ const programComponentRecipe = cva({
     backgroundColor: "windowChrome.bg",
 
     display: "grid",
-    gridTemplateRows: "32px 25px 1fr 20px",
+    gridTemplateRows:
+      "token(sizes.windowHeader) token(sizes.program.headerSub) 1fr token(sizes.windowBottom)",
 
     animation: "open 0.25s 0s",
 
@@ -71,7 +72,7 @@ const programComponentRecipe = cva({
 
     "& .headerArea": {
       width: "100%",
-      height: "32px",
+      height: "windowHeader",
 
       display: "flex",
       justifyContent: "space-between",

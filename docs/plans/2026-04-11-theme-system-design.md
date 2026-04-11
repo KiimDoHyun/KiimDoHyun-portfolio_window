@@ -1004,8 +1004,52 @@ pnpm build
 ```
 
 **수동 검증:**
-- [ ] 모든 고정 치수 UI가 기존과 동일 크기
-- [ ] 태스크바 높이 / 프로그램 창 크기 / 시계 패널 크기 확인
+- [x] 모든 고정 치수 UI가 기존과 동일 크기
+- [x] 태스크바 높이 / 프로그램 창 크기 / 시계 패널 크기 확인
+
+### Phase 5 회고 (2026-04-11)
+
+**진행한 작업:**
+- `tokens.sizes` 에 7개 키 추가: `program.default/headerSub`, `statusbar.width/height`, `timebar.width/height`, `infobar.width`
+- 치환 파일 9개:
+  - [DesktopPage.tsx](../../src/pages/DesktopPage/DesktopPage.tsx) — `gridTemplateRows` taskbar row
+  - [TaskBar.style.ts](../../src/features/taskbar/TaskBar.style.ts) — `gridTemplateColumns` 1열 + `.shortCutIcon`/`.box1` width/height
+  - [HiddenIcon.style.ts](../../src/features/hidden-icon/HiddenIcon.style.ts) — active bottom
+  - [InfoBar.style.ts](../../src/features/infobar/components/InfoBar.style.ts) — bottom/width/height(calc)
+  - [TimeBar.style.ts](../../src/features/timebar/components/TimeBar.style.ts) — width/height + active bottom
+  - [StatusBar.style.ts](../../src/features/statusbar/components/StatusBar.style.ts) — width/height + active bottom
+  - [ProgramComponent.style.ts](../../src/features/window-shell/ProgramComponent.style.ts) — width/height/left/top calc + gridTemplateRows + `.headerArea` height
+  - [DOCProgram.style.ts](../../src/features/program-doc/DOCProgram.style.ts) — `.doc_imageArea`/`.doc_contentsArea` flexBasis
+  - [InfoProgram.view.tsx](../../src/features/program-info/InfoProgram.view.tsx) — `.info1`/`.info2` flexBasis
+  - [PreviewWindowFrame.tsx](../../src/features/taskbar/ui/PreviewWindowFrame.tsx) — width/height + gridTemplateRows
+
+**판정 기준:**
+- **치환 대상 = "같은 의미로 같은 값"**. 숫자가 우연히 일치한다고 다 치환하지 않음. 예) `TaskBar.style.ts:175` 의 box3 `gridTemplateColumns: "1fr 4fr 50px 5px"` 에서 `50px` 는 .closeAllButton 너비라 "taskbar 높이" 의미가 아님 → 제외.
+- **layout 치수 vs 아이콘 크기 vs offset/animation**. `IconBox.tsx` 50x50 (데스크탑 아이콘), `TaskBar.style.ts` 의 `-150px`/`225px` (hover offset/preview 크기), `HiddenIcon.style.ts` 의 `-500px` (슬라이드 out 위치) → 모두 sizes 토큰 아님.
+- **spacing scale 바깥 숫자는 유지**. `InfoProgram.view.tsx` 의 `padding: "50px 10px"`, `gap: "50px"` 는 spacing 개념. Phase 4 스케일(40까지) 바깥이라 "spacing token 증설" 결정 전까지는 리터럴 유지.
+
+**Panda 동작 확인:**
+- `width/height/flexBasis` 에 `"taskbar"`, `"program.default"` 처럼 sizes 토큰 이름만 써도 auto-map 정상 동작 (panda가 `var(--sizes-*)` 로 치환).
+- `gridTemplateColumns/Rows` 는 string property라 auto-map 안 됨 → `"token(sizes.taskbar) auto 200px"` 형태로 명시적 주입 필요. 이것도 panda codegen이 CSS 변수로 잘 치환함 (Phase 3의 gradient 내 `token()` 패턴과 동일 동작).
+- **calc 안에 token 주입 가능**. `calc(50% - token(sizes.program.default) / 2)` → 빌드 CSS 검증: `calc(50% - var(--sizes-program-default)/2)` 로 정확히 치환. `ProgramComponent.style.ts` 의 `left/top` 가 기존 `calc(50% - 250px)` 와 수식상 동치.
+- `bottom` property 에 sizes 토큰 사용 시 `bottom: "taskbar"` 는 불가 (panda가 bottom 에는 spacing scale 을 매핑). `bottom: "token(sizes.taskbar)"` 형태로 우회.
+
+**검증 결과:**
+- `pnpm panda`, `pnpm exec tsc --noEmit` 에러 0건
+- `pnpm build` 성공 (eslint 경고 2건은 Phase 3 회고와 동일한 기존 경고)
+- 생성된 `main.*.css` 에서 신규 sizes 변수 사용 횟수 확인:
+  - `var(--sizes-taskbar)` 7회, `var(--sizes-program-default)` 4회 (width+height 2곳, calc 2곳), `var(--sizes-window-header)` 3회 (ProgramComponent grid, headerArea height, PreviewFrame grid)
+  - `var(--sizes-program-header-sub)` / `window-bottom` / `statusbar-*` / `timebar-*` / `infobar-width` 각 1회
+- **수동 확인 포인트**: 태스크바 높이 50px, 프로그램 창 500x500 중앙 정렬, 시계/상태/정보 패널 크기 모두 기존과 동일.
+
+**Phase 5 범위 밖으로 남긴 것:**
+- [useWindowLifecycle.ts](../../src/features/window-shell/hooks/useWindowLifecycle.ts) — JS 에서 `box.style.width = "500px"` 및 `localStorage` 에 `"500px"` 문자열 저장. CSS 변수로 바꾸려면 런타임에서 `getComputedStyle(document.documentElement).getPropertyValue('--sizes-program-default')` 를 조회하거나, 상수로 뽑아 panda 토큰과 동기화해야 함. localStorage persistence 까지 얽혀 있어 Phase 5 scope 초과. **Phase 6** ThemeProvider 도입 시 "JS에서 토큰값 읽는 유틸" 함께 정리 예정.
+- [ProgramComponent.style.ts:20](../../src/features/window-shell/ProgramComponent.style.ts#L20) 유사 케이스로 `windowBottom` 과 값이 같은 20px 이 `.infoArea img` (line 64,65) 에 또 있지만 "아이콘 크기" 라 의미가 다름 → 유지.
+- `TaskBar.style.ts:175` box3 grid, `.buttonCover` 40px, `.bodyCover` 200px, `.prevView` 200x225 등 taskbar 내부 구성 요소 크기는 "taskbar 자체 치수"가 아니라 내부 layout 이라 별도 토큰 필요. 현재 설계 문서엔 없으므로 유지.
+- `TimeBar.style.ts:7` `gridTemplateRows: "130px 1fr 250px"` (timeArea/calendarArea/functionArea 높이) 는 timebar 내부 3분할. Phase 5 토큰 리스트엔 없음. 향후 필요 시 `sizes.timebar.timeArea` / `functionArea` 등으로 확장 가능.
+
+**Phase 5 ~ Phase 6 브리지:**
+- `useWindowLifecycle.ts` 의 JS 문자열 "500px" 은 `sizes.program.default` 와 강결합이므로, Phase 6 ThemeProvider 에서 테마별로 프로그램 기본 크기를 다르게 하고 싶다면 이 hook 의 localStorage/box.style 부분을 CSS 변수 기반으로 재작성해야 한다.
 
 ---
 
@@ -1233,5 +1277,5 @@ export type ThemeId = "base" | "win10-classic" | "macos";
 - [x] Phase 2: 색상 (프로그램 콘텐츠)
 - [x] Phase 3: Motion 토큰화
 - [x] Phase 4: Spacing 치환
-- [ ] Phase 5: Layout sizes 토큰화
+- [x] Phase 5: Layout sizes 토큰화
 - [ ] Phase 6: ThemeProvider + 샘플 대체 테마

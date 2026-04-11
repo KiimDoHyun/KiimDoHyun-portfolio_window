@@ -9,8 +9,8 @@ const statusBarRecipe = cva({
 
     position: "absolute",
     left: 0,
-    width: "650px",
-    height: "500px",
+    width: "statusbar.width",
+    height: "statusbar.height",
     boxShadow: "panelUp",
 
     transition: "slow",
@@ -108,7 +108,7 @@ const statusBarRecipe = cva({
   variants: {
     active: {
       true: {
-        bottom: "50px",
+        bottom: "token(sizes.taskbar)",
         opacity: 1,
         pointerEvents: "auto",
         zIndex: 999,

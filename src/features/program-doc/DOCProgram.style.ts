@@ -22,7 +22,7 @@ export const docProgramContentStyle = css({
         overflow: "scroll",
 
         flexGrow: 1,
-        flexBasis: "500px",
+        flexBasis: "program.default",
     },
 
     "& .noProjectImage": {
@@ -58,7 +58,7 @@ export const docProgramContentStyle = css({
         height: "100%",
         width: "100%",
         flexGrow: 1,
-        flexBasis: "500px",
+        flexBasis: "program.default",
     },
 
     "& .doc_card": {

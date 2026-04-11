@@ -2,7 +2,7 @@ import { css } from "@styled-system/css";
 
 export const taskBarStyle = css({
   display: "grid",
-  gridTemplateColumns: "50px auto 200px",
+  gridTemplateColumns: "token(sizes.taskbar) auto 200px",
   height: "100%",
   position: "relative",
 
@@ -13,7 +13,7 @@ export const taskBarStyle = css({
     alignItems: "center",
     justifyContent: "flex-end",
     height: "100%",
-    width: "50px",
+    width: "taskbar",
     position: "relative",
   },
 
@@ -48,8 +48,8 @@ export const taskBarStyle = css({
   },
 
   "& .box1": {
-    width: "50px",
-    height: "50px",
+    width: "taskbar",
+    height: "taskbar",
     padding: "16",
     boxSizing: "border-box",
     display: "flex",

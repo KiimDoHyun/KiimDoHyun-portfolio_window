@@ -17,7 +17,7 @@ const hiddenIconRecipe = cva({
   variants: {
     active: {
       true: {
-        bottom: "50px",
+        bottom: "token(sizes.taskbar)",
         zIndex: 99999,
       },
       false: {

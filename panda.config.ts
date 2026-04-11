@@ -103,6 +103,21 @@ export default defineConfig({
           taskbar: { value: "50px" },
           windowHeader: { value: "32px" },
           windowBottom: { value: "20px" },
+          program: {
+            default: { value: "500px" }, // 프로그램 창 기본 width/height
+            headerSub: { value: "25px" }, // 프로그램 헤더 서브 영역 (탭/경로바 등)
+          },
+          statusbar: {
+            width: { value: "650px" },
+            height: { value: "500px" },
+          },
+          timebar: {
+            width: { value: "360px" },
+            height: { value: "720px" },
+          },
+          infobar: {
+            width: { value: "400px" },
+          },
         },
         radii: {
           sm: { value: "4px" },

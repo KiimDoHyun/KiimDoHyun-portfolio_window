@@ -8,8 +8,8 @@ const timeBarRecipe = cva({
 
     position: "absolute",
     right: 0,
-    width: "360px",
-    height: "720px",
+    width: "timebar.width",
+    height: "timebar.height",
     boxShadow: "panelUp",
 
     transition: "medium",
@@ -147,7 +147,7 @@ const timeBarRecipe = cva({
   variants: {
     active: {
       true: {
-        bottom: "50px",
+        bottom: "token(sizes.taskbar)",
         opacity: 1,
         pointerEvents: "auto",
         zIndex: 999,

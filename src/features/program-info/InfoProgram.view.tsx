@@ -92,7 +92,7 @@ const infoProgramContentStyle = css({
         gap: "50px",
 
         flexGrow: 1,
-        flexBasis: "500px",
+        flexBasis: "program.default",
 
         justifyContent: "center",
     },
@@ -133,7 +133,7 @@ const infoProgramContentStyle = css({
         rowGap: "30px",
 
         flexGrow: 1,
-        flexBasis: "500px",
+        flexBasis: "program.default",
     },
     "& .info2 .infoItem": {
         width: "180px",

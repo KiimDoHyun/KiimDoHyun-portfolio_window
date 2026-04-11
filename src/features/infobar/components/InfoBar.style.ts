@@ -12,9 +12,9 @@ const infoBarRecipe = cva({
     borderLeft: "1px solid token(colors.shell.border)",
 
     position: "absolute",
-    bottom: "50px",
-    width: "400px",
-    height: "calc(100% - 50px)",
+    bottom: "token(sizes.taskbar)",
+    width: "infobar.width",
+    height: "calc(100% - token(sizes.taskbar))",
 
     transition: "slow",
     backgroundColor: "shell.bg",
