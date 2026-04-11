@@ -14,7 +14,10 @@ const animatedBoxRecipe = cva({
   variants: {
     animated: {
       true: {
-        transition: "transform var(--duration, 0.2s)",
+        // 원본은 transform 전용 transition. fast 유틸은 all 속성이라 명시 전개.
+        transitionProperty: "transform",
+        transitionDuration: "fast",
+        transitionTimingFunction: "standard",
       },
       false: {
         transition: "none",

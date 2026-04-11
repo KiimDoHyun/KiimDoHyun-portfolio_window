@@ -19,6 +19,30 @@ export default defineConfig({
   // Enable CSS variables for better theming
   cssVarRoot: ":root",
 
+  // L2+ motion shorthand. 사용처는 `transition: "fast" | "medium" | "slow"` 한 줄만 본다.
+  // transform 결과가 transitionProperty/Duration/TimingFunction 3개로 전개된다.
+  utilities: {
+    extend: {
+      transition: {
+        values: ["fast", "medium", "slow"],
+        transform(value: string) {
+          const durationMap: Record<string, string> = {
+            fast: "0.2s",
+            medium: "0.25s",
+            slow: "0.4s",
+          };
+          const duration = durationMap[value];
+          if (!duration) return { transition: value };
+          return {
+            transitionProperty: "all",
+            transitionDuration: duration,
+            transitionTimingFunction: "cubic-bezier(0, 0.5, 0, 1)",
+          };
+        },
+      },
+    },
+  },
+
   theme: {
     extend: {
       tokens: {

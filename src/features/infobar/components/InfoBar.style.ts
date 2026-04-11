@@ -16,8 +16,7 @@ const infoBarRecipe = cva({
     width: "400px",
     height: "calc(100% - 50px)",
 
-    transition: "0.4s",
-    transitionTimingFunction: "cubic-bezier(0, 0.5, 0, 1)",
+    transition: "slow",
     backgroundColor: "shell.bg",
 
     "& > div": {

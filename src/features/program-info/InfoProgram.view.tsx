@@ -173,7 +173,7 @@ const infoProgramContentStyle = css({
         padding: "0 10px",
         width: "230px",
         border: "2px solid transparent",
-        transition: "0.2s",
+        transition: "fast",
 
         gap: "20px",
     },

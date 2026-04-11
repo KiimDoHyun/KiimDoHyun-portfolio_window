@@ -779,11 +779,28 @@ grep -rnE "\"(0\.[0-9]+|[0-9])s\"" src --include="*.style.ts"
 ```
 
 **완료 조건:**
-- [ ] `.style.ts`의 transition 리터럴 0건 (예외 `1s` blur 제외)
-- [ ] `pnpm build` 성공
+- [x] `.style.ts`의 transition 리터럴 0건 (예외 `1s` blur 제외 — 해당 `.style.ts` 내에 1s 리터럴은 애초에 없었고 grep 확인)
+- [x] `pnpm build` 성공
+- [x] `pnpm exec tsc --noEmit` 0 errors
 
 **수동 검증:**
-- [ ] 태스크바 hover / 시작메뉴 열기 / 프로그램 창 open 애니메이션 속도가 기존과 체감상 동일
+- [ ] 태스크바 아이콘 hover 시 fade-in 속도가 기존과 체감상 동일 (fast 0.2s)
+- [ ] 시작메뉴/시계/정보바 슬라이드 업 애니메이션이 기존과 동일 (slow 0.4s / medium 0.25s)
+- [ ] 프로그램 창 내 버튼 hover 전환이 기존과 동일
+- [ ] 달력 `.calendarBody` opacity/scale 전환이 기존과 동일 (fast)
+- [ ] login 화면 페이드/transform 전환이 기존과 동일 (LoginInput fast/slow, LoginBox transform 전용 fast)
+
+### Phase 3 회고 (2026-04-11)
+
+- Panda `utilities.extend.transition` 를 단순 `values: {...}` 객체 형태로 시도했으나 타입 에러(`PropertyValues`). Panda는 `values: Array<string>` + `transform(value)` 함수 형태만 지원. `transform` 함수 내부에서 value → CSS object 로 확장하는 방식으로 해결. codegen 결과 `prop-type.d.ts` 에 `transition: "fast" | "medium" | "slow" | ...` 가 자동 주입되어 사용처에서 타입 자동완성 동작.
+- 대상 파일 `.style.ts` 9 개 + 보완 `.tsx` 3 개 (`SkillIcon`, `CommitItem`, `InfoProgram.view`) 에서 transition 리터럴 0 건 달성.
+- 예외값(`0.1s`/`0.15s`) 2 건을 설계 문서 Task 3-2 분석 그대로 `fast`(0.2s) 로 통합. 코드에 주석으로 원래 값 기록.
+- **특수 케이스 1: `Login.style.ts` variant `animated: true`** — 원본이 `transform var(--duration, 0.2s)` 로 **transform 속성만** 전환하는 구조였다. `fast` 유틸은 `transitionProperty: all` 이므로 의미가 달라짐. → `transitionProperty: "transform"` + `transitionDuration: "fast"` + `transitionTimingFunction: "standard"` 로 명시 전개하여 기존 동작 보존. `--duration` CSS var 는 실사용 없음을 grep 으로 확인.
+- **특수 케이스 2: `LoginInput.style.ts` login 버튼** — 원본이 `all 0.2s ease` (ease easing). `standard`(cubic-bezier(0, 0.5, 0, 1)) 로 수렴. border hover 전환이라 체감 차이 미미 예상, 수동 검증 포인트로 기록.
+- **Phase 3 범위 밖으로 남긴 케이스: `LoginPage.tsx`** — `` `opacity ${FADE_OUT_DURATION}ms ease` `` 인라인 style. `FADE_OUT_DURATION=400` 상수가 transition duration 과 setTimeout 양쪽에 쓰여 JS/CSS 결합도가 높음. 이 상수를 토큰으로 옮기려면 Panda runtime `token.var()` + 상수 통합 리팩터가 필요해 Phase 3 scope 밖. Phase 6 ThemeProvider 작업 시 함께 정리 대상.
+- `pnpm build` 결과 CSS `+29B`, JS `+8B` 로 변화 미미. utility 함수가 3개 condition 만 생성하므로 비용 거의 없음.
+- `pnpm test` 는 여전히 51 suites 실패 (기존 jest 설정 이슈, 커밋 4f6d60e). Phase 3 변경과 무관.
+- 빌드 경고 2 건(`ANIMATION_DURATION unused`, `React unused`) 은 사전 존재. Phase 3 scope 밖으로 유지. `Login.style.ts` 의 `ANIMATION_DURATION` 은 이 파일 내에서 사용되지 않지만 scope creep 회피 차원에서 건드리지 않음.
 
 ---
 

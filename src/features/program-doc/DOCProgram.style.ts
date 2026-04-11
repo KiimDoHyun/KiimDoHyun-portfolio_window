@@ -90,7 +90,7 @@ export const docProgramContentStyle = css({
         width: "fit-content",
         position: "relative",
         cursor: "pointer",
-        transition: "0.2s",
+        transition: "fast",
     },
 
     "& .stackItem:hover": {
@@ -115,7 +115,7 @@ export const docProgramContentStyle = css({
 
         backgroundColor: "white",
         opacity: 0,
-        transition: "0.2s",
+        transition: "fast",
 
         boxSizing: "border-box",
         padding: "5px",

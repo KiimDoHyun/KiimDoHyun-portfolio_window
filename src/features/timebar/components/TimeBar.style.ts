@@ -12,7 +12,7 @@ const timeBarRecipe = cva({
     height: "720px",
     boxShadow: "panelUp",
 
-    transition: "0.25s",
+    transition: "medium",
 
     backgroundColor: "shell.bg",
 
@@ -91,7 +91,7 @@ const timeBarRecipe = cva({
     },
 
     "& .calendarBody": {
-      transition: "0.2s",
+      transition: "fast",
       scale: 1,
       opacity: 1,
       display: "grid",

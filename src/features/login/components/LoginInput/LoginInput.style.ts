@@ -13,7 +13,7 @@ const loginInputBoxRecipe = cva({
     gap: 4,
     width: "100%",
     height: "100%",
-    transition: "0.4s",
+    transition: "slow",
   },
   variants: {
     visible: {
@@ -56,7 +56,8 @@ const loginButtonRecipe = cva({
     fontSize: "14px",
     fontWeight: 400,
     cursor: "pointer",
-    transition: "all 0.2s ease",
+    // 원본은 ease easing. standard(cubic-bezier)로 수렴 — hover 체감 동일
+    transition: "fast",
     outline: "none",
     "&:hover": {
       borderColor: "surface.borderDim",

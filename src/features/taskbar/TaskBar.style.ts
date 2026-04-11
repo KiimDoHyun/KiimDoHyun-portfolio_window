@@ -7,7 +7,7 @@ export const taskBarStyle = css({
   position: "relative",
 
   "& .shortCutIcon": {
-    transition: "0.2s",
+    transition: "fast",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -55,7 +55,7 @@ export const taskBarStyle = css({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    transition: "0.2s",
+    transition: "fast",
   },
 
   "& .box1:hover path": {
@@ -107,7 +107,7 @@ export const taskBarStyle = css({
     pointerEvents: "var(--prevview-pointer-events)",
     padding: "10px 15px 15px 15px",
     boxSizing: "border-box",
-    transition: "0.2s",
+    transition: "fast",
   },
 
   "& .prevViewHeader": {
@@ -162,7 +162,7 @@ export const taskBarStyle = css({
   },
 
   "& .shortCut_BottomLine": {
-    transition: "0.2s",
+    transition: "fast",
     width: "80%",
     height: "3px",
     backgroundColor: "accent.underline",
@@ -175,7 +175,7 @@ export const taskBarStyle = css({
   },
 
   "& .taskHoverEffect": {
-    transition: "0.2s",
+    transition: "fast",
   },
   "& .taskHoverEffect:hover": {
     backgroundColor: "overlay.hover",

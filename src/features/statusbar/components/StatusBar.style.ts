@@ -13,8 +13,7 @@ const statusBarRecipe = cva({
     height: "500px",
     boxShadow: "panelUp",
 
-    transition: "0.4s",
-    transitionTimingFunction: "cubic-bezier(0, 0.5, 0, 1)",
+    transition: "slow",
     backgroundColor: "shell.bg",
 
     display: "flex",
@@ -45,7 +44,8 @@ const statusBarRecipe = cva({
       backgroundColor: "shell.bg",
       width: "100%",
       height: "100%",
-      transition: "0.1s",
+      // 원래 0.1s였으나 설계 문서 Task 3-2 예외 분석에서 fast(0.2s)로 통합
+      transition: "fast",
       display: "flex",
       flexDirection: "column",
       justifyContent: "space-between",

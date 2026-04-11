@@ -7,7 +7,8 @@ const skillIconBlockStyle = css({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    transition: "0.1s",
+    // 원래 0.1s였으나 설계 문서 Task 3-2 예외 분석에서 fast(0.2s)로 통합
+    transition: "fast",
 
     _hover: {
         backgroundColor: "shell.border",

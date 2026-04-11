@@ -26,7 +26,8 @@ const commitItemStyle = css({
     padding: "10px",
     // raw 에 대응 없는 어두운 회색 반투명. Phase 6 에서 전용 semantic 정비 시 재처리
     backgroundColor: "rgba(41, 41, 41, 0.68)",
-    transition: "0.15s",
+    // 원래 0.15s였으나 설계 문서 Task 3-2 예외 분석에서 fast(0.2s)로 통합
+    transition: "fast",
     scale: 1,
     marginBottom: "20px",
 

@@ -133,7 +133,7 @@ const programComponentRecipe = cva({
     "& .buttonArea > div": {
       height: "100%",
       width: "45px",
-      transition: "0.2s",
+      transition: "fast",
 
       display: "flex",
       alignItems: "center",

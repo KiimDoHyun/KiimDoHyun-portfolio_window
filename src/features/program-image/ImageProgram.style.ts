@@ -9,7 +9,7 @@ export const headerStyle = css({
         height: "20px",
         padding: "1px",
         boxSizing: "border-box",
-        transition: "0.2s",
+        transition: "fast",
     },
 
     "& .image_header_controller_btn:hover": {
@@ -41,7 +41,7 @@ export const contentStyle = css({
         alignItems: "center",
         justifyContent: "center",
         opacity: 0,
-        transition: "0.2s",
+        transition: "fast",
     },
 
     "& .image_arrow img": {
