@@ -46,7 +46,7 @@ digraph implement_flow {
 2. **코드 수정** — 읽은 규칙을 따라 구현한다.
 3. **자기 검증 보고** — 적용한 규칙을 한 줄로 메모한다 (예: `typescript/README.md 의 배열 표기 규칙 적용`).
 4. **커밋** — 이 항목만의 변경분을 곧바로 커밋한다. 사용자 확인을 기다리지 않는다 — 세션 중단 복구와 커밋 로그 기반 컨텍스트 전달을 위해 즉시 커밋하는 것이 원칙이다.
-   - 메시지 포맷·단위 기준은 [`plan-writing-guide.md` Section 6](../../../docs/rules/plan-writing-guide.md#6-커밋-단위와-기록-원칙) 을 따른다. 제목은 `<type>(<scope>): <대상> — <성격>` 형식.
+   - 메시지 포맷·단위 기준은 [`commit-convention.md`](../../../docs/rules/commit-convention.md) 를 따른다. 제목은 `<type>(<scope>): <대상> — <성격>` 형식.
    - **`git add -A` / `git add .` 금지.** 해당 작업 항목이 건드린 파일만 `git add <paths>` 로 명시적으로 스테이징한다. 다른 항목의 변경이 섞이면 커밋 단위가 무너진다.
    - 커밋 직후 `git log -1 --oneline` 으로 제목을 재확인한다. 제목만 읽고도 "무엇을 / 어디에 / 어떻게" 가 드러나지 않으면, 수정 커밋이 아니라 해당 커밋을 쌓은 직후이므로 `git commit --amend -m` 으로 메시지만 교정해도 무방하다 (코드 변경은 amend 금지).
 
@@ -110,7 +110,7 @@ flowchart 상 "tsc + 테스트 검증" 단계에 해당하며, 다음 명령을 
    - `refactor(theme): Sidebar width 단위를 rem으로 재조정 (리뷰 피드백 반영)`
 4. `pnpm exec tsc --noEmit` + `pnpm test -- --watchAll=false` 재검증 후 Step 3 구현 결과 보고를 다시 출력한다 (커밋 로그 행에 수정 커밋이 추가된 상태).
 
-이 방식은 "판단이 교정된 사실"을 히스토리에 남겨, 이후 세션에서 log만 읽고도 교정 맥락을 복원할 수 있게 한다. 자세한 이유는 [`plan-writing-guide.md` Section 6-4](../../../docs/rules/plan-writing-guide.md#6-4-수정-커밋-스택-방식) 참조.
+이 방식은 "판단이 교정된 사실"을 히스토리에 남겨, 이후 세션에서 log만 읽고도 교정 맥락을 복원할 수 있게 한다. 자세한 이유는 [`commit-convention.md` §4](../../../docs/rules/commit-convention.md#4-수정-커밋-스택-방식) 참조.
 
 ## Step 4: PR 생성
 
