@@ -13,7 +13,7 @@ description: Use whenever the user asks to create a pull request, open a PR, "PR
    - `git status`
    - `git log <base>..HEAD --oneline` (base는 보통 `master`)
 
-   `git diff` 는 이 단계에서 실행하지 않는다. 잘 작성된 커밋 로그는 그 자체로 "변경 사항" 섹션의 재료가 되어야 하며, 여기서 로그가 충분한 해상도인지 판단한다. 이 프로젝트의 커밋 규약은 [`plan-writing-guide.md` Section 6](../../../docs/rules/plan-writing-guide.md#6-커밋-단위와-기록-원칙) 참조.
+   `git diff` 는 이 단계에서 실행하지 않는다. 잘 작성된 커밋 로그는 그 자체로 "변경 사항" 섹션의 재료가 되어야 하며, 여기서 로그가 충분한 해상도인지 판단한다. 이 프로젝트의 커밋 규약은 [`commit-convention.md`](../../../docs/rules/commit-convention.md) 참조.
 
 2. **로그 기반 초안 작성** — `git log` 결과만으로 PR 본문의 "변경 사항" 섹션 초안을 작성해본다. 커밋 제목이 `<type>(<scope>): <대상> — <성격>` 형식을 지켰다면 이 단계에서 대부분의 bullet가 그대로 떠야 한다.
 
