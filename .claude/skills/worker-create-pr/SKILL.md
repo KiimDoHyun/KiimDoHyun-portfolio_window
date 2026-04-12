@@ -9,14 +9,28 @@ description: Use whenever the user asks to create a pull request, open a PR, "PR
 
 ## 작업 순서
 
-1. **변경 내역 파악** — 다음을 병렬로 실행:
+1. **변경 내역 1차 파악 — 로그 우선** — 다음을 병렬로 실행:
    - `git status`
-   - `git diff master...HEAD` (또는 base 브랜치 기준)
-   - `git log master..HEAD --oneline`
-2. **분류** — 변경의 성격을 파악한다 (feat / fix / refactor / chore / docs / test). 커밋 메시지 prefix와 일치시킨다.
-3. **템플릿 채우기** — 아래 구조에 맞춰 본문을 작성. 해당 없는 선택 섹션은 **생략**한다 (빈 칸으로 두지 않는다).
-4. **PR 생성** — `gh pr create`를 HEREDOC으로 호출. 제목은 70자 이내, 커밋 prefix 형식 (`feat(scope): ...`).
-5. **URL 반환** — 사용자가 바로 열 수 있도록 PR URL을 출력.
+   - `git log <base>..HEAD --oneline` (base는 보통 `master`)
+
+   `git diff` 는 이 단계에서 실행하지 않는다. 잘 작성된 커밋 로그는 그 자체로 "변경 사항" 섹션의 재료가 되어야 하며, 여기서 로그가 충분한 해상도인지 판단한다. 이 프로젝트의 커밋 규약은 [`plan-writing-guide.md` Section 6](../../../docs/rules/plan-writing-guide.md#6-커밋-단위와-기록-원칙) 참조.
+
+2. **로그 기반 초안 작성** — `git log` 결과만으로 PR 본문의 "변경 사항" 섹션 초안을 작성해본다. 커밋 제목이 `<type>(<scope>): <대상> — <성격>` 형식을 지켰다면 이 단계에서 대부분의 bullet가 그대로 떠야 한다.
+
+3. **diff 스팟 체크 (필요 시)** — 아래 조건 중 하나라도 해당하는 커밋만 골라 `git diff <base>..HEAD -- <path>` 또는 `git show <hash>` 로 **부분 확인**:
+   - 커밋 제목이 모호하거나 scope·대상이 빠져 있음 (예: `refactor: 정리`)
+   - 여러 파일/영역이 한 커밋에 섞여 있어 제목만으로 범위를 추정하기 어려움
+   - 리뷰어가 "왜 그렇게 했나"를 궁금해할 만한 비자명한 결정이 있을 것으로 의심됨
+
+   **`git diff <base>..HEAD` 통째 읽기는 최후 수단.** 로그 해상도가 정말 낮을 때만 사용하고, 사용했다면 그 자체를 신호로 삼아 다음 작업부턴 커밋 단위를 조정하도록 사용자에게 짧게 언급한다.
+
+4. **분류** — 변경의 성격을 파악한다 (feat / fix / refactor / chore / docs / test). 커밋 메시지 prefix의 분포와 일치시킨다.
+
+5. **템플릿 채우기** — 아래 구조에 맞춰 본문을 작성. 해당 없는 선택 섹션은 **생략**한다 (빈 칸으로 두지 않는다).
+
+6. **PR 생성** — `gh pr create`를 HEREDOC으로 호출. 제목은 70자 이내, 커밋 prefix 형식 (`feat(scope): ...`).
+
+7. **URL 반환** — 사용자가 바로 열 수 있도록 PR URL을 출력.
 
 ## PR 본문 템플릿
 
