@@ -14,6 +14,7 @@ description: Use when writing, modifying, reviewing, or planning any frontend co
 | 작업 종류 | 읽을 문서 |
 |---|---|
 | TypeScript 코드 작성/수정 (타입, prop, 배열 표기 등) | [`docs/rules/typescript/README.md`](../../../docs/rules/typescript/README.md) |
+| 새 식별자 이름 결정 (변수/함수/훅/상수/타입 명명) | [`docs/rules/naming/README.md`](../../../docs/rules/naming/README.md) |
 | 컴포넌트 신규 생성 또는 리팩터 (`.tsx` 파일 분할/구조) | [`docs/rules/component-structure/README.md`](../../../docs/rules/component-structure/README.md) |
 | feature 간 import, `index.ts` 공개 API 변경 | [`docs/rules/feature-public-api/README.md`](../../../docs/rules/feature-public-api/README.md) |
 | Recoil/URL 등 전역 상태 접근 또는 페이지 경계 작업 | [`docs/rules/global-state-boundary/README.md`](../../../docs/rules/global-state-boundary/README.md) |
