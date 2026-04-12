@@ -10,9 +10,13 @@ description: Use when the user wants to implement a design document end-to-end. 
 ```dot
 digraph implement_flow {
     "설계 문서 로드" -> "브랜치 생성";
-    "브랜치 생성" -> "superpowers로 구현";
-    "superpowers로 구현" -> "tsc + 테스트 검증";
+    "브랜치 생성" -> "작업 항목 구현";
+    "작업 항목 구현" -> "작업 항목 커밋";
+    "작업 항목 커밋" -> "작업 항목 구현" [label="다음 항목"];
+    "작업 항목 커밋" -> "tsc + 테스트 검증" [label="모든 항목 완료"];
     "tsc + 테스트 검증" -> "사용자 확인 대기";
+    "사용자 확인 대기" -> "수정 커밋 스택" [label="수정 요청"];
+    "수정 커밋 스택" -> "tsc + 테스트 검증";
     "사용자 확인 대기" -> "PR 생성" [label="승인"];
     "PR 생성" -> "완료";
 }
@@ -41,6 +45,10 @@ digraph implement_flow {
 1. **작업 시작 전** — `convention-frontend` 스킬을 호출하여, 해당 작업이 건드리는 영역(`typescript` / `component-structure` / `feature-public-api` / `global-state-boundary` / `folder-structure`)에 해당하는 규칙 문서를 읽는다. 작업마다 영역이 다를 수 있으므로 **매 항목마다 반복** 호출한다.
 2. **코드 수정** — 읽은 규칙을 따라 구현한다.
 3. **자기 검증 보고** — 적용한 규칙을 한 줄로 메모한다 (예: `typescript/README.md 의 배열 표기 규칙 적용`).
+4. **커밋** — 이 항목만의 변경분을 곧바로 커밋한다. 사용자 확인을 기다리지 않는다 — 세션 중단 복구와 커밋 로그 기반 컨텍스트 전달을 위해 즉시 커밋하는 것이 원칙이다.
+   - 메시지 포맷·단위 기준은 [`commit-convention.md`](../../../docs/rules/commit-convention.md) 를 따른다. 제목은 `<type>(<scope>): <대상> — <성격>` 형식.
+   - **`git add -A` / `git add .` 금지.** 해당 작업 항목이 건드린 파일만 `git add <paths>` 로 명시적으로 스테이징한다. 다른 항목의 변경이 섞이면 커밋 단위가 무너진다.
+   - 커밋 직후 `git log -1 --oneline` 으로 제목을 재확인한다. 제목만 읽고도 "무엇을 / 어디에 / 어떻게" 가 드러나지 않으면, 수정 커밋이 아니라 해당 커밋을 쌓은 직후이므로 `git commit --amend -m` 으로 메시지만 교정해도 무방하다 (코드 변경은 amend 금지).
 
 ### 모든 작업 항목 완료 후: 검증
 
@@ -67,6 +75,7 @@ flowchart 상 "tsc + 테스트 검증" 단계에 해당하며, 다음 명령을 
 | 항목 | 내용 |
 |------|------|
 | **변경 파일** | 생성/수정/삭제된 파일 목록 |
+| **커밋 로그** | `git log <base>..HEAD --oneline` 결과를 그대로 나열. 사용자가 승인 전에 어떤 단위로 히스토리가 쌓였는지 한눈에 확인할 수 있어야 함 |
 | **DoD 체크리스트** | 설계 문서의 성공 기준 각 항목별 ✅/❌ |
 | **`pnpm exec tsc --noEmit`** | 통과 여부 (에러 있으면 내용 포함) |
 | **`pnpm test -- --watchAll=false`** | 통과 여부 (실패 있으면 기존 이슈인지 구분, "No tests found" 는 통과 취급) |
@@ -89,6 +98,19 @@ flowchart 상 "tsc + 테스트 검증" 단계에 해당하며, 다음 명령을 
 확인 후 "ㅇㅇ" 하시면 PR을 생성합니다.
 수정이 필요하면 말씀해주세요.
 ```
+
+### 수정 요청 대응
+
+사용자가 수정을 요청하면:
+
+1. 요청받은 내용만 수정한다 — 다른 개선은 금지.
+2. **새로운 커밋을 쌓아 대응한다.** `git commit --amend` / `git rebase -i` / `git reset` 으로 기존 커밋을 재작성하지 않는다 (메시지만 고치는 직후 amend는 예외).
+3. 커밋 메시지에 수정 대상임을 명시한다. 예:
+   - `fix(theme): Sidebar 토큰명 교정 (앞선 a1b2c3d 의 오타)`
+   - `refactor(theme): Sidebar width 단위를 rem으로 재조정 (리뷰 피드백 반영)`
+4. `pnpm exec tsc --noEmit` + `pnpm test -- --watchAll=false` 재검증 후 Step 3 구현 결과 보고를 다시 출력한다 (커밋 로그 행에 수정 커밋이 추가된 상태).
+
+이 방식은 "판단이 교정된 사실"을 히스토리에 남겨, 이후 세션에서 log만 읽고도 교정 맥락을 복원할 수 있게 한다. 자세한 이유는 [`commit-convention.md` §4](../../../docs/rules/commit-convention.md#4-수정-커밋-스택-방식) 참조.
 
 ## Step 4: PR 생성
 
