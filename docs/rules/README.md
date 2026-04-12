@@ -8,6 +8,7 @@
 
 - [folder-structure/](./folder-structure/) — `src/` 최상위 폴더 구조 (Feature-First)
 - [typescript/](./typescript/) — 배열 타입 표기, 컴포넌트 prop 타입 등 TS 작성 규칙
+- [naming/](./naming/) — 변수/함수/훅/상수/타입 등 식별자 명명 규칙
 - [component-structure/](./component-structure/) — `.tsx`에 무엇을 두고 무엇을 분리할지
 - [feature-public-api/](./feature-public-api/) — feature 슬라이스의 `index.ts` 사용 규칙, deep import 금지
 - [global-state-boundary/](./global-state-boundary/) — 전역 상태 접근 경계
