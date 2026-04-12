@@ -87,13 +87,7 @@
 
 ### Git Commit Convention
 
-- `feat:` 새로운 기능 추가
-- `fix:` 버그 수정
-- `refactor:` 코드 리팩토링
-- `style:` 코드 포맷팅
-- `docs:` 문서 수정
-- `test:` 테스트 코드
-- `chore:` 빌드, 패키지 설정 등
+커밋 규약(type, scope, 메시지 포맷, 단위 기준, 수정 스택 방식)은 [`docs/rules/commit-convention.md`](docs/rules/commit-convention.md) 를 따른다.
 
 ## 프론트엔드 컨벤션
 
