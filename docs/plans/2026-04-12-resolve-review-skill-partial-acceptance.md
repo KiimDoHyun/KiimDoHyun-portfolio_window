@@ -24,7 +24,8 @@
 
 - [ ] Task 1: `docs(worker-resolve-review): Step 0 신설 + 부분 수용 분류 + 회귀 판별 박스 추가`
 - [ ] Task 2: `docs(worker-resolve-review): reply 템플릿에 부분 수용/Before 필드 + 카운트 포맷 업데이트`
-- [ ] Task 3: `docs(plans): worker-resolve-review 부분 수용 구현 계획 추가` (본 계획서 커밋, DoD 전수 검증 후)
+- [x] ~~Task 3: `docs(plans): worker-resolve-review 부분 수용 구현 계획 추가`~~ (본 계획서, 사전 커밋됨 `f7f5dc7`)
+- [ ] Task 3 (재정의): 전체 파일 일관성 검증 + DoD 체크 (코드 수정 발생 시에만 추가 커밋)
 
 ## 완료 조건
 
@@ -266,18 +267,7 @@ Expected output: `.claude/skills/worker-resolve-review/SKILL.md` 와 `docs/plans
 
 만약 의도치 않은 파일이 나오면 즉시 중단하고 사용자에게 보고한다.
 
-### Step 3.4: 구현 계획서도 커밋
-
-본 구현 계획 자체도 아직 미커밋 상태이므로, Task 3 종료 시 같이 커밋한다.
-
-```bash
-git add docs/plans/2026-04-12-resolve-review-skill-partial-acceptance.md
-git commit -m "docs(plans): worker-resolve-review 부분 수용 구현 계획 추가"
-```
-
-(DoD 체크로 추가 수정이 발생하면 먼저 해당 수정만 별도 커밋한 후 계획서를 커밋한다.)
-
-### Step 3.5: 최종 보고
+### Step 3.4: 최종 보고
 
 사용자에게 다음을 보고한다:
 
