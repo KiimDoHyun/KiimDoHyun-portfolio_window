@@ -145,6 +145,32 @@ pnpm exec tsc --noEmit
 커밋: `{hash}`
 ```
 
+**수정 (회귀성 지적인 경우 — Step 2 판별 박스 참조):**
+````
+✅ 수정
+
+{수정 내용 요약}
+
+**Before** (`git show <baseRef>:<path>` 발췌):
+```diff
+{원본 코드 2~6줄}
+```
+
+커밋: `{hash}`
+````
+
+**부분 수용:**
+```
+🟨 부분 수용
+
+**적용 범위:** {이 PR 에서 고친 지점 목록}
+**유예 범위:** {같은 원칙이 적용되지만 이번엔 안 고친 지점 목록}
+**사유:** {유예 사유 — 스코프/리스크/기능 경계}
+**후속 티켓:** {이슈 번호 또는 "TBD — 이번 Round 종료 후 생성"}
+
+커밋: `{hash}`
+```
+
 **기각:**
 ```
 ❌ 기각
@@ -178,7 +204,7 @@ gh api repos/{owner}/{repo}/pulls/{pr}/comments/{comment_id}/replies \
 gh pr comment <PR_NUMBER> --body "$(cat <<'EOF'
 ## 🔧 Resolve Round N
 
-**요약:** ✅ 수정 a건 · ❌ 기각 b건 · ❓ 판단 필요 c건 · Must Fix 잔여 d건
+**요약:** ✅ 수정 a · 🟨 부분 수용 b · ❌ 기각 c · ❓ 판단 필요 d · Must Fix 잔여 e
 EOF
 )"
 ```
@@ -188,7 +214,7 @@ EOF
 처리 결과를 요약하여 반환한다:
 
 ```
-수정: N건, 기각: N건, 판단 필요: N건, Must Fix 잔여: N건
+수정: N건, 부분 수용: N건, 기각: N건, 판단 필요: N건, Must Fix 잔여: N건
 ```
 
 ## 독립 실행 경로
