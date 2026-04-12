@@ -21,14 +21,14 @@
 
 ## 성공 기준 (Definition of Done)
 
-- [ ] `docs/rules/naming/README.md` 가 존재하고 4개 식별자 명명 규칙 (Hooks / Utils / Constants / Types) 을 정의한다.
-- [ ] `docs/rules/typescript/README.md` 에 AGENTS.md §4 의 타입 작성 규칙 4개가 흡수되어 있다.
-- [ ] `docs/rules/plan-writing-guide.md` 에 "완료 조건 고정" 과 "검증 실패 시 처리" 규칙이 반영되어 있다.
-- [ ] `.claude/skills/convention-frontend/SKILL.md` 라우팅 테이블에 `naming/` 토픽 행이 추가되어 있다.
-- [ ] `docs/rules/README.md` 토픽 목록에 `naming/` 이 추가되어 있다.
-- [ ] `AGENTS.md` 가 포인터 허브로 축소되어 있다 (한글 응답 규칙 + 작업 흐름·코딩 규칙 포인터만 남는 형태).
-- [ ] AGENTS.md 에 있던 규칙 중 **어떤 것도 누락 없이** 다른 문서로 이관되었다 (설계 규칙 "이관은 삭제가 아닌 이동").
-- [ ] 빌드/테스트와 무관한 순수 문서 작업이므로 자동화 검증은 없음. 수동 검증 항목으로 대체.
+- [x] `docs/rules/naming/README.md` 가 존재하고 4개 식별자 명명 규칙 (Hooks / Utils / Constants / Types) 을 정의한다.
+- [x] `docs/rules/typescript/README.md` 에 AGENTS.md §4 의 타입 작성 규칙 4개가 흡수되어 있다.
+- [x] `docs/rules/plan-writing-guide.md` 에 "완료 조건 고정" 과 "검증 실패 시 처리" 규칙이 반영되어 있다.
+- [x] `.claude/skills/convention-frontend/SKILL.md` 라우팅 테이블에 `naming/` 토픽 행이 추가되어 있다.
+- [x] `docs/rules/README.md` 토픽 목록에 `naming/` 이 추가되어 있다.
+- [x] `AGENTS.md` 가 포인터 허브로 축소되어 있다 (한글 응답 규칙 + 작업 흐름·코딩 규칙 포인터만 남는 형태).
+- [x] AGENTS.md 에 있던 규칙 중 **어떤 것도 누락 없이** 다른 문서로 이관되었다 (설계 규칙 "이관은 삭제가 아닌 이동").
+- [x] 빌드/테스트와 무관한 순수 문서 작업이므로 자동화 검증은 없음. 수동 검증 항목으로 대체.
 
 ## Phase 1: 규칙 이관 및 AGENTS.md 축소
 
@@ -41,34 +41,34 @@
 
 체크리스트 각 항목은 커밋 1개와 매핑된다.
 
-- [ ] **`docs/rules/naming/README.md` 신설 및 토픽 목록 등록**
+- [x] **`docs/rules/naming/README.md` 신설 및 토픽 목록 등록** — `de75bfb`
   - 새 파일 생성: Hooks(`use` prefix camelCase) / Utils(camelCase) / Constants(UPPER_SNAKE_CASE) / Types(PascalCase) 4개 규칙. 각 규칙에 `✅ / ❌` 예시 포함 (기존 `typescript/README.md` 톤 일치).
   - 문서 서두에 "식별자 명명 규칙만 다룸. 타입 작성 규칙은 `typescript/` 참조" 경계 문구 추가.
   - `docs/rules/README.md` 의 "토픽 목록" 섹션에 `- [naming/](./naming/) — ...` 한 줄 추가.
   - 영향 범위: `docs/rules/naming/README.md` (신규), `docs/rules/README.md`
   - 커밋 제목: `docs(rules): naming 컨벤션 토픽 신설`
 
-- [ ] **`docs/rules/typescript/README.md` 에 타입 작성 규칙 4개 흡수**
+- [x] **`docs/rules/typescript/README.md` 에 타입 작성 규칙 4개 흡수** — `44ee28b`
   - 기존 2개 규칙 (배열 `Array<T>`, prop 구조분해) 뒤에 추가 규칙 섹션 삽입: 명시적 타입 / `any` 금지(불가피 시 `unknown`) / Interface 보다 Type 선호 / Enum 대신 Union Type.
   - 각 규칙에 `✅ / ❌` 예시 또는 간단한 코드 블록 포함.
   - 문서 상단 또는 적절한 위치에 "식별자 이름 규칙은 `naming/` 참조" 상호 링크 추가.
   - 영향 범위: `docs/rules/typescript/README.md`
   - 커밋 제목: `docs(rules): typescript 컨벤션에 타입 작성 규칙 확장`
 
-- [ ] **`docs/rules/plan-writing-guide.md` 에 완료 조건 고정 및 실패 처리 규칙 추가**
+- [x] **`docs/rules/plan-writing-guide.md` 에 완료 조건 고정 및 실패 처리 규칙 추가** — `9d1a1a8`
   - §1 끝에 한 줄 추가: "완료 조건은 문서에 명시한 뒤 작업 중 임의로 수정하지 않는다. 수정이 필요하면 사용자 승인을 거친 뒤 문서에 반영한다."
   - §4 에 "4-3. 검증 실패 시 처리" 하위 섹션 추가: "완료 조건을 3회 이상 만족하지 못하면 해당 단계 반복을 중단하고 사용자에게 상황을 보고하여 방향을 협의한다."
   - AGENTS.md §3 의 "추가 개선 제안" 은 §5 "향후 과제" 와 개념이 동일하므로 **추가하지 않음** (중복 회피).
   - 영향 범위: `docs/rules/plan-writing-guide.md`
   - 커밋 제목: `docs(rules): plan-writing-guide 에 완료 조건 고정과 실패 처리 규칙 추가`
 
-- [ ] **`convention-frontend` 스킬 라우팅에 `naming/` 행 추가**
+- [x] **`convention-frontend` 스킬 라우팅에 `naming/` 행 추가** — `0da619e`
   - `.claude/skills/convention-frontend/SKILL.md` 의 라우팅 매핑 테이블에 한 행 추가: "새 식별자 (변수/함수/훅/상수/타입) 이름 결정 시 → `docs/rules/naming/README.md`".
   - 적용 범위 밖 섹션은 건드리지 않음.
   - 영향 범위: `.claude/skills/convention-frontend/SKILL.md`
   - 커밋 제목: `docs(skill): convention-frontend 라우팅에 naming 토픽 추가`
 
-- [ ] **`AGENTS.md` 를 포인터 허브로 축소**
+- [x] **`AGENTS.md` 를 포인터 허브로 축소** — `8984728`
   - 최종 형태:
     - 서두 "한글 응답 규칙" 유지
     - "작업 흐름" 섹션: superpowers 스킬 (`brainstorming`, `writing-plans`, `executing-plans`, `verification-before-completion`, `finishing-a-development-branch`) 에 위임한다는 한 단락 + 각 스킬 한 줄 포인터
