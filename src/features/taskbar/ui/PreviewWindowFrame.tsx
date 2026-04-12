@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { css } from "@styled-system/css";
 
 interface PreviewWindowFrameProps {
     title: string;
@@ -6,48 +7,46 @@ interface PreviewWindowFrameProps {
     children: ReactNode;
 }
 
+const frameStyle = css({
+    position: "absolute",
+    left: 0,
+    top: 0,
+    width: "program.default",
+    height: "program.default",
+    backgroundColor: "windowChrome.bg",
+    border: "1px solid token(colors.windowChrome.border)",
+    boxSizing: "border-box",
+    display: "grid",
+    gridTemplateRows: "token(sizes.windowHeader) 1fr",
+    pointerEvents: "none",
+    overflow: "hidden",
+});
+
+const headerStyle = css({
+    display: "flex",
+    alignItems: "center",
+    gap: "6px",
+    padding: "0 10px",
+    borderBottom: "1px solid token(colors.surface.border)",
+    boxSizing: "border-box",
+});
+
+const iconStyle = css({ width: "20px", height: "20px" });
+const titleStyle = css({ fontSize: "14px" });
+const bodyStyle = css({ position: "relative", overflow: "hidden" });
+
 const PreviewWindowFrame = ({
     title,
     iconSrc,
     children,
 }: PreviewWindowFrameProps) => {
     return (
-        <div
-            style={{
-                position: "absolute",
-                left: 0,
-                top: 0,
-                width: "500px",
-                height: "500px",
-                backgroundColor: "white",
-                border: "1px solid black",
-                boxSizing: "border-box",
-                display: "grid",
-                gridTemplateRows: "32px 1fr",
-                pointerEvents: "none",
-                overflow: "hidden",
-            }}
-        >
-            <div
-                style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "6px",
-                    padding: "0 10px",
-                    borderBottom: "1px solid #ddd",
-                    boxSizing: "border-box",
-                }}
-            >
-                <img
-                    src={iconSrc}
-                    alt={title}
-                    style={{ width: "20px", height: "20px" }}
-                />
-                <span style={{ fontSize: "14px" }}>{title}</span>
+        <div className={frameStyle}>
+            <div className={headerStyle}>
+                <img src={iconSrc} alt={title} className={iconStyle} />
+                <span className={titleStyle}>{title}</span>
             </div>
-            <div style={{ position: "relative", overflow: "hidden" }}>
-                {children}
-            </div>
+            <div className={bodyStyle}>{children}</div>
         </div>
     );
 };

@@ -21,7 +21,7 @@ const centerAreaBoxBlockStyle = css({
   "& .text": {
     fontSize: "14px",
     fontWeight: "lighter",
-    color: "#e8e8e8",
+    color: "shell.text",
     cursor: "default",
   },
 });

@@ -6,23 +6,23 @@ export const docProgramContentStyle = css({
         height: "100%",
 
         display: "flex",
-        gap: "20px",
+        gap: "20",
         flexWrap: "wrap",
         alignContent: "flex-start",
         boxSizing: "border-box",
-        padding: "10px",
+        padding: "8",
     },
 
     "& .doc_imageArea": {
         width: "100%",
         height: "auto",
         minHeight: "200px",
-        backgroundColor: "#e7e7e7",
+        backgroundColor: "surface.content",
         display: "inline-block",
         overflow: "scroll",
 
         flexGrow: 1,
-        flexBasis: "500px",
+        flexBasis: "program.default",
     },
 
     "& .noProjectImage": {
@@ -32,7 +32,7 @@ export const docProgramContentStyle = css({
         alignItems: "center",
         justifyContent: "center",
 
-        color: "#a2a1a1",
+        color: "surface.textMuted",
         fontSize: "14px",
     },
 
@@ -58,39 +58,41 @@ export const docProgramContentStyle = css({
         height: "100%",
         width: "100%",
         flexGrow: 1,
-        flexBasis: "500px",
+        flexBasis: "program.default",
     },
 
     "& .doc_card": {
         textAlign: "left",
 
         boxSizing: "border-box",
-        padding: "20px 0",
+        py: "20",
+        px: "0",
         borderBottom: "1px solid gray",
     },
 
     "& .cardTitle": {
         fontWeight: "bold",
-        marginBottom: "10px",
+        marginBottom: "8",
     },
     "& .cardContent": {
         fontSize: "12px",
-        color: "#4b4b4b",
+        color: "surface.textPrimary",
     },
 
     "& .doc_stack": {
         display: "flex",
-        gap: "10px",
+        gap: "8",
         flexWrap: "wrap",
     },
     "& .stackItem": {
         border: "1px solid gray",
-        padding: "5px 10px",
+        py: "4",
+        px: "8",
         borderRadius: "5px",
         width: "fit-content",
         position: "relative",
         cursor: "pointer",
-        transition: "0.2s",
+        transition: "fast",
     },
 
     "& .stackItem:hover": {
@@ -101,7 +103,7 @@ export const docProgramContentStyle = css({
         bottom: "-45px",
         opacity: 1,
 
-        boxShadow: "0px 0px 10px 2px #a1a1a1",
+        boxShadow: "stackItem",
         scale: 1,
     },
 
@@ -115,10 +117,10 @@ export const docProgramContentStyle = css({
 
         backgroundColor: "white",
         opacity: 0,
-        transition: "0.2s",
+        transition: "fast",
 
         boxSizing: "border-box",
-        padding: "5px",
+        padding: "4",
 
         scale: 0.4,
     },
@@ -126,7 +128,7 @@ export const docProgramContentStyle = css({
     "& .doc_reulst": {
         display: "flex",
         flexDirection: "column",
-        gap: "20px",
+        gap: "20",
     },
     "& .stackItem_Image img": {
         width: "100%",
@@ -136,7 +138,7 @@ export const docProgramContentStyle = css({
     },
 
     "& .resultTitle": {
-        marginBottom: "5px",
+        marginBottom: "4",
         fontWeight: "bold",
     },
 });

@@ -9,18 +9,17 @@ const statusBarRecipe = cva({
 
     position: "absolute",
     left: 0,
-    width: "650px",
-    height: "500px",
-    boxShadow: "0px -3px 20px 3px #00000061",
+    width: "statusbar.width",
+    height: "statusbar.height",
+    boxShadow: "panelUp",
 
-    transition: "0.4s",
-    transitionTimingFunction: "cubic-bezier(0, 0.5, 0, 1)",
-    backgroundColor: "#393a3b",
+    transition: "slow",
+    backgroundColor: "shell.bg",
 
     display: "flex",
-    gap: "10px",
+    gap: "8",
 
-    paddingTop: "5px",
+    paddingTop: "4",
     boxSizing: "border-box",
 
     "& .statusBarBoxArea": {
@@ -32,7 +31,7 @@ const statusBarRecipe = cva({
     },
 
     "& .statusBox:hover": {
-      backgroundColor: "#ffffff24",
+      backgroundColor: "overlay.active",
     },
 
     "& .leftArea": {
@@ -42,10 +41,11 @@ const statusBarRecipe = cva({
 
     "& .leftArea_Contents": {
       position: "absolute",
-      backgroundColor: "#393a3b",
+      backgroundColor: "shell.bg",
       width: "100%",
       height: "100%",
-      transition: "0.1s",
+      // 원래 0.1s였으나 설계 문서 Task 3-2 예외 분석에서 fast(0.2s)로 통합
+      transition: "fast",
       display: "flex",
       flexDirection: "column",
       justifyContent: "space-between",
@@ -54,7 +54,8 @@ const statusBarRecipe = cva({
     "& .leftArea_Contents_Wide": {
       width: "220px",
       zIndex: 10,
-      boxShadow: "0px 9px 20px 0px #181818",
+      // 특이 shadow: 현재 토큰에 대응 없음. Phase 3/6에서 shadow 토큰 정비 시 재처리.
+      boxShadow: "0px 9px 20px 0px rgba(24, 24, 24, 1)",
     },
 
     "& .centerArea": {
@@ -73,19 +74,20 @@ const statusBarRecipe = cva({
       display: "flex",
       alignItems: "center",
       justifyContent: "flex-start",
-      color: "#e8e8e8",
+      color: "shell.text",
       cursor: "pointer",
-      margin: "10px 0",
-      paddingLeft: "5px",
+      my: "8",
+      mx: "0",
+      paddingLeft: "4",
     },
 
     "& .rightArea_boxArea": {
       display: "flex",
       flexWrap: "wrap",
       alignContent: "flex-start",
-      gap: "5px",
-      padding: "5px",
-      marginBottom: "30px",
+      gap: "4",
+      padding: "4",
+      marginBottom: "32",
     },
 
     "& .show_animation": {
@@ -100,13 +102,13 @@ const statusBarRecipe = cva({
 
     "& .rightArea::-webkit-scrollbar-thumb, & .centerArea::-webkit-scrollbar-thumb":
       {
-        backgroundColor: "#acacac",
+        backgroundColor: "shell.border",
       },
   },
   variants: {
     active: {
       true: {
-        bottom: "50px",
+        bottom: "token(sizes.taskbar)",
         opacity: 1,
         pointerEvents: "auto",
         zIndex: 999,

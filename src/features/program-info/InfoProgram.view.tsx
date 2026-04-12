@@ -67,7 +67,7 @@ const infoProgramContentStyle = css({
 
     "& .contentsArea_info .top": {
         minHeight: "200px",
-        backgroundColor: "#f3f3f3",
+        backgroundColor: "surface.light",
 
         display: "flex",
         flexWrap: "wrap",
@@ -92,7 +92,7 @@ const infoProgramContentStyle = css({
         gap: "50px",
 
         flexGrow: 1,
-        flexBasis: "500px",
+        flexBasis: "program.default",
 
         justifyContent: "center",
     },
@@ -133,7 +133,7 @@ const infoProgramContentStyle = css({
         rowGap: "30px",
 
         flexGrow: 1,
-        flexBasis: "500px",
+        flexBasis: "program.default",
     },
     "& .info2 .infoItem": {
         width: "180px",
@@ -165,20 +165,20 @@ const infoProgramContentStyle = css({
     "& .myInfoArea .desc": {
         margin: "0",
         fontSize: "14px",
-        color: "#202020",
+        color: "surface.textStrong",
     },
 
     "& .body .infoItem": {
         boxSizing: "border-box",
         padding: "0 10px",
         width: "230px",
-        border: "2px solid #ffffff00",
-        transition: "0.2s",
+        border: "2px solid transparent",
+        transition: "fast",
 
         gap: "20px",
     },
     "& .body .infoItem:hover": {
-        borderColor: "#dfdfdf",
+        borderColor: "surface.border",
     },
 
     "& .body .infoItem .title, & .info2 .myInfoArea p": {
@@ -187,7 +187,7 @@ const infoProgramContentStyle = css({
     },
     "& .body .myInfoArea a, & .info2 .myInfoArea a": {
         textDecoration: "none",
-        color: "#76b3e4",
+        color: "accent.link",
 
         fontSize: "14px",
     },

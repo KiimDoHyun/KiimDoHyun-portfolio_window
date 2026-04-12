@@ -10,10 +10,10 @@ const loginInputBoxRecipe = cva({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    gap: 4,
+    gap: "16",
     width: "100%",
     height: "100%",
-    transition: "0.4s",
+    transition: "slow",
   },
   variants: {
     visible: {
@@ -39,7 +39,7 @@ const userIconBoxRecipe = cva({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    padding: "4px",
+    padding: "4",
   },
 });
 
@@ -49,17 +49,18 @@ const loginButtonRecipe = cva({
   base: {
     width: "120px",
     height: "40px",
-    backgroundColor: "#ffffff00",
+    backgroundColor: "transparent",
     border: "2px solid white",
     borderRadius: "4px",
     color: "white",
     fontSize: "14px",
     fontWeight: 400,
     cursor: "pointer",
-    transition: "all 0.2s ease",
+    // 원본은 ease easing. standard(cubic-bezier)로 수렴 — hover 체감 동일
+    transition: "fast",
     outline: "none",
     "&:hover": {
-      borderColor: "#d0d0d0",
+      borderColor: "surface.borderDim",
     },
     "&:focus-visible": {
       outline: "2px solid black",

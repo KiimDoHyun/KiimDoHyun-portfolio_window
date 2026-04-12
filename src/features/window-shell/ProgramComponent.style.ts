@@ -3,21 +3,22 @@ import { styled } from "@styled-system/jsx";
 
 const programComponentRecipe = cva({
   base: {
-    left: "calc(50% - 250px)",
-    top: "calc(50% - 250px)",
-    height: "500px",
-    width: "500px",
+    left: "calc(50% - token(sizes.program.default) / 2)",
+    top: "calc(50% - token(sizes.program.default) / 2)",
+    height: "program.default",
+    width: "program.default",
 
-    boxShadow: "0px 0px 20px 3px #00000061",
+    boxShadow: "windowFrame",
     position: "absolute",
 
-    border: "1px solid black",
+    border: "1px solid token(colors.windowChrome.border)",
     boxSizing: "border-box",
 
-    backgroundColor: "white",
+    backgroundColor: "windowChrome.bg",
 
     display: "grid",
-    gridTemplateRows: "32px 25px 1fr 20px",
+    gridTemplateRows:
+      "token(sizes.windowHeader) token(sizes.program.headerSub) 1fr token(sizes.windowBottom)",
 
     animation: "open 0.25s 0s",
 
@@ -55,9 +56,9 @@ const programComponentRecipe = cva({
     "& .infoArea": {
       display: "flex",
       alignItems: "center",
-      gap: "5px",
+      gap: "4",
       height: "100%",
-      marginLeft: "10px",
+      marginLeft: "8",
     },
 
     "& .infoArea img": {
@@ -71,19 +72,19 @@ const programComponentRecipe = cva({
 
     "& .headerArea": {
       width: "100%",
-      height: "32px",
+      height: "windowHeader",
 
       display: "flex",
       justifyContent: "space-between",
       alignItems: "center",
 
-      padding: "1px 1px 0 1px",
       boxSizing: "border-box",
     },
 
     "& .headerArea2": {
-      gap: "10px",
-      padding: "0 10px",
+      gap: "8",
+      py: "0",
+      px: "8",
 
       display: "flex",
       justifyContent: "space-between",
@@ -100,25 +101,24 @@ const programComponentRecipe = cva({
     "& .buttonArea": {
       height: "100%",
       display: "flex",
-      gap: "1px",
     },
 
     "& .min div": {
       width: "11px",
       height: "1px",
-      backgroundColor: "black",
+      backgroundColor: "windowChrome.border",
     },
 
     "& .max div": {
       width: "8px",
       height: "8px",
-      border: "1px solid black",
+      border: "1px solid token(colors.windowChrome.border)",
     },
 
     "& .close div": {
       width: "14px",
       height: "1px",
-      backgroundColor: "black",
+      backgroundColor: "windowChrome.border",
     },
 
     "& .close div:nth-child(1)": {
@@ -133,7 +133,7 @@ const programComponentRecipe = cva({
     "& .buttonArea > div": {
       height: "100%",
       width: "45px",
-      transition: "0.2s",
+      transition: "fast",
 
       display: "flex",
       alignItems: "center",
@@ -145,11 +145,11 @@ const programComponentRecipe = cva({
     },
 
     "& .buttonArea .buttonIcon:hover": {
-      backgroundColor: "#ddddddb3",
+      backgroundColor: "windowChrome.buttonHover",
     },
 
     "& .buttonArea > .close:hover": {
-      backgroundColor: "#ff1010",
+      backgroundColor: "windowChrome.closeHover",
     },
 
     "& .contentsArea_Cover": {
@@ -165,7 +165,8 @@ const programComponentRecipe = cva({
       alignItems: "center",
       justifyContent: "flex-start",
       fontSize: "12px",
-      padding: "0 10px",
+      py: "0",
+      px: "8",
     },
   },
   variants: {

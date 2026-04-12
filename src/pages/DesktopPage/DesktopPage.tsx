@@ -164,7 +164,7 @@ const mainPageStyle = css({
     height: "100vh",
     position: "relative",
     display: "grid",
-    gridTemplateRows: "1fr 50px",
+    gridTemplateRows: "1fr token(sizes.taskbar)",
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
     overflow: "hidden",
@@ -176,7 +176,7 @@ const mainPageStyle = css({
 
     "& .taskBarCover": {
         position: "relative",
-        backgroundColor: "#20343b",
+        backgroundColor: "shell.bg",
         zIndex: 10000,
     },
 });

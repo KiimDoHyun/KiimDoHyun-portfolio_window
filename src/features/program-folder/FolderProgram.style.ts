@@ -3,7 +3,7 @@ import { css } from "@styled-system/css";
 export const headerStyle = css({
     "& .arrowBox": {
         display: "flex",
-        gap: "10px",
+        gap: "8",
     },
     "& .arrowBox img": {
         width: "15px",
@@ -13,12 +13,13 @@ export const headerStyle = css({
     "& .routeBox": {
         flex: 1,
         textAlign: "left",
-        padding: "0 10px",
+        py: "0",
+        px: "8",
         fontSize: "12px",
         cursor: "default",
         display: "flex",
         alignItems: "center",
-        border: "1px solid #e3e3e3",
+        border: "1px solid token(colors.surface.border)",
         height: "100%",
     },
     "& .routeBox input": {
@@ -39,10 +40,10 @@ export const contentStyle = css({
     "& .contentsArea_folder": {
         width: "100%",
         height: "100%",
-        padding: "10px",
+        padding: "8",
         boxSizing: "border-box",
         display: "flex",
-        gap: "20px",
+        gap: "20",
         flexWrap: "wrap",
         alignContent: "flex-start",
     },
@@ -80,7 +81,7 @@ export const contentStyle = css({
     },
 
     "& .DETAIL": {
-        gap: "0px",
+        gap: "0",
     },
     "& .DETAIL .folder": {
         width: "100%",
@@ -100,15 +101,16 @@ export const contentStyle = css({
     "& .folder": {
         boxSizing: "content-box",
         height: "auto",
-        padding: "5px 10px",
-        border: "1px solid #ffffff00",
+        py: "4",
+        px: "8",
+        border: "1px solid transparent",
     },
     "& .folder_selected": {
-        backgroundColor: "#cce8ff !important",
-        border: "1px solid #99d1ff",
+        backgroundColor: "token(colors.accent.select) !important",
+        border: "1px solid token(colors.accent.line)",
     },
     "& .folder:hover": {
-        backgroundColor: "#e5f3ff",
+        backgroundColor: "accent.soft",
     },
     "& .folder .name": {
         wordBreak: "break-all",
@@ -120,7 +122,8 @@ export const contentStyle = css({
         display: "grid",
         gridTemplateColumns: "1fr 1fr 1fr",
         width: "100%",
-        padding: "5px 10px",
+        py: "4",
+        px: "8",
     },
     "& .detailHeader .name": {
         fontSize: "11px",

@@ -6,17 +6,17 @@ const hiddenIconRecipe = cva({
     position: "absolute",
     right: "125px",
     width: "120px",
-    backgroundColor: "#393a3be0",
-    border: "1px solid #4d4d4d",
+    backgroundColor: "shell.bgMuted",
+    border: "1px solid token(colors.shell.border)",
     display: "flex",
     flexWrap: "wrap",
-    padding: "2px",
+    padding: "4",
 
   },
   variants: {
     active: {
       true: {
-        bottom: "50px",
+        bottom: "token(sizes.taskbar)",
         zIndex: 99999,
       },
       false: {

@@ -2,18 +2,18 @@ import { css } from "@styled-system/css";
 
 export const taskBarStyle = css({
   display: "grid",
-  gridTemplateColumns: "50px auto 200px",
+  gridTemplateColumns: "token(sizes.taskbar) auto 200px",
   height: "100%",
   position: "relative",
 
   "& .shortCutIcon": {
-    transition: "0.2s",
+    transition: "fast",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "flex-end",
     height: "100%",
-    width: "50px",
+    width: "taskbar",
     position: "relative",
   },
 
@@ -21,7 +21,7 @@ export const taskBarStyle = css({
     position: "absolute",
     width: "200px",
     height: "0px",
-    backgroundColor: "#00000000",
+    backgroundColor: "transparent",
     top: "var(--shotcut-hover-top)",
     left: "var(--shotcut-hover-left)",
     pointerEvents: "var(--shotcut-hover-pointer-events)",
@@ -36,7 +36,7 @@ export const taskBarStyle = css({
     right: 0,
     width: "40px",
     height: "40px",
-    backgroundColor: "#00000000",
+    backgroundColor: "transparent",
   },
 
   "& .bodyCover": {
@@ -48,28 +48,28 @@ export const taskBarStyle = css({
   },
 
   "& .box1": {
-    width: "50px",
-    height: "50px",
-    padding: "15px",
+    width: "taskbar",
+    height: "taskbar",
+    padding: "16",
     boxSizing: "border-box",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    transition: "0.2s",
+    transition: "fast",
   },
 
   "& .box1:hover path": {
-    fill: "#00adef",
+    fill: "accent.hover",
   },
   "& .box1:active path": {
-    fill: "#0076ff",
+    fill: "accent.solid",
   },
   "& .box1 svg": {
     width: "100%",
     height: "100%",
   },
   "& .box1 path": {
-    fill: "white",
+    fill: "shell.text",
   },
 
   "& .box2": {
@@ -78,14 +78,14 @@ export const taskBarStyle = css({
   },
 
   "& .activeIcon": {
-    backgroundColor: "#ffffff24",
+    backgroundColor: "overlay.active",
   },
   "& .activeIcon .shortCut_BottomLine": {
     width: "95%",
   },
 
   "& .activeShortCutIcon": {
-    backgroundColor: "#dfdfdf12",
+    backgroundColor: "overlay.hover",
   },
 
   "& .shortCutIcon:hover .shortCut_BottomLine": {
@@ -99,15 +99,17 @@ export const taskBarStyle = css({
     position: "absolute",
     width: "200px",
     height: "225px",
-    backgroundColor: "#20343b9c",
+    backgroundColor: "shell.bgAlt",
     zIndex: 1,
     top: "var(--prevview-top)",
     opacity: "var(--prevview-opacity)",
     left: "var(--prevview-left)",
     pointerEvents: "var(--prevview-pointer-events)",
-    padding: "10px 15px 15px 15px",
+    pt: "8",
+    px: "16",
+    pb: "16",
     boxSizing: "border-box",
-    transition: "0.2s",
+    transition: "fast",
   },
 
   "& .prevViewHeader": {
@@ -117,7 +119,7 @@ export const taskBarStyle = css({
   },
 
   "& .prevViewHeader .text": {
-    color: "white",
+    color: "shell.text",
     fontSize: "14px",
   },
   "& .prevViewHeader .button": {
@@ -162,27 +164,27 @@ export const taskBarStyle = css({
   },
 
   "& .shortCut_BottomLine": {
-    transition: "0.2s",
+    transition: "fast",
     width: "80%",
     height: "3px",
-    backgroundColor: "#aac5ff",
+    backgroundColor: "accent.underline",
   },
 
   "& .box3": {
     display: "grid",
     gridTemplateColumns: "1fr 4fr 50px 5px",
-    gap: "5px",
+    gap: "4",
   },
 
   "& .taskHoverEffect": {
-    transition: "0.2s",
+    transition: "fast",
   },
   "& .taskHoverEffect:hover": {
-    backgroundColor: "#dfdfdf12",
+    backgroundColor: "overlay.hover",
   },
 
   "& .arrowUpIcon": {
-    padding: "5px",
+    padding: "4",
     display: "flex",
     alignItems: "center",
   },
@@ -192,9 +194,9 @@ export const taskBarStyle = css({
   },
 
   "& .dateInfo": {
-    padding: "3px",
+    padding: "4",
     fontSize: "13px",
-    color: "white",
+    color: "shell.text",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -206,7 +208,7 @@ export const taskBarStyle = css({
   },
 
   "& .closeAllButton": {
-    borderLeft: "1px solid gray",
+    borderLeft: "1px solid token(colors.shell.border)",
   },
 
   "& .info": {

@@ -26,7 +26,7 @@ const leftAreaBoxBlockStyle = css({
     },
 
     "& .text": {
-        color: "#e8e8e8",
+        color: "shell.text",
         display: "flex",
         alignItems: "center",
         justifyContent: "flex-start",

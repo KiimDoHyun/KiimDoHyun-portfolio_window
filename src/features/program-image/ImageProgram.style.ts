@@ -2,18 +2,20 @@ import { css } from "@styled-system/css";
 
 export const headerStyle = css({
     justifyContent: "center !important",
-    gap: "30px !important",
+    // 30px → spacing.32 (=32px)로 2px 드리프트 감수 (이미지 갤러리 여백)
+    gap: "token(spacing.32) !important",
 
     "& .image_header_controller_btn": {
         width: "20px",
         height: "20px",
-        padding: "1px",
+        // 원본 1px padding → 아이콘 크기 예약용이므로 transparent border로 치환
+        border: "1px solid transparent",
         boxSizing: "border-box",
-        transition: "0.2s",
+        transition: "fast",
     },
 
     "& .image_header_controller_btn:hover": {
-        backgroundColor: "#e6e6e6",
+        backgroundColor: "surface.content",
     },
 
     "& .image_header_controller_btn img": {
@@ -30,7 +32,7 @@ export const contentStyle = css({
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: "#20343b",
+        backgroundColor: "surface.dark",
     },
 
     "& .image_arrow": {
@@ -41,7 +43,7 @@ export const contentStyle = css({
         alignItems: "center",
         justifyContent: "center",
         opacity: 0,
-        transition: "0.2s",
+        transition: "fast",
     },
 
     "& .image_arrow img": {
@@ -54,12 +56,12 @@ export const contentStyle = css({
     },
 
     "& .image_arrowLeft": {
-        background: "linear-gradient(to right, #00000029, #ffffff00)",
+        background: "linear-gradient(to right, token(colors.overlay.fadeEdge), transparent)",
         left: 0,
     },
 
     "& .image_arrowRight": {
-        background: "linear-gradient(to right, #ffffff00, #00000029)",
+        background: "linear-gradient(to right, transparent, token(colors.overlay.fadeEdge))",
         right: 0,
     },
 
