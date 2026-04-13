@@ -19,7 +19,7 @@ export const docProgramContentStyle = css({
         minHeight: "200px",
         backgroundColor: "surface.content",
         display: "inline-block",
-        overflow: "scroll",
+        overflow: "auto",
 
         flexGrow: 1,
         flexBasis: "program.default",
@@ -54,7 +54,7 @@ export const docProgramContentStyle = css({
     "& .doc_contentsArea": {
         flex: 1,
 
-        overflow: "scroll",
+        overflow: "auto",
         height: "100%",
         width: "100%",
         flexGrow: 1,

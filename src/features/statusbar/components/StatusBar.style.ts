@@ -61,12 +61,12 @@ const statusBarRecipe = cva({
     "& .centerArea": {
       backgroundColor: "transparent",
       width: "270px",
-      overflowY: "scroll",
+      overflowY: "auto",
     },
 
     "& .rightArea": {
       width: "330px",
-      overflowY: "scroll",
+      overflowY: "auto",
     },
 
     "& .rightArea_title": {
@@ -96,14 +96,6 @@ const statusBarRecipe = cva({
       animationName: "show_from_bottom",
     },
 
-    "& .rightArea::-webkit-scrollbar, & .centerArea::-webkit-scrollbar": {
-      width: "2px",
-    },
-
-    "& .rightArea::-webkit-scrollbar-thumb, & .centerArea::-webkit-scrollbar-thumb":
-      {
-        backgroundColor: "shell.border",
-      },
   },
   variants: {
     active: {
