@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { css } from "@styled-system/css";
 import wallpaper from "@images/wallpaper/Samsung_wallpaper.jpg";
 import DisplayCover from "@features/display-cover/DisplayCover";
@@ -16,7 +16,16 @@ import type { ProgramId } from "@shared/types/program";
 import ProgramWindow from "./ProgramWindow";
 import { renderProgramContent } from "./renderProgramContent";
 
+const FADE_IN_DURATION_MS = 400;
+
 export default function DesktopPage() {
+    const [isMounted, setIsMounted] = useState(false);
+
+    useEffect(() => {
+        const frame = requestAnimationFrame(() => setIsMounted(true));
+        return () => cancelAnimationFrame(frame);
+    }, []);
+
     // === File system ===
     const nodes = useFileSystemStore((s) => s.nodes);
 
@@ -98,7 +107,11 @@ export default function DesktopPage() {
     return (
         <div
             className={mainPageStyle}
-            style={{ backgroundImage: `url(${wallpaper})` }}
+            style={{
+                backgroundImage: `url(${wallpaper})`,
+                opacity: isMounted ? 1 : 0,
+                transition: `opacity ${FADE_IN_DURATION_MS}ms ease`,
+            }}
         >
             <DisplayCover displayLight={displayLight} />
             <div

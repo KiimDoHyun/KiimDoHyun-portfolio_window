@@ -7,7 +7,8 @@ export const logoutOverlayStyle = css({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "black",
+    backgroundColor: "rgba(0, 0, 0, 0.6)",
+    backdropFilter: "blur(20px)",
     transition: "opacity var(--logout-fade-duration) ease-in",
     pointerEvents: "none",
 
