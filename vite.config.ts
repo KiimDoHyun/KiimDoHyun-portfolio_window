@@ -3,9 +3,31 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
 import { fileURLToPath } from "url";
+import { execSync } from "child_process";
+import type { Plugin } from "vite";
+
+function devBranchTitlePlugin(): Plugin {
+  return {
+    name: "dev-branch-title",
+    apply: "serve",
+    transformIndexHtml(html) {
+      try {
+        const branch = execSync("git rev-parse --abbrev-ref HEAD", {
+          encoding: "utf-8",
+        }).trim();
+        return html.replace(
+          /<title>(.*?)<\/title>/,
+          `<title>[${branch}] $1</title>`,
+        );
+      } catch {
+        return html;
+      }
+    },
+  };
+}
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), devBranchTitlePlugin()],
   resolve: {
     tsconfigPaths: true,
   },
