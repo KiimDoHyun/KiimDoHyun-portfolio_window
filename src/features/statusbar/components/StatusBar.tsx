@@ -1,6 +1,7 @@
 import React from "react";
 
 import imgMenu from "@images/icons/hamburger_menu.png";
+import imgPower from "@images/icons/power.svg";
 import LeftAreaBox from "./LeftAreaBox";
 import CenterAreaBox from "./CenterAreaBox";
 import RightAreaBox from "./RightAreaBox";
@@ -19,6 +20,7 @@ type StatusBarViewProps = {
     onMouseLeave: () => void;
     onClickBox: (id: ProgramId) => void;
     onClickLeftArea: () => void;
+    onLogout: () => void;
 };
 
 const StatusBarView = ({
@@ -32,6 +34,7 @@ const StatusBarView = ({
     onMouseLeave,
     onClickBox,
     onClickLeftArea,
+    onLogout,
 }: StatusBarViewProps) => {
     return (
         <StatusBarBlock active={active}>
@@ -65,6 +68,13 @@ const StatusBarView = ({
                                 onClick={onClickLeftArea}
                             />
                         ))}
+                    </div>
+                    <div className="leftArea_bottom">
+                        <LeftAreaBox
+                            img={imgPower}
+                            name={"로그아웃"}
+                            onClick={onLogout}
+                        />
                     </div>
                 </div>
             </div>

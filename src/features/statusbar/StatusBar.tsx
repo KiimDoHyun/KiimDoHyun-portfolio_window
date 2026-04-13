@@ -14,6 +14,7 @@ interface StatusBarProps {
     viewModel: StatusBarViewModel;
     onOpenProgram: (id: ProgramId) => void;
     onClose: () => void;
+    onLogout: () => void;
 }
 
 const STATUSBAR_LEFT_AREA_ITEMS = [
@@ -25,7 +26,7 @@ const STATUSBAR_LEFT_AREA_ITEMS = [
     { img: imgKit, text: "금오공과대학교 졸업" },
 ];
 
-const StatusBar = ({ active, viewModel, onOpenProgram, onClose }: StatusBarProps) => {
+const StatusBar = ({ active, viewModel, onOpenProgram, onClose, onLogout }: StatusBarProps) => {
     const [activeLeftArea_Detail, setActiveLeftArea_Detail] = useState(false);
     const activeLeftArea_timer = useRef<ReturnType<typeof setTimeout> | null>(
         null,
@@ -72,6 +73,7 @@ const StatusBar = ({ active, viewModel, onOpenProgram, onClose }: StatusBarProps
             onMouseLeave={onMouseLeave}
             onClickBox={handleClickBox}
             onClickLeftArea={handleClickLeftArea}
+            onLogout={onLogout}
         />
     );
 };
