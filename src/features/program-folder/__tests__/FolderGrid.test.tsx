@@ -38,8 +38,8 @@ describe("FolderGrid", () => {
         displayType: "MIDDLE_ICON",
         selectedId: null as ProgramId | null,
         hasChildren,
-        onClickItem: jest.fn(),
-        onDoubleClickItem: jest.fn(),
+        onClickItem: vi.fn(),
+        onDoubleClickItem: vi.fn(),
     };
 
     it("아이템 이름들을 렌더한다", () => {
@@ -68,14 +68,14 @@ describe("FolderGrid", () => {
     });
 
     it("아이템 클릭 시 onClickItem이 호출된다", () => {
-        const onClickItem = jest.fn();
+        const onClickItem = vi.fn();
         render(<FolderGrid {...defaultProps} onClickItem={onClickItem} />);
         fireEvent.click(screen.getByText("프로젝트").closest(".folder")!);
         expect(onClickItem).toHaveBeenCalledWith("f1");
     });
 
     it("아이템 더블클릭 시 onDoubleClickItem이 호출된다", () => {
-        const onDoubleClickItem = jest.fn();
+        const onDoubleClickItem = vi.fn();
         render(
             <FolderGrid
                 {...defaultProps}

@@ -10,6 +10,7 @@
 
 # production
 /build
+/dist
 
 # PandaCSS
 /src/styled-system

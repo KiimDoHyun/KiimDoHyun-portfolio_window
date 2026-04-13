@@ -30,15 +30,15 @@ const buildProps = (overrides: Partial<TaskBarProps> = {}): TaskBarProps => ({
     entries,
     activeId: "n1",
     hiddenIcon: false,
-    onClickStartIcon: jest.fn(),
-    onClickTime: jest.fn(),
-    onClickInfo: jest.fn(),
-    onClickHiddenIcon: jest.fn(),
-    onClickCloseAll: jest.fn(),
-    onClickTaskIcon: jest.fn(),
-    onCloseProgram: jest.fn(),
-    onPreviewChange: jest.fn(),
-    renderPreviewContent: jest.fn(() => null),
+    onClickStartIcon: vi.fn(),
+    onClickTime: vi.fn(),
+    onClickInfo: vi.fn(),
+    onClickHiddenIcon: vi.fn(),
+    onClickCloseAll: vi.fn(),
+    onClickTaskIcon: vi.fn(),
+    onCloseProgram: vi.fn(),
+    onPreviewChange: vi.fn(),
+    renderPreviewContent: vi.fn(() => null),
     ...overrides,
 });
 
@@ -50,7 +50,7 @@ describe("TaskBar (characterization)", () => {
     });
 
     it("시작 버튼 클릭 시 onClickStartIcon 이 호출된다", () => {
-        const onClickStartIcon = jest.fn();
+        const onClickStartIcon = vi.fn();
         const { container } = render(
             <TaskBar {...buildProps({ onClickStartIcon })} />
         );
@@ -60,7 +60,7 @@ describe("TaskBar (characterization)", () => {
     });
 
     it("아이콘 클릭 시 해당 entry 로 onClickTaskIcon 이 호출된다", () => {
-        const onClickTaskIcon = jest.fn();
+        const onClickTaskIcon = vi.fn();
         render(<TaskBar {...buildProps({ onClickTaskIcon })} />);
         fireEvent.click(screen.getByAltText("프로젝트"));
         expect(onClickTaskIcon).toHaveBeenCalledTimes(1);
@@ -69,7 +69,7 @@ describe("TaskBar (characterization)", () => {
     });
 
     it("아이콘에 mouseEnter 시 onPreviewChange(true) 가 호출되고, leave 시 false", () => {
-        const onPreviewChange = jest.fn();
+        const onPreviewChange = vi.fn();
         render(<TaskBar {...buildProps({ onPreviewChange })} />);
         const icon = screen.getByAltText("내문서").closest(".shortCutIcon")!;
         fireEvent.mouseEnter(icon);
@@ -97,7 +97,7 @@ describe("TaskBar (characterization)", () => {
     });
 
     it("hover 중 미리보기 X 버튼 클릭 시 onCloseProgram(hoverId) 호출", () => {
-        const onCloseProgram = jest.fn();
+        const onCloseProgram = vi.fn();
         render(<TaskBar {...buildProps({ onCloseProgram })} />);
         const icon = screen.getByAltText("프로젝트").closest(".shortCutIcon")!;
         fireEvent.mouseEnter(icon);
@@ -107,8 +107,8 @@ describe("TaskBar (characterization)", () => {
     });
 
     it("시계 영역 클릭 시 onClickTime, 알림 영역 클릭 시 onClickInfo", () => {
-        const onClickTime = jest.fn();
-        const onClickInfo = jest.fn();
+        const onClickTime = vi.fn();
+        const onClickInfo = vi.fn();
         const { container } = render(
             <TaskBar {...buildProps({ onClickTime, onClickInfo })} />
         );
@@ -119,7 +119,7 @@ describe("TaskBar (characterization)", () => {
     });
 
     it("모두 닫기 버튼 클릭 시 onClickCloseAll 호출", () => {
-        const onClickCloseAll = jest.fn();
+        const onClickCloseAll = vi.fn();
         const { container } = render(
             <TaskBar {...buildProps({ onClickCloseAll })} />
         );
