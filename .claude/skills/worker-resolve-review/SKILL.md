@@ -66,6 +66,9 @@ gh api repos/{owner}/{repo}/pulls/{pr}/comments \
 ## Step 2: 각 지적 타당성 판단
 
 각 지적마다 **해당 파일의 실제 코드를 읽고** 타당성을 판단한다.
+**심각도와 무관하게 모든 항목(Must Fix, Should Fix, Suggestion)을 독립적으로 판단한다.**
+리뷰어가 🟢 Suggestion으로 표기했더라도 실제로 개선 가치가 있다고 판단되면 수정한다.
+반대로 🔴 Must Fix라도 타당하지 않으면 기각한다. 심각도 라벨이 아닌 기술적 판단이 기준이다.
 
 ### 수정한다 (✅ 수정)
 
