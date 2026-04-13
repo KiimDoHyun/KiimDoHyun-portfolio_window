@@ -41,10 +41,6 @@
     "deploy": "cp dist/index.html dist/404.html && gh-pages -d dist"
   },
   "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ],
     "overrides": [
       {
         "files": [
