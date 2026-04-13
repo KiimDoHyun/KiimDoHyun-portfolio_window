@@ -29,14 +29,15 @@
     "vite-tsconfig-paths": "^6.1.1",
     "webpack-bundle-analyzer": "^4.10.1"
   },
+  "type": "module",
   "scripts": {
     "panda": "panda codegen",
-    "start": "panda codegen && craco start",
-    "build": "panda codegen && craco build",
+    "dev": "panda codegen && vite",
+    "build": "panda codegen && vite build",
+    "preview": "vite preview",
     "test": "react-scripts test",
-    "eject": "craco eject",
     "predeploy": "pnpm build",
-    "deploy": "gh-pages -d build"
+    "deploy": "cp dist/index.html dist/404.html && gh-pages -d dist"
   },
   "jest": {
     "moduleNameMapper": {
