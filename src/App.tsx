@@ -9,7 +9,7 @@ function App() {
   return (
     <ThemeProvider themeId="base">
       <div className="App">
-        <BrowserRouter basename={process.env.PUBLIC_URL}>
+        <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, "")}>
           <Routes>
             <Route path="/" element={<Navigate to="/window/login" replace />} />
             <Route path="/window/*" element={<WindowRouter />} />
