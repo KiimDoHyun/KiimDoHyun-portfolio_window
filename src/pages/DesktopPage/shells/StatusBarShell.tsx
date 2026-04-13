@@ -1,11 +1,15 @@
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useFileSystemStore } from "@store/fileSystemStore";
 import { useRunningProgramsStore } from "@store/runningProgramsStore";
 import { useUiStore } from "@store/uiStore";
 import { selectStatusBarViewModel } from "@shared/lib/file-system/selectors/selectStatusBarViewModel";
 import StatusBar from "@features/statusbar/StatusBar";
+import LogoutOverlay from "../components/LogoutOverlay";
 import type { ProgramId } from "@shared/types/program";
+
+export const LOGOUT_DELAY_MS = 1000;
+export const LOGOUT_FADE_DURATION_MS = 400;
 
 const StatusBarShell = () => {
     const navigate = useNavigate();
@@ -15,6 +19,8 @@ const StatusBarShell = () => {
     const statusBarOpen = useUiStore((s) => s.statusBarOpen);
 
     const openProgram = useRunningProgramsStore((s) => s.open);
+
+    const [isLoggingOut, setIsLoggingOut] = useState(false);
 
     const viewModel = useMemo(
         () => selectStatusBarViewModel({ rootId, nodes, childrenByParent }),
@@ -31,19 +37,26 @@ const StatusBarShell = () => {
     }, []);
 
     const handleLogout = useCallback(() => {
-        useRunningProgramsStore.getState().reset();
+        setIsLoggingOut(true);
         useUiStore.getState().closeAllMenus();
-        navigate("/window/login", { replace: true });
+
+        setTimeout(() => {
+            useRunningProgramsStore.getState().reset();
+            navigate("/window/login", { replace: true });
+        }, LOGOUT_DELAY_MS);
     }, [navigate]);
 
     return (
-        <StatusBar
-            active={statusBarOpen}
-            viewModel={viewModel}
-            onOpenProgram={handleOpenProgram}
-            onClose={handleClose}
-            onLogout={handleLogout}
-        />
+        <>
+            <StatusBar
+                active={statusBarOpen}
+                viewModel={viewModel}
+                onOpenProgram={handleOpenProgram}
+                onClose={handleClose}
+                onLogout={handleLogout}
+            />
+            <LogoutOverlay visible={isLoggingOut} />
+        </>
     );
 };
 
