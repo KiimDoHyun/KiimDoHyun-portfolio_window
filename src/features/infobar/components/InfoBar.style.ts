@@ -25,7 +25,7 @@ const infoBarRecipe = cva({
     },
 
     "& .commitArea": {
-      overflow: "scroll",
+      overflow: "auto",
     },
 
     "& .displayLightArea": {

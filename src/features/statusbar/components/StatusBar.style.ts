@@ -61,12 +61,12 @@ const statusBarRecipe = cva({
     "& .centerArea": {
       backgroundColor: "transparent",
       width: "270px",
-      overflowY: "scroll",
+      overflowY: "auto",
     },
 
     "& .rightArea": {
       width: "330px",
-      overflowY: "scroll",
+      overflowY: "auto",
     },
 
     "& .rightArea_title": {
