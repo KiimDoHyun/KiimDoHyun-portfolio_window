@@ -96,14 +96,6 @@ const statusBarRecipe = cva({
       animationName: "show_from_bottom",
     },
 
-    "& .rightArea::-webkit-scrollbar, & .centerArea::-webkit-scrollbar": {
-      width: "2px",
-    },
-
-    "& .rightArea::-webkit-scrollbar-thumb, & .centerArea::-webkit-scrollbar-thumb":
-      {
-        backgroundColor: "shell.border",
-      },
   },
   variants: {
     active: {
