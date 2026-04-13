@@ -4,14 +4,17 @@ import FullScreenBox from "@shared/ui/FullScreenBox";
 import WallPaper from "@shared/ui/WallPaper/WallPaper";
 import { useCallback, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { useFadeIn } from "@shared/hooks";
 
-const FADE_OUT_DURATION = 400;
+const FADE_IN_DURATION_MS = 400;
+const FADE_OUT_DURATION_MS = 400;
 
 export default function LoginPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const isUnlocked = searchParams.get("isUnlocked") === "true";
   const [isFadingOut, setIsFadingOut] = useState(false);
+  const isMounted = useFadeIn();
 
   const handleUnlock = useCallback(() => {
     setSearchParams({ isUnlocked: "true" }, { replace: true });
@@ -21,14 +24,14 @@ export default function LoginPage() {
     setIsFadingOut(true);
     setTimeout(() => {
       navigate("/window/desktop", { replace: true });
-    }, FADE_OUT_DURATION);
+    }, FADE_OUT_DURATION_MS);
   }, [navigate]);
 
   return (
     <FullScreenBox
       style={{
-        opacity: isFadingOut ? 0 : 1,
-        transition: `opacity ${FADE_OUT_DURATION}ms ease`,
+        opacity: isMounted && !isFadingOut ? 1 : 0,
+        transition: `opacity ${isFadingOut ? FADE_OUT_DURATION_MS : FADE_IN_DURATION_MS}ms ease`,
       }}
     >
       <WallPaper wallpaper={Samsung_wallpaper} blur={isUnlocked} />

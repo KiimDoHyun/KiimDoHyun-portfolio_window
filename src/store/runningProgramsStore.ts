@@ -17,6 +17,7 @@ interface RunningProgramsActions {
     minimize: (id: ProgramId) => void;
     toggleFromTaskbar: (id: ProgramId) => void;
     requestZIndex: () => number;
+    reset: () => void;
 }
 
 export type RunningProgramsStore = RunningProgramsState & RunningProgramsActions;
@@ -103,6 +104,15 @@ export const useRunningProgramsStore = create<RunningProgramsStore>()(
                 next = draft.zIndexCounter;
             });
             return next;
+        },
+
+        reset: () => {
+            set((draft) => {
+                draft.byId = {};
+                draft.order = [];
+                draft.activeId = null;
+                draft.zIndexCounter = 1;
+            });
         },
     })),
 );

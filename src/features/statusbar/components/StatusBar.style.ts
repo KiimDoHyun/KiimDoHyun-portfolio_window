@@ -90,6 +90,10 @@ const statusBarRecipe = cva({
       marginBottom: "32",
     },
 
+    "& .leftArea_bottom": {
+      borderTop: "1px solid token(colors.shell.border)",
+    },
+
     "& .show_animation": {
       animationDuration: "0.4s",
       animationTimingFunction: "cubic-bezier(0, 0.65, 0.35, 1)",
