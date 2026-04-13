@@ -2,6 +2,7 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
+import { fileURLToPath } from "url";
 
 export default defineConfig({
   plugins: [react()],
@@ -22,7 +23,7 @@ export default defineConfig({
     css: false,
     alias: {
       "@styled-system/css": path.resolve(
-        import.meta.dirname,
+        path.dirname(fileURLToPath(import.meta.url)),
         "src/__mocks__/styledSystemCss.js",
       ),
     },
