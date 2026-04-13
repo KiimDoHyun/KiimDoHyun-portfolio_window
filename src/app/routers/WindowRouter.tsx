@@ -4,20 +4,20 @@ import LoginPage from "@features/login/LoginPage";
 import ErrorPage from "@app/ErrorPage";
 import wallpaper from "@images/wallpaper/Samsung_wallpaper.jpg";
 
+const blurBackdropStyle: React.CSSProperties = {
+  position: "fixed",
+  inset: 0,
+  backgroundImage: `url(${wallpaper})`,
+  backgroundSize: "cover",
+  backgroundPosition: "center",
+  filter: "blur(20px) brightness(0.4)",
+  zIndex: -1,
+};
+
 export default function WindowRouter() {
   return (
     <>
-      <div
-        style={{
-          position: "fixed",
-          inset: 0,
-          backgroundImage: `url(${wallpaper})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          filter: "blur(20px) brightness(0.4)",
-          zIndex: -1,
-        }}
-      />
+      <div style={blurBackdropStyle} />
       <Routes>
         <Route path="desktop" element={<DesktopPage />} />
         <Route path="login" element={<LoginPage />} />

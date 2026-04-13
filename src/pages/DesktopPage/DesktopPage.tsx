@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { css } from "@styled-system/css";
 import wallpaper from "@images/wallpaper/Samsung_wallpaper.jpg";
 import DisplayCover from "@features/display-cover/DisplayCover";
@@ -13,18 +13,14 @@ import { useFileSystemStore } from "@store/fileSystemStore";
 import { useRunningProgramsStore } from "@store/runningProgramsStore";
 import { useUiStore } from "@store/uiStore";
 import type { ProgramId } from "@shared/types/program";
+import { useFadeIn } from "@shared/hooks";
 import ProgramWindow from "./ProgramWindow";
 import { renderProgramContent } from "./renderProgramContent";
 
 const FADE_IN_DURATION_MS = 400;
 
 export default function DesktopPage() {
-    const [isMounted, setIsMounted] = useState(false);
-
-    useEffect(() => {
-        const frame = requestAnimationFrame(() => setIsMounted(true));
-        return () => cancelAnimationFrame(frame);
-    }, []);
+    const isMounted = useFadeIn();
 
     // === File system ===
     const nodes = useFileSystemStore((s) => s.nodes);

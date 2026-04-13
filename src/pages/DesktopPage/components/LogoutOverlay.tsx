@@ -1,5 +1,5 @@
 import { logoutOverlayStyle } from "./LogoutOverlay.style";
-import { LOGOUT_FADE_DURATION_MS } from "../shells/StatusBarShell";
+import { LOGOUT_FADE_DURATION_MS } from "../constants/logout";
 
 type LogoutOverlayProps = {
     visible: boolean;

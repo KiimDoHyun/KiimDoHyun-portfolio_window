@@ -2,8 +2,9 @@ import Login from "./Login";
 import Samsung_wallpaper from "@images/wallpaper/Samsung_wallpaper.jpg";
 import FullScreenBox from "@shared/ui/FullScreenBox";
 import WallPaper from "@shared/ui/WallPaper/WallPaper";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { useFadeIn } from "@shared/hooks";
 
 const FADE_IN_DURATION_MS = 400;
 const FADE_OUT_DURATION_MS = 400;
@@ -13,12 +14,7 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const isUnlocked = searchParams.get("isUnlocked") === "true";
   const [isFadingOut, setIsFadingOut] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    const frame = requestAnimationFrame(() => setIsMounted(true));
-    return () => cancelAnimationFrame(frame);
-  }, []);
+  const isMounted = useFadeIn();
 
   const handleUnlock = useCallback(() => {
     setSearchParams({ isUnlocked: "true" }, { replace: true });

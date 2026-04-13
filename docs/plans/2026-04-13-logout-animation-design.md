@@ -35,7 +35,7 @@ const LOGOUT_FADE_DURATION_MS = 400;  // 페이드인 애니메이션 시간
 - `LogoutOverlay` — 풀스크린 검정 오버레이 + 중앙 "로그아웃 중..." 텍스트
   - props: `visible: boolean`
   - visible=true일 때 opacity 0→1 페이드인 (CSS transition)
-  - z-index: 모든 요소 위 (9999)
+  - z-index: 모든 요소 위 (99999)
 
 ### 수정 대상 파일
 

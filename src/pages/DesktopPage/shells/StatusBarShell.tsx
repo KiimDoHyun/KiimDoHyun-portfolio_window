@@ -8,8 +8,7 @@ import StatusBar from "@features/statusbar/StatusBar";
 import LogoutOverlay from "../components/LogoutOverlay";
 import type { ProgramId } from "@shared/types/program";
 
-export const LOGOUT_DELAY_MS = 1000;
-export const LOGOUT_FADE_DURATION_MS = 400;
+import { LOGOUT_DELAY_MS, LOGOUT_FADE_DURATION_MS } from "../constants/logout";
 
 const StatusBarShell = () => {
     const navigate = useNavigate();
@@ -37,6 +36,7 @@ const StatusBarShell = () => {
     }, []);
 
     const handleLogout = useCallback(() => {
+        if (isLoggingOut) return;
         setIsLoggingOut(true);
         useUiStore.getState().closeAllMenus();
 
@@ -44,7 +44,7 @@ const StatusBarShell = () => {
             useRunningProgramsStore.getState().reset();
             navigate("/window/login", { replace: true });
         }, LOGOUT_DELAY_MS);
-    }, [navigate]);
+    }, [isLoggingOut, navigate]);
 
     return (
         <>
