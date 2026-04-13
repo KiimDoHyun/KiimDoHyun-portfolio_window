@@ -21,10 +21,12 @@ digraph review_loop {
     "PR 컨텍스트 수집" -> "스킬 파일 Read";
     "스킬 파일 Read" -> "diff 수집 (Round 1: 전체, 2+: delta)";
     "diff 수집 (Round 1: 전체, 2+: delta)" -> "Agent: worker-review-code [review-cycle]";
-    "Agent: worker-review-code [review-cycle]" -> "Must Fix 0건?";
-    "Must Fix 0건?" -> "사용자에게 결과 요약" [label="yes → LGTM"];
-    "Must Fix 0건?" -> "Agent: worker-resolve-review" [label="no"];
-    "Agent: worker-resolve-review" -> "diff 수집 (Round 1: 전체, 2+: delta)" [label="다음 라운드"];
+    "Agent: worker-review-code [review-cycle]" -> "지적 0건?";
+    "지적 0건?" -> "사용자에게 결과 요약" [label="yes → LGTM"];
+    "지적 0건?" -> "Agent: worker-resolve-review" [label="no (모든 심각도)"];
+    "Agent: worker-resolve-review" -> "Must Fix 잔여?";
+    "Must Fix 잔여?" -> "diff 수집 (Round 1: 전체, 2+: delta)" [label="yes → 다음 라운드"];
+    "Must Fix 잔여?" -> "오케스트레이터 의견 + 결과 요약" [label="no"];
     "Agent: worker-review-code [review-cycle]" -> "사용자에게 중단 보고" [label="훅 deny"];
 }
 ```
@@ -67,17 +69,22 @@ loop:
   )
 
   if reviewResult == "LGTM":
-    break → Step 4
+    break → Step 4 (LGTM)
 
   // 수정 — 훅이 카운팅하지 않음 ([review-cycle] 마커 없음)
   // resolve는 PR 번호만 받아 gh api로 직접 review comment 수집
+  // 모든 심각도(Must Fix, Should Fix, Suggestion)를 전달 — resolve가 독립 판단
   resolveResult = Agent(
     description="PR #N 리뷰 반영",
     prompt=resolveSkillContent + PR번호
   )
 
-  round++
-  라운드 기록 누적
+  if resolveResult의 Must Fix 잔여 > 0:
+    round++
+    라운드 기록 누적
+    continue  // 다음 리뷰 라운드
+  else:
+    break → Step 4 (의견 포함 보고)
 ```
 
 ### diff 전략
@@ -87,17 +94,26 @@ loop:
 
 ### 루프 탈출 조건
 
-1. **Must Fix 0건 (정상 종료)** — 리뷰 서브에이전트가 "LGTM" 반환
-2. **훅 deny (강제 종료)** — 5사이클 도달, 오케스트레이터가 중단 보고로 전환
+1. **지적 0건 (LGTM)** — 리뷰 서브에이전트가 "LGTM" 반환
+2. **Must Fix 잔여 0건** — resolve 후 Must Fix가 남지 않음 (Should Fix/Suggestion은 resolve가 처리 완료)
+3. **훅 deny (강제 종료)** — 5사이클 도달, 오케스트레이터가 중단 보고로 전환
 
 ## Step 4: 사용자에게 결과 요약
+
+모든 지적 항목(Must Fix, Should Fix, Suggestion)에 대해 오케스트레이터가 자체 판단 의견을 달아 보고한다.
+resolve가 처리한 항목은 처리 결과를, 남은 항목은 오케스트레이터의 반영 여부 의견을 포함한다.
 
 ```
 리뷰 완료: PR #N
 
 - 총 N라운드 실행
-- 수정: N건, 기각: N건, 판단 필요: N건
+- 수정: N건, 부분 수용: N건, 기각: N건, 판단 필요: N건
 - 각 라운드 히스토리는 PR 코멘트에 기록되어 있습니다
+
+{각 항목에 대한 오케스트레이터 의견 — 심각도 무관}
+| 항목 | 심각도 | 처리 | 의견 |
+|------|--------|------|------|
+| `파일:라인` — 제목 | 🔴/🟡/🟢 | ✅수정/❌기각/... | ~~ 해서 반영함/반영 불필요로 판단함/... |
 
 {판단 필요 항목이 있으면}
 아래 항목은 사용자 판단이 필요합니다:
