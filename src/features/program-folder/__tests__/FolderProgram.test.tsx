@@ -51,7 +51,7 @@ const findIdByName = (name: string): ProgramId => {
 };
 
 describe("FolderProgram", () => {
-    const mockOpenProgram = jest.fn();
+    const mockOpenProgram = vi.fn();
 
     beforeEach(() => {
         mockOpenProgram.mockClear();

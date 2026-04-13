@@ -15,7 +15,7 @@
   },
   "devDependencies": {
     "@pandacss/dev": "^0.40.0",
-    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.0.0",
     "@testing-library/user-event": "^14.6.1",
     "@types/node": "^18.11.18",
@@ -36,21 +36,9 @@
     "dev": "panda codegen && vite",
     "build": "panda codegen && vite build",
     "preview": "vite preview",
-    "test": "react-scripts test",
+    "test": "vitest run",
     "predeploy": "pnpm build",
     "deploy": "cp dist/index.html dist/404.html && gh-pages -d dist"
-  },
-  "jest": {
-    "moduleNameMapper": {
-      "^@shared/(.*)$": "<rootDir>/src/shared/$1",
-      "^@features/(.*)$": "<rootDir>/src/features/$1",
-      "^@pages/(.*)$": "<rootDir>/src/pages/$1",
-      "^@app/(.*)$": "<rootDir>/src/app/$1",
-      "^@store/(.*)$": "<rootDir>/src/store/$1",
-      "^@images/(.*)$": "<rootDir>/src/asset/images/$1",
-      "^@styled-system/css$": "<rootDir>/src/__mocks__/styledSystemCss.js",
-      "^@styled-system/(.*)$": "<rootDir>/src/styled-system/$1"
-    }
   },
   "eslintConfig": {
     "extends": [

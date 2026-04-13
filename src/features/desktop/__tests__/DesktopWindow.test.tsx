@@ -19,7 +19,7 @@ const icons: Array<ProgramNode> = [
 describe("DesktopWindow", () => {
     it("iconBoxArr의 노드들이 아이콘으로 렌더된다", () => {
         render(
-            <DesktopWindow iconBoxArr={icons} onDoubleClickIcon={jest.fn()} />,
+            <DesktopWindow iconBoxArr={icons} onDoubleClickIcon={vi.fn()} />,
         );
         expect(screen.getByText("프로젝트")).toBeInTheDocument();
         expect(screen.getByText("기술스택")).toBeInTheDocument();
@@ -28,7 +28,7 @@ describe("DesktopWindow", () => {
     });
 
     it("아이콘 더블클릭 시 onDoubleClickIcon이 호출된다", () => {
-        const handleDoubleClick = jest.fn();
+        const handleDoubleClick = vi.fn();
         render(
             <DesktopWindow
                 iconBoxArr={icons}
@@ -41,7 +41,7 @@ describe("DesktopWindow", () => {
 
     it("빈 배열이면 아이콘이 렌더되지 않는다", () => {
         render(
-            <DesktopWindow iconBoxArr={[]} onDoubleClickIcon={jest.fn()} />,
+            <DesktopWindow iconBoxArr={[]} onDoubleClickIcon={vi.fn()} />,
         );
         expect(screen.queryAllByAltText("iconImg")).toHaveLength(0);
     });

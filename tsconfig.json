@@ -20,7 +20,7 @@
     "allowSyntheticDefaultImports": true,
     "lib": ["ES2015", "DOM", "DOM.Iterable"],
     "typeRoots": ["src/types", "node_modules/@types"],
-    "types": ["node", "testing-library__jest-dom"],
+    "types": ["node"],
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "jsx": "react-jsx"
