@@ -139,7 +139,9 @@ export default defineConfig({
           full: { value: "9999px" },
         },
         shadows: {
-          windowFrame: { value: "0 0 20px 3px {colors.black.100/38}" },
+          windowFrame: {
+            value: "0 4px 8px rgba(0, 0, 0, 0.2), 0 16px 40px rgba(0, 0, 0, 0.45)",
+          },
           panelUp: { value: "0 -3px 20px 3px {colors.black.100/38}" },
           stackItem: { value: "0 0 10px 2px {colors.gray.600}" }, // doc stackItem hover drop
         },
