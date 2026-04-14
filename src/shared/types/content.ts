@@ -1,25 +1,9 @@
-export interface ProjectResult {
-    title: string;
-    content: string;
-}
-
-export interface ProjectStack {
-    name: string;
-    img: string;
-}
-
-export interface ProjectData {
+export type ProjectData = {
     projectName: string;
     projectDesc: string;
-    projectImages: Array<string>;
-    projectTerm: Array<string>;
-    projectType: string;
-    projectResult: Array<ProjectResult>;
-    role: Array<string>;
+    projectTerm: string;
     department: string;
-    stack: Array<ProjectStack>;
-    url: string;
-}
+};
 
 export interface ResumeLink {
     label: string;
