@@ -1,144 +1,99 @@
 import { css } from "@styled-system/css";
 
 export const docProgramContentStyle = css({
-    "& .contentsArea_doc": {
-        width: "100%",
-        height: "100%",
-
-        display: "flex",
-        gap: "20",
-        flexWrap: "wrap",
-        alignContent: "flex-start",
-        boxSizing: "border-box",
-        padding: "8",
+    "&.contentsArea_Cover": {
+        display: "grid",
+        gridTemplateRows: "auto 1fr",
+        overflow: "hidden",
     },
 
-    "& .doc_imageArea": {
-        width: "100%",
-        height: "auto",
-        minHeight: "200px",
-        backgroundColor: "surface.content",
-        display: "inline-block",
-        overflow: "auto",
-
-        flexGrow: 1,
-        flexBasis: "program.default",
-    },
-
-    "& .noProjectImage": {
-        width: "100%",
-        height: "100%",
+    "& .doc_header": {
         display: "flex",
         alignItems: "center",
-        justifyContent: "center",
-
-        color: "surface.textMuted",
-        fontSize: "14px",
+        justifyContent: "space-between",
+        padding: "12",
+        borderBottom: "1px solid",
+        borderColor: "surface.border",
     },
 
-    "& .projectImageItem": {
-        height: "100%",
-
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-    },
-
-    "& .projectImageItem img": {
-        width: "100%",
-        height: "100%",
-
-        objectFit: "contain",
-    },
-
-    "& .doc_contentsArea": {
-        flex: 1,
-
-        overflow: "auto",
-        height: "100%",
-        width: "100%",
-        flexGrow: 1,
-        flexBasis: "program.default",
-    },
-
-    "& .doc_card": {
-        textAlign: "left",
-
-        boxSizing: "border-box",
-        py: "20",
-        px: "0",
-        borderBottom: "1px solid gray",
-    },
-
-    "& .cardTitle": {
+    "& .doc_projectName": {
         fontWeight: "bold",
-        marginBottom: "8",
-    },
-    "& .cardContent": {
-        fontSize: "12px",
+        fontSize: "16px",
         color: "surface.textPrimary",
     },
 
-    "& .doc_stack": {
-        display: "flex",
-        gap: "8",
-        flexWrap: "wrap",
-    },
-    "& .stackItem": {
-        border: "1px solid gray",
-        py: "4",
-        px: "8",
-        borderRadius: "5px",
-        width: "fit-content",
-        position: "relative",
-        cursor: "pointer",
-        transition: "fast",
+    "& .doc_projectTerm": {
+        fontSize: "13px",
+        color: "surface.textMuted",
     },
 
-    "& .stackItem:hover": {
-        color: "white",
-        backgroundColor: "gray",
-    },
-    "& .stackItem:hover .stackItem_Image": {
-        bottom: "-45px",
-        opacity: 1,
-
-        boxShadow: "stackItem",
-        scale: 1,
+    "& .doc_body": {
+        overflow: "auto",
+        padding: "16",
+        fontSize: "14px",
+        lineHeight: "1.7",
+        color: "surface.textPrimary",
     },
 
-    "& .stackItem_Image": {
-        position: "absolute",
-
-        left: "calc(50% - 20px)",
-        width: "40px",
-        height: "40px",
-        bottom: "-35px",
-
-        backgroundColor: "white",
-        opacity: 0,
-        transition: "fast",
-
-        boxSizing: "border-box",
-        padding: "4",
-
-        scale: 0.4,
-    },
-
-    "& .doc_reulst": {
-        display: "flex",
-        flexDirection: "column",
-        gap: "20",
-    },
-    "& .stackItem_Image img": {
-        width: "100%",
-        height: "100%",
-
-        objectFit: "contain",
-    },
-
-    "& .resultTitle": {
-        marginBottom: "4",
+    "& .doc_body h1": {
+        fontSize: "24px",
         fontWeight: "bold",
+        marginBottom: "12",
+        marginTop: "20",
+    },
+
+    "& .doc_body h2": {
+        fontSize: "20px",
+        fontWeight: "bold",
+        marginBottom: "10",
+        marginTop: "16",
+    },
+
+    "& .doc_body h3": {
+        fontSize: "16px",
+        fontWeight: "bold",
+        marginBottom: "8",
+        marginTop: "12",
+    },
+
+    "& .doc_body p": {
+        marginBottom: "10",
+    },
+
+    "& .doc_body ul, & .doc_body ol": {
+        paddingLeft: "20",
+        marginBottom: "10",
+    },
+
+    "& .doc_body li": {
+        marginBottom: "4",
+    },
+
+    "& .doc_body code": {
+        backgroundColor: "surface.content",
+        padding: "2",
+        borderRadius: "3px",
+        fontSize: "13px",
+    },
+
+    "& .doc_body pre": {
+        backgroundColor: "surface.content",
+        padding: "12",
+        borderRadius: "6px",
+        overflow: "auto",
+        marginBottom: "10",
+    },
+
+    "& .doc_body pre code": {
+        padding: "0",
+        backgroundColor: "transparent",
+    },
+
+    "& .doc_body strong": {
+        fontWeight: "bold",
+    },
+
+    "& .doc_body em": {
+        fontStyle: "italic",
     },
 });
