@@ -12,24 +12,33 @@ const DOCProgram = ({ contents }: DOCProgramProps) => {
         <>
             <div className="headerArea2 headerArea2_DOC"></div>
             <div className={`${docProgramContentStyle} contentsArea_Cover`}>
-                {(contents.projectTerm || contents.department) && (
-                    <div className="doc_header">
-                        {contents.department && (
-                            <>
-                                <span className="doc_metaLabel">소속</span>
-                                <span className="doc_metaValue">{contents.department}</span>
-                            </>
-                        )}
-                        {contents.projectTerm && (
-                            <>
-                                <span className="doc_metaLabel">기간</span>
-                                <span className="doc_metaValue">{contents.projectTerm}</span>
-                            </>
-                        )}
-                    </div>
-                )}
+                <div className="doc_header">
+                    {contents.projectName && (
+                        <h2 className="doc_title">{contents.projectName}</h2>
+                    )}
+                    {(contents.projectTerm || contents.department) && (
+                        <div className="doc_meta">
+                            {contents.department && (
+                                <>
+                                    <span className="doc_metaLabel">소속</span>
+                                    <span className="doc_metaValue">{contents.department}</span>
+                                </>
+                            )}
+                            {contents.projectTerm && (
+                                <>
+                                    <span className="doc_metaLabel">기간</span>
+                                    <span className="doc_metaValue">{contents.projectTerm}</span>
+                                </>
+                            )}
+                        </div>
+                    )}
+                </div>
                 <div className="doc_body">
-                    <Markdown remarkPlugins={[remarkGfm]}>{contents.projectDesc}</Markdown>
+                    {contents.projectDesc ? (
+                        <Markdown remarkPlugins={[remarkGfm]}>{contents.projectDesc}</Markdown>
+                    ) : (
+                        <p className="doc_empty">본문이 준비 중입니다.</p>
+                    )}
                 </div>
             </div>
         </>

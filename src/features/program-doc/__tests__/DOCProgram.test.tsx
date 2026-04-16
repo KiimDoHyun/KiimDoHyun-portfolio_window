@@ -23,6 +23,11 @@ const noTermProject: ProjectData = {
 };
 
 describe("DOCProgram", () => {
+    it("헤더에 프로젝트 이름을 렌더한다", () => {
+        render(<DOCProgram contents={baseProject} />);
+        expect(screen.getByText(baseProject.projectName)).toBeInTheDocument();
+    });
+
     it("헤더에 프로젝트 기간을 렌더한다", () => {
         render(<DOCProgram contents={baseProject} />);
         expect(screen.getByText(baseProject.projectTerm)).toBeInTheDocument();
@@ -34,15 +39,16 @@ describe("DOCProgram", () => {
         expect(screen.getByText("항목 1")).toBeInTheDocument();
     });
 
-    it("projectDesc가 빈 문자열이면 본문이 비어있다", () => {
-        const { container } = render(<DOCProgram contents={emptyDescProject} />);
-        const body = container.querySelector(".doc_body");
-        expect(body?.textContent).toBe("");
+    it("projectDesc가 빈 문자열이면 본문 준비 중 안내를 렌더한다", () => {
+        render(<DOCProgram contents={emptyDescProject} />);
+        expect(screen.getByText("본문이 준비 중입니다.")).toBeInTheDocument();
     });
 
-    it("projectTerm이 빈 문자열이면 기간을 렌더하지 않는다", () => {
+    it("projectTerm이 빈 문자열이면 기간 레이블을 렌더하지 않는다", () => {
         render(<DOCProgram contents={noTermProject} />);
-        const termElements = document.querySelectorAll(".doc_projectTerm");
-        expect(termElements.length).toBe(0);
+        expect(screen.queryByText("기간")).not.toBeInTheDocument();
+        expect(
+            screen.queryByText(baseProject.projectTerm)
+        ).not.toBeInTheDocument();
     });
 });

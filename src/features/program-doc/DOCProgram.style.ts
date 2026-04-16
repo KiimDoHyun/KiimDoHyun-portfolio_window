@@ -8,16 +8,29 @@ export const docProgramContentStyle = css({
   },
 
   "& .doc_header": {
+    display: "flex",
+    flexDirection: "column",
+    gap: "4",
+    paddingY: "8",
+    paddingX: "16",
+    borderBottom: "1px solid",
+    borderColor: "surface.border",
+  },
+
+  "& .doc_title": {
+    fontSize: "16px",
+    fontWeight: "bold",
+    color: "surface.textPrimary",
+    margin: "0",
+  },
+
+  "& .doc_meta": {
     display: "grid",
     gridTemplateColumns: "auto auto",
     columnGap: "32",
     rowGap: "2",
     alignItems: "center",
     justifyContent: "start",
-    paddingY: "8",
-    paddingX: "16",
-    borderBottom: "1px solid",
-    borderColor: "surface.border",
   },
 
   "& .doc_metaLabel": {
@@ -48,13 +61,18 @@ export const docProgramContentStyle = css({
     fontWeight: "bold",
     position: "sticky",
     top: "0",
-    backgroundColor: "white",
+    backgroundColor: "windowChrome.bg",
     paddingTop: "6",
     paddingBottom: "6",
     marginX: "-16px",
     marginBottom: "16",
     paddingX: "16",
     zIndex: 1,
+  },
+
+  "& .doc_empty": {
+    color: "surface.textMuted",
+    fontStyle: "italic",
   },
 
   "& .doc_body h2": {

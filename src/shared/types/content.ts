@@ -5,19 +5,19 @@ export type ProjectData = {
     department: string;
 };
 
-export interface ResumeLink {
+export type ResumeLink = {
     label: string;
     url: string;
     icon: string;
-}
+};
 
-export interface ResumeInfoItem {
+export type ResumeInfoItem = {
     label: string;
     value: string;
     icon: string;
-}
+};
 
-export interface ResumeData {
+export type ResumeData = {
     name: string;
     email: string;
     phone: string;
@@ -25,4 +25,4 @@ export interface ResumeData {
     summary: string;
     links: Array<ResumeLink>;
     details: Array<ResumeInfoItem>;
-}
+};
