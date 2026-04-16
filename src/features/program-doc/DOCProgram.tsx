@@ -13,9 +13,6 @@ const DOCProgram = ({ contents }: DOCProgramProps) => {
             <div className="headerArea2 headerArea2_DOC"></div>
             <div className={`${docProgramContentStyle} contentsArea_Cover`}>
                 <div className="doc_header">
-                    {contents.projectName && (
-                        <h2 className="doc_title">{contents.projectName}</h2>
-                    )}
                     {(contents.projectTerm || contents.department) && (
                         <div className="doc_meta">
                             {contents.department && (

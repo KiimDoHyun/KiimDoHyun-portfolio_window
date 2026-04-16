@@ -17,13 +17,6 @@ export const docProgramContentStyle = css({
     borderColor: "surface.border",
   },
 
-  "& .doc_title": {
-    fontSize: "16px",
-    fontWeight: "bold",
-    color: "surface.textPrimary",
-    margin: "0",
-  },
-
   "& .doc_meta": {
     display: "grid",
     gridTemplateColumns: "auto auto",
