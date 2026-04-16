@@ -51,6 +51,57 @@
                     },
                     {
                         "type": "FOLDER",
+                        "name": "와탭랩스",
+                        "icon": "",
+                        "children": [
+                            {
+                                "type": "DOC",
+                                "name": "NMS 프로젝트 분리",
+                                "icon": "",
+                                "contents": {
+                                    "projectName": "NMS 프로젝트 분리",
+                                    "projectDesc": "",
+                                    "projectTerm": "",
+                                    "department": "와탭랩스"
+                                }
+                            },
+                            {
+                                "type": "DOC",
+                                "name": "깃 코드리뷰 슬랙 알림봇",
+                                "icon": "",
+                                "contents": {
+                                    "projectName": "깃 코드리뷰 슬랙 알림봇",
+                                    "projectDesc": "",
+                                    "projectTerm": "",
+                                    "department": "와탭랩스"
+                                }
+                            },
+                            {
+                                "type": "DOC",
+                                "name": "AI 활용 / 개발 워크플로 스킬 도입",
+                                "icon": "",
+                                "contents": {
+                                    "projectName": "AI 활용 / 개발 워크플로 스킬 도입",
+                                    "projectDesc": "",
+                                    "projectTerm": "",
+                                    "department": "와탭랩스"
+                                }
+                            },
+                            {
+                                "type": "DOC",
+                                "name": "팀 DX / 코드 품질 자발적 개선",
+                                "icon": "",
+                                "contents": {
+                                    "projectName": "팀 DX / 코드 품질 자발적 개선",
+                                    "projectDesc": "",
+                                    "projectTerm": "",
+                                    "department": "와탭랩스"
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "type": "FOLDER",
                         "name": "(주)아라온소프트",
                         "icon": "",
                         "children": [
