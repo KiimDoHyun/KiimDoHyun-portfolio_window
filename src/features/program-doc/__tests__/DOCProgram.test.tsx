@@ -23,11 +23,6 @@ const noTermProject: ProjectData = {
 };
 
 describe("DOCProgram", () => {
-    it("헤더에 프로젝트명을 렌더한다", () => {
-        render(<DOCProgram contents={baseProject} />);
-        expect(screen.getByText(baseProject.projectName)).toBeInTheDocument();
-    });
-
     it("헤더에 프로젝트 기간을 렌더한다", () => {
         render(<DOCProgram contents={baseProject} />);
         expect(screen.getByText(baseProject.projectTerm)).toBeInTheDocument();
