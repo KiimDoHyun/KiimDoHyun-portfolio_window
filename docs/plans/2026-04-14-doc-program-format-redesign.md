@@ -13,7 +13,8 @@
 ## 설계 규칙
 
 - Shell(`DOCProgramShell`)에는 로직을 넣지 않는다.
-- `department`는 데이터에 보존하되 UI에 표시하지 않는다.
+- `projectName`은 window-shell 타이틀바(`resolveProgramTitle`)에서 렌더한다. `DOCProgram`의 `doc_header`에는 중복 렌더하지 않는다.
+- `department`는 `doc_header`에 "소속" 메타로 표시한다.
 - 마크다운 렌더링에는 `react-markdown`을 사용한다.
 
 ## 성공 기준 (Definition of Done)
@@ -21,7 +22,7 @@
 - [ ] `ProjectData` 인터페이스가 4개 필드(`projectName`, `projectDesc`, `projectTerm`, `department`)만 갖는다
 - [ ] `ProjectResult`, `ProjectStack` 타입이 제거되었다
 - [ ] `portfolio.json`의 모든 DOC 노드가 새 포맷을 따른다
-- [ ] DOC 프로그램 UI가 "헤더(이름·기간) + 마크다운 본문" 구조로 렌더된다
+- [ ] DOC 프로그램 UI가 "헤더(소속·기간) + 마크다운 본문" 구조로 렌더된다 (프로젝트 이름은 window-shell 타이틀바에서 렌더)
 - [ ] 이중 스크롤이 발생하지 않는다 (본문 영역만 스크롤)
 - [ ] `DocCard` 컴포넌트가 삭제되었다
 - [ ] 기존 테스트가 새 구조에 맞게 수정되어 통과한다
@@ -63,7 +64,7 @@
 ### 작업 내용
 
 - [ ] `pnpm add react-markdown` 실행
-- [ ] `DOCProgram.tsx`를 헤더(이름·기간) + 마크다운 본문 구조로 재작성
+- [ ] `DOCProgram.tsx`를 헤더(소속·기간) + 마크다운 본문 구조로 재작성 (projectName은 window-shell 타이틀바에서 이미 렌더됨)
 - [ ] `DOCProgram.style.ts`에서 이미지/카드 관련 스타일 제거, 헤더+본문 스타일 추가
 - [ ] `DocCard.tsx` 삭제
 - [ ] `DOCProgram.style.ts`에 마크다운 요소 기본 스타일 추가 (heading, list, code, paragraph 등)
@@ -77,7 +78,8 @@
 │  headerArea2 (기존 서브헤더)        │
 │──────────────────────────────────│
 │  ┌─ doc_header ────────────────┐ │
-│  │ 프로젝트 이름     2024.01~06 │ │  ← 스크롤 안 됨
+│  │ 소속   와탭랩스              │ │  ← 스크롤 안 됨
+│  │ 기간   2024.01 ~ 2024.06    │ │
 │  └─────────────────────────────┘ │
 │  ┌─ doc_body (overflow: auto) ─┐ │
 │  │                             │ │
@@ -89,7 +91,7 @@
 ```
 
 - `contentsArea_Cover`는 `display: grid; grid-template-rows: auto 1fr`로 변경하여 헤더 고정 + 본문 스크롤 분리
-- `doc_header`: 프로젝트 이름(좌) + 기간(우)을 한 줄에 배치
+- `doc_header`: 소속·기간 메타를 label/value 2열 grid로 배치 (`projectName`은 window-shell 타이틀바에서 렌더되므로 중복 표시 X)
 - `doc_body`: `overflow: auto`, `react-markdown`으로 `projectDesc` 렌더링
 
 ### 완료 조건
@@ -136,7 +138,7 @@
 
 ## 수동 검증
 
-- [ ] DOC 아이템 더블클릭 → 윈도우가 열리고, 상단에 프로젝트 이름·기간이 표시된다
+- [ ] DOC 아이템 더블클릭 → 윈도우가 열리고, window-shell 타이틀바에 프로젝트 이름, `doc_header`에 소속·기간이 표시된다
 - [ ] 본문 영역에 마크다운이 올바르게 렌더된다 (heading, list, bold 등)
 - [ ] 본문이 길 때 본문 영역만 스크롤되고, 헤더는 고정된다
 - [ ] 이중 스크롤바가 나타나지 않는다
