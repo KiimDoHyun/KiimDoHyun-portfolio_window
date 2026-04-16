@@ -1,93 +1,41 @@
+import Markdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import type { ProjectData } from "@shared/types/content";
 import { docProgramContentStyle } from "./DOCProgram.style";
-import DocCard from "./ui/DocCard";
 
-interface DOCProgramProps {
+type DOCProgramProps = {
     contents: ProjectData;
-}
+};
 
 const DOCProgram = ({ contents }: DOCProgramProps) => {
-    const docData = contents;
-
     return (
         <>
             <div className="headerArea2 headerArea2_DOC"></div>
             <div className={`${docProgramContentStyle} contentsArea_Cover`}>
-                <div className="contentsArea_doc">
-                    <div className="doc_imageArea">
-                        {docData.projectImages && docData.projectImages.length > 0 ? (
-                            docData.projectImages.map((imageItem, idx) => (
-                                <div key={idx} className="projectImageItem">
-                                    <img src={imageItem} alt={`${imageItem}${idx + 1}`} />
-                                </div>
-                            ))
-                        ) : (
-                            <div className="noProjectImage">
-                                프로젝트 이미지가 없습니다.
-                            </div>
-                        )}
-                    </div>
-
-                    <div className={`${docProgramContentStyle} doc_contentsArea`}>
-                        <DocCard title="프로젝트 명">{docData.projectName}</DocCard>
-                        <DocCard title="프로젝트 설명">{docData.projectDesc}</DocCard>
-
-                        <div className="doc_card">
-                            <div className="cardTitle">프로젝트 성과</div>
-                            <div className="cardContent doc_reulst">
-                                {docData.projectResult &&
-                                    docData.projectResult.map((resultItem, idx) => (
-                                        <div key={idx} className="cardResult">
-                                            <div className="resultTitle">
-                                                {`${idx + 1}. `} {resultItem.title}
-                                            </div>
-                                            <div className="resultContent">
-                                                {resultItem.content}
-                                            </div>
-                                        </div>
-                                    ))}
-                            </div>
+                <div className="doc_header">
+                    {(contents.projectTerm || contents.department) && (
+                        <div className="doc_meta">
+                            {contents.department && (
+                                <>
+                                    <span className="doc_metaLabel">소속</span>
+                                    <span className="doc_metaValue">{contents.department}</span>
+                                </>
+                            )}
+                            {contents.projectTerm && (
+                                <>
+                                    <span className="doc_metaLabel">기간</span>
+                                    <span className="doc_metaValue">{contents.projectTerm}</span>
+                                </>
+                            )}
                         </div>
-
-                        <DocCard title="프로젝트 기간">
-                            {docData.projectTerm.map((termItem, idx) => (
-                                <div key={idx}>{termItem}</div>
-                            ))}
-                        </DocCard>
-
-                        <DocCard title="프로젝트 성격">{docData.projectType}</DocCard>
-
-                        <DocCard title="담당 역할">
-                            {docData.role.map((roleItem, idx) => (
-                                <div key={idx}>
-                                    {`${idx + 1}. `}
-                                    {roleItem}
-                                </div>
-                            ))}
-                        </DocCard>
-
-                        <DocCard title="개발부서">{docData.department}</DocCard>
-
-                        <div className="doc_card">
-                            <div className="cardTitle">사용한 기술 스택</div>
-                            <div className="cardContent doc_stack">
-                                {docData.stack.map((stackItem, idx) => (
-                                    <div className="stackItem" key={idx}>
-                                        <div className="stackItem_name">
-                                            {stackItem.name}
-                                        </div>
-                                        <div className="stackItem_Image">
-                                            <img src={stackItem.img} alt="stackImage" />
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-
-                        <DocCard title="url">
-                            {docData.url || "공개된 URL 없음"}
-                        </DocCard>
-                    </div>
+                    )}
+                </div>
+                <div className="doc_body">
+                    {contents.projectDesc ? (
+                        <Markdown remarkPlugins={[remarkGfm]}>{contents.projectDesc}</Markdown>
+                    ) : (
+                        <p className="doc_empty">본문이 준비 중입니다.</p>
+                    )}
                 </div>
             </div>
         </>

@@ -1,144 +1,162 @@
 import { css } from "@styled-system/css";
 
 export const docProgramContentStyle = css({
-    "& .contentsArea_doc": {
-        width: "100%",
-        height: "100%",
+  "&.contentsArea_Cover": {
+    display: "grid",
+    gridTemplateRows: "auto 1fr",
+    overflow: "hidden",
+  },
 
-        display: "flex",
-        gap: "20",
-        flexWrap: "wrap",
-        alignContent: "flex-start",
-        boxSizing: "border-box",
-        padding: "8",
-    },
+  "& .doc_header": {
+    display: "flex",
+    flexDirection: "column",
+    gap: "4",
+    paddingY: "8",
+    paddingX: "16",
+    borderBottom: "1px solid",
+    borderColor: "surface.border",
+  },
 
-    "& .doc_imageArea": {
-        width: "100%",
-        height: "auto",
-        minHeight: "200px",
-        backgroundColor: "surface.content",
-        display: "inline-block",
-        overflow: "auto",
+  "& .doc_meta": {
+    display: "grid",
+    gridTemplateColumns: "auto auto",
+    columnGap: "32",
+    rowGap: "2",
+    alignItems: "center",
+    justifyContent: "start",
+  },
 
-        flexGrow: 1,
-        flexBasis: "program.default",
-    },
+  "& .doc_metaLabel": {
+    fontSize: "13px",
+    fontWeight: "medium",
+    color: "surface.textMuted",
+  },
 
-    "& .noProjectImage": {
-        width: "100%",
-        height: "100%",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
+  "& .doc_metaValue": {
+    fontSize: "14px",
+    fontWeight: "bold",
+    color: "surface.textPrimary",
+  },
 
-        color: "surface.textMuted",
-        fontSize: "14px",
-    },
+  "& .doc_body": {
+    overflow: "auto",
+    paddingTop: "0",
+    paddingBottom: "16",
+    paddingX: "16",
+    fontSize: "14px",
+    lineHeight: "1.5",
+    color: "surface.textPrimary",
+    textAlign: "left",
+  },
 
-    "& .projectImageItem": {
-        height: "100%",
+  "& .doc_body h1": {
+    fontSize: "22px",
+    fontWeight: "bold",
+    position: "sticky",
+    top: "0",
+    backgroundColor: "windowChrome.bg",
+    paddingTop: "6",
+    paddingBottom: "6",
+    marginX: "-16px",
+    marginBottom: "16",
+    paddingX: "16",
+    zIndex: 1,
+  },
 
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-    },
+  "& .doc_empty": {
+    color: "surface.textMuted",
+    fontStyle: "italic",
+  },
 
-    "& .projectImageItem img": {
-        width: "100%",
-        height: "100%",
+  "& .doc_body h2": {
+    fontSize: "18px",
+    fontWeight: "bold",
+    marginTop: "16",
+    marginBottom: "8",
+  },
 
-        objectFit: "contain",
-    },
+  "& .doc_body h3": {
+    fontSize: "15px",
+    fontWeight: "bold",
+    marginBottom: "6",
+    marginTop: "16",
+  },
 
-    "& .doc_contentsArea": {
-        flex: 1,
+  "& .doc_body p": {
+    marginBottom: "6",
+  },
 
-        overflow: "auto",
-        height: "100%",
-        width: "100%",
-        flexGrow: 1,
-        flexBasis: "program.default",
-    },
+  "& .doc_body ul, & .doc_body ol": {
+    paddingLeft: "20",
+    marginBottom: "10",
+  },
 
-    "& .doc_card": {
-        textAlign: "left",
+  "& .doc_body li": {
+    marginBottom: "4",
+  },
 
-        boxSizing: "border-box",
-        py: "20",
-        px: "0",
-        borderBottom: "1px solid gray",
-    },
+  "& .doc_body code": {
+    backgroundColor: "surface.content",
+    paddingY: "1",
+    paddingX: "4",
+    borderRadius: "3px",
+    fontSize: "13px",
+  },
 
-    "& .cardTitle": {
-        fontWeight: "bold",
-        marginBottom: "8",
-    },
-    "& .cardContent": {
-        fontSize: "12px",
-        color: "surface.textPrimary",
-    },
+  "& .doc_body pre": {
+    backgroundColor: "surface.content",
+    padding: "12",
+    borderRadius: "6px",
+    overflow: "auto",
+    marginBottom: "10",
+  },
 
-    "& .doc_stack": {
-        display: "flex",
-        gap: "8",
-        flexWrap: "wrap",
-    },
-    "& .stackItem": {
-        border: "1px solid gray",
-        py: "4",
-        px: "8",
-        borderRadius: "5px",
-        width: "fit-content",
-        position: "relative",
-        cursor: "pointer",
-        transition: "fast",
-    },
+  "& .doc_body pre code": {
+    padding: "0",
+    backgroundColor: "transparent",
+  },
 
-    "& .stackItem:hover": {
-        color: "white",
-        backgroundColor: "gray",
-    },
-    "& .stackItem:hover .stackItem_Image": {
-        bottom: "-45px",
-        opacity: 1,
+  "& .doc_body strong": {
+    fontWeight: "bold",
+  },
 
-        boxShadow: "stackItem",
-        scale: 1,
-    },
+  "& .doc_body em": {
+    fontStyle: "italic",
+  },
 
-    "& .stackItem_Image": {
-        position: "absolute",
+  "& .doc_body table": {
+    width: "100%",
+    borderCollapse: "collapse",
+    marginBottom: "10",
+    fontSize: "13px",
+  },
 
-        left: "calc(50% - 20px)",
-        width: "40px",
-        height: "40px",
-        bottom: "-35px",
+  "& .doc_body th, & .doc_body td": {
+    border: "1px solid",
+    borderColor: "surface.border",
+    padding: "8",
+    textAlign: "left",
+  },
 
-        backgroundColor: "white",
-        opacity: 0,
-        transition: "fast",
+  "& .doc_body th": {
+    fontWeight: "bold",
+    backgroundColor: "surface.content",
+  },
 
-        boxSizing: "border-box",
-        padding: "4",
+  "& .doc_body blockquote": {
+    borderLeft: "3px solid",
+    borderColor: "surface.border",
+    paddingLeft: "12",
+    marginBottom: "10",
+    color: "surface.textMuted",
+    fontStyle: "italic",
+  },
 
-        scale: 0.4,
-    },
-
-    "& .doc_reulst": {
-        display: "flex",
-        flexDirection: "column",
-        gap: "20",
-    },
-    "& .stackItem_Image img": {
-        width: "100%",
-        height: "100%",
-
-        objectFit: "contain",
-    },
-
-    "& .resultTitle": {
-        marginBottom: "4",
-        fontWeight: "bold",
-    },
+  "& .doc_body hr": {
+    border: "none",
+    borderTop: "1px solid",
+    borderColor: "surface.border",
+    marginTop: "16",
+    marginBottom: "16",
+  },
 });

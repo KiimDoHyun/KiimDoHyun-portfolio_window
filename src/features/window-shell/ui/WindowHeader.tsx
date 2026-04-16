@@ -34,7 +34,7 @@ const WindowHeader = ({
         onMouseUp={onDragMouseUp}
       >
         <img src={iconSrc} alt={title} />
-        <div className="programTitle">{title}</div>
+        <div className="programTitle" title={title}>{title}</div>
       </div>
       <div
         className="dragArea"

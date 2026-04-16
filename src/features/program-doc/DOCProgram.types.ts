@@ -1,5 +1,1 @@
-export type {
-    ProjectData,
-    ProjectResult,
-    ProjectStack,
-} from "@shared/types/content";
+export type { ProjectData } from "@shared/types/content";

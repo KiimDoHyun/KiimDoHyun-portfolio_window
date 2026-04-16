@@ -59,6 +59,7 @@ const programComponentRecipe = cva({
       gap: "4",
       height: "100%",
       marginLeft: "8",
+      minWidth: 0,
     },
 
     "& .infoArea img": {
@@ -91,7 +92,12 @@ const programComponentRecipe = cva({
       alignItems: "center",
     },
 
-    "& .programTitle": {},
+    "& .programTitle": {
+      whiteSpace: "nowrap",
+      overflow: "hidden",
+      textOverflow: "ellipsis",
+      minWidth: 0,
+    },
 
     "& .dragArea": {
       flex: 1,

@@ -1,39 +1,23 @@
-export interface ProjectResult {
-    title: string;
-    content: string;
-}
-
-export interface ProjectStack {
-    name: string;
-    img: string;
-}
-
-export interface ProjectData {
+export type ProjectData = {
     projectName: string;
     projectDesc: string;
-    projectImages: Array<string>;
-    projectTerm: Array<string>;
-    projectType: string;
-    projectResult: Array<ProjectResult>;
-    role: Array<string>;
+    projectTerm: string;
     department: string;
-    stack: Array<ProjectStack>;
-    url: string;
-}
+};
 
-export interface ResumeLink {
+export type ResumeLink = {
     label: string;
     url: string;
     icon: string;
-}
+};
 
-export interface ResumeInfoItem {
+export type ResumeInfoItem = {
     label: string;
     value: string;
     icon: string;
-}
+};
 
-export interface ResumeData {
+export type ResumeData = {
     name: string;
     email: string;
     phone: string;
@@ -41,4 +25,4 @@ export interface ResumeData {
     summary: string;
     links: Array<ResumeLink>;
     details: Array<ResumeInfoItem>;
-}
+};
