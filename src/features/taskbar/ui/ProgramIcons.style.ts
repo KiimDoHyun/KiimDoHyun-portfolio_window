@@ -27,8 +27,10 @@ export const ShortCutIcon = styled(
         variants: {
             active: {
                 true: { backgroundColor: "overlay.active" },
+                false: {},
             },
         },
+        defaultVariants: { active: false },
     })
 );
 
@@ -81,6 +83,7 @@ export const ShotCutHover = styled(
                 false: { height: "0px" },
             },
         },
+        defaultVariants: { hovering: false },
     })
 );
 

@@ -42,7 +42,7 @@ const StartButtonRoot = styled(
 
 const StartButton = ({ onClick }: StartButtonProps) => {
     return (
-        <StartButtonRoot onClick={onClick}>
+        <StartButtonRoot onClick={onClick} data-testid="taskbar-start">
             <Windows />
         </StartButtonRoot>
     );

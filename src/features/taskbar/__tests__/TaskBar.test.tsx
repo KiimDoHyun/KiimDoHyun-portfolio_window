@@ -51,11 +51,8 @@ describe("TaskBar (characterization)", () => {
 
     it("시작 버튼 클릭 시 onClickStartIcon 이 호출된다", () => {
         const onClickStartIcon = vi.fn();
-        const { container } = render(
-            <TaskBar {...buildProps({ onClickStartIcon })} />
-        );
-        const startBtn = container.querySelector("svg")!.parentElement!;
-        fireEvent.click(startBtn);
+        render(<TaskBar {...buildProps({ onClickStartIcon })} />);
+        fireEvent.click(screen.getByTestId("taskbar-start"));
         expect(onClickStartIcon).toHaveBeenCalledTimes(1);
     });
 
