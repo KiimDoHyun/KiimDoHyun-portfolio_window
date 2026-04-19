@@ -1,75 +1,97 @@
-import type { FileSystemState, ProgramId, ProgramNode } from "@shared/types/program";
+import type {
+    FileSystemState,
+    ProgramId,
+    ProgramNode,
+    ProgramType,
+} from "@shared/types/program";
 import { resolveAsset } from "@shared/lib/assetManifest";
 
-export interface StatusBarViewItem {
+export interface StatusBarTreeItem {
+    id: ProgramId;
     name: string;
     icon: string;
-    parentName: string;
-    parentId: ProgramId;
-    type: string;
+    type: ProgramType;
+    depth: number;
 }
 
 export interface StatusBarViewModel {
-    projects: Array<StatusBarViewItem>;
-    techStackMain: Array<StatusBarViewItem>;
-    techStackSub: Array<StatusBarViewItem>;
+    projects: Array<StatusBarTreeItem>;
+    techStack: Array<StatusBarTreeItem>;
     myComputerId: ProgramId | null;
 }
 
-/**
- * 이름 → ID 매핑을 이 selector 한 곳에 격리.
- * feature 코드에서는 ID 기반으로만 동작한다.
- */
-const PROJECT_PARENT_NAMES = [
-    "금오공과대학교 셈틀꾼",
-    "금오공과대학교 컴퓨터공학과 학생회",
-    "(주)아라온소프트",
-] as const;
-
-const TECH_MAIN_NAME = "MAIN_TECH";
-const TECH_SUB_NAME = "SUB_TECH";
 const MY_COMPUTER_NAME = "내컴퓨터";
+const TECH_STACK_NAME = "기술스택";
+const PROJECT_ROOT_EXCLUDE: ReadonlySet<string> = new Set([
+    MY_COMPUTER_NAME,
+    TECH_STACK_NAME,
+]);
 
-function findIdByName(
-    nodes: Record<ProgramId, ProgramNode>,
+function findChildIdByName(
+    fs: FileSystemState,
+    parentId: ProgramId,
     name: string,
 ): ProgramId | null {
-    for (const id of Object.keys(nodes)) {
-        if (nodes[id].name === name) return id;
+    const children = fs.childrenByParent[parentId] ?? [];
+    for (const cid of children) {
+        if (fs.nodes[cid]?.name === name) return cid;
     }
     return null;
 }
 
-function childrenOf(
+function toItem(node: ProgramNode, depth: number): StatusBarTreeItem {
+    return {
+        id: node.id,
+        name: node.name,
+        icon: resolveAsset(node.icon) ?? "",
+        type: node.type,
+        depth,
+    };
+}
+
+function dfs(
     fs: FileSystemState,
-    parentName: string,
-): Array<StatusBarViewItem> {
-    const parentId = findIdByName(fs.nodes, parentName);
-    if (!parentId) return [];
-    return (fs.childrenByParent[parentId] ?? [])
-        .map((cid) => fs.nodes[cid])
-        .filter((n): n is ProgramNode => !!n)
-        .map((n) => ({
-            name: n.name,
-            icon: resolveAsset(n.icon) ?? "",
-            parentName,
-            parentId,
-            type: n.type,
-        }));
+    startId: ProgramId,
+    startDepth: number,
+    out: Array<StatusBarTreeItem>,
+    includeStart: boolean,
+): void {
+    const node = fs.nodes[startId];
+    if (!node) return;
+    if (includeStart) {
+        out.push(toItem(node, startDepth));
+    }
+    const childDepth = includeStart ? startDepth + 1 : startDepth;
+    const childIds = fs.childrenByParent[startId] ?? [];
+    for (const cid of childIds) {
+        dfs(fs, cid, childDepth, out, true);
+    }
 }
 
 export function selectStatusBarViewModel(
     fs: FileSystemState,
 ): StatusBarViewModel {
-    const projects: Array<StatusBarViewItem> = [];
-    for (const name of PROJECT_PARENT_NAMES) {
-        projects.push(...childrenOf(fs, name));
+    if (!fs.rootId) {
+        return { projects: [], techStack: [], myComputerId: null };
+    }
+    const rootChildren = fs.childrenByParent[fs.rootId] ?? [];
+
+    const projects: Array<StatusBarTreeItem> = [];
+    for (const cid of rootChildren) {
+        const node = fs.nodes[cid];
+        if (!node) continue;
+        if (node.type !== "FOLDER") continue;
+        if (PROJECT_ROOT_EXCLUDE.has(node.name)) continue;
+        dfs(fs, cid, 0, projects, true);
     }
 
-    return {
-        projects,
-        techStackMain: childrenOf(fs, TECH_MAIN_NAME),
-        techStackSub: childrenOf(fs, TECH_SUB_NAME),
-        myComputerId: findIdByName(fs.nodes, MY_COMPUTER_NAME),
-    };
+    const techStack: Array<StatusBarTreeItem> = [];
+    const techStackId = findChildIdByName(fs, fs.rootId, TECH_STACK_NAME);
+    if (techStackId) {
+        dfs(fs, techStackId, 0, techStack, false);
+    }
+
+    const myComputerId = findChildIdByName(fs, fs.rootId, MY_COMPUTER_NAME);
+
+    return { projects, techStack, myComputerId };
 }

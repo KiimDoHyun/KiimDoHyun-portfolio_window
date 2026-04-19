@@ -63,7 +63,7 @@
 - Phase 1 완료
 
 ### 작업 내용
-- [ ] `refactor(statusbar): CenterAreaBox 에 depth prop 추가 — 들여쓰기+폰트 차등`
+- [x] `refactor(statusbar): CenterAreaBox 에 depth prop 추가 — 들여쓰기+폰트 차등`
 
 **파일 수정:** [src/features/statusbar/components/CenterAreaBox.tsx](../../src/features/statusbar/components/CenterAreaBox.tsx)
 
@@ -151,7 +151,7 @@ const CenterAreaBox = ({
 - Phase 1, 2 완료
 
 ### 작업 내용
-- [ ] `refactor(statusbar): 셀렉터+뷰+파사드를 재귀 DFS flat+depth 로 전면 전환 (단위 테스트 동반)`
+- [x] `refactor(statusbar): 셀렉터+뷰+파사드를 재귀 DFS flat+depth 로 전면 전환 (단위 테스트 동반)`
 
 > **왜 atomic 단일 커밋인가?** 셀렉터의 반환 타입이 `techStackMain`/`techStackSub` → `techStack` 으로 변경되면서 호출부(StatusBar.tsx 파사드/뷰) 도 같이 고쳐야 tsc 가 통과한다. 하나의 논리 단위(데이터 컨트랙트 교체) 라 한 커밋에 묶는다. 기존 필드와 병행 유지(adapter/deprecation) 는 backward-compat 장식이라 프로젝트 방침상 지양.
 
