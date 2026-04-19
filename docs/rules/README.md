@@ -22,10 +22,18 @@
 
 ## Claude Code 에서의 사용
 
-`docs/rules/` 의 토픽 문서들은 CLAUDE.md 에 자동 import 되지 않는다. 대신 `.claude/skills/convention-frontend/` 스킬이 작업 종류에 따라 필요한 문서만 골라 읽는다. 협업 규칙(`collaboration/`)만 항상 컨텍스트에 로드된다.
+`docs/rules/` 의 토픽 문서들은 CLAUDE.md 에 자동 import 되지 않는다. 대신 `convention-*` 스킬들이 작업 종류에 따라 필요한 문서를 골라 읽는다. 협업 규칙(`collaboration/`)만 항상 컨텍스트에 로드된다.
+
+| 라우팅 스킬 | 라우팅 대상 | 트리거 시점 |
+|---|---|---|
+| [`convention-frontend`](../../.claude/skills/convention-frontend/SKILL.md) | typescript, naming, component-structure, feature-public-api, global-state-boundary, folder-structure | `src/` 하위 `.tsx`/`.ts` 작업 |
+| [`convention-commit`](../../.claude/skills/convention-commit/SKILL.md) | [commit-convention.md](commit-convention.md) | `git commit` 호출 직전 |
+| [`convention-plan`](../../.claude/skills/convention-plan/SKILL.md) | [plan-writing-guide.md](plan-writing-guide.md) | `docs/plans/` 하위 설계 문서 작성 |
+
+전체 스킬 인덱스는 [`.claude/skills/README.md`](../../.claude/skills/README.md) 참조.
 
 ## 새 규칙 추가 시
 
 1. `docs/rules/<topic>/` 폴더 생성, 그 안에 `README.md` 작성
 2. 위 토픽 목록에 추가
-3. 필요하면 `.claude/skills/convention-frontend/SKILL.md` 의 라우팅 매핑에도 추가
+3. 라우팅 스킬에도 매핑 추가 — 프론트엔드 토픽은 [`convention-frontend/SKILL.md`](../../.claude/skills/convention-frontend/SKILL.md), 커밋·플랜 외 새로운 시점이면 새 `convention-*` 스킬 신설 ([`skill-naming.md`](skill-naming.md) §"새 스킬 분류 흐름")
