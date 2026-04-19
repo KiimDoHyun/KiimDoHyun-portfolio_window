@@ -47,31 +47,6 @@ export const taskBarStyle = css({
     height: "200px",
   },
 
-  "& .box1": {
-    width: "taskbar",
-    height: "taskbar",
-    padding: "16",
-    boxSizing: "border-box",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    transition: "fast",
-  },
-
-  "& .box1:hover path": {
-    fill: "accent.hover",
-  },
-  "& .box1:active path": {
-    fill: "accent.solid",
-  },
-  "& .box1 svg": {
-    width: "100%",
-    height: "100%",
-  },
-  "& .box1 path": {
-    fill: "shell.text",
-  },
-
   "& .box2": {
     display: "flex",
     zIndex: 2,

@@ -54,7 +54,7 @@ describe("TaskBar (characterization)", () => {
         const { container } = render(
             <TaskBar {...buildProps({ onClickStartIcon })} />
         );
-        const startBtn = container.querySelector(".box1") as HTMLElement;
+        const startBtn = container.querySelector("svg")!.parentElement!;
         fireEvent.click(startBtn);
         expect(onClickStartIcon).toHaveBeenCalledTimes(1);
     });
