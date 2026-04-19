@@ -1,6 +1,7 @@
 import React from "react";
 import { css } from "@styled-system/css";
 import defaultImg from "@images/icons/project_default_1.png";
+import { Tooltip } from "@shared/ui";
 import type { ProgramId } from "@shared/types/program";
 
 const centerAreaBoxBlockStyle = css({
@@ -51,20 +52,22 @@ const CenterAreaBox = ({
     const fontSize = depth === 1 ? 13 : 14;
 
     return (
-        <div
-            className={`statusBox ${centerAreaBoxBlockStyle}`}
-            style={{ paddingLeft: `${indentPx}px` }}
-            onClick={() => {
-                if (parentId) {
-                    onClick?.(parentId);
-                }
-            }}
-        >
-            {showImg && <img src={img ? img : defaultImg} alt="name" />}
-            <div className="text" style={{ fontWeight, fontSize }} title={name}>
-                {name}
+        <Tooltip label={name} side="right">
+            <div
+                className={`statusBox ${centerAreaBoxBlockStyle}`}
+                style={{ paddingLeft: `${indentPx}px` }}
+                onClick={() => {
+                    if (parentId) {
+                        onClick?.(parentId);
+                    }
+                }}
+            >
+                {showImg && <img src={img ? img : defaultImg} alt="name" />}
+                <div className="text" style={{ fontWeight, fontSize }}>
+                    {name}
+                </div>
             </div>
-        </div>
+        </Tooltip>
     );
 };
 
