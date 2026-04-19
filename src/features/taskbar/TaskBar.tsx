@@ -1,12 +1,25 @@
 import type { CSSProperties } from "react";
+import { cva } from "@styled-system/css";
+import { styled } from "@styled-system/jsx";
 import useGetCurrentTime from "@shared/hooks/useGetCurrentTime";
-import { taskBarStyle } from "./TaskBar.style";
 import { useTaskbarHover } from "./hooks/useTaskbarHover";
 import StartButton from "./ui/StartButton";
 import ProgramIcons from "./ui/ProgramIcons";
 import SystemTray from "./ui/SystemTray";
 import PreviewPopup from "./ui/PreviewPopup";
 import type { TaskBarProps, TaskbarEntry } from "./TaskBar.types";
+
+const TaskBarRoot = styled(
+    "div",
+    cva({
+        base: {
+            display: "grid",
+            gridTemplateColumns: "token(sizes.taskbar) auto 200px",
+            height: "100%",
+            position: "relative",
+        },
+    })
+);
 
 const TaskBar = ({
     entries,
@@ -82,7 +95,7 @@ const TaskBar = ({
     } as CSSProperties;
 
     return (
-        <div className={taskBarStyle} style={cssVars}>
+        <TaskBarRoot style={cssVars}>
             <StartButton onClick={onClickStartIcon} />
 
             <ProgramIcons
@@ -113,7 +126,7 @@ const TaskBar = ({
                 target={previewTarget}
                 renderContent={renderPreviewContent}
             />
-        </div>
+        </TaskBarRoot>
     );
 };
 
