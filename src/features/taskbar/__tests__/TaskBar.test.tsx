@@ -71,19 +71,19 @@ describe("TaskBar (characterization)", () => {
     it("아이콘에 mouseEnter 시 onPreviewChange(true) 가 호출되고, leave 시 false", () => {
         const onPreviewChange = vi.fn();
         render(<TaskBar {...buildProps({ onPreviewChange })} />);
-        const icon = screen.getByAltText("내문서").closest(".shortCutIcon")!;
+        const icon = screen.getByTestId("taskbar-icon-n1");
         fireEvent.mouseEnter(icon);
         expect(onPreviewChange).toHaveBeenLastCalledWith(true);
         fireEvent.mouseLeave(icon);
         expect(onPreviewChange).toHaveBeenLastCalledWith(false);
     });
 
-    it("activeId 에 해당하는 아이콘은 activeIcon 클래스를 가진다", () => {
+    it("activeId 에 해당하는 아이콘은 active 표시를 가진다", () => {
         render(<TaskBar {...buildProps({ activeId: "n2" })} />);
-        const icon = screen
-            .getByAltText("프로젝트")
-            .closest(".shortCutIcon") as HTMLElement;
-        expect(icon.className).toContain("activeIcon");
+        expect(screen.getByTestId("taskbar-icon-n2")).toHaveAttribute(
+            "data-active",
+            "true"
+        );
     });
 
     it("hiddenIcon=false 일 때 화살표 위 아이콘을 보여준다", () => {
@@ -99,10 +99,9 @@ describe("TaskBar (characterization)", () => {
     it("hover 중 미리보기 X 버튼 클릭 시 onCloseProgram(hoverId) 호출", () => {
         const onCloseProgram = vi.fn();
         render(<TaskBar {...buildProps({ onCloseProgram })} />);
-        const icon = screen.getByAltText("프로젝트").closest(".shortCutIcon")!;
+        const icon = screen.getByTestId("taskbar-icon-n2");
         fireEvent.mouseEnter(icon);
-        const closeCover = icon.querySelector(".buttonCover") as HTMLElement;
-        fireEvent.click(closeCover);
+        fireEvent.click(screen.getByTestId("taskbar-close-n2"));
         expect(onCloseProgram).toHaveBeenCalledWith("n2");
     });
 

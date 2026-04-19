@@ -76,7 +76,7 @@ const TaskBar = ({
     const shotcutHoverLeft = hoverTarget.idx === 0 ? "-50px" : "-75px";
     const shotcutHoverPointerEvents = hovering ? "all" : "none";
     const prevviewTop = hovering ? "-225px" : "50px";
-    const prevviewOpacity = hovering ? "1" : "0";
+    const prevviewOpacity = hovering ? 1 : 0;
     const prevviewLeft = hovering
         ? hoverTarget.idx > 0
             ? `${(hoverTarget.idx - 1) * 50 + 25}px`
@@ -84,27 +84,29 @@ const TaskBar = ({
         : "0px";
     const prevviewPointerEvents = hovering ? "all" : "none";
 
-    const cssVars = {
-        "--shotcut-hover-top": shotcutHoverTop,
-        "--shotcut-hover-left": shotcutHoverLeft,
-        "--shotcut-hover-pointer-events": shotcutHoverPointerEvents,
-    } as CSSProperties;
-
     const previewStyle: CSSProperties = {
         top: prevviewTop,
         left: prevviewLeft,
-        opacity: Number(prevviewOpacity),
-        pointerEvents: prevviewPointerEvents as CSSProperties["pointerEvents"],
+        opacity: prevviewOpacity,
+        pointerEvents: prevviewPointerEvents,
+    };
+
+    const shortcutHoverStyle: CSSProperties = {
+        top: shotcutHoverTop,
+        left: shotcutHoverLeft,
+        pointerEvents: shotcutHoverPointerEvents,
     };
 
     return (
-        <TaskBarRoot style={cssVars}>
+        <TaskBarRoot>
             <StartButton onClick={onClickStartIcon} />
 
             <ProgramIcons
                 ref={iconContainerRef}
                 entries={entries}
                 activeId={activeId}
+                hoverIdx={hoverTarget.idx}
+                hoverStyle={shortcutHoverStyle}
                 onMouseEnter={onMouseEnter}
                 onMouseLeave={onMouseLeave}
                 onClickIcon={handleClickIcon}
