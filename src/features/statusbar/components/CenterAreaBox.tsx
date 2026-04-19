@@ -1,6 +1,7 @@
 import React from "react";
 import { css } from "@styled-system/css";
 import defaultImg from "@images/icons/project_default_1.png";
+import { Tooltip } from "@shared/ui";
 import type { ProgramId } from "@shared/types/program";
 
 const centerAreaBoxBlockStyle = css({
@@ -19,10 +20,14 @@ const centerAreaBoxBlockStyle = css({
     height: "25px",
   },
   "& .text": {
-    fontSize: "14px",
-    fontWeight: "lighter",
+    flex: 1,
+    minWidth: 0,
     color: "shell.text",
     cursor: "default",
+    textAlign: "left",
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
   },
 });
 
@@ -31,6 +36,7 @@ type CenterAreaBoxProps = {
     img: string | null;
     name: string;
     showImg?: boolean;
+    depth?: number;
     onClick?: (id: ProgramId) => void;
 };
 
@@ -39,20 +45,30 @@ const CenterAreaBox = ({
     img,
     name,
     showImg = true,
+    depth = 0,
     onClick,
 }: CenterAreaBoxProps) => {
+    const indentPx = 4 + depth * 12;
+    const fontWeight = depth === 0 ? 700 : depth === 1 ? 600 : 300;
+    const fontSize = depth === 1 ? 13 : 14;
+
     return (
-        <div
-            className={`statusBox ${centerAreaBoxBlockStyle}`}
-            onClick={() => {
-                if (parentId) {
-                    onClick?.(parentId);
-                }
-            }}
-        >
-            {showImg && <img src={img ? img : defaultImg} alt="name" />}
-            <div className="text">{name}</div>
-        </div>
+        <Tooltip label={name} side="right">
+            <div
+                className={`statusBox ${centerAreaBoxBlockStyle}`}
+                style={{ paddingLeft: `${indentPx}px` }}
+                onClick={() => {
+                    if (parentId) {
+                        onClick?.(parentId);
+                    }
+                }}
+            >
+                {showImg && <img src={img ? img : defaultImg} alt="name" />}
+                <div className="text" style={{ fontWeight, fontSize }}>
+                    {name}
+                </div>
+            </div>
+        </Tooltip>
     );
 };
 

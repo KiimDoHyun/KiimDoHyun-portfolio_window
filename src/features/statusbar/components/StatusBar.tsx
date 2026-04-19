@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment, useMemo } from "react";
 
 import imgMenu from "@images/icons/hamburger_menu.png";
 import imgPower from "@images/icons/power.svg";
@@ -6,16 +6,39 @@ import LeftAreaBox from "./LeftAreaBox";
 import CenterAreaBox from "./CenterAreaBox";
 import RightAreaBox from "./RightAreaBox";
 import { StatusBarBlock } from "./StatusBar.style";
-import type { StatusBarViewItem } from "@shared/lib/file-system/selectors/selectStatusBarViewModel";
+import type { StatusBarTreeItem } from "@shared/lib/file-system/selectors/selectStatusBarViewModel";
 import type { ProgramId } from "@shared/types/program";
+
+type TechStackSection = {
+    title: string;
+    items: Array<StatusBarTreeItem>;
+};
+
+function groupTechStack(
+    items: Array<StatusBarTreeItem>,
+): Array<TechStackSection> {
+    const sections: Array<TechStackSection> = [];
+    for (const it of items) {
+        if (it.type === "FOLDER") {
+            sections.push({ title: it.name, items: [] });
+        } else if (sections.length > 0) {
+            sections[sections.length - 1].items.push(it);
+        } else if (process.env.NODE_ENV !== "production") {
+            console.warn(
+                "[groupTechStack] FOLDER 없이 시작된 항목은 무시됨:",
+                it,
+            );
+        }
+    }
+    return sections;
+}
 
 type StatusBarViewProps = {
     active: boolean;
     activeLeftArea_Detail: boolean;
     statusBar_LeftArea_Items: Array<{ img: string; text: string }>;
-    projectDatas: Array<StatusBarViewItem>;
-    techStack_main: Array<StatusBarViewItem>;
-    techStack_sub: Array<StatusBarViewItem>;
+    projectDatas: Array<StatusBarTreeItem>;
+    techStack: Array<StatusBarTreeItem>;
     onMouseEnter: () => void;
     onMouseLeave: () => void;
     onClickBox: (id: ProgramId) => void;
@@ -28,14 +51,18 @@ const StatusBarView = ({
     activeLeftArea_Detail,
     statusBar_LeftArea_Items,
     projectDatas,
-    techStack_main,
-    techStack_sub,
+    techStack,
     onMouseEnter,
     onMouseLeave,
     onClickBox,
     onClickLeftArea,
     onLogout,
 }: StatusBarViewProps) => {
+    const techStackSections = useMemo(
+        () => groupTechStack(techStack),
+        [techStack],
+    );
+
     return (
         <StatusBarBlock active={active}>
             {/* 소개 */}
@@ -87,32 +114,16 @@ const StatusBarView = ({
                         : "statusBarBoxArea centerArea"
                 }
             >
-                {projectDatas.map((item, idx) => {
-                    let showTitle = false;
-                    if (idx === 0) showTitle = true;
-                    else {
-                        if (item.parentName !== projectDatas[idx - 1].parentName) {
-                            showTitle = true;
-                        }
-                    }
-                    return (
-                        <React.Fragment key={idx}>
-                            {showTitle && (
-                                <CenterAreaBox
-                                    showImg={false}
-                                    img={null}
-                                    name={item.parentName}
-                                />
-                            )}
-                            <CenterAreaBox
-                                parentId={item.parentId}
-                                img={item.icon}
-                                name={item.name}
-                                onClick={onClickBox}
-                            />
-                        </React.Fragment>
-                    );
-                })}
+                {projectDatas.map((item) => (
+                    <CenterAreaBox
+                        key={item.id}
+                        parentId={item.id}
+                        img={item.icon}
+                        name={item.name}
+                        depth={item.depth}
+                        onClick={onClickBox}
+                    />
+                ))}
             </div>
 
             {/* 기술 스택 */}
@@ -123,35 +134,24 @@ const StatusBarView = ({
                         : "statusBarBoxArea rightArea"
                 }
             >
-                <div className="rightArea_title">
-                    <p>주로 사용하는 기술 스택</p>
-                </div>
-                <div className="rightArea_boxArea">
-                    {techStack_main.map((item, idx) => (
-                        <RightAreaBox
-                            key={idx}
-                            parentId={item.parentId}
-                            img={item.icon}
-                            name={item.name}
-                            onClick={onClickBox}
-                        />
-                    ))}
-                </div>
-
-                <div className="rightArea_title">
-                    <p>사용해본적은 있는 기술</p>
-                </div>
-                <div className="rightArea_boxArea">
-                    {techStack_sub.map((item, idx) => (
-                        <RightAreaBox
-                            key={idx}
-                            parentId={item.parentId}
-                            img={item.icon}
-                            name={item.name}
-                            onClick={onClickBox}
-                        />
-                    ))}
-                </div>
+                {techStackSections.map((section) => (
+                    <Fragment key={section.title}>
+                        <div className="rightArea_title">
+                            <p>{section.title}</p>
+                        </div>
+                        <div className="rightArea_boxArea">
+                            {section.items.map((item) => (
+                                <RightAreaBox
+                                    key={item.id}
+                                    parentId={item.id}
+                                    img={item.icon}
+                                    name={item.name}
+                                    onClick={onClickBox}
+                                />
+                            ))}
+                        </div>
+                    </Fragment>
+                ))}
             </div>
         </StatusBarBlock>
     );

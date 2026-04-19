@@ -220,7 +220,7 @@
                 "children": [
                     {
                         "type": "FOLDER",
-                        "name": "MAIN_TECH",
+                        "name": "주로 사용하는 기술 스택",
                         "icon": "",
                         "children": [
                             { "type": "IMAGE", "name": "React.js", "icon": "react", "src": "react" },
@@ -236,7 +236,7 @@
                     },
                     {
                         "type": "FOLDER",
-                        "name": "SUB_TECH",
+                        "name": "사용해본적은 있는 기술",
                         "icon": "",
                         "children": [
                             { "type": "IMAGE", "name": "Vue.js", "icon": "vue", "src": "vue" },
