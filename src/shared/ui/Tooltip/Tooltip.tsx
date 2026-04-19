@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { ReactElement } from "react";
 import * as RadixTooltip from "@radix-ui/react-tooltip";
 import { css } from "@styled-system/css";
 
@@ -19,7 +19,7 @@ const contentStyle = css({
 
 type TooltipProps = {
     label: string;
-    children: ReactNode;
+    children: ReactElement;
     side?: "top" | "right" | "bottom" | "left";
     sideOffset?: number;
     disabled?: boolean;
@@ -32,7 +32,7 @@ const Tooltip = ({
     sideOffset = 4,
     disabled = false,
 }: TooltipProps) => {
-    if (disabled) return <>{children}</>;
+    if (disabled || label === "") return <>{children}</>;
 
     return (
         <RadixTooltip.Root>
