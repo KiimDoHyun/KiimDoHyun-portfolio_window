@@ -37,4 +37,5 @@ DOC 노드의 `contents.projectDesc` 값에 아래 마크다운을 뼈대로 작
 
 ## 레퍼런스
 
-- 이 템플릿으로 작성될 예정인 5개 DOC은 아직 `projectDesc`가 비어 있다. 이후 채워지면 대표 모범 사례로 이 문단에 링크한다.
+- 이 템플릿(🅱)으로 작성될 예정인 5개 DOC(`NMS 프로젝트 분리`, `깃 코드리뷰 슬랙 알림봇`, `AI 활용 / 개발 워크플로 스킬 도입`, `팀 DX / 코드 품질 자발적 개선`, `SNS 로그인 분석`)은 현재 `projectDesc` 가 비어 있다.
+- 후속 작업: [`docs/plans/2026-04-19-desktop-restructure-design.md`](../../plans/2026-04-19-desktop-restructure-design.md) §이번 스코프에서 하지 않는 일 — 11건 DOC 본문 작성 시점에 이 문단에 대표 레퍼런스 링크를 추가한다.

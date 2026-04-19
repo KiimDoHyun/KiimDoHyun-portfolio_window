@@ -47,5 +47,5 @@ DOC 노드의 `contents.projectDesc` 값에 아래 마크다운을 뼈대로 작
 
 ## 레퍼런스
 
-- `src/data/portfolio.json` 의 `구알맛-구알맛 오너즈` 노드 `contents.projectDesc` — 이 템플릿의 모범 사례
-- 같은 파일의 `SBL FEMS` — 간결 버전 (일부 섹션 생략)
+- `src/data/portfolio.json` 의 `SBL FEMS` 노드 `contents.projectDesc` — 이 템플릿(🅰)의 구조에 가장 부합하는 모범 사례 (`# 개요` / `# 담당 업무` / `# 기술적 도전`)
+- 같은 파일의 `구알맛-구알맛 오너즈` — 템플릿 도입 이전에 작성된 참고용 본문. `# 프로젝트 소개` · `# 아키텍처` 등 템플릿 섹션명과 다른 구성이 포함되어 있으며, 후속 정리 시 템플릿 섹션명에 맞춰 조정 예정.
