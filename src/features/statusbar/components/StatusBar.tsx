@@ -23,6 +23,11 @@ function groupTechStack(
             sections.push({ title: it.name, items: [] });
         } else if (sections.length > 0) {
             sections[sections.length - 1].items.push(it);
+        } else if (process.env.NODE_ENV !== "production") {
+            console.warn(
+                "[groupTechStack] FOLDER 없이 시작된 항목은 무시됨:",
+                it,
+            );
         }
     }
     return sections;

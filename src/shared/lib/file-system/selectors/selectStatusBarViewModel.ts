@@ -6,22 +6,23 @@ import type {
 } from "@shared/types/program";
 import { resolveAsset } from "@shared/lib/assetManifest";
 
-export interface StatusBarTreeItem {
+export type StatusBarTreeItem = {
     id: ProgramId;
     name: string;
     icon: string;
     type: ProgramType;
     depth: number;
-}
+};
 
-export interface StatusBarViewModel {
+export type StatusBarViewModel = {
     projects: Array<StatusBarTreeItem>;
     techStack: Array<StatusBarTreeItem>;
     myComputerId: ProgramId | null;
-}
+};
 
 const MY_COMPUTER_NAME = "내컴퓨터";
 const TECH_STACK_NAME = "기술스택";
+const FOLDER_FALLBACK_ICON_KEY = "folder_empty";
 const PROJECT_ROOT_EXCLUDE: ReadonlySet<string> = new Set([
     MY_COMPUTER_NAME,
     TECH_STACK_NAME,
@@ -45,7 +46,7 @@ function toItem(node: ProgramNode, depth: number): StatusBarTreeItem {
         resolved !== ""
             ? resolved
             : node.type === "FOLDER"
-              ? (resolveAsset("folder_empty") ?? "")
+              ? (resolveAsset(FOLDER_FALLBACK_ICON_KEY) ?? "")
               : "";
     return {
         id: node.id,
