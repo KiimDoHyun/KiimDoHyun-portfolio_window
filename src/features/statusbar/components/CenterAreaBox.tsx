@@ -24,6 +24,7 @@ const centerAreaBoxBlockStyle = css({
     minWidth: 0,
     color: "shell.text",
     cursor: "default",
+    textAlign: "left",
     whiteSpace: "nowrap",
     overflow: "hidden",
     textOverflow: "ellipsis",
