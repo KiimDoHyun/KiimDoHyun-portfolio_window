@@ -109,23 +109,17 @@ describe("TaskBar (characterization)", () => {
     it("시계 영역 클릭 시 onClickTime, 알림 영역 클릭 시 onClickInfo", () => {
         const onClickTime = vi.fn();
         const onClickInfo = vi.fn();
-        const { container } = render(
-            <TaskBar {...buildProps({ onClickTime, onClickInfo })} />
-        );
-        fireEvent.click(container.querySelector(".dateInfo") as HTMLElement);
+        render(<TaskBar {...buildProps({ onClickTime, onClickInfo })} />);
+        fireEvent.click(screen.getByTestId("taskbar-date"));
         expect(onClickTime).toHaveBeenCalledTimes(1);
-        fireEvent.click(container.querySelector(".info") as HTMLElement);
+        fireEvent.click(screen.getByTestId("taskbar-info"));
         expect(onClickInfo).toHaveBeenCalledTimes(1);
     });
 
     it("모두 닫기 버튼 클릭 시 onClickCloseAll 호출", () => {
         const onClickCloseAll = vi.fn();
-        const { container } = render(
-            <TaskBar {...buildProps({ onClickCloseAll })} />
-        );
-        fireEvent.click(
-            container.querySelector(".closeAllButton") as HTMLElement
-        );
+        render(<TaskBar {...buildProps({ onClickCloseAll })} />);
+        fireEvent.click(screen.getByTestId("taskbar-close-all"));
         expect(onClickCloseAll).toHaveBeenCalledTimes(1);
     });
 });
