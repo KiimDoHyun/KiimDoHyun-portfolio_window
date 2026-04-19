@@ -67,6 +67,8 @@
 | `worker-deploy-vercel` | worker | Vercel 에 배포 |
 | `orchestrator-review-loop` | orchestrator (loop) | 리뷰를 루프로 실행 |
 | `convention-frontend` | convention | 프론트엔드 규칙 라우팅 |
+| `convention-commit` | convention | 커밋 규약 라우팅 |
+| `convention-plan` | convention | 설계 문서 가이드 라우팅 |
 
 ## 적용 범위
 
