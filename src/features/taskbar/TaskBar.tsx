@@ -88,11 +88,14 @@ const TaskBar = ({
         "--shotcut-hover-top": shotcutHoverTop,
         "--shotcut-hover-left": shotcutHoverLeft,
         "--shotcut-hover-pointer-events": shotcutHoverPointerEvents,
-        "--prevview-top": prevviewTop,
-        "--prevview-opacity": prevviewOpacity,
-        "--prevview-left": prevviewLeft,
-        "--prevview-pointer-events": prevviewPointerEvents,
     } as CSSProperties;
+
+    const previewStyle: CSSProperties = {
+        top: prevviewTop,
+        left: prevviewLeft,
+        opacity: Number(prevviewOpacity),
+        pointerEvents: prevviewPointerEvents as CSSProperties["pointerEvents"],
+    };
 
     return (
         <TaskBarRoot style={cssVars}>
@@ -125,6 +128,7 @@ const TaskBar = ({
             <PreviewPopup
                 target={previewTarget}
                 renderContent={renderPreviewContent}
+                rootStyle={previewStyle}
             />
         </TaskBarRoot>
     );

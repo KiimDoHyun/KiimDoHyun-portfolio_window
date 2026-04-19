@@ -70,55 +70,6 @@ export const taskBarStyle = css({
     width: "70%",
   },
 
-  "& .prevView": {
-    position: "absolute",
-    width: "200px",
-    height: "225px",
-    backgroundColor: "shell.bgAlt",
-    zIndex: 1,
-    top: "var(--prevview-top)",
-    opacity: "var(--prevview-opacity)",
-    left: "var(--prevview-left)",
-    pointerEvents: "var(--prevview-pointer-events)",
-    pt: "8",
-    px: "16",
-    pb: "16",
-    boxSizing: "border-box",
-    transition: "fast",
-  },
-
-  "& .prevViewHeader": {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-
-  "& .prevViewHeader .text": {
-    color: "shell.text",
-    fontSize: "14px",
-  },
-  "& .prevViewHeader .button": {
-    width: "20px",
-    height: "20px",
-  },
-  "& .prevViewHeader .button img": {
-    width: "100%",
-    height: "100%",
-  },
-
-  "& .prevView .cover": {
-    position: "relative",
-    width: "100%",
-    height: "100%",
-  },
-  "& .prevView .cover > div": {
-    position: "absolute",
-    left: "-165px !important",
-    top: "-150px !important",
-    transform: "scale(0.35) !important",
-    animation: "prevView_coverTransform 0.2s",
-  },
-
   "& .shortCut_Img": {
     width: "100%",
     flex: 1,
