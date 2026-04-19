@@ -19,8 +19,6 @@ const centerAreaBoxBlockStyle = css({
     height: "25px",
   },
   "& .text": {
-    fontSize: "14px",
-    fontWeight: "lighter",
     color: "shell.text",
     cursor: "default",
   },
@@ -31,6 +29,7 @@ type CenterAreaBoxProps = {
     img: string | null;
     name: string;
     showImg?: boolean;
+    depth?: number;
     onClick?: (id: ProgramId) => void;
 };
 
@@ -39,11 +38,17 @@ const CenterAreaBox = ({
     img,
     name,
     showImg = true,
+    depth = 0,
     onClick,
 }: CenterAreaBoxProps) => {
+    const indentPx = 4 + depth * 12;
+    const fontWeight = depth === 0 ? 700 : depth === 1 ? 600 : 300;
+    const fontSize = depth === 1 ? 13 : 14;
+
     return (
         <div
             className={`statusBox ${centerAreaBoxBlockStyle}`}
+            style={{ paddingLeft: `${indentPx}px` }}
             onClick={() => {
                 if (parentId) {
                     onClick?.(parentId);
@@ -51,7 +56,9 @@ const CenterAreaBox = ({
             }}
         >
             {showImg && <img src={img ? img : defaultImg} alt="name" />}
-            <div className="text">{name}</div>
+            <div className="text" style={{ fontWeight, fontSize }}>
+                {name}
+            </div>
         </div>
     );
 };

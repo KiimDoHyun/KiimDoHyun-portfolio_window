@@ -24,7 +24,7 @@
 - 설계 문서 커밋됨(`327799e`)
 
 ### 작업 내용
-- [ ] `refactor(data): 기술스택 서브폴더명 MAIN_TECH/SUB_TECH → 사용자향 한글로 교체`
+- [x] `refactor(data): 기술스택 서브폴더명 MAIN_TECH/SUB_TECH → 사용자향 한글로 교체`
 
 **파일 수정:** [src/data/portfolio.json](../../src/data/portfolio.json)
 
