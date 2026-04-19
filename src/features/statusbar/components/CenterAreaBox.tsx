@@ -19,8 +19,13 @@ const centerAreaBoxBlockStyle = css({
     height: "25px",
   },
   "& .text": {
+    flex: 1,
+    minWidth: 0,
     color: "shell.text",
     cursor: "default",
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
   },
 });
 
@@ -56,7 +61,7 @@ const CenterAreaBox = ({
             }}
         >
             {showImg && <img src={img ? img : defaultImg} alt="name" />}
-            <div className="text" style={{ fontWeight, fontSize }}>
+            <div className="text" style={{ fontWeight, fontSize }} title={name}>
                 {name}
             </div>
         </div>
