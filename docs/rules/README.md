@@ -13,6 +13,7 @@
 - [feature-public-api/](./feature-public-api/) — feature 슬라이스의 `index.ts` 사용 규칙, deep import 금지
 - [global-state-boundary/](./global-state-boundary/) — 전역 상태 접근 경계
 - [collaboration/](./collaboration/) — 추천 옵션 제시 시의 자체 검증 기준 등 협업 규칙
+- [content/](./content/) — `portfolio.json` DOC 본문 작성 템플릿 (🅰 프로젝트형 / 🅱 이니셔티브형)
 
 ## 메타 규칙
 
