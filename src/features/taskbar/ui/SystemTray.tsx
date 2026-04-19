@@ -1,6 +1,13 @@
 import message from "@images/icons/message.png";
 import arrowUp from "@images/icons/collapse-arrow-up-white.png";
 import arrowDown from "@images/icons/collapse-arrow-down-white.png";
+import {
+    SystemTrayRoot,
+    ArrowUpCell,
+    DateInfoCell,
+    InfoCell,
+    CloseAllCell,
+} from "./SystemTray.style";
 
 interface SystemTrayProps {
     hiddenIcon: boolean;
@@ -30,9 +37,8 @@ const SystemTray = ({
     onClickCloseAll,
 }: SystemTrayProps) => {
     return (
-        <div className="box3">
-            <div
-                className="arrowUpIcon taskHoverEffect"
+        <SystemTrayRoot>
+            <ArrowUpCell
                 title={
                     hiddenIcon
                         ? "숨기기"
@@ -45,30 +51,30 @@ const SystemTray = ({
                 ) : (
                     <img src={arrowUp} alt="arrowUp" />
                 )}
-            </div>
+            </ArrowUpCell>
 
-            <div className="dateInfo taskHoverEffect" onClick={onClickTime}>
-                <div className="time">
+            <DateInfoCell onClick={onClickTime} data-testid="taskbar-date">
+                <div>
                     {cur_timeline} {cur_hour}:{cur_minute}
                 </div>
-                <div className="date">
+                <div>
                     {cur_year}-{cur_month}-{`0${cur_date}`.slice(-2)}
                 </div>
-            </div>
+            </DateInfoCell>
 
-            <div
-                className="info taskHoverEffect"
+            <InfoCell
                 onClick={onClickInfo}
                 title="새 알림 없음"
+                data-testid="taskbar-info"
             >
                 <img src={message} alt="message" />
-            </div>
+            </InfoCell>
 
-            <div
-                className="closeAllButton taskHoverEffect"
+            <CloseAllCell
                 onClick={onClickCloseAll}
+                data-testid="taskbar-close-all"
             />
-        </div>
+        </SystemTrayRoot>
     );
 };
 

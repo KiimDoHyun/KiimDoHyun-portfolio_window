@@ -51,11 +51,8 @@ describe("TaskBar (characterization)", () => {
 
     it("시작 버튼 클릭 시 onClickStartIcon 이 호출된다", () => {
         const onClickStartIcon = vi.fn();
-        const { container } = render(
-            <TaskBar {...buildProps({ onClickStartIcon })} />
-        );
-        const startBtn = container.querySelector(".box1") as HTMLElement;
-        fireEvent.click(startBtn);
+        render(<TaskBar {...buildProps({ onClickStartIcon })} />);
+        fireEvent.click(screen.getByTestId("taskbar-start"));
         expect(onClickStartIcon).toHaveBeenCalledTimes(1);
     });
 
@@ -71,19 +68,19 @@ describe("TaskBar (characterization)", () => {
     it("아이콘에 mouseEnter 시 onPreviewChange(true) 가 호출되고, leave 시 false", () => {
         const onPreviewChange = vi.fn();
         render(<TaskBar {...buildProps({ onPreviewChange })} />);
-        const icon = screen.getByAltText("내문서").closest(".shortCutIcon")!;
+        const icon = screen.getByTestId("taskbar-icon-n1");
         fireEvent.mouseEnter(icon);
         expect(onPreviewChange).toHaveBeenLastCalledWith(true);
         fireEvent.mouseLeave(icon);
         expect(onPreviewChange).toHaveBeenLastCalledWith(false);
     });
 
-    it("activeId 에 해당하는 아이콘은 activeIcon 클래스를 가진다", () => {
+    it("activeId 에 해당하는 아이콘은 active 표시를 가진다", () => {
         render(<TaskBar {...buildProps({ activeId: "n2" })} />);
-        const icon = screen
-            .getByAltText("프로젝트")
-            .closest(".shortCutIcon") as HTMLElement;
-        expect(icon.className).toContain("activeIcon");
+        expect(screen.getByTestId("taskbar-icon-n2")).toHaveAttribute(
+            "data-active",
+            "true"
+        );
     });
 
     it("hiddenIcon=false 일 때 화살표 위 아이콘을 보여준다", () => {
@@ -99,33 +96,26 @@ describe("TaskBar (characterization)", () => {
     it("hover 중 미리보기 X 버튼 클릭 시 onCloseProgram(hoverId) 호출", () => {
         const onCloseProgram = vi.fn();
         render(<TaskBar {...buildProps({ onCloseProgram })} />);
-        const icon = screen.getByAltText("프로젝트").closest(".shortCutIcon")!;
+        const icon = screen.getByTestId("taskbar-icon-n2");
         fireEvent.mouseEnter(icon);
-        const closeCover = icon.querySelector(".buttonCover") as HTMLElement;
-        fireEvent.click(closeCover);
+        fireEvent.click(screen.getByTestId("taskbar-close-n2"));
         expect(onCloseProgram).toHaveBeenCalledWith("n2");
     });
 
     it("시계 영역 클릭 시 onClickTime, 알림 영역 클릭 시 onClickInfo", () => {
         const onClickTime = vi.fn();
         const onClickInfo = vi.fn();
-        const { container } = render(
-            <TaskBar {...buildProps({ onClickTime, onClickInfo })} />
-        );
-        fireEvent.click(container.querySelector(".dateInfo") as HTMLElement);
+        render(<TaskBar {...buildProps({ onClickTime, onClickInfo })} />);
+        fireEvent.click(screen.getByTestId("taskbar-date"));
         expect(onClickTime).toHaveBeenCalledTimes(1);
-        fireEvent.click(container.querySelector(".info") as HTMLElement);
+        fireEvent.click(screen.getByTestId("taskbar-info"));
         expect(onClickInfo).toHaveBeenCalledTimes(1);
     });
 
     it("모두 닫기 버튼 클릭 시 onClickCloseAll 호출", () => {
         const onClickCloseAll = vi.fn();
-        const { container } = render(
-            <TaskBar {...buildProps({ onClickCloseAll })} />
-        );
-        fireEvent.click(
-            container.querySelector(".closeAllButton") as HTMLElement
-        );
+        render(<TaskBar {...buildProps({ onClickCloseAll })} />);
+        fireEvent.click(screen.getByTestId("taskbar-close-all"));
         expect(onClickCloseAll).toHaveBeenCalledTimes(1);
     });
 });

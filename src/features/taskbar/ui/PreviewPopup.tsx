@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import close_white from "@images/icons/close_white.png";
 import {
     resolveProgramTitle,
@@ -6,22 +6,36 @@ import {
 } from "@pages/DesktopPage/resolveProgramMeta";
 import type { TaskbarEntry } from "../TaskBar.types";
 import PreviewWindowFrame from "./PreviewWindowFrame";
+import {
+    PreviewPopupRoot,
+    PreviewHeader,
+    PreviewHeaderText,
+    PreviewHeaderButton,
+    PreviewCover,
+} from "./PreviewPopup.style";
 
 interface PreviewPopupProps {
     target: TaskbarEntry | undefined;
     renderContent: (entry: TaskbarEntry) => ReactNode;
+    rootStyle: CSSProperties;
 }
 
-const PreviewPopup = ({ target, renderContent }: PreviewPopupProps) => {
+const PreviewPopup = ({
+    target,
+    renderContent,
+    rootStyle,
+}: PreviewPopupProps) => {
     return (
-        <div className="prevView">
-            <div className="prevViewHeader">
-                <div className="text">{target ? target.node.name : ""}</div>
-                <div className="button">
+        <PreviewPopupRoot style={rootStyle}>
+            <PreviewHeader>
+                <PreviewHeaderText>
+                    {target ? target.node.name : ""}
+                </PreviewHeaderText>
+                <PreviewHeaderButton>
                     <img src={close_white} alt="close_white" />
-                </div>
-            </div>
-            <div className="cover">
+                </PreviewHeaderButton>
+            </PreviewHeader>
+            <PreviewCover>
                 {target ? (
                     <PreviewWindowFrame
                         key={target.node.id}
@@ -34,8 +48,8 @@ const PreviewPopup = ({ target, renderContent }: PreviewPopupProps) => {
                         })}
                     </PreviewWindowFrame>
                 ) : null}
-            </div>
-        </div>
+            </PreviewCover>
+        </PreviewPopupRoot>
     );
 };
 

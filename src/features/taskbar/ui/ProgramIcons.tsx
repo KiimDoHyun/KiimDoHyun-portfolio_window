@@ -1,11 +1,23 @@
-import { forwardRef } from "react";
+import { forwardRef, type CSSProperties } from "react";
 import type { ProgramId } from "@shared/types/program";
 import type { TaskbarEntry } from "../TaskBar.types";
 import { resolveProgramIcon } from "@shared/lib";
+import {
+    ProgramIconsRoot,
+    ShortCutIcon,
+    ShortCutImg,
+    ShortCutBottomLine,
+    ShotCutHover,
+    ButtonCover,
+    BodyCover,
+} from "./ProgramIcons.style";
 
 interface ProgramIconsProps {
     entries: Array<TaskbarEntry>;
     activeId: ProgramId | null;
+    /** hover 중인 아이콘의 인덱스. hover 없음은 `null`. */
+    hoverIdx: number | null;
+    hoverStyle: CSSProperties;
     onMouseEnter: (entry: TaskbarEntry, idx: number) => void;
     onMouseLeave: (idx: number) => void;
     onClickIcon: (entry: TaskbarEntry, idx: number) => void;
@@ -22,6 +34,8 @@ const ProgramIcons = forwardRef<HTMLDivElement, ProgramIconsProps>(
         {
             entries,
             activeId,
+            hoverIdx,
+            hoverStyle,
             onMouseEnter,
             onMouseLeave,
             onClickIcon,
@@ -30,37 +44,47 @@ const ProgramIcons = forwardRef<HTMLDivElement, ProgramIconsProps>(
         ref
     ) => {
         return (
-            <div className="box2" ref={ref}>
-                {entries.map((entry, idx) => (
-                    <div
-                        key={entry.node.id}
-                        className={`shortCutIcon ${
-                            activeId === entry.node.id ? "activeIcon" : ""
-                        }`}
-                        title={entry.node.name}
-                        onMouseEnter={() => onMouseEnter(entry, idx)}
-                        onMouseLeave={() => onMouseLeave(idx)}
-                    >
-                        <div
-                            className="shortCut_Img"
-                            onClick={() => onClickIcon(entry, idx)}
+            <ProgramIconsRoot ref={ref}>
+                {entries.map((entry, idx) => {
+                    const isActive = activeId === entry.node.id;
+                    const isHover = hoverIdx === idx;
+                    const emphasized = isActive || isHover;
+                    return (
+                        <ShortCutIcon
+                            key={entry.node.id}
+                            active={isActive}
+                            data-active={isActive ? "true" : undefined}
+                            data-testid={`taskbar-icon-${entry.node.id}`}
+                            title={entry.node.name}
+                            onMouseEnter={() => onMouseEnter(entry, idx)}
+                            onMouseLeave={() => onMouseLeave(idx)}
                         >
-                            {renderIconImage(entry)}
-                        </div>
-                        <div className="shortCut_BottomLine" />
-                        <div className="shotCut_Hover">
-                            <div
-                                className="buttonCover"
-                                onClick={onClickClose}
-                            />
-                            <div
-                                className="bodyCover"
+                            <ShortCutImg
                                 onClick={() => onClickIcon(entry, idx)}
-                            />
-                        </div>
-                    </div>
-                ))}
-            </div>
+                            >
+                                {renderIconImage(entry)}
+                            </ShortCutImg>
+                            <ShortCutBottomLine emphasized={emphasized} />
+                            <ShotCutHover
+                                hovering={isHover}
+                                // hover 중이 아닌 아이콘에도 동일한 top/left/pointerEvents 를 적용한다.
+                                // height:0 상태라도 BodyCover/ButtonCover 의 좌표가 잘못되면
+                                // 보이지 않는 커버가 start 버튼 / 타 아이콘 영역을 가려 클릭을 막는다.
+                                // (commit 1fee1a4 회귀 재발 방지)
+                                style={hoverStyle}
+                            >
+                                <ButtonCover
+                                    data-testid={`taskbar-close-${entry.node.id}`}
+                                    onClick={onClickClose}
+                                />
+                                <BodyCover
+                                    onClick={() => onClickIcon(entry, idx)}
+                                />
+                            </ShotCutHover>
+                        </ShortCutIcon>
+                    );
+                })}
+            </ProgramIconsRoot>
         );
     }
 );

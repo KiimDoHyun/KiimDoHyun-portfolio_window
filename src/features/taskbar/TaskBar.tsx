@@ -1,12 +1,25 @@
 import type { CSSProperties } from "react";
+import { cva } from "@styled-system/css";
+import { styled } from "@styled-system/jsx";
 import useGetCurrentTime from "@shared/hooks/useGetCurrentTime";
-import { taskBarStyle } from "./TaskBar.style";
 import { useTaskbarHover } from "./hooks/useTaskbarHover";
 import StartButton from "./ui/StartButton";
 import ProgramIcons from "./ui/ProgramIcons";
 import SystemTray from "./ui/SystemTray";
 import PreviewPopup from "./ui/PreviewPopup";
 import type { TaskBarProps, TaskbarEntry } from "./TaskBar.types";
+
+const TaskBarRoot = styled(
+    "div",
+    cva({
+        base: {
+            display: "grid",
+            gridTemplateColumns: "token(sizes.taskbar) auto 200px",
+            height: "100%",
+            position: "relative",
+        },
+    })
+);
 
 const TaskBar = ({
     entries,
@@ -63,7 +76,7 @@ const TaskBar = ({
     const shotcutHoverLeft = hoverTarget.idx === 0 ? "-50px" : "-75px";
     const shotcutHoverPointerEvents = hovering ? "all" : "none";
     const prevviewTop = hovering ? "-225px" : "50px";
-    const prevviewOpacity = hovering ? "1" : "0";
+    const prevviewOpacity = hovering ? 1 : 0;
     const prevviewLeft = hovering
         ? hoverTarget.idx > 0
             ? `${(hoverTarget.idx - 1) * 50 + 25}px`
@@ -71,24 +84,29 @@ const TaskBar = ({
         : "0px";
     const prevviewPointerEvents = hovering ? "all" : "none";
 
-    const cssVars = {
-        "--shotcut-hover-top": shotcutHoverTop,
-        "--shotcut-hover-left": shotcutHoverLeft,
-        "--shotcut-hover-pointer-events": shotcutHoverPointerEvents,
-        "--prevview-top": prevviewTop,
-        "--prevview-opacity": prevviewOpacity,
-        "--prevview-left": prevviewLeft,
-        "--prevview-pointer-events": prevviewPointerEvents,
-    } as CSSProperties;
+    const previewStyle: CSSProperties = {
+        top: prevviewTop,
+        left: prevviewLeft,
+        opacity: prevviewOpacity,
+        pointerEvents: prevviewPointerEvents,
+    };
+
+    const shortcutHoverStyle: CSSProperties = {
+        top: shotcutHoverTop,
+        left: shotcutHoverLeft,
+        pointerEvents: shotcutHoverPointerEvents,
+    };
 
     return (
-        <div className={taskBarStyle} style={cssVars}>
+        <TaskBarRoot>
             <StartButton onClick={onClickStartIcon} />
 
             <ProgramIcons
                 ref={iconContainerRef}
                 entries={entries}
                 activeId={activeId}
+                hoverIdx={hoverTarget.idx < 0 ? null : hoverTarget.idx}
+                hoverStyle={shortcutHoverStyle}
                 onMouseEnter={onMouseEnter}
                 onMouseLeave={onMouseLeave}
                 onClickIcon={handleClickIcon}
@@ -112,8 +130,9 @@ const TaskBar = ({
             <PreviewPopup
                 target={previewTarget}
                 renderContent={renderPreviewContent}
+                rootStyle={previewStyle}
             />
-        </div>
+        </TaskBarRoot>
     );
 };
 
