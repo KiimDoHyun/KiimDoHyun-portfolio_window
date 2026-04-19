@@ -40,10 +40,17 @@ function findChildIdByName(
 }
 
 function toItem(node: ProgramNode, depth: number): StatusBarTreeItem {
+    const resolved = resolveAsset(node.icon) ?? "";
+    const icon =
+        resolved !== ""
+            ? resolved
+            : node.type === "FOLDER"
+              ? (resolveAsset("folder_empty") ?? "")
+              : "";
     return {
         id: node.id,
         name: node.name,
-        icon: resolveAsset(node.icon) ?? "",
+        icon,
         type: node.type,
         depth,
     };

@@ -116,7 +116,6 @@ const StatusBarView = ({
                         img={item.icon}
                         name={item.name}
                         depth={item.depth}
-                        showImg={item.type !== "FOLDER"}
                         onClick={onClickBox}
                     />
                 ))}
