@@ -18,9 +18,14 @@
 
 - **TypeScript 작성 규칙** (`any` 금지, Type vs Interface, 배열 표기 등): [`docs/rules/typescript/`](docs/rules/typescript/README.md)
 - **식별자 명명 규칙** (변수/함수/훅/상수/타입 이름): [`docs/rules/naming/`](docs/rules/naming/README.md)
-- **커밋 규약** (type, scope, 메시지 포맷, 단위 기준): [`docs/rules/commit-convention.md`](docs/rules/commit-convention.md)
+- **커밋 규약** (type, scope, 메시지 포맷, 단위 기준): [`docs/rules/commit-convention.md`](docs/rules/commit-convention.md) — `convention-commit` 스킬이 `git commit` 직전에 라우팅한다.
 - **프론트엔드 전반 컨벤션** (컴포넌트 구조, feature public API, 전역 상태 경계 등): [`docs/rules/`](docs/rules/) — `convention-frontend` 스킬이 작업 종류에 따라 필요한 문서로 라우팅한다.
 
 ## 설계 문서
 
-설계 문서 작성 시 다음 가이드를 참고한다: [`docs/rules/plan-writing-guide.md`](docs/rules/plan-writing-guide.md)
+설계 문서 작성 시 다음 가이드를 참고한다: [`docs/rules/plan-writing-guide.md`](docs/rules/plan-writing-guide.md) — `convention-plan` 스킬이 `docs/plans/` 하위 문서 작성 시 라우팅한다.
+
+## 인덱스
+
+- 스킬 전체: [`.claude/skills/README.md`](.claude/skills/README.md) — 카테고리별 트리거/라우팅 정리
+- 규칙 전체: [`docs/rules/README.md`](docs/rules/README.md) — 토픽 목록과 라우팅 스킬 매핑
