@@ -58,14 +58,12 @@ export const ShortCutBottomLine = styled(
             backgroundColor: "accent.underline",
         },
         variants: {
-            state: {
-                idle: { width: "80%" },
-                hover: { width: "95%" },
-                active: { width: "95%" },
-                activeShortCut: { width: "70%" },
+            emphasized: {
+                true: { width: "95%" },
+                false: { width: "80%" },
             },
         },
-        defaultVariants: { state: "idle" },
+        defaultVariants: { emphasized: false },
     })
 );
 

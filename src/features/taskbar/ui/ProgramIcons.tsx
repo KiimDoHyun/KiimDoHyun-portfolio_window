@@ -47,14 +47,7 @@ const ProgramIcons = forwardRef<HTMLDivElement, ProgramIconsProps>(
                 {entries.map((entry, idx) => {
                     const isActive = activeId === entry.node.id;
                     const isHover = hoverIdx === idx;
-                    const bottomLineState =
-                        isActive && isHover
-                            ? "activeShortCut"
-                            : isActive
-                              ? "active"
-                              : isHover
-                                ? "hover"
-                                : "idle";
+                    const emphasized = isActive || isHover;
                     return (
                         <ShortCutIcon
                             key={entry.node.id}
@@ -70,10 +63,10 @@ const ProgramIcons = forwardRef<HTMLDivElement, ProgramIconsProps>(
                             >
                                 {renderIconImage(entry)}
                             </ShortCutImg>
-                            <ShortCutBottomLine state={bottomLineState} />
+                            <ShortCutBottomLine emphasized={emphasized} />
                             <ShotCutHover
                                 hovering={isHover}
-                                style={isHover ? hoverStyle : undefined}
+                                style={hoverStyle}
                             >
                                 <ButtonCover
                                     data-testid={`taskbar-close-${entry.node.id}`}
