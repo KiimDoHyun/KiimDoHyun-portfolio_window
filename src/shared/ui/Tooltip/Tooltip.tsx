@@ -14,7 +14,7 @@ const contentStyle = css({
     maxWidth: "260px",
     wordBreak: "keep-all",
     userSelect: "none",
-    zIndex: 9999,
+    zIndex: 999999,
 });
 
 type TooltipProps = {
