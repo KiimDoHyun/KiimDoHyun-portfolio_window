@@ -1,7 +1,7 @@
 import { useCallback, useState, useRef } from "react";
 import StatusBarView from "./components/StatusBar";
-import imgReact from "@images/icons/react.png";
-import imgJS from "@images/icons/javascript.png";
+import imgReact from "@images/icons/react.svg";
+import imgJS from "@images/icons/javascript.svg";
 import imgKit from "@images/icons/logo_kit.jpg";
 import imgOne from "@images/icons/number_one.png";
 import imgUser from "@images/icons/user.png";
