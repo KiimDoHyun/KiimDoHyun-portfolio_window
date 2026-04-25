@@ -27,6 +27,7 @@
 | [`worker-review-code`](worker-review-code/SKILL.md) | "리뷰 해줘", "PR #N 리뷰" | 리뷰 코멘트 |
 | [`worker-resolve-review`](worker-resolve-review/SKILL.md) | "리뷰 반영해" | 리뷰 코멘트 해소 커밋 |
 | [`worker-deploy-vercel`](worker-deploy-vercel/SKILL.md) | "배포해", "deploy to vercel" | 배포된 URL |
+| [`worker-fill-portfolio-doc`](worker-fill-portfolio-doc/SKILL.md) | "포트폴리오에 추가해줘", `projectDesc` 작성/보완 | 업데이트된 `src/data/portfolio.json` DOC 본문 |
 
 ### `orchestrator-*` — 다른 스킬/Agent 호출 제어
 
