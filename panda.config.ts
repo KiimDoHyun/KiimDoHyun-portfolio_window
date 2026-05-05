@@ -246,8 +246,8 @@ export default defineConfig({
       },
       keyframes: {
         open: {
-          from: { opacity: 0, transform: "scale(0.9)" },
-          to: { opacity: 1, transform: "scale(1)" },
+          from: { opacity: 0, scale: 0.9 },
+          to: { opacity: 1, scale: 1 },
         },
         show_from_bottom: {
           from: { scale: "1 1.5", translate: "0 200px" },
