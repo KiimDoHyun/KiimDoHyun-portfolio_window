@@ -3,8 +3,9 @@ import { styled } from "@styled-system/jsx";
 
 const programComponentRecipe = cva({
   base: {
-    left: "calc(50% - token(sizes.program.default) / 2)",
-    top: "calc(50% - token(sizes.program.default) / 2)",
+    left: 0,
+    top: 0,
+    transform: "translate3d(0, 0, 0)",
     height: "program.default",
     width: "program.default",
 
@@ -179,7 +180,7 @@ const programComponentRecipe = cva({
     isClose: {
       true: {
         opacity: 0,
-        transform: "scale(0.9)",
+        scale: 0.9,
       },
       false: {},
     },

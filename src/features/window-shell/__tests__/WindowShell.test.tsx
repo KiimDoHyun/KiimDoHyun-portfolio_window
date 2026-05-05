@@ -24,6 +24,7 @@ vi.mock("../ProgramComponent.style", () => {
 import WindowShell from "../WindowShell";
 import type { WindowShellProps } from "../WindowShell.types";
 import type { ProgramNode, RunningProgram } from "@shared/types/program";
+import { TASKBAR_HEIGHT, HEADER_HEIGHT } from "../lib/geometry";
 
 const node: ProgramNode = {
     id: "node-1",
@@ -105,5 +106,35 @@ describe("WindowShell (characterization)", () => {
         const onRequestZIndex = vi.fn(() => 7);
         render(<WindowShell {...buildProps({ onRequestZIndex })} />);
         expect(onRequestZIndex).toHaveBeenCalled();
+    });
+});
+
+describe("WindowShell drag clamping", () => {
+    beforeEach(() => {
+        localStorage.clear();
+    });
+
+    it("드래그 mouseup 후 저장된 y 가 0 미만으로 내려가지 않는다", () => {
+        render(<WindowShell {...buildProps()} />);
+        const dragArea = document.querySelector(".dragArea") as HTMLElement;
+
+        fireEvent.mouseDown(dragArea, { clientX: 500, clientY: 500 });
+        fireEvent.mouseMove(document, { clientX: 500, clientY: -1000 });
+        fireEvent.mouseUp(document);
+
+        const stored = Number(localStorage.getItem("node-1y"));
+        expect(stored).toBeGreaterThanOrEqual(0);
+    });
+
+    it("드래그 mouseup 후 y 가 (innerHeight - taskbar - headerHeight) 이하", () => {
+        render(<WindowShell {...buildProps()} />);
+        const dragArea = document.querySelector(".dragArea") as HTMLElement;
+
+        fireEvent.mouseDown(dragArea, { clientX: 500, clientY: 500 });
+        fireEvent.mouseMove(document, { clientX: 500, clientY: 9999 });
+        fireEvent.mouseUp(document);
+
+        const stored = Number(localStorage.getItem("node-1y"));
+        expect(stored).toBeLessThanOrEqual(window.innerHeight - TASKBAR_HEIGHT - HEADER_HEIGHT);
     });
 });

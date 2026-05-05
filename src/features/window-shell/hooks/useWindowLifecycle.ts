@@ -17,6 +17,7 @@ interface UseWindowLifecycleParams {
 
 /**
  * 창의 생명주기(초기 위치/크기 복원, min/active 상태 효과, 최대화/복원/닫기, z-index) 담당.
+ * 위치는 transform: translate3d 로, 크기는 width/height 로 표현한다.
  */
 export function useWindowLifecycle({
     boxRef,
@@ -36,53 +37,44 @@ export function useWindowLifecycle({
         }
     }, [isActive, boxRef, onRequestZIndex]);
 
-    // 위치 복원
-    useEffect(() => {
-        if (status !== "active" || !boxRef.current) return;
-        const box = boxRef.current;
-        if (isMaxSize) {
-            box.style.left = "0px";
-            box.style.top = "0px";
-            return;
-        }
-        const geom = loadGeometry(id);
-        if (geom) {
-            box.style.left = `${geom.x}px`;
-            box.style.top = `${geom.y}px`;
-        } else {
-            const cx = Math.max(0, Math.floor(window.innerWidth / 2 - DEFAULT_W / 2));
-            const cy = Math.max(0, Math.floor(window.innerHeight / 2 - DEFAULT_H / 2));
-            box.style.left = `${cx}px`;
-            box.style.top = `${cy}px`;
-        }
-    }, [status, isMaxSize, boxRef, id]);
-
-    // 크기/opacity/scale — status 전이
+    // 위치/크기/opacity/scale — status 전이
     useEffect(() => {
         if (!boxRef.current) return;
         const box = boxRef.current;
         if (status === "active") {
             box.style.transition = "0.25s";
             box.style.opacity = "1";
-            const geom = loadGeometry(id);
-            if (geom) {
-                box.style.width = `${geom.w}px`;
-                box.style.height = `${geom.h}px`;
+            box.style.scale = "1";
+
+            if (isMaxSize) {
+                box.style.transform = "translate3d(0, 0, 0)";
+                return;
+            }
+
+            const stored = loadGeometry(id);
+            if (stored) {
+                box.style.transform = `translate3d(${stored.x}px, ${stored.y}px, 0)`;
+                box.style.width = `${stored.w}px`;
+                box.style.height = `${stored.h}px`;
             } else {
+                const cx = Math.max(0, Math.floor(window.innerWidth / 2 - DEFAULT_W / 2));
+                const cy = Math.max(0, Math.floor(window.innerHeight / 2 - DEFAULT_H / 2));
+                box.style.transform = `translate3d(${cx}px, ${cy}px, 0)`;
                 box.style.width = `${DEFAULT_W}px`;
                 box.style.height = `${DEFAULT_H}px`;
+                // drag/resize 가 mousedown 에서 stored 를 안전하게 읽도록 default 도 영속화
+                saveGeometry(id, { x: cx, y: cy, w: DEFAULT_W, h: DEFAULT_H });
             }
-            box.style.scale = "1";
         } else if (status === "min") {
             box.style.transition = "0.25s";
             box.style.opacity = "0";
-            box.style.left = "80px";
-            box.style.top = "60vh";
             box.style.scale = "0.6";
+            const minY = Math.floor(window.innerHeight * 0.6);
+            box.style.transform = `translate3d(80px, ${minY}px, 0)`;
             box.style.width = `${DEFAULT_W}px`;
             box.style.height = `${DEFAULT_H}px`;
         }
-    }, [status, id, boxRef]);
+    }, [status, isMaxSize, boxRef, id]);
 
     // 언마운트 시 localStorage 정리
     useEffect(() => {
@@ -98,8 +90,7 @@ export function useWindowLifecycle({
         const w = window.innerWidth;
         const h = window.innerHeight - TASKBAR_HEIGHT;
         box.style.transition = "0.25s";
-        box.style.left = "0px";
-        box.style.top = "0px";
+        box.style.transform = "translate3d(0, 0, 0)";
         box.style.width = `${w}px`;
         box.style.height = `${h}px`;
         // 최대화 시에는 localStorage 를 덮어쓰지 않는다.
@@ -118,8 +109,7 @@ export function useWindowLifecycle({
             h: DEFAULT_H,
         };
         box.style.transition = "0.25s";
-        box.style.left = `${next.x}px`;
-        box.style.top = `${next.y}px`;
+        box.style.transform = `translate3d(${next.x}px, ${next.y}px, 0)`;
         box.style.width = `${next.w}px`;
         box.style.height = `${next.h}px`;
         saveGeometry(id, next);
