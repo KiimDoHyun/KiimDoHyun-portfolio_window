@@ -38,8 +38,10 @@ export function useWindowLifecycle({
         }
     }, [isActive, boxRef, onRequestZIndex]);
 
-    // 위치/크기/opacity/scale — status 전이.
+    // 위치/크기/opacity — status 전이.
     // useLayoutEffect 로 paint 전에 inline style 을 적용해 첫 마운트 시 (0,0) 이 보이지 않도록 한다.
+    // scale 효과는 inline transform 에 통합해 박스 visual center 기준으로 적용한다
+    // (별도 scale property 사용 시 transform-origin 이 layout box 에 묶여 cx, cy 의 0.1배 만큼 슬라이드되는 문제 회피).
     useLayoutEffect(() => {
         if (!boxRef.current) return;
         const box = boxRef.current;
@@ -47,42 +49,47 @@ export function useWindowLifecycle({
             const isFirst = isFirstActiveRef.current;
             isFirstActiveRef.current = false;
 
-            // 첫 마운트는 transition 을 끄고 즉시 위치/크기 적용 (슬라이드 방지)
-            box.style.transition = isFirst ? "0s" : "0.25s";
-            box.style.opacity = "1";
-            box.style.scale = "1";
+            const stored = loadGeometry(id);
+            const x = isMaxSize
+                ? 0
+                : stored?.x ?? Math.max(0, Math.floor(window.innerWidth / 2 - DEFAULT_W / 2));
+            const y = isMaxSize
+                ? 0
+                : stored?.y ?? Math.max(0, Math.floor(window.innerHeight / 2 - DEFAULT_H / 2));
+            const w = isMaxSize ? window.innerWidth : stored?.w ?? DEFAULT_W;
+            const h = isMaxSize ? window.innerHeight - TASKBAR_HEIGHT : stored?.h ?? DEFAULT_H;
 
-            if (isMaxSize) {
-                box.style.transform = "translate3d(0, 0, 0)";
-            } else {
-                const stored = loadGeometry(id);
-                if (stored) {
-                    box.style.transform = `translate3d(${stored.x}px, ${stored.y}px, 0)`;
-                    box.style.width = `${stored.w}px`;
-                    box.style.height = `${stored.h}px`;
-                } else {
-                    const cx = Math.max(0, Math.floor(window.innerWidth / 2 - DEFAULT_W / 2));
-                    const cy = Math.max(0, Math.floor(window.innerHeight / 2 - DEFAULT_H / 2));
-                    box.style.transform = `translate3d(${cx}px, ${cy}px, 0)`;
-                    box.style.width = `${DEFAULT_W}px`;
-                    box.style.height = `${DEFAULT_H}px`;
-                    // drag/resize 가 mousedown 에서 stored 를 안전하게 읽도록 default 도 영속화
-                    saveGeometry(id, { x: cx, y: cy, w: DEFAULT_W, h: DEFAULT_H });
-                }
+            if (!isMaxSize && !stored) {
+                // drag/resize 가 mousedown 에서 stored 를 안전하게 읽도록 default 도 영속화
+                saveGeometry(id, { x, y, w, h });
             }
 
-            // 첫 마운트라면 다음 프레임에 transition 복원 — 이후 max/normal 토글의 부드러움 유지
             if (isFirst) {
+                // 첫 마운트: 시작 시 opacity 0 + scale 0.9 (transform 통합) 로 즉시 적용
+                box.style.transition = "0s";
+                box.style.opacity = "0";
+                box.style.transform = `translate3d(${x}px, ${y}px, 0) scale(0.9)`;
+                box.style.width = `${w}px`;
+                box.style.height = `${h}px`;
+                // 다음 프레임에 fade-in (opacity 1 + scale 1)
                 requestAnimationFrame(() => {
-                    if (boxRef.current) boxRef.current.style.transition = "0.25s";
+                    if (!boxRef.current) return;
+                    boxRef.current.style.transition = "0.25s";
+                    boxRef.current.style.opacity = "1";
+                    boxRef.current.style.transform = `translate3d(${x}px, ${y}px, 0)`;
                 });
+            } else {
+                box.style.transition = "0.25s";
+                box.style.opacity = "1";
+                box.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+                box.style.width = `${w}px`;
+                box.style.height = `${h}px`;
             }
         } else if (status === "min") {
             box.style.transition = "0.25s";
             box.style.opacity = "0";
-            box.style.scale = "0.6";
             const minY = Math.floor(window.innerHeight * 0.6);
-            box.style.transform = `translate3d(80px, ${minY}px, 0)`;
+            box.style.transform = `translate3d(80px, ${minY}px, 0) scale(0.6)`;
             box.style.width = `${DEFAULT_W}px`;
             box.style.height = `${DEFAULT_H}px`;
         }
@@ -134,13 +141,17 @@ export function useWindowLifecycle({
                 return;
             }
             setIsClose(true);
-            boxRef.current.style.transition = "0.25s";
-            boxRef.current.style.opacity = "0";
-            // inline scale 이 isClose className 의 scale 0.9 를 덮어쓰지 않도록 함께 적용
-            boxRef.current.style.scale = "0.9";
+            const box = boxRef.current;
+            // 현재 위치를 유지한 채 transform 에 scale 0.9 통합 — 박스 visual center 기준으로 작아짐
+            const stored = loadGeometry(id);
+            const x = stored?.x ?? 0;
+            const y = stored?.y ?? 0;
+            box.style.transition = "0.25s";
+            box.style.opacity = "0";
+            box.style.transform = `translate3d(${x}px, ${y}px, 0) scale(0.9)`;
             setTimeout(onFinish, 300);
         },
-        [boxRef]
+        [boxRef, id]
     );
 
     return {

@@ -5,7 +5,6 @@ const programComponentRecipe = cva({
   base: {
     left: 0,
     top: 0,
-    transform: "translate3d(0, 0, 0)",
     height: "program.default",
     width: "program.default",
 
@@ -20,8 +19,6 @@ const programComponentRecipe = cva({
     display: "grid",
     gridTemplateRows:
       "token(sizes.windowHeader) token(sizes.program.headerSub) 1fr token(sizes.windowBottom)",
-
-    animation: "open 0.25s 0s",
 
     "& .modiSize": {
       position: "absolute",
@@ -180,7 +177,6 @@ const programComponentRecipe = cva({
     isClose: {
       true: {
         opacity: 0,
-        scale: 0.9,
       },
       false: {},
     },
