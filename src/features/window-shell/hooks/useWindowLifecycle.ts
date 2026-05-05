@@ -102,8 +102,9 @@ export function useWindowLifecycle({
         box.style.top = "0px";
         box.style.width = `${w}px`;
         box.style.height = `${h}px`;
-        saveGeometry(id, { x: 0, y: 0, w, h });
-    }, [boxRef, id]);
+        // 최대화 시에는 localStorage 를 덮어쓰지 않는다.
+        // 복원 시 마지막에 저장된 (드래그/리사이즈) 위치로 돌아가도록 두기 위함.
+    }, [boxRef]);
 
     const onClickNormalSize = useCallback(() => {
         if (!boxRef.current) return;
