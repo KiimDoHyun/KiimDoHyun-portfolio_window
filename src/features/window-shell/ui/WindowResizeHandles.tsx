@@ -1,11 +1,9 @@
 interface WindowResizeHandlesProps {
   onResizeMouseDown: (e: React.MouseEvent) => void;
-  onResizeMouseUp: () => void;
 }
 
 const WindowResizeHandles = ({
   onResizeMouseDown,
-  onResizeMouseUp,
 }: WindowResizeHandlesProps) => {
   return (
     <>
@@ -16,7 +14,6 @@ const WindowResizeHandles = ({
       <div
         className="modiSize bottom_right"
         onMouseDown={onResizeMouseDown}
-        onMouseUp={onResizeMouseUp}
       />
     </>
   );

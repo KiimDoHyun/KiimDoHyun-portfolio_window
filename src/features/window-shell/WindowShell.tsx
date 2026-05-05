@@ -59,7 +59,6 @@ const WindowShell = ({
                 iconSrc={iconSrc}
                 isMaxSize={isMaxSize}
                 onDragMouseDown={drag.onMouseDown}
-                onDragMouseUp={drag.onMouseUp}
                 onClickMin={handleClickMin}
                 onClickMax={onClickMax}
                 onClickNormalSize={onClickNormalSize}
@@ -69,7 +68,6 @@ const WindowShell = ({
             {children}
             <WindowResizeHandles
                 onResizeMouseDown={resize.onMouseDown}
-                onResizeMouseUp={resize.onMouseUp}
             />
         </ProgramComponent>
     );

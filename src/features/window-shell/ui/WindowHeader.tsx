@@ -8,7 +8,6 @@ interface WindowHeaderProps {
   iconSrc: string;
   isMaxSize: boolean;
   onDragMouseDown: (e: React.MouseEvent) => void;
-  onDragMouseUp: () => void;
   onClickMin: () => void;
   onClickMax: () => void;
   onClickNormalSize: () => void;
@@ -20,7 +19,6 @@ const WindowHeader = ({
   iconSrc,
   isMaxSize,
   onDragMouseDown,
-  onDragMouseUp,
   onClickMin,
   onClickMax,
   onClickNormalSize,
@@ -31,7 +29,6 @@ const WindowHeader = ({
       <div
         className="infoArea"
         onMouseDown={onDragMouseDown}
-        onMouseUp={onDragMouseUp}
       >
         <img src={iconSrc} alt={title} />
         <div className="programTitle" title={title}>{title}</div>
@@ -39,7 +36,6 @@ const WindowHeader = ({
       <div
         className="dragArea"
         onMouseDown={onDragMouseDown}
-        onMouseUp={onDragMouseUp}
       />
       <div className="buttonArea">
         <div className="buttonIcon" onClick={onClickMin}>

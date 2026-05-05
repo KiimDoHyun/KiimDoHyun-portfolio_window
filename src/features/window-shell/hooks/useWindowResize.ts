@@ -20,10 +20,6 @@ export function useWindowResize({ boxRef, id }: UseWindowResizeParams) {
     prevPosRef.current = { X: e.clientX, Y: e.clientY };
   }, []);
 
-  const onMouseUp = useCallback(() => {
-    isResizingRef.current = false;
-  }, []);
-
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       if (!isResizingRef.current || !boxRef.current || !prevPosRef.current) {
@@ -70,5 +66,5 @@ export function useWindowResize({ boxRef, id }: UseWindowResizeParams) {
     };
   }, [boxRef, id]);
 
-  return { onMouseDown, onMouseUp };
+  return { onMouseDown };
 }

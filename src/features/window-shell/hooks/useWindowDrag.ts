@@ -19,10 +19,6 @@ export function useWindowDrag({ boxRef, id }: UseWindowDragParams) {
     prevPosRef.current = { X: e.clientX, Y: e.clientY };
   }, []);
 
-  const onMouseUp = useCallback(() => {
-    isMovableRef.current = false;
-  }, []);
-
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       if (!isMovableRef.current || !boxRef.current || !prevPosRef.current) {
@@ -63,5 +59,5 @@ export function useWindowDrag({ boxRef, id }: UseWindowDragParams) {
     };
   }, [boxRef, id]);
 
-  return { onMouseDown, onMouseUp };
+  return { onMouseDown };
 }
