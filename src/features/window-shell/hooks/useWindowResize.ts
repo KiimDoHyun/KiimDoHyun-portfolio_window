@@ -1,17 +1,15 @@
 import { useCallback, useEffect, useRef } from "react";
+import { MIN_HEIGHT, MIN_WIDTH } from "../lib/geometry";
+import { loadGeometry, saveGeometry } from "../lib/persist";
 
 interface UseWindowResizeParams {
   boxRef: React.RefObject<HTMLDivElement | null>;
   id: string;
 }
 
-const MIN_WIDTH = 300;
-const MIN_HEIGHT = 60;
-
 /**
  * 창 우측 하단(기타 코너/모서리) 핸들을 이용한 리사이즈 훅.
- * 기존 ProgramContainer 의 9방향 분기 로직을 단일 핸들러로 정리해 옮긴 버전.
- * 보존 목적상 동작은 bottom-right 확장/축소 중심이며, 최소 크기 제약을 적용한다.
+ * mouseup 시 1회 localStorage 에 저장한다.
  */
 export function useWindowResize({ boxRef, id }: UseWindowResizeParams) {
   const isResizingRef = useRef(false);
@@ -32,20 +30,18 @@ export function useWindowResize({ boxRef, id }: UseWindowResizeParams) {
         return;
       }
       const box = boxRef.current;
-      const deltaX = e.clientX - prevPosRef.current.X;
-      const deltaY = e.clientY - prevPosRef.current.Y;
+      const dx = e.clientX - prevPosRef.current.X;
+      const dy = e.clientY - prevPosRef.current.Y;
 
       box.style.transition = "0s";
 
-      const nextWidth = box.offsetWidth + deltaX;
-      const nextHeight = box.offsetHeight + deltaY;
+      const nextWidth = box.offsetWidth + dx;
+      const nextHeight = box.offsetHeight + dy;
 
       if (nextWidth >= MIN_WIDTH) {
-        localStorage.setItem(`${id}width`, `${nextWidth}px`);
         box.style.width = `${nextWidth}px`;
       }
       if (nextHeight >= MIN_HEIGHT) {
-        localStorage.setItem(`${id}height`, `${nextHeight}px`);
         box.style.height = `${nextHeight}px`;
       }
 
@@ -53,6 +49,16 @@ export function useWindowResize({ boxRef, id }: UseWindowResizeParams) {
     };
 
     const handleMouseUp = () => {
+      if (isResizingRef.current && boxRef.current) {
+        const box = boxRef.current;
+        const prev = loadGeometry(id);
+        saveGeometry(id, {
+          x: prev?.x ?? box.offsetLeft,
+          y: prev?.y ?? box.offsetTop,
+          w: box.offsetWidth,
+          h: box.offsetHeight,
+        });
+      }
       isResizingRef.current = false;
     };
 

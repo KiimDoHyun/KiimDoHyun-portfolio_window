@@ -1,6 +1,11 @@
 import { useEffect, useState, useCallback } from "react";
 import type { ProgramId } from "@shared/types/program";
 import type { WindowStatus } from "../WindowShell.types";
+import { TASKBAR_HEIGHT, type Geometry } from "../lib/geometry";
+import { clearGeometry, loadGeometry, saveGeometry } from "../lib/persist";
+
+const DEFAULT_W = 500;
+const DEFAULT_H = 500;
 
 interface UseWindowLifecycleParams {
     boxRef: React.RefObject<HTMLDivElement | null>;
@@ -40,14 +45,15 @@ export function useWindowLifecycle({
             box.style.top = "0px";
             return;
         }
-        const left = localStorage.getItem(`${id}Left`);
-        const top = localStorage.getItem(`${id}Top`);
-        if (left && top) {
-            box.style.left = `${left}px`;
-            box.style.top = `${top}px`;
+        const geom = loadGeometry(id);
+        if (geom) {
+            box.style.left = `${geom.x}px`;
+            box.style.top = `${geom.y}px`;
         } else {
-            box.style.left = "calc(50vw - 250px)";
-            box.style.top = "calc(50vh - 250px)";
+            const cx = Math.max(0, Math.floor(window.innerWidth / 2 - DEFAULT_W / 2));
+            const cy = Math.max(0, Math.floor(window.innerHeight / 2 - DEFAULT_H / 2));
+            box.style.left = `${cx}px`;
+            box.style.top = `${cy}px`;
         }
     }, [status, isMaxSize, boxRef, id]);
 
@@ -58,14 +64,13 @@ export function useWindowLifecycle({
         if (status === "active") {
             box.style.transition = "0.25s";
             box.style.opacity = "1";
-            const height = localStorage.getItem(`${id}height`);
-            const width = localStorage.getItem(`${id}width`);
-            if (height && width) {
-                box.style.height = height;
-                box.style.width = width;
+            const geom = loadGeometry(id);
+            if (geom) {
+                box.style.width = `${geom.w}px`;
+                box.style.height = `${geom.h}px`;
             } else {
-                box.style.width = "500px";
-                box.style.height = "500px";
+                box.style.width = `${DEFAULT_W}px`;
+                box.style.height = `${DEFAULT_H}px`;
             }
             box.style.scale = "1";
         } else if (status === "min") {
@@ -74,18 +79,15 @@ export function useWindowLifecycle({
             box.style.left = "80px";
             box.style.top = "60vh";
             box.style.scale = "0.6";
-            box.style.width = "500px";
-            box.style.height = "500px";
+            box.style.width = `${DEFAULT_W}px`;
+            box.style.height = `${DEFAULT_H}px`;
         }
     }, [status, id, boxRef]);
 
     // 언마운트 시 localStorage 정리
     useEffect(() => {
         return () => {
-            localStorage.removeItem(`${id}Left`);
-            localStorage.removeItem(`${id}Top`);
-            localStorage.removeItem(`${id}width`);
-            localStorage.removeItem(`${id}height`);
+            clearGeometry(id);
         };
     }, [id]);
 
@@ -93,28 +95,33 @@ export function useWindowLifecycle({
         if (!boxRef.current) return;
         setIsMaxSize(true);
         const box = boxRef.current;
+        const w = window.innerWidth;
+        const h = window.innerHeight - TASKBAR_HEIGHT;
         box.style.transition = "0.25s";
-        box.style.left = "0";
-        box.style.top = "0";
-        localStorage.setItem(`${id}width`, "100vw");
-        localStorage.setItem(`${id}height`, "calc(100vh - 50px)");
-        box.style.width = "100vw";
-        box.style.height = "calc(100vh - 50px)";
+        box.style.left = "0px";
+        box.style.top = "0px";
+        box.style.width = `${w}px`;
+        box.style.height = `${h}px`;
+        saveGeometry(id, { x: 0, y: 0, w, h });
     }, [boxRef, id]);
 
     const onClickNormalSize = useCallback(() => {
         if (!boxRef.current) return;
         setIsMaxSize(false);
         const box = boxRef.current;
-        const left = localStorage.getItem(`${id}Left`);
-        const top = localStorage.getItem(`${id}Top`);
+        const prev = loadGeometry(id);
+        const next: Geometry = {
+            x: prev?.x ?? Math.max(0, Math.floor(window.innerWidth / 2 - DEFAULT_W / 2)),
+            y: prev?.y ?? Math.max(0, Math.floor(window.innerHeight / 2 - DEFAULT_H / 2)),
+            w: DEFAULT_W,
+            h: DEFAULT_H,
+        };
         box.style.transition = "0.25s";
-        box.style.left = `${left}px`;
-        box.style.top = `${top}px`;
-        localStorage.setItem(`${id}width`, "500px");
-        localStorage.setItem(`${id}height`, "500px");
-        box.style.width = "500px";
-        box.style.height = "500px";
+        box.style.left = `${next.x}px`;
+        box.style.top = `${next.y}px`;
+        box.style.width = `${next.w}px`;
+        box.style.height = `${next.h}px`;
+        saveGeometry(id, next);
     }, [boxRef, id]);
 
     const triggerClose = useCallback(
