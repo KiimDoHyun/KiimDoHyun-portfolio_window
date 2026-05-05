@@ -50,12 +50,22 @@ export function useWindowDrag({ boxRef, id }: UseWindowDragParams) {
         const handleMouseMove = (e: MouseEvent) => {
             if (!isMovableRef.current || !prevMouseRef.current) return;
 
+            // 마우스가 viewport 밖에 있으면 박스 변경 / prevMouseRef 갱신 모두 skip.
+            // 다시 안으로 들어오면 그 시점 기준으로 자연스럽게 따라간다.
+            const isInside =
+                e.clientX >= 0 &&
+                e.clientX <= window.innerWidth &&
+                e.clientY >= 0 &&
+                e.clientY <= window.innerHeight;
+            if (!isInside) return;
+
             const dx = e.clientX - prevMouseRef.current.X;
             const dy = e.clientY - prevMouseRef.current.Y;
             prevMouseRef.current = { X: e.clientX, Y: e.clientY };
 
             const next = clampDragPosition(
                 { x: posRef.current.x + dx, y: posRef.current.y + dy },
+                sizeRef.current,
                 getAvailableArea()
             );
             posRef.current = next;

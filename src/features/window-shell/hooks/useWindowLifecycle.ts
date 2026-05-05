@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, useCallback } from "react";
 import type { ProgramId } from "@shared/types/program";
 import type { WindowStatus } from "../WindowShell.types";
 import { TASKBAR_HEIGHT, type Geometry } from "../lib/geometry";
@@ -28,6 +28,7 @@ export function useWindowLifecycle({
 }: UseWindowLifecycleParams) {
     const [isMaxSize, setIsMaxSize] = useState(false);
     const [isClose, setIsClose] = useState(false);
+    const isFirstActiveRef = useRef(true);
 
     // 활성창이 되면 z-index 를 최상단으로
     useEffect(() => {
@@ -37,33 +38,44 @@ export function useWindowLifecycle({
         }
     }, [isActive, boxRef, onRequestZIndex]);
 
-    // 위치/크기/opacity/scale — status 전이
-    useEffect(() => {
+    // 위치/크기/opacity/scale — status 전이.
+    // useLayoutEffect 로 paint 전에 inline style 을 적용해 첫 마운트 시 (0,0) 이 보이지 않도록 한다.
+    useLayoutEffect(() => {
         if (!boxRef.current) return;
         const box = boxRef.current;
         if (status === "active") {
-            box.style.transition = "0.25s";
+            const isFirst = isFirstActiveRef.current;
+            isFirstActiveRef.current = false;
+
+            // 첫 마운트는 transition 을 끄고 즉시 위치/크기 적용 (슬라이드 방지)
+            box.style.transition = isFirst ? "0s" : "0.25s";
             box.style.opacity = "1";
             box.style.scale = "1";
 
             if (isMaxSize) {
                 box.style.transform = "translate3d(0, 0, 0)";
-                return;
+            } else {
+                const stored = loadGeometry(id);
+                if (stored) {
+                    box.style.transform = `translate3d(${stored.x}px, ${stored.y}px, 0)`;
+                    box.style.width = `${stored.w}px`;
+                    box.style.height = `${stored.h}px`;
+                } else {
+                    const cx = Math.max(0, Math.floor(window.innerWidth / 2 - DEFAULT_W / 2));
+                    const cy = Math.max(0, Math.floor(window.innerHeight / 2 - DEFAULT_H / 2));
+                    box.style.transform = `translate3d(${cx}px, ${cy}px, 0)`;
+                    box.style.width = `${DEFAULT_W}px`;
+                    box.style.height = `${DEFAULT_H}px`;
+                    // drag/resize 가 mousedown 에서 stored 를 안전하게 읽도록 default 도 영속화
+                    saveGeometry(id, { x: cx, y: cy, w: DEFAULT_W, h: DEFAULT_H });
+                }
             }
 
-            const stored = loadGeometry(id);
-            if (stored) {
-                box.style.transform = `translate3d(${stored.x}px, ${stored.y}px, 0)`;
-                box.style.width = `${stored.w}px`;
-                box.style.height = `${stored.h}px`;
-            } else {
-                const cx = Math.max(0, Math.floor(window.innerWidth / 2 - DEFAULT_W / 2));
-                const cy = Math.max(0, Math.floor(window.innerHeight / 2 - DEFAULT_H / 2));
-                box.style.transform = `translate3d(${cx}px, ${cy}px, 0)`;
-                box.style.width = `${DEFAULT_W}px`;
-                box.style.height = `${DEFAULT_H}px`;
-                // drag/resize 가 mousedown 에서 stored 를 안전하게 읽도록 default 도 영속화
-                saveGeometry(id, { x: cx, y: cy, w: DEFAULT_W, h: DEFAULT_H });
+            // 첫 마운트라면 다음 프레임에 transition 복원 — 이후 max/normal 토글의 부드러움 유지
+            if (isFirst) {
+                requestAnimationFrame(() => {
+                    if (boxRef.current) boxRef.current.style.transition = "0.25s";
+                });
             }
         } else if (status === "min") {
             box.style.transition = "0.25s";
@@ -124,6 +136,8 @@ export function useWindowLifecycle({
             setIsClose(true);
             boxRef.current.style.transition = "0.25s";
             boxRef.current.style.opacity = "0";
+            // inline scale 이 isClose className 의 scale 0.9 를 덮어쓰지 않도록 함께 적용
+            boxRef.current.style.scale = "0.9";
             setTimeout(onFinish, 300);
         },
         [boxRef]

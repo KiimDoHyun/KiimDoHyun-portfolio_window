@@ -11,24 +11,28 @@ import {
 } from "../geometry";
 
 const area: Area = { left: 0, top: 0, right: 1000, bottom: 600 };
+const size = { w: 500, h: 400 };
 
 describe("clampDragPosition", () => {
     it("top 은 0 이상으로 강제된다", () => {
-        expect(clampDragPosition({ x: 50, y: -30 }, area).y).toBe(0);
+        expect(clampDragPosition({ x: 50, y: -30 }, size, area).y).toBe(0);
     });
 
     it("top 은 area.bottom - headerHeight 이하로 강제된다", () => {
-        const result = clampDragPosition({ x: 50, y: 1000 }, area);
+        const result = clampDragPosition({ x: 50, y: 1000 }, size, area);
         expect(result.y).toBe(area.bottom - HEADER_HEIGHT);
     });
 
-    it("left 는 자연 보호 — 클램핑하지 않는다", () => {
-        expect(clampDragPosition({ x: -500, y: 100 }, area).x).toBe(-500);
-        expect(clampDragPosition({ x: 9999, y: 100 }, area).x).toBe(9999);
+    it("left 는 area.left 이상으로 강제된다", () => {
+        expect(clampDragPosition({ x: -500, y: 100 }, size, area).x).toBe(area.left);
+    });
+
+    it("right (x + w) 는 area.right 이하로 강제된다 — x 는 area.right - w", () => {
+        expect(clampDragPosition({ x: 9999, y: 100 }, size, area).x).toBe(area.right - size.w);
     });
 
     it("정상 범위 안의 값은 그대로 반환한다", () => {
-        expect(clampDragPosition({ x: 100, y: 100 }, area)).toEqual({ x: 100, y: 100 });
+        expect(clampDragPosition({ x: 100, y: 100 }, size, area)).toEqual({ x: 100, y: 100 });
     });
 });
 

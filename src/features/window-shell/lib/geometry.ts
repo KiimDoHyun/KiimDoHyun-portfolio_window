@@ -44,6 +44,7 @@ interface ClampDragOptions {
 
 export function clampDragPosition(
     pos: { x: number; y: number },
+    size: { w: number; h: number },
     area: Area,
     options: ClampDragOptions = {}
 ): { x: number; y: number } {
@@ -51,7 +52,12 @@ export function clampDragPosition(
     const minTop = area.top;
     const maxTop = area.bottom - headerHeight;
     const y = Math.min(Math.max(pos.y, minTop), maxTop);
-    return { x: pos.x, y };
+
+    const minLeft = area.left;
+    const maxLeft = area.right - size.w;
+    const x = Math.min(Math.max(pos.x, minLeft), maxLeft);
+
+    return { x, y };
 }
 
 interface ResizeOptions {
