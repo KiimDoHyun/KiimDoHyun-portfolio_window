@@ -8,7 +8,7 @@ import { resolveAsset } from "@shared/lib/assetManifest";
 interface FolderGridProps {
     items: Array<ProgramNode>;
     displayType: string;
-    selectedId: ProgramId | null;
+    selectedIds: ProgramId[];
     hasChildren: (id: ProgramId) => boolean;
     onClickItem: (id: ProgramId) => void;
     onDoubleClickItem: (item: ProgramNode) => void;
@@ -17,7 +17,7 @@ interface FolderGridProps {
 const FolderGrid = ({
     items,
     displayType,
-    selectedId,
+    selectedIds,
     hasChildren,
     onClickItem,
     onDoubleClickItem,
@@ -39,7 +39,7 @@ const FolderGrid = ({
                         {items.map((item) => (
                             <div
                                 className={
-                                    selectedId === item.id
+                                    selectedIds.includes(item.id)
                                         ? "folder folder_selected"
                                         : "folder"
                                 }
