@@ -3,6 +3,7 @@ import { useFolderNavigation } from "./hooks/useFolderNavigation";
 import { DISPLAY_LIST, DEFAULT_DISPLAY_TYPE } from "./FolderProgram.types";
 import FolderHeader from "./ui/FolderHeader";
 import FolderGrid from "./ui/FolderGrid";
+import FolderStatusBar from "./ui/FolderStatusBar";
 import type { FileSystemState, ProgramId } from "@shared/types/program";
 
 interface FolderProgramProps {
@@ -46,6 +47,10 @@ const FolderProgram = ({
                 hasChildren={hasChildren}
                 onClickItem={onClickItem}
                 onDoubleClickItem={onDoubleClickItem}
+            />
+            <FolderStatusBar
+                totalCount={folderContents.length}
+                selectedCount={selectedIds.length}
             />
         </>
     );
