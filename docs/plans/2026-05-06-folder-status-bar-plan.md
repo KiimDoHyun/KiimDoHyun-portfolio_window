@@ -36,9 +36,9 @@
 - `pnpm typecheck`, `pnpm test` 모두 통과.
 
 **작업 내용 (커밋 1:1):**
-- [ ] Task A1: `useFolderNavigation` 의 `selectedId` 를 `selectedIds: ProgramId[]` 배열로 변경
-- [ ] Task A2: `FolderGrid` 가 `selectedIds` prop 을 받도록 수정 (includes 비교)
-- [ ] Task A3: `FolderProgram` 의 분해/전달을 `selectedIds` 로 갱신
+- [x] Task A1: `useFolderNavigation` 의 `selectedId` 를 `selectedIds: ProgramId[]` 배열로 변경
+- [x] Task A2: `FolderGrid` 가 `selectedIds` prop 을 받도록 수정 (includes 비교)
+- [x] Task A3: `FolderProgram` 의 분해/전달을 `selectedIds` 로 갱신
 
 ---
 
@@ -171,7 +171,9 @@ git commit -m "refactor(folder-program): FolderProgram 이 selectedIds 배열을
 
 #### Phase A 회고
 
-(Phase 완료 시 작성)
+- **잘된 점**: 훅 → Grid → Program 순서로 위에서 아래로 타입 에러를 따라가며 자연스럽게 진행됨. 각 task 후 `tsc --noEmit` 으로 의도한 위치에서만 에러가 나는지 확인할 수 있어 회귀 위험이 낮았다.
+- **개선할 점**: 계획서가 `FolderGrid.test.tsx` 의 존재를 누락했다 — FolderGrid 의 prop 시그니처를 바꾸면 그 단위 테스트도 함께 갱신되어야 한다. Task A3 에서 prop 이름 동기화 차원에서 같이 처리. 다음 plan 부터는 변경 대상 컴포넌트의 단위 테스트도 변경 대상에 포함하는지 확인하는 단계가 있으면 좋겠다.
+- **검증**: `pnpm exec tsc --noEmit` 통과, `pnpm test src/features/program-folder` 15 케이스 모두 통과 (FolderProgram 7 + FolderGrid 8). `pnpm typecheck` 스크립트는 package.json 에 없으므로 `tsc --noEmit` 으로 대체.
 
 ---
 
@@ -185,8 +187,8 @@ git commit -m "refactor(folder-program): FolderProgram 이 selectedIds 배열을
 - 컴포넌트는 외부 상태/훅 접근 없이 렌더한다.
 
 **작업 내용 (커밋 1:1):**
-- [ ] Task B1: `FolderStatusBar.test.tsx` 단위 테스트 작성 (실패 상태로 시작)
-- [ ] Task B2: `FolderStatusBar.tsx` 최소 구현으로 테스트 통과
+- [x] Task B1: `FolderStatusBar.test.tsx` 단위 테스트 작성 (실패 상태로 시작)
+- [x] Task B2: `FolderStatusBar.tsx` 최소 구현으로 테스트 통과
 
 ---
 
@@ -291,7 +293,9 @@ git commit -m "feat(folder-program): FolderStatusBar 컴포넌트 추가 (GREEN)
 
 #### Phase B 회고
 
-(Phase 완료 시 작성)
+- **잘된 점**: TDD 사이클 (RED 1회 실행 확인 → GREEN 1회 실행 통과) 이 군더더기 없이 흘렀다. 컴포넌트가 props 만 받는 순수 표시이므로 테스트 4 케이스가 곧 사양 정의 역할을 했다.
+- **개선할 점**: `container.querySelectorAll("span").length` 같은 구조 검증은 향후 separator span 추가 등으로 깨지기 쉽다. 다만 본 컴포넌트의 책임상 이 시점에 의도적으로 확인하는 게 맞다고 판단.
+- **검증**: `pnpm test src/features/program-folder/__tests__/FolderStatusBar.test.tsx` 4 케이스 모두 PASS.
 
 ---
 
@@ -306,8 +310,8 @@ git commit -m "feat(folder-program): FolderStatusBar 컴포넌트 추가 (GREEN)
 - `pnpm typecheck`, `pnpm test` 통과.
 
 **작업 내용 (커밋 1:1):**
-- [ ] Task C1: `FolderProgram` 에 `<FolderStatusBar>` 렌더 추가
-- [ ] Task C2: `DOCProgram` 에 빈 `<div className="bottomArea" />` 추가
+- [x] Task C1: `FolderProgram` 에 `<FolderStatusBar>` 렌더 추가
+- [x] Task C2: `DOCProgram` 에 빈 `<div className="bottomArea" />` 추가
 
 ---
 
@@ -379,7 +383,9 @@ git commit -m "feat(doc-program): DOCProgram 에 빈 bottomArea 슬롯 추가하
 
 #### Phase C 회고
 
-(Phase 완료 시 작성)
+- **잘된 점**: C1/C2 모두 추가만 한 변경 (한 줄~다섯 줄). 회귀 위험이 가장 낮은 형태로, 자동 테스트가 회귀 없음을 즉시 증명. Phase A 의 `selectedIds.length` 가 카운트 prop 으로 자연스럽게 흘러들어가 Phase A 의 의도가 검증됨.
+- **개선할 점**: 폴더 진입 시 선택 자동 해제 → status bar 두 번째 span 사라짐 같은 시각적 동작 검증은 jsdom 단위 테스트만으로는 한계. Phase D 의 dev 서버 검증에서 함께 확인할 항목으로 미룸.
+- **검증**: `pnpm exec tsc --noEmit` 통과, `pnpm test src/features/program-folder` 19/19 PASS, `pnpm test src/features/program-doc` 4/4 PASS.
 
 ---
 
@@ -394,7 +400,7 @@ git commit -m "feat(doc-program): DOCProgram 에 빈 bottomArea 슬롯 추가하
 - `pnpm test`, `pnpm build` 통과.
 
 **작업 내용 (커밋 1:1):**
-- [ ] Task D1: `.bottomArea` 배경색을 `surface.light` 로 지정 + separator 스타일 추가
+- [x] Task D1: `.bottomArea` 배경색을 `surface.light` 로 지정 + separator 스타일 추가
 
 ---
 
@@ -448,7 +454,9 @@ git commit -m "style(window-shell): bottomArea 배경을 surface.light 로 지�
 
 #### Phase D 회고
 
-(Phase 완료 시 작성)
+- **잘된 점**: 사전 확인 (ImageProgram bottomArea / `surface.light` / `surface.textSubtle` 토큰 / 211-219 라인 내용) 을 회고 피드백 루프대로 먼저 수행해 plan 의 가정과 실제가 일치함을 확인하고 진행. panda 빌드 산출물에서 새 CSS 두 줄 (`background-color: var(--colors-surface-light)`, `content: "|"; color: var(--colors-surface-text-subtle)`) 을 직접 grep 으로 검증해 토큰 적용을 자동 확인.
+- **개선할 점**: 시각 효과 자체가 본질인 phase 라 brower 수동 검증이 진짜 완료 기준이지만, 본 세션에서는 dev 서버를 띄우지 않고 panda 출력 검증으로 대체. 사용자 검증이 필요한 항목으로 분리 보고함.
+- **검증**: `pnpm build` (2.36s, 모듈 579 변환), `pnpm test` 21 파일 / 136 케이스 모두 PASS, panda 산출물 CSS 에 `background-color: var(--colors-surface-light)` 및 `content: "|"; color: var(--colors-surface-text-subtle)` 출력 확인.
 
 ---
 
@@ -464,16 +472,23 @@ git commit -m "style(window-shell): bottomArea 배경을 surface.light 로 지�
 - [ ] 단일 선택 시각 동작 (`folder_selected` 클래스) 회귀 없음.
 
 ### 기술 부채 비-증가
-- [ ] eslint / typecheck / vitest 모두 통과.
-- [ ] 기존 `FolderProgram.test.tsx` 의 모든 케이스 변경 없이 통과.
-- [ ] `selectedIds` 인터페이스 변경이 `program-folder` 외부에 새 의존을 만들지 않음.
+- [x] eslint / typecheck / vitest 모두 통과. (`pnpm exec tsc --noEmit` 통과, `pnpm test` 21 파일 / 136 케이스 PASS, `pnpm build` 성공.)
+- [x] 기존 `FolderProgram.test.tsx` 의 모든 케이스 변경 없이 통과. (Phase A~D 동안 해당 파일은 한 줄도 수정되지 않았으며 모든 케이스 PASS 유지.)
+- [x] `selectedIds` 인터페이스 변경이 `program-folder` 외부에 새 의존을 만들지 않음. (변경된 파일은 `useFolderNavigation`, `FolderGrid`, `FolderProgram`, `FolderStatusBar`, `DOCProgram`, `ProgramComponent.style` 로 한정. `selectedIds` 는 `program-folder` feature 내부에서만 흐른다.)
 
 ---
 
 ## 프로젝트 회고
 
-(모든 Phase 완료 후 작성)
-
-- **잘된 점**: (다음에도 유지할 패턴)
-- **개선할 점**: (다음에 보완할 사항)
-- **향후 과제**: (이 작업에서 파생된 후속 작업, 예: `selectedIds` 다중 선택 UX 도입)
+- **잘된 점**:
+  - **Phase 분리가 의존 그래프를 그대로 따랐다**. A (배열 통일) → B (TDD 컴포넌트) → C (통합) → D (CSS) 순서가 각 phase 의 산출물이 다음 phase 의 입력이 되는 구조였고, 회귀 위험을 phase 단위로 격리했다.
+  - **TDD 가 자기 사양 역할**. Phase B 의 4 케이스 (선택 없음 / 단일 선택 / 빈 폴더 / 다중 선택) 가 컴포넌트의 사양 자체로, GREEN 단계 구현을 군더더기 없이 만들었다.
+  - **panda 토큰 적용을 빌드 산출물에서 검증**. CSS 가 실제 출력에 들어갔는지 grep 으로 직접 확인해 "panda 가 인식했다" 가 추측이 아닌 사실로 확정.
+  - **회고 피드백 루프 시범 적용 효과**. Task 회고의 "다음 task 에 적용할 것" 을 의식적으로 다음 task 시작에서 반영 (예: Phase D 사전 확인 3종) 해 가정과 실제 사이의 갭을 사전에 발견.
+- **개선할 점**:
+  - **시각 효과 자체가 본질인 phase 의 수동 검증 미수행**. Phase D 는 dev 서버를 띄워 실제 색감/separator 가 의도대로 보이는지 확인하는 게 진짜 완료 기준이지만, 본 세션에서는 panda 출력 검증으로 대체. 사용자에게 시각 검증을 위임함.
+  - **plan 체크리스트 갱신 vs 커밋 단위 분리 정책 부재**. plan 문서를 매 task 마다 갱신했는데, 이걸 별도 커밋으로 묶을지 / 마지막에 한 번에 묶을지 / unstaged 로 둘지 일관된 규칙이 없었다. 다음 plan 부터는 시작 시점에 정해두면 좋다.
+- **향후 과제**:
+  - **다중 선택 UX**: `selectedIds: ProgramId[]` 가 길이 0/1 외에 N 도 자연스럽게 표현하도록 만들어졌다. Ctrl/Shift-클릭 다중 선택 도입 시 status bar 인터페이스는 변경 없이 자연 확장 가능.
+  - **separator span 기반 구조 검증의 깨짐 가능성**: `FolderStatusBar.test.tsx` 의 `container.querySelectorAll("span").length` 가 향후 status bar 가 개수 외의 정보 (선택 항목 종류, 경로 등) 를 추가할 때 깨질 수 있다. 그 시점에 의미 기반 검증 (`getByText` 만) 으로 단순화 권장.
+  - **`bottomArea` 의 의미적 역할**: 현재 회색 띠는 모든 프로그램 창에 일관되지만, 빈 슬롯이 의미적으로 무엇인지 (status / 푸터 / 액션 영역) 가 정의되지 않았다. 후속 프로그램 (예: 설정 창) 이 등장하면 슬롯의 의미를 명문화할 가치가 있다.
