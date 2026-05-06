@@ -138,3 +138,62 @@ describe("WindowShell drag clamping", () => {
         expect(stored).toBeLessThanOrEqual(window.innerHeight - TASKBAR_HEIGHT - HEADER_HEIGHT);
     });
 });
+
+describe("WindowResizeHandles", () => {
+    beforeEach(() => {
+        localStorage.clear();
+    });
+
+    it("8개 방향 핸들이 모두 렌더된다", () => {
+        render(<WindowShell {...buildProps()} />);
+        const directions = [
+            "top",
+            "right",
+            "bottom",
+            "left",
+            "top-left",
+            "top-right",
+            "bottom-left",
+            "bottom-right",
+        ];
+        for (const d of directions) {
+            expect(
+                document.querySelector(`.modiSize.${d.replace("-", "_")}`)
+            ).toBeTruthy();
+        }
+    });
+});
+
+describe("WindowShell resize clamping", () => {
+    beforeEach(() => {
+        localStorage.clear();
+        // 초기 geometry: 100,100 / 500x500. jsdom 기본 innerWidth=1024, innerHeight=768.
+        localStorage.setItem("node-1x", "100");
+        localStorage.setItem("node-1y", "100");
+        localStorage.setItem("node-1w", "500");
+        localStorage.setItem("node-1h", "500");
+    });
+
+    it("right 핸들로 끝까지 키워도 x + w 가 innerWidth 를 넘지 않는다", () => {
+        render(<WindowShell {...buildProps()} />);
+        const handle = document.querySelector(".modiSize.right") as HTMLElement;
+        fireEvent.mouseDown(handle, { clientX: 600, clientY: 200 });
+        fireEvent.mouseMove(document, { clientX: 99999, clientY: 200 });
+        fireEvent.mouseUp(document);
+
+        const x = Number(localStorage.getItem("node-1x"));
+        const w = Number(localStorage.getItem("node-1w"));
+        expect(x + w).toBeLessThanOrEqual(window.innerWidth);
+    });
+
+    it("left 핸들로 음수 방향까지 키워도 x 가 0 이상", () => {
+        render(<WindowShell {...buildProps()} />);
+        const handle = document.querySelector(".modiSize.left") as HTMLElement;
+        fireEvent.mouseDown(handle, { clientX: 100, clientY: 200 });
+        fireEvent.mouseMove(document, { clientX: -99999, clientY: 200 });
+        fireEvent.mouseUp(document);
+
+        const x = Number(localStorage.getItem("node-1x"));
+        expect(x).toBeGreaterThanOrEqual(0);
+    });
+});
