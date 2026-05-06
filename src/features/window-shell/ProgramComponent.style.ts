@@ -216,6 +216,13 @@ const programComponentRecipe = cva({
       fontSize: "12px",
       py: "0",
       px: "8",
+      backgroundColor: "surface.light",
+    },
+
+    "& .bottomArea > span + span::before": {
+      content: '"|"',
+      px: "8",
+      color: "surface.textSubtle",
     },
   },
   variants: {
