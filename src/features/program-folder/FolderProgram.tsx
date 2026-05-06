@@ -19,7 +19,7 @@ const FolderProgram = ({
     const [displayType, setDisplayType] = useState(DEFAULT_DISPLAY_TYPE);
 
     const {
-        selectedId,
+        selectedIds,
         folderContents,
         route,
         nodeType,
@@ -42,7 +42,7 @@ const FolderProgram = ({
             <FolderGrid
                 items={folderContents}
                 displayType={displayType}
-                selectedId={selectedId}
+                selectedIds={selectedIds}
                 hasChildren={hasChildren}
                 onClickItem={onClickItem}
                 onDoubleClickItem={onDoubleClickItem}

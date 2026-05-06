@@ -36,7 +36,7 @@ describe("FolderGrid", () => {
     const defaultProps = {
         items,
         displayType: "MIDDLE_ICON",
-        selectedId: null as ProgramId | null,
+        selectedIds: [] as ProgramId[],
         hasChildren,
         onClickItem: vi.fn(),
         onDoubleClickItem: vi.fn(),
@@ -88,8 +88,8 @@ describe("FolderGrid", () => {
         expect(onDoubleClickItem).toHaveBeenCalledWith(folderWithChildren);
     });
 
-    it("selectedId와 일치하는 아이템에 folder_selected 클래스가 적용된다", () => {
-        render(<FolderGrid {...defaultProps} selectedId="f1" />);
+    it("selectedIds에 포함된 아이템에 folder_selected 클래스가 적용된다", () => {
+        render(<FolderGrid {...defaultProps} selectedIds={["f1"]} />);
         const el = screen.getByText("프로젝트").closest(".folder")!;
         expect(el).toHaveClass("folder_selected");
     });
