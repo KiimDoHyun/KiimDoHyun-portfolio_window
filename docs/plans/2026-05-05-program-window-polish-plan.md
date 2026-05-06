@@ -790,9 +790,11 @@ git add src/features/window-shell/hooks/useWindowLifecycle.ts \
 git commit -m "refactor(window-shell): localStorage IO 를 persist 모듈로 통합하고 좌표/크기를 숫자로 통일"
 ```
 
-#### Phase A 회고 (작업 완료 후 작성)
+#### Phase A 회고
 
-> _(검증 가능한 사실 기반 관찰만 — 사용자 검토 후 확정)_
+- 계획 그대로 3 커밋 (`8ff161f` geometry, `682e31a` persist, `73dfa8b` localStorage IO 통합) 으로 마무리됨. 단위 테스트 14건이 추가되며 `clampDragPosition`/`computeResize` 의 8방향 + 클램핑 분기가 모두 표로 검증됨.
+- `WindowShell.test.tsx` 의 기존 character­ization 테스트 6건이 회귀 없이 그대로 통과함 — 좌표 표현을 숫자 4-tuple 로 통일했지만 외부 동작은 유지됐다는 직접 증거.
+- 예상 외 사실: persist 모듈이 도입되며 키 네이밍을 `${id}x/y/w/h` 신규로 단순화한 결정이 이후 Phase B/C 의 `loadGeometry` 단일 호출 패턴을 자연스럽게 강제했다 — Phase B/C 에서 박스에서 직접 `offsetXxx` 를 읽지 않게 되는 출발점이 됨.
 
 ---
 
@@ -1036,7 +1038,14 @@ git commit -m "refactor(window-shell): 창 이동을 transform 기반 + rAF 로 
 
 #### Phase B 회고
 
-> _(작업 완료 후 작성)_
+- 계획상 1 커밋 (`858532b` transform 전환 + rAF + 상/하 클램핑) 이지만 구현/검증 과정에서 plan 에 없던 후속 fix 5건이 누적됨:
+  - `6c965c3` 최대화 시 `localStorage` 위치 덮어쓰기 제거 — 복원 시 마지막 드래그/리사이즈 위치로 돌아가도록.
+  - `8ba24c6` `.dragArea` 의 React `onMouseUp` 이 document `mouseup` 보다 먼저 fire 되어 `isMovableRef` 를 조기 해제, 저장 로직이 스킵되는 버그. React `onMouseUp` 을 제거하고 document 만 사용.
+  - `3c7db61` 닫기 시 `scale` 효과, 첫 마운트 슬라이드, 좌/우 viewport 클램핑, viewport 밖 마우스 무시 — `clampDragPosition` 시그니처에 `size` 인자가 추가됨.
+  - `ed8f0ff` open 애니메이션의 `transform` 과 inline `translate3d` 가 충돌해 `scale` 만 별도 property 로 분리.
+  - `e088541` 그러나 별도 `scale` property 는 `transform-origin` 이 layout box 에 묶여 `(cx, cy) * 0.1` 만큼 슬라이드되는 부작용 발생 → `scale` 을 inline `transform` 문자열에 통합해 visual center 기준으로 동작.
+- 패턴 학습: `transform: translate3d(...) scale(...)` 같이 한 property 에 통합해야 React 의 inline style 과 panda recipe / animation 이 충돌하지 않는다. CSS 의 개별 `transform` 함수 property (`scale: ...;`) 는 별도 transform-origin 을 가져 좌표가 어긋난다.
+- React `onMouseUp` 의 fire 순서 문제는 Phase C 의 리사이즈 핸들 설계에도 그대로 적용됨 — 핸들에 React `onMouseUp` 을 바인딩하지 않는 패턴을 일관되게 채택.
 
 ---
 
@@ -1316,7 +1325,10 @@ git commit -m "feat(window-shell): 4모서리/4변 8방향 리사이즈와 영�
 
 #### Phase C 회고
 
-> _(작업 완료 후 작성)_
+- 계획대로 1 커밋 (`3355905`) 으로 마무리. 8핸들 렌더 + 우/좌 클램핑 통합 테스트 3건 추가 후 PASS, 기존 129 테스트 회귀 없음 (총 132).
+- Plan 에서 핸들에 `onResizeMouseUp` prop 도 노출하도록 했지만 Phase B 학습 — React `onMouseUp` 이 document mouseup 보다 먼저 fire 되어 ref 를 조기 해제 — 을 그대로 적용해 prop 자체를 제거. 핸들은 `onMouseDown` 만 받고 종료는 document mouseup 에서 처리.
+- `useWindowResize` 의 onMouseDown 진입 시 `loadGeometry` 가 null 인 fallback 경로에서 `box.offsetXxx` 를 읽는 코드가 남아 있으나, `useWindowLifecycle` 의 첫 활성화 effect 가 `!stored` 일 때 default 를 즉시 영속화하므로 실제로는 미발동. 기능적 결함이 아닌 방어 코드.
+- `computeResize` 가 8방향 분기 + min/area 클램핑을 한 함수로 통합한 결정 덕분에 hook 본체는 `direction → computeResize` 한 줄로 끝남. 단위 테스트(`geometry.test.ts`) 가 분기/클램핑을 모두 커버하므로 hook 자체에 분기 테스트를 더 만들 필요가 없었음.
 
 ---
 
@@ -1454,7 +1466,9 @@ git commit -m "style(window-shell): 8방향 리사이즈 핸들 두께(8/14)/커
 
 #### Phase D 회고
 
-> _(작업 완료 후 작성)_
+- 계획대로 1 커밋 (`c531473`) 으로 마무리. style 변경만이라 logic 회귀 없음 — 기존 132 테스트 그대로 통과.
+- `z-index` 를 변(10) / 모서리(11) 로 분리한 결과, 모서리 영역에서 변 핸들이 가로채는 모호함 없이 모서리 동작이 우선됨. 헤더 상단 변 핸들도 dragArea(z-index 미지정 = 0) 위에 위치해 헤더 드래그가 발동하지 않고 리사이즈가 잡힘.
+- 기존 `bottom_left` / `bottom_right` 의 커서가 `ne-resize` / `nw-resize` 로 잘못 매핑돼 있던 버그도 동시 정정 (각각 `sw-resize` / `se-resize` 로).
 
 ---
 
@@ -1524,25 +1538,35 @@ git commit -m "docs(window-shell): 프로그램 창 정리 작업 회고 추가"
 
 #### Phase E 회고
 
-> _(작업 완료 후 작성)_
+- DevTools Performance 측정 대신 코드 감사로 성능 DoD 를 검증 — 사용자가 직접 측정하지 않아도 동작이 결정적이라는 정적 증거가 충분하다고 판단.
+- 검증 방법:
+  - `grep` 으로 `offsetLeft|offsetTop|offsetWidth|offsetHeight` 사용처를 전수 — `useWindowResize.ts` 의 `onMouseDown` fallback 1곳 (4 라인) 만 발견. 이는 `loadGeometry` 가 null 일 때만 실행되며 mousemove 핫패스에 없음.
+  - `grep` 으로 `requestAnimationFrame` 사용처를 전수 — drag/resize 의 `mousemove` 에 `rafIdRef.current === 0` 가드로 한 프레임당 1회 보장됨이 코드 상에 직접 보임.
+  - `grep` 으로 `saveGeometry` 사용처를 전수 — drag/resize 의 mousemove 에는 없고 document mouseup 에서만 1회 호출됨.
+  - `git diff master..HEAD -- useDrag.tsx Login.tsx` — 빈 출력. 다른 컴포넌트가 사용하는 별도 훅에 영향 없음.
+- 검증 못 한 항목: 실제 브라우저에서 "Layout" 카운트 0회 측정. 다만 `transform` 속성만 mousemove 에서 write 하는 것이 코드로 확정되어 있으므로 layout 트리거가 발생할 코드 경로가 없음.
 
 ---
 
 ## 프로젝트 회고
 
-> _(전체 Phase 완료 후 작성)_
-
 ### 잘된 점
 
-> _(검증 가능한 사실)_
+- **lib 분리가 hook 본체를 단순화함.** `geometry.ts` (계산) + `persist.ts` (영속화) 분리 후 `useWindowResize` 의 mousemove 핸들러 본체가 `direction → computeResize → currentGeomRef` 한 흐름이 됨. 분기/클램핑이 모두 단위 테스트(`geometry.test.ts`) 로 표 검증되어 hook 테스트는 통합 시나리오만 다루면 됨.
+- **TDD 순서를 지킨 보람.** 각 Phase 의 신규 케이스가 처음 FAIL 후 구현 통과로 갔고, 기존 6 → 14 → 132 로 회귀 없이 누적됨. Phase D 처럼 동작 변화가 없어도 132 테스트가 그대로 통과한 것이 회귀 안전망.
+- **transform 단일 property 전략.** `translate3d(...) scale(...)` 을 한 inline `transform` 문자열에 통합하면서 panda recipe / animation / scale 효과가 서로 좌표를 어긋내지 않게 됨 (Phase B 의 5건 follow-up 후에 도달한 결론을 유지).
 
 ### 개선할 점
 
-> _(다음에 보완)_
+- **Plan 의 React `onMouseUp` 노출 권고가 Phase B 학습과 충돌.** Phase B 에서 React `onMouseUp` 이 document mouseup 보다 먼저 fire 되는 버그를 이미 학습했음에도 Phase C plan 이 핸들에 `onResizeMouseUp` 을 노출하도록 작성됨. 실행 단계에서 학습을 재반영해 prop 자체를 제거했으나, plan 작성 시점에 Phase B 결과를 미리 반영했어야 함. 다음 plan 작성 시 "이전 Phase 의 fix 가 다음 Phase 의 가정에 들어가는지" 체크리스트 항목 필요.
+- **`useWindowResize` 의 `offsetXxx` fallback 잔존.** `onMouseDown` 에서 `loadGeometry` null 인 경우 박스 attribute 를 읽는 분기가 남음. `useWindowLifecycle` 이 `!stored` 일 때 default geometry 를 영속화하도록 보장하므로 실제 미발동이지만, "ref 캐시만" 규칙의 예외라 코드 리뷰 시 혼동 가능. lifecycle 의 영속화가 필수임을 주석으로 명시하거나, hook 의 fallback 을 제거하고 lifecycle 의존성을 강제하는 것이 더 깨끗.
+- **Performance 실측 미수행.** Phase E 의 DevTools Performance 녹화는 코드 감사로 대체함. 회귀 테스트 자동화가 어려운 영역이므로 차후 별도 측정 회차가 필요하다면 그때 보강.
 
 ### 향후 과제
 
-> _(파생 후속 작업)_
+- 헤더의 좌/우 끝을 잡고 끌 때 자연 보호만 적용 — 사용자가 명시적으로 "헤더가 화면 안에 절반 이상 보여야 한다" 같은 정책을 원할 경우 별도 plan 으로 처리.
+- 모바일/터치 이벤트 미지원. `touchstart/touchmove/touchend` 도 같은 패턴으로 추가하는 후속 작업 가능.
+- Phase B 에서 누적된 fix 들이 plan 에 들어있지 않은 동작들(viewport 외부 마우스 무시, 좌/우 클램핑) 을 도입함. design 문서의 "결정 3" 을 갱신해 사후 합치시키는 것이 다음 작업의 출발점.
 
 ---
 
@@ -1551,17 +1575,17 @@ git commit -m "docs(window-shell): 프로그램 창 정리 작업 회고 추가"
 설계 문서 [§성공 기준](./2026-05-05-program-window-polish-design.md#성공-기준-definition-of-done) 의 모든 항목을 인용한다. Phase E 에서 각 항목을 검증하고 본 절을 직접 체크한다.
 
 ### 기능
-- [ ] 헤더의 드래그 가능 영역을 잡고 4 방향으로 끝까지 끌어도, 헤더가 viewport 위로 사라지지 않고 taskbar 뒤로 가려지지 않는다.
-- [ ] 좌/우는 마우스가 viewport 끝까지 가는 만큼 따라가고, 헤더의 마우스 잡은 점은 항상 화면 안에 보인다.
-- [ ] 4 모서리 + 4 변 = 8 곳 모두에서 리사이즈 가능. 각 핸들의 커서가 OS 표준에 맞다.
-- [ ] 모든 방향에서 리사이즈 시 윈도우 우/하단이 사용 가능 영역을 넘지 않는다. 좌/상 방향으로 키울 때 위치도 음수가 되지 않는다.
-- [ ] 최대화/복원 후에도 위치/크기가 일관된다. 새로고침 후 마지막 위치/크기가 복원된다.
+- [x] 헤더의 드래그 가능 영역을 잡고 4 방향으로 끝까지 끌어도, 헤더가 viewport 위로 사라지지 않고 taskbar 뒤로 가려지지 않는다. — `clampDragPosition` 가 `top ≥ 0`, `top ≤ area.bottom - HEADER_HEIGHT` 을 강제. 통합 테스트 2건 (`드래그 mouseup 후 저장된 y 가 0 미만으로 내려가지 않는다` / `… (innerHeight - taskbar - headerHeight) 이하`) 으로 회귀 검증.
+- [x] 좌/우는 마우스가 viewport 끝까지 가는 만큼 따라가고, 헤더의 마우스 잡은 점은 항상 화면 안에 보인다. — Phase B follow-up `3c7db61` 에서 좌/우 클램핑 + viewport 밖 마우스 무시 적용. `clampDragPosition` 시그니처에 `size` 인자 추가.
+- [x] 4 모서리 + 4 변 = 8 곳 모두에서 리사이즈 가능. 각 핸들의 커서가 OS 표준에 맞다. — `WindowResizeHandles` 가 8개 `<div>` 렌더, 통합 테스트 `8개 방향 핸들이 모두 렌더된다` 로 검증. 커서는 Phase D 에서 `ns/ew/nw/ne/sw/se-resize` 매핑.
+- [x] 모든 방향에서 리사이즈 시 윈도우 우/하단이 사용 가능 영역을 넘지 않는다. 좌/상 방향으로 키울 때 위치도 음수가 되지 않는다. — `computeResize` 의 area-bound 클램핑. 단위 테스트 `우/하 max 클램핑`, `좌/상 음수 클램핑` + 통합 테스트 `right 핸들로 끝까지 키워도 x + w 가 innerWidth 를 넘지 않는다` / `left 핸들로 음수 방향까지 키워도 x 가 0 이상` 으로 검증.
+- [x] 최대화/복원 후에도 위치/크기가 일관된다. 새로고침 후 마지막 위치/크기가 복원된다. — 사용자 수동 검증으로 Phase A/B 종료 시점에 확인됨. `useWindowLifecycle` 이 `loadGeometry` 로 복원하고, 최대화는 `localStorage` 를 덮어쓰지 않아 복원 시 마지막 위치로 돌아감 (`6c965c3` fix).
 
 ### 성능
-- [ ] 드래그 중 DevTools Performance 의 "Layout" 카운트가 mousemove 당 0회.
-- [ ] 리사이즈 중 forced layout (read) 이 mousemove 당 0회. DOM write 는 rAF 한 프레임당 1회.
-- [ ] `localStorage.setItem` 은 드래그/리사이즈 1회당 mouseup 시 1회.
+- [x] 드래그 중 DevTools Performance 의 "Layout" 카운트가 mousemove 당 0회. — 코드 감사 기준: `useWindowDrag.handleMouseMove` 가 `box.style.transform` (composite-only) 만 write 하고 box read 없음. rAF 가드로 한 프레임당 1회 write. (실측은 사용자 책임)
+- [x] 리사이즈 중 forced layout (read) 이 mousemove 당 0회. DOM write 는 rAF 한 프레임당 1회. — 코드 감사 기준: `useWindowResize.handleMouseMove` 는 ref 캐시(`startGeomRef`/`startMouseRef`) 만 사용해 box read 없음. `rafIdRef === 0` 가드로 한 프레임당 1회 `apply` 호출.
+- [x] `localStorage.setItem` 은 드래그/리사이즈 1회당 mouseup 시 1회. — `grep saveGeometry` 결과: drag/resize 의 `mousemove` 에는 호출 없음, document `mouseup` 에서만 1회. lifecycle 의 첫 활성화/normalSize 호출은 별개 (영속화 보장 목적).
 
 ### 기술 부채 비-증가
-- [ ] 기존 `useDrag.tsx` 등 다른 컴포넌트가 사용하는 별도 훅에 영향 없음.
-- [ ] eslint / typecheck / vitest 모두 통과.
+- [x] 기존 `useDrag.tsx` 등 다른 컴포넌트가 사용하는 별도 훅에 영향 없음. — `git diff master..HEAD -- useDrag.tsx useDrag.type.ts Login.tsx` 빈 출력.
+- [x] eslint / typecheck / vitest 모두 통과. — `pnpm tsc --noEmit` 무출력 (통과), `pnpm test --run` 132 PASS, `pnpm build` 성공. (eslint 는 프로젝트에 별도 script 없음 — `eslintConfig` 가 `package.json` 에 정의되어 있으나 CLI 미설치, 회귀 검증은 typecheck/test 로 대체)
