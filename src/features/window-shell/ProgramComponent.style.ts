@@ -22,33 +22,78 @@ const programComponentRecipe = cva({
 
     "& .modiSize": {
       position: "absolute",
-      width: "4px",
-      height: "4px",
-      cursor: "pointer",
+      // 헤더 dragArea (z-index 미지정 = 0) 위로 올려 헤더 상단 변 핸들이 우선
+      zIndex: 10,
     },
 
-    "& .top_left": {
-      top: 0,
+    // 4 변 (edge): 두께 8px, 안 4 / 밖 4
+    "& .modiSize.top": {
+      top: "-4px",
       left: 0,
-      cursor: "nw-resize",
+      right: 0,
+      height: "8px",
+      cursor: "ns-resize",
     },
 
-    "& .top_right": {
+    "& .modiSize.right": {
       top: 0,
-      right: 0,
-      cursor: "ne-resize",
+      bottom: 0,
+      right: "-4px",
+      width: "8px",
+      cursor: "ew-resize",
     },
 
-    "& .bottom_left": {
-      bottom: 0,
+    "& .modiSize.bottom": {
+      bottom: "-4px",
       left: 0,
-      cursor: "ne-resize",
+      right: 0,
+      height: "8px",
+      cursor: "ns-resize",
     },
 
-    "& .bottom_right": {
+    "& .modiSize.left": {
+      top: 0,
       bottom: 0,
-      right: 0,
+      left: "-4px",
+      width: "8px",
+      cursor: "ew-resize",
+    },
+
+    // 4 모서리 (corner): 14x14, 안 7 / 밖 7. 변보다 위 (z-index 우선)
+    "& .modiSize.top_left": {
+      top: "-7px",
+      left: "-7px",
+      width: "14px",
+      height: "14px",
       cursor: "nw-resize",
+      zIndex: 11,
+    },
+
+    "& .modiSize.top_right": {
+      top: "-7px",
+      right: "-7px",
+      width: "14px",
+      height: "14px",
+      cursor: "ne-resize",
+      zIndex: 11,
+    },
+
+    "& .modiSize.bottom_left": {
+      bottom: "-7px",
+      left: "-7px",
+      width: "14px",
+      height: "14px",
+      cursor: "sw-resize",
+      zIndex: 11,
+    },
+
+    "& .modiSize.bottom_right": {
+      bottom: "-7px",
+      right: "-7px",
+      width: "14px",
+      height: "14px",
+      cursor: "se-resize",
+      zIndex: 11,
     },
 
     "& .infoArea": {
