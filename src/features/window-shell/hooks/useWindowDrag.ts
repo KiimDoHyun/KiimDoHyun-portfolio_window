@@ -1,60 +1,101 @@
 import { useCallback, useEffect, useRef } from "react";
+import { clampDragPosition, getAvailableArea } from "../lib/geometry";
+import { loadGeometry, saveGeometry } from "../lib/persist";
 
 interface UseWindowDragParams {
-  boxRef: React.RefObject<HTMLDivElement | null>;
-  id: string;
+    boxRef: React.RefObject<HTMLDivElement | null>;
+    id: string;
 }
 
 /**
- * 창 헤더 드래그로 위치를 이동시키는 훅.
- * 성능 이유로 DOM 을 직접 mutation 하고 localStorage 에 마지막 위치를 저장한다.
+ * 창 헤더 드래그로 위치를 transform 기반으로 이동시키는 훅.
+ * - 위치는 translate3d 로 표현 (composite-only)
+ * - mousemove 는 ref 캐시 + rAF 한 프레임당 1회 transform write
+ * - mouseup 시 1회 localStorage 저장
+ * - 상/하 클램핑: 헤더가 viewport 위로 사라지지 않고 taskbar 뒤로 가려지지 않음
  */
 export function useWindowDrag({ boxRef, id }: UseWindowDragParams) {
-  const isMovableRef = useRef(false);
-  const prevPosRef = useRef<{ X: number; Y: number } | null>(null);
+    const isMovableRef = useRef(false);
+    const prevMouseRef = useRef<{ X: number; Y: number } | null>(null);
+    const posRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
+    const sizeRef = useRef<{ w: number; h: number }>({ w: 0, h: 0 });
+    const rafIdRef = useRef<number>(0);
+    const prevTransitionRef = useRef<string>("");
 
-  const onMouseDown = useCallback((e: React.MouseEvent) => {
-    isMovableRef.current = true;
-    prevPosRef.current = { X: e.clientX, Y: e.clientY };
-  }, []);
+    const apply = useCallback(() => {
+        rafIdRef.current = 0;
+        if (!boxRef.current) return;
+        boxRef.current.style.transform = `translate3d(${posRef.current.x}px, ${posRef.current.y}px, 0)`;
+    }, [boxRef]);
 
-  const onMouseUp = useCallback(() => {
-    isMovableRef.current = false;
-  }, []);
+    const onMouseDown = useCallback(
+        (e: React.MouseEvent) => {
+            if (!boxRef.current) return;
+            isMovableRef.current = true;
+            prevMouseRef.current = { X: e.clientX, Y: e.clientY };
 
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!isMovableRef.current || !boxRef.current || !prevPosRef.current) {
-        return;
-      }
-      const box = boxRef.current;
-      const posX = prevPosRef.current.X - e.clientX;
-      const posY = prevPosRef.current.Y - e.clientY;
+            const stored = loadGeometry(id);
+            if (stored) {
+                posRef.current = { x: stored.x, y: stored.y };
+                sizeRef.current = { w: stored.w, h: stored.h };
+            }
 
-      prevPosRef.current = { X: e.clientX, Y: e.clientY };
+            prevTransitionRef.current = boxRef.current.style.transition;
+            boxRef.current.style.transition = "0s";
+        },
+        [boxRef, id]
+    );
 
-      box.style.transition = "0s";
-      const nextLeft = box.offsetLeft - posX;
-      const nextTop = box.offsetTop - posY;
+    useEffect(() => {
+        const handleMouseMove = (e: MouseEvent) => {
+            if (!isMovableRef.current || !prevMouseRef.current) return;
 
-      localStorage.setItem(`${id}Left`, String(nextLeft));
-      localStorage.setItem(`${id}Top`, String(nextTop));
+            // 마우스가 viewport 밖에 있으면 박스 변경 / prevMouseRef 갱신 모두 skip.
+            // 다시 안으로 들어오면 그 시점 기준으로 자연스럽게 따라간다.
+            const isInside =
+                e.clientX >= 0 &&
+                e.clientX <= window.innerWidth &&
+                e.clientY >= 0 &&
+                e.clientY <= window.innerHeight;
+            if (!isInside) return;
 
-      box.style.left = `${nextLeft}px`;
-      box.style.top = `${nextTop}px`;
-    };
+            const dx = e.clientX - prevMouseRef.current.X;
+            const dy = e.clientY - prevMouseRef.current.Y;
+            prevMouseRef.current = { X: e.clientX, Y: e.clientY };
 
-    const handleMouseUp = () => {
-      isMovableRef.current = false;
-    };
+            const next = clampDragPosition(
+                { x: posRef.current.x + dx, y: posRef.current.y + dy },
+                sizeRef.current,
+                getAvailableArea()
+            );
+            posRef.current = next;
 
-    document.addEventListener("mousemove", handleMouseMove);
-    document.addEventListener("mouseup", handleMouseUp);
-    return () => {
-      document.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("mouseup", handleMouseUp);
-    };
-  }, [boxRef, id]);
+            if (rafIdRef.current === 0) {
+                rafIdRef.current = requestAnimationFrame(apply);
+            }
+        };
 
-  return { onMouseDown, onMouseUp };
+        const handleMouseUp = () => {
+            if (isMovableRef.current && boxRef.current) {
+                boxRef.current.style.transition = prevTransitionRef.current;
+                saveGeometry(id, {
+                    x: posRef.current.x,
+                    y: posRef.current.y,
+                    w: sizeRef.current.w,
+                    h: sizeRef.current.h,
+                });
+            }
+            isMovableRef.current = false;
+        };
+
+        document.addEventListener("mousemove", handleMouseMove);
+        document.addEventListener("mouseup", handleMouseUp);
+        return () => {
+            document.removeEventListener("mousemove", handleMouseMove);
+            document.removeEventListener("mouseup", handleMouseUp);
+            if (rafIdRef.current !== 0) cancelAnimationFrame(rafIdRef.current);
+        };
+    }, [boxRef, id, apply]);
+
+    return { onMouseDown };
 }

@@ -13,7 +13,7 @@ export const useFolderNavigation = ({
     initialFolderId,
     onOpenProgram,
 }: UseFolderNavigationParams) => {
-    const [selectedId, setSelectedId] = useState<ProgramId | null>(null);
+    const [selectedIds, setSelectedIds] = useState<ProgramId[]>([]);
     const [currentFolderId, setCurrentFolderId] =
         useState<ProgramId>(initialFolderId);
 
@@ -23,20 +23,20 @@ export const useFolderNavigation = ({
     );
 
     const onClickItem = useCallback((id: ProgramId) => {
-        setSelectedId(id);
+        setSelectedIds([id]);
     }, []);
 
     const onClickLeft = useCallback(() => {
         if (!viewModel.parentId) return;
         setCurrentFolderId(viewModel.parentId);
-        setSelectedId(null);
+        setSelectedIds([]);
     }, [viewModel.parentId]);
 
     const onDoubleClickItem = useCallback(
         (item: ProgramNode) => {
             if (item.type === "FOLDER") {
                 setCurrentFolderId(item.id);
-                setSelectedId(null);
+                setSelectedIds([]);
             } else {
                 onOpenProgram(item.id);
             }
@@ -45,7 +45,7 @@ export const useFolderNavigation = ({
     );
 
     return {
-        selectedId,
+        selectedIds,
         folderContents: viewModel.folderContents,
         route: viewModel.route,
         nodeType: viewModel.nodeType,
