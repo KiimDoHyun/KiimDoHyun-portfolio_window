@@ -38,6 +38,7 @@ const DOCProgram = ({ contents }: DOCProgramProps) => {
                     )}
                 </div>
             </div>
+            <div className="bottomArea" />
         </>
     );
 };
