@@ -65,6 +65,7 @@
 | `worker-review-code` | worker | 코드를 리뷰 |
 | `worker-resolve-review` | worker | 리뷰(코멘트)를 해소 |
 | `worker-deploy-vercel` | worker | Vercel 에 배포 |
+| `worker-fill-portfolio-doc` | worker | `portfolio.json` 의 DOC 본문 채움 |
 | `orchestrator-review-loop` | orchestrator (loop) | 리뷰를 루프로 실행 |
 | `convention-frontend` | convention | 프론트엔드 규칙 라우팅 |
 | `convention-commit` | convention | 커밋 규약 라우팅 |

@@ -5,11 +5,10 @@ const hiddenIconRecipe = cva({
   base: {
     position: "absolute",
     right: "125px",
-    width: "120px",
     backgroundColor: "shell.bgMuted",
     border: "1px solid token(colors.shell.border)",
-    display: "flex",
-    flexWrap: "wrap",
+    display: "grid",
+    gridTemplateColumns: "repeat(3, 40px)",
     padding: "4",
 
   },

@@ -1,5 +1,6 @@
 import React from "react";
 import { css } from "@styled-system/css";
+import { Tooltip } from "@shared/ui";
 
 const skillIconBlockStyle = css({
     width: "40px",
@@ -27,9 +28,11 @@ interface SkillIconProps {
 
 const SkillIcon = ({ src, text }: SkillIconProps) => {
     return (
-        <div className={skillIconBlockStyle} title={text}>
-            <img src={src} alt={text} />
-        </div>
+        <Tooltip label={text} side="top">
+            <div className={skillIconBlockStyle}>
+                <img src={src} alt={text} />
+            </div>
+        </Tooltip>
     );
 };
 

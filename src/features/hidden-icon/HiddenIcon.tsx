@@ -1,10 +1,10 @@
 import React from "react";
-import react from "@images/icons/react.png";
-import javascript from "@images/icons/javascript.png";
-import recoil from "@images/icons/recoil.png";
-import html from "@images/icons/html.png";
-import css from "@images/icons/css.png";
-import styledcomponent from "@images/icons/styledcomponent.png";
+import react from "@images/icons/react.svg";
+import typescript from "@images/icons/typescript.svg";
+import vite from "@images/icons/vite.svg";
+import zustand from "@images/icons/zustand-plain.svg";
+import pandacss from "@images/icons/pandacss.svg";
+import vitest from "@images/icons/vitest.svg";
 import SkillIcon from "./components/SkillIcon";
 import { HiddenIconBlock } from "./HiddenIcon.style";
 
@@ -15,24 +15,24 @@ const HiddenIcon = ({ active }: { active: boolean }) => {
       text: "react",
     },
     {
-      src: javascript,
-      text: "javascript",
+      src: typescript,
+      text: "typescript",
     },
     {
-      src: recoil,
-      text: "recoil",
+      src: vite,
+      text: "vite",
     },
     {
-      src: html,
-      text: "html",
+      src: zustand,
+      text: "zustand",
     },
     {
-      src: css,
-      text: "css",
+      src: pandacss,
+      text: "panda-css",
     },
     {
-      src: styledcomponent,
-      text: "styled-components",
+      src: vitest,
+      text: "vitest",
     },
   ];
   return (
